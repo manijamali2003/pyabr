@@ -3,5 +3,4 @@ requests
 pyqtconsole
 psutil
 py-cpuinfo
-nuitka
-pyinstaller
+svglib

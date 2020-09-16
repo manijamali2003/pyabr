@@ -81,9 +81,9 @@ os.remove('app/packages/manifest.compile')
 finish = input('Installaction of Pyabr was done; do you want to reboot? [Y/n]: ')
 
 if finish.lower()=='y':
-    os.remove('setup.pyc')
+    os.remove('setup.py')
     subprocess.call([sys.executable,'vmabr.pyc'])
     sys.exit(0)
 else:
-    os.remove('setup.pyc')
+    os.remove('setup.py')
     sys.exit(0)

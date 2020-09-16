@@ -26,12 +26,11 @@ app = App()
 res = Res()
 commands = Commands()
 
-## Main entry ##
-application = QApplication (sys.argv)
-app.start('desktop')
-## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
-screen_resolution = application.desktop().screenGeometry()
-width, height = screen_resolution.width(), screen_resolution.height()
+height = int(files.readall('/tmp/height'))
+width = int(files.readall('/tmp/width'))
+
+files.remove('/tmp/height')
+files.remove('/tmp/width')
 
 ## variables ##
 
@@ -1614,12 +1613,12 @@ class Desktop (QMainWindow):
     def signout_act (self):
         app.endall()
         commands.shutdown([])
-        subprocess.call(['./'+files.readall('/proc/info/boot'),"gui-login"])
+        subprocess.call([sys.executable,files.readall('/proc/info/boot'),"gui-login"])
         sys.exit(0)
 
     def switchuser_act (self):
         files.create('/tmp/switched-user')
-        subprocess.call(['./' + files.readall('/proc/info/boot'), "gui-login"]) # just run the login
+        subprocess.call([sys.executable, files.readall('/proc/info/boot'), "gui-login"]) # just run the login
 
     def unlock_act (self):
         if self.username == 'guest':
@@ -2157,5 +2156,3 @@ if sys.argv[1:]==[]:
     mainApp = Backend()
 else:
     sys.exit(0)
-
-sys.exit(application.exec_())

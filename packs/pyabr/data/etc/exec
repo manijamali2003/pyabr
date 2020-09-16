@@ -11,3 +11,7 @@ script: Yes
 
 # portable apps #
 portable: Yes
+
+# java_home #
+#e.g. java_home: /usr/lib64/openjdk-8/bin/
+java_home: /usr/lib64/openjdk-8/bin/

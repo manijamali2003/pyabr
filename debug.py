@@ -95,3 +95,10 @@ elif i.upper().startswith('U'):
 	os.system('cd stor && "{0}" vmabr.pyc kernel'.replace('{0}',sys.executable))
 else:
 	os.system('cd stor && "{0}" vmabr.pyc '.replace('{0}',sys.executable))
+
+# clean #
+if os.path.isdir('app'): shutil.rmtree('app')
+if os.path.isdir('build-packs'): shutil.rmtree('build-packs')
+if os.path.isdir('stor'):
+	shutil.make_archive('your-pyabr', 'zip', 'stor')
+	shutil.rmtree('stor')

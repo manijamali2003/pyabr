@@ -11,7 +11,7 @@
 
 from buildlibs import pack_archives as pack
 from buildlibs import control
-import shutil, os, sys, hashlib,getpass
+import shutil, os, sys, hashlib,getpass,platform
 
 import shutil, os
 
@@ -68,6 +68,10 @@ pack.unpack('commento')
 
 pack.build('setup')
 pack.unpack('setup')
+
+if platform.system()=='Linux' and platform.node()=='localhost':
+	os.remove('stor/vmabr.pyc')
+	shutil.copyfile('packs/pyabr/code/vmabr.py','stor/vmabr.py')
 
 # clean #
 if os.path.isdir('app'): shutil.rmtree('app')

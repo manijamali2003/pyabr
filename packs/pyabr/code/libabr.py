@@ -10,6 +10,8 @@
 #######################################################################################
 
 import importlib, shutil, os, sys, hashlib, subprocess, requests,time,datetime,getpass,py_compile
+from svglib.svglib import svg2rlg
+from reportlab.graphics import renderPM
 
 # script #
 class Script:
@@ -166,11 +168,16 @@ class Commands:
                 colors.show('cc', 'perm', '')
                 sys.exit(0)
 
-            strv = control.read_record('class.java', '/etc/compiler').replace("{src}", files.input(filename))
+            java_home = control.read_record('java_home','/etc/exec')
 
-            subprocess.call(strv)
+            if java_home==None:
+                colors.show('cc', 'fail', 'java_home variable was not set.')
+            else:
+                strv = java_home+"/"+control.read_record('class.java', '/etc/compiler').replace("{src}", files.input(filename))
 
-            colors.show('', 'ok', 'Compile ' + filename + " ...")
+                subprocess.call(strv)
+
+                colors.show('', 'ok', 'Compile ' + filename + " ...")
         else:
             colors.show('cc','fail','not supported programing language.')
 
@@ -363,17 +370,7 @@ class Commands:
         print("          Switched User: " + bold + files.readall("/proc/info/su") + colors.get_colors())
         print("       Switched Process: " + bold + files.readall("/proc/info/sp") + colors.get_colors())
 
-        os = ''
-        ar = ''
-
-        if files.readall('/proc/info/arch')=='64bit': ar = '64'
-        else: ar = '32'
-
-        if files.readall('/proc/info/os')=='Windows': os = 'win'
-        elif files.readall('/proc/info/os') == 'Linux': os = 'linux'
-        else: os = 'unknown'
-
-        print("           Architecture: " + bold + os+ar + colors.get_colors())
+        print("           Architecture: " + bold + files.readall('/proc/info/arch') + colors.get_colors())
 
     # cat command #
     def cat (self,args):
@@ -1625,6 +1622,10 @@ class Res:
         files = Files()
         control = Control()
 
+        # Check Android #
+        android = False
+        if files.readall('/proc/info/os_su') == 'localhost' and files.readall('/proc/info/os')=='Linux': android=True
+
         if not filename == None:
             filename = filename.split("/")  # @widget:barge
 
@@ -1646,8 +1647,13 @@ class Res:
 
             elif share.startswith("@background"):
                 if files.isfile("/usr/share/backgrounds/" + name + ".svg"):
-                    return files.input(
-                        "/usr/share/backgrounds/" + name + ".svg")
+                    if android==False:
+                        return files.input(
+                            "/usr/share/backgrounds/" + name + ".svg")
+                    else:
+                        drawing = svg2rlg("/usr/share/backgrounds/" + name + ".svg") # https://stackoverflow.com/questions/6589358/convert-svg-to-png-in-python
+                        renderPM.drawToFile(drawing, "/tmp/drawing.png", fmt="PNG")
+                        return "/tmp/drawing.png"
                 elif files.isfile(
                         "/usr/share/backgrounds/" + name + ".png"):
                     return files.input(
@@ -1669,8 +1675,14 @@ class Res:
 
             elif share.startswith("@image"):
                 if files.isfile("/usr/share/images/" + name + ".svg"):
-                    return files.input(
+                    if android == False:
+                        return files.input(
                         "/usr/share/images/" + name + ".svg")
+                    else:
+                        drawing = svg2rlg(
+                            "/usr/share/backgrounds/" + name + ".svg")  # https://stackoverflow.com/questions/6589358/convert-svg-to-png-in-python
+                        renderPM.drawToFile(drawing, "/tmp/drawing.png", fmt="PNG")
+                        return "/tmp/drawing.png"
                 elif files.isfile(
                         "/usr/share/images/" + name + ".png"):
                     return files.input(
@@ -1710,7 +1722,13 @@ class Res:
 
             elif share.startswith("@icon"):
                 if files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg"):
-                    return files.input("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg")
+                    if android == False:
+                        return files.input("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg")
+                    else:
+                        drawing = svg2rlg(
+                            "/usr/share/backgrounds/" + name + ".svg")  # https://stackoverflow.com/questions/6589358/convert-svg-to-png-in-python
+                        renderPM.drawToFile(drawing, "/tmp/drawing.png", fmt="PNG")
+                        return "/tmp/drawing.png"
                 elif files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".png"):
                     return files.input("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".png")
                 elif files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".gif"):

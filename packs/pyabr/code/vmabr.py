@@ -105,6 +105,7 @@ if argv[0]=='exec':
     outside = control.read_record('outside', '/etc/exec')
     script = control.read_record('script', '/etc/exec')
     portable = control.read_record('portable', '/etc/exec')
+    java_home = control.read_record('java_home','/etc/exec')
 
     if (argv[1:] == [] or
             argv[1] == "" or
@@ -124,6 +125,18 @@ if argv[0]=='exec':
                 sys.path.append(files.parentdir (appname))
                 __import__(files.filename(appname))
                 sys.path.remove (files.parentdir (appname))
+            else:
+                colors.show(argv[1], "perm", "")
+
+        elif files.isfile(argv[1]+".jar") and portable=='Yes' and not java_home==None:
+            if permissions.check(files.output(argv[1]+".jar"), "x", user):
+                ## command ##
+                command = [java_home+"/java",'--jar',files.input(argv[1]+".jar")]
+
+                for i in argv[2:]:
+                    command.append(i)
+
+                sub.call(command)
             else:
                 colors.show(argv[1], "perm", "")
 
@@ -169,6 +182,18 @@ if argv[0]=='exec':
                 sys.argv = argv[1:]
 
                 __import__(argv[1])
+            else:
+                colors.show(argv[1], "perm", "")
+
+        elif files.isfile('/usr/app/'+argv[1]+".jar") and portable=='Yes' and not java_home==None:
+            if permissions.check('/usr/app/'+files.output(argv[1]+".jar"), "x", user):
+                ## command ##
+                command = [java_home+"java",'--jar',files.input('/usr/app/'+argv[1]+".jar")]
+
+                for i in argv[2:]:
+                    command.append(i)
+
+                sub.call(command)
             else:
                 colors.show(argv[1], "perm", "")
 
@@ -277,6 +302,9 @@ if not (argv[0]=='user' or argv[0]=='login'):
     ram = str(virtual_memory().total)  # Create by darkwlf: https://github.com/darkwlf
     py = sys.executable
 
+    if osname=='Linux' and os_user=='localhost':
+        osname = 'Android'
+
     if argv[0] == "kernel":
         interface = "CLI"
     else:
@@ -323,46 +351,91 @@ if (argv[0]=="kernel") and files.isfile ("/etc/issue"):
 
 if argv[0]=="gui":
     desktop = control.read_record('desktop','/etc/gui')
+
+    from PyQt5.QtCore import *
+    from PyQt5.QtWidgets import *
+
+    ## Main entry ##
+    application = QApplication(sys.argv)
+    app.start('desktop')
+    ## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
+    screen_resolution = application.desktop().screenGeometry()
+    width, height = screen_resolution.width(), screen_resolution.height()
+
+    files.write('/tmp/width',str(width))
+    files.write('/tmp/height',str(height))
+
     if not desktop==None:
         colors.show("gui", "ok-start", "")
-        System (desktop)
+        w = importlib.import_module(desktop).Backend ()
+        w.show()
     else:
         colors.show ('gui','fail-start','')
         colors.show ('kernel','stop','')
-    sys.exit(0)
+
+    sys.exit(application.exec_())
 
 ## @core/gui-splash ##
 
 if argv[0]=="gui-splash":
     desktop = control.read_record('desktop', '/etc/gui')
     control.write_record('params','splash','/etc/gui')
+
+    from PyQt5.QtCore import *
+    from PyQt5.QtWidgets import *
+
+    ## Main entry ##
+    application = QApplication(sys.argv)
+    app.start('desktop')
+    ## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
+    screen_resolution = application.desktop().screenGeometry()
+    width, height = screen_resolution.width(), screen_resolution.height()
+
+    files.write('/tmp/width', str(width))
+    files.write('/tmp/height', str(height))
+
     if not desktop == None:
         colors.show("gui", "ok-start", "")
         colors.show("gui-splash", "ok-start", "")
-        System(desktop)
+        w = importlib.import_module(desktop).Backend()
+        w.show()
     else:
         colors.show('gui-splash', 'fail-start', '')
         colors.show('kernel', 'stop', '')
-    sys.exit(0)
+    sys.exit(application.exec_())
 
 ## @core/gui-login ##
 
 if argv[0]=="gui-login":
     desktop = control.read_record('desktop', '/etc/gui')
     control.write_record('params','login','/etc/gui')
+
+    from PyQt5.QtCore import *
+    from PyQt5.QtWidgets import *
+
+    ## Main entry ##
+    application = QApplication(sys.argv)
+    app.start('desktop')
+    ## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
+    screen_resolution = application.desktop().screenGeometry()
+    width, height = screen_resolution.width(), screen_resolution.height()
+
+    files.write('/tmp/width', str(width))
+    files.write('/tmp/height', str(height))
+
     if not desktop == None:
         colors.show("gui", "ok-start", "")
         colors.show("gui-login", "ok-start", "")
-        System(desktop)
+        w = importlib.import_module(desktop).Backend()
+        w.show()
     else:
         colors.show('gui-login', 'fail-start', '')
         colors.show('kernel', 'stop', '')
-    sys.exit(0)
+    sys.exit(application.exec_())
 
 ## @core/gui-enter ##
 
 if argv[0]=="gui-enter":
-
     if argv[1:]==[] or argv[1]=='guest' or not files.isfile ('/etc/users/'+argv[1]):
         colors.show('gui-enter', 'fail-start', '')
         colors.show('kernel', 'stop', '')
@@ -378,15 +451,30 @@ if argv[0]=="gui-enter":
 
     # do the job #
     desktop = control.read_record('desktop', '/etc/gui')
+
+    from PyQt5.QtCore import *
+    from PyQt5.QtWidgets import *
+
+    ## Main entry ##
+    application = QApplication(sys.argv)
+    app.start('desktop')
+    ## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
+    screen_resolution = application.desktop().screenGeometry()
+    width, height = screen_resolution.width(), screen_resolution.height()
+
+    files.write('/tmp/width', str(width))
+    files.write('/tmp/height', str(height))
+
     control.write_record('params','enter,{username}'.replace('{username}',argv[1]),'/etc/gui')
     if not desktop == None:
         colors.show("gui", "ok-start", "")
         colors.show("gui-enter", "ok-start", "")
-        System(desktop)
+        w = importlib.import_module(desktop).Backend()
+        w.show()
     else:
         colors.show('gui-enter', 'fail-start', '')
         colors.show('kernel', 'stop', '')
-    sys.exit(0)
+    sys.exit(application.exec_())
 
 ## @core/gui-desktop ##
 
@@ -413,15 +501,30 @@ if argv[0]=="gui-desktop":
         sys.exit(0)
 
     desktop = control.read_record('desktop', '/etc/gui')
+
+    from PyQt5.QtCore import *
+    from PyQt5.QtWidgets import *
+
+    ## Main entry ##
+    application = QApplication(sys.argv)
+    app.start('desktop')
+    ## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
+    screen_resolution = application.desktop().screenGeometry()
+    width, height = screen_resolution.width(), screen_resolution.height()
+
+    files.write('/tmp/width', str(width))
+    files.write('/tmp/height', str(height))
+
     control.write_record('params','desktop,{username},{password}'.replace('{username}',argv[1]).replace('{password}',argv[2]),'/etc/gui')
     if not desktop == None:
         colors.show("gui", "ok-start", "")
         colors.show("gui-desktop", "ok-start", "")
-        System(desktop)
+        w = importlib.import_module(desktop).Backend()
+        w.show()
     else:
         colors.show('gui-desktop', 'fail-start', '')
         colors.show('kernel', 'stop', '')
-    sys.exit(0)
+    sys.exit(application.exec_())
 
 ## @lib/shell ##
 
