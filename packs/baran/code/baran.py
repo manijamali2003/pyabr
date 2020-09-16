@@ -53,7 +53,7 @@ class variables:
     titlebar_fgcolor = 'white'
     taskbar_pins = 'calculator,pyshell,calendar'
     taskbar_location = 'bottom'
-    taskbar_size = 70
+    taskbar_size = 50
     taskbar_locked = 'Yes'
     taskbar_float = 'Yes'
     backend_color = '#000000'

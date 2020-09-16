@@ -35,50 +35,34 @@ if not os.path.isdir ("stor"):
 if not os.path.isdir ("build-packs"): os.mkdir ("build-packs")
 
 # build #
-y = input('Do you want to debug Pyabr? [Y/n]: ')
-if y.lower().startswith('y'):
-    pack.build ("pyabr")
-    pack.unpack ('pyabr')
 
-y = input('Do you want to debug Baran? [Y/n]: ')
-if y.lower().startswith('y'):
-    pack.build ("baran")
-    pack.unpack ('baran')
+pack.build ("pyabr")
+pack.unpack ('pyabr')
 
-y = input('Do you want to debug Paye? [Y/n]: ')
-if y.lower().startswith('y'):
-    pack.build ("paye")
-    pack.unpack ('paye')
+pack.build ("baran")
+pack.unpack ('baran')
 
-y = input('Do you want to debug PyShell [Y/n]: ')
-if y.lower().startswith('y'):
-	pack.build('pyshell')
-	pack.unpack('pyshell')
+pack.build ("paye")
+pack.unpack ('paye')
 
-y = input('Do you want to debug Calendar [Y/n]: ')
-if y.lower().startswith('y'):
-	pack.build('calendar')
-	pack.unpack('calendar')
+pack.build('pyshell')
+pack.unpack('pyshell')
 
-y = input('Do you want to debug Calculator [Y/n]: ')
-if y.lower().startswith('y'):
-	pack.build('calculator')
-	pack.unpack('calculator')
+pack.build('calendar')
+pack.unpack('calendar')
 
-y = input('Do you want to debug App Runner [Y/n]: ')
-if y.lower().startswith('y'):
-	pack.build('runapp')
-	pack.unpack('runapp')
+pack.build('calculator')
+pack.unpack('calculator')
 
-y = input('Do you want to debug Power Options [Y/n]: ')
-if y.lower().startswith('y'):
-	pack.build('pysys')
-	pack.unpack('pysys')
 
-y = input('Do you want to debug Terminal [Y/n]: ')
-if y.lower().startswith('y'):
-	pack.build('commento')
-	pack.unpack('commento')
+pack.build('runapp')
+pack.unpack('runapp')
+
+pack.build('pysys')
+pack.unpack('pysys')
+
+pack.build('commento')
+pack.unpack('commento')
 
 # run #
 i = input('Choose your kernel parameter ([G]UI, [C]Li, [R]OOT, G[U]ST, Default): ')
@@ -112,5 +96,4 @@ else:
 if os.path.isdir('app'): shutil.rmtree('app')
 if os.path.isdir('build-packs'): shutil.rmtree('build-packs')
 if os.path.isdir('stor'):
-	shutil.make_archive('your-pyabr', 'zip', 'stor')
 	shutil.rmtree('stor')

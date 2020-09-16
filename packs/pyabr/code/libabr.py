@@ -1624,7 +1624,7 @@ class Res:
 
         # Check Android #
         android = False
-        if files.readall('/proc/info/os_su') == 'localhost' and files.readall('/proc/info/os')=='Linux': android=True
+        if files.readall('/proc/info/os')=='Android': android=True
 
         if not filename == None:
             filename = filename.split("/")  # @widget:barge
@@ -1646,9 +1646,14 @@ class Res:
                     return None
 
             elif share.startswith("@background"):
-                if files.isfile("/usr/share/backgrounds/" + name + ".svg") and android==False:
-                    return files.input(
-                        "/usr/share/backgrounds/" + name + ".svg")
+                if files.isfile("/usr/share/backgrounds/" + name + ".svg"):
+                    if android==False:
+                        return files.input(
+                            "/usr/share/backgrounds/" + name + ".svg")
+                    else:
+                        drawing = svg2rlg(files.input("/usr/share/backgrounds/" + name + ".svg"))
+                        renderPM.drawToFile(drawing, files.input("/usr/share/backgrounds/" + name + ".png"), fmt="PNG")
+                        return files.input("/usr/share/backgrounds/" + name + ".png")
                 elif files.isfile(
                         "/usr/share/backgrounds/" + name + ".png"):
                     return files.input(
@@ -1669,9 +1674,14 @@ class Res:
                     return None
 
             elif share.startswith("@image"):
-                if files.isfile("/usr/share/images/" + name + ".svg") and android==False:
-                    return files.input(
+                if files.isfile("/usr/share/images/" + name + ".svg"):
+                    if android==False:
+                        return files.input(
                         "/usr/share/images/" + name + ".svg")
+                    else:
+                        drawing = svg2rlg(files.input("/usr/share/images/" + name + ".svg"))
+                        renderPM.drawToFile(drawing, files.input("/usr/share/images/" + name + ".png"), fmt="PNG")
+                        return files.input("/usr/share/images/" + name + ".png")
                 elif files.isfile(
                         "/usr/share/images/" + name + ".png"):
                     return files.input(
@@ -1710,8 +1720,13 @@ class Res:
                     return None
 
             elif share.startswith("@icon"):
-                if files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg") and android==False:
-                    return files.input("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg")
+                if files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg"):
+                    if android==False:
+                        return files.input("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg")
+                    else:
+                        drawing = svg2rlg(files.input("/usr/share/icons/" + name + ".svg"))
+                        renderPM.drawToFile(drawing, files.input("/usr/share/icons/" + name + ".png"), fmt="PNG")
+                        return files.input("/usr/share/icons/" + name + ".png")
                 elif files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".png"):
                     return files.input("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".png")
                 elif files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".gif"):
