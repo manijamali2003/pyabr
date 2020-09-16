@@ -1653,6 +1653,7 @@ class Res:
                     else:
                         drawing = svg2rlg(files.input("/usr/share/backgrounds/" + name + ".svg"))
                         renderPM.drawToFile(drawing, files.input("/usr/share/backgrounds/" + name + ".png"), fmt="PNG")
+                        files.remove("/usr/share/backgrounds/" + name + ".svg")
                         return files.input("/usr/share/backgrounds/" + name + ".png")
                 elif files.isfile(
                         "/usr/share/backgrounds/" + name + ".png"):
@@ -1681,6 +1682,7 @@ class Res:
                     else:
                         drawing = svg2rlg(files.input("/usr/share/images/" + name + ".svg"))
                         renderPM.drawToFile(drawing, files.input("/usr/share/images/" + name + ".png"), fmt="PNG")
+                        files.remove("/usr/share/images/" + name + ".svg")
                         return files.input("/usr/share/images/" + name + ".png")
                 elif files.isfile(
                         "/usr/share/images/" + name + ".png"):
@@ -1726,6 +1728,7 @@ class Res:
                     else:
                         drawing = svg2rlg(files.input("/usr/share/icons/" + name + ".svg"))
                         renderPM.drawToFile(drawing, files.input("/usr/share/icons/" + name + ".png"), fmt="PNG")
+                        files.remove ("/usr/share/icons/" + name + ".svg")
                         return files.input("/usr/share/icons/" + name + ".png")
                 elif files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".png"):
                     return files.input("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".png")
