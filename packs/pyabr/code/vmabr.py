@@ -15,7 +15,6 @@
 # (c) 2020 Mani Jamali All rights reserved.
 
 import sys, socket, platform, hashlib, os, getpass, subprocess as sub, cpuinfo, importlib,requests
-from psutil import virtual_memory
 ## @variables ##
 
 hostname = ""
@@ -299,7 +298,6 @@ if not (argv[0]=='user' or argv[0]=='login'):
     sweek = control.read_record("start-week", "/etc/time")
     cpu = str(cpuinfo.get_cpu_info()['brand_raw'])  # Create by darkwlf: https://github.com/darkwlf
     cpuc = str(os.cpu_count())  # Create by darkwlf: https://github.com/darkwlf
-    ram = str(virtual_memory().total)  # Create by darkwlf: https://github.com/darkwlf
     py = sys.executable
 
     if osname=='Linux' and os_user=='localhost':
@@ -320,7 +318,6 @@ if not (argv[0]=='user' or argv[0]=='login'):
     files.write("/proc/info/boot", kernel_file)
     files.write("/proc/info/cpu", cpu)
     files.write("/proc/info/cpuc", cpuc)
-    files.write("/proc/info/ram", ram)
     files.write('/proc/info/py',py)
 
 ## @core/dirs ##
