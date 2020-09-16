@@ -85,16 +85,28 @@ i = input('Choose your kernel parameter ([G]UI, [C]Li, [R]OOT, G[U]ST, Default):
 if os.path.isfile ('stor/proc/0'):  os.remove ('stor/proc/0')
 if os.path.isfile ('stor/proc/id/desktop'): os.remove('stor/proc/id/desktop')
 
-if i.upper().startswith('C'):
-	os.system('cd stor && "{0}" vmabr.pyc kernel'.replace('{0}',sys.executable))
-elif i.upper().startswith('G'):
-	os.system('cd stor && "{0}" vmabr.pyc gui'.replace('{0}',sys.executable))
-elif i.upper().startswith('R'):
-	os.system('cd stor && "{0}" vmabr.pyc user root toor'.replace('{0}',sys.executable))
-elif i.upper().startswith('U'):
-	os.system('cd stor && "{0}" vmabr.pyc kernel'.replace('{0}',sys.executable))
+if os.path.isfile ('stor/vmabr.pyc'):
+	if i.upper().startswith('C'):
+		os.system('cd stor && "{0}" vmabr.pyc kernel'.replace('{0}', sys.executable))
+	elif i.upper().startswith('G'):
+		os.system('cd stor && "{0}" vmabr.pyc gui'.replace('{0}', sys.executable))
+	elif i.upper().startswith('R'):
+		os.system('cd stor && "{0}" vmabr.pyc user root toor'.replace('{0}', sys.executable))
+	elif i.upper().startswith('U'):
+		os.system('cd stor && "{0}" vmabr.pyc kernel'.replace('{0}', sys.executable))
+	else:
+		os.system('cd stor && "{0}" vmabr.pyc '.replace('{0}', sys.executable))
 else:
-	os.system('cd stor && "{0}" vmabr.pyc '.replace('{0}',sys.executable))
+	if i.upper().startswith('C'):
+		os.system('cd stor && "{0}" vmabr.py kernel'.replace('{0}', sys.executable))
+	elif i.upper().startswith('G'):
+		os.system('cd stor && "{0}" vmabr.py gui'.replace('{0}', sys.executable))
+	elif i.upper().startswith('R'):
+		os.system('cd stor && "{0}" vmabr.py user root toor'.replace('{0}', sys.executable))
+	elif i.upper().startswith('U'):
+		os.system('cd stor && "{0}" vmabr.py kernel'.replace('{0}', sys.executable))
+	else:
+		os.system('cd stor && "{0}" vmabr.py '.replace('{0}', sys.executable))
 
 # clean #
 if os.path.isdir('app'): shutil.rmtree('app')

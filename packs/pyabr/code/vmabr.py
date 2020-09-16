@@ -302,6 +302,7 @@ if not (argv[0]=='user' or argv[0]=='login'):
 
     if osname=='Linux' and os_user=='localhost':
         osname = 'Android'
+        kernel_file = 'vmabr.py'
 
     if argv[0] == "kernel":
         interface = "CLI"
