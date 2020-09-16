@@ -2,10 +2,10 @@
 #  In the name of God, the Compassionate, the Merciful
 #  Pyabr (c) 2020 Pasand team. GNU General Public License v3.0
 #
-#  Offical website:         http://itpasand.com
+#  Programmer & Creator:    Mani Jamali <manijamali2003@gmail.com>
 #  Telegram or Gap channel: @pyabr
 #  Telegram or Gap group:   @pyabr_community
-#  Git source:              github.com/pasandteam/pyabr
+#  Git source:              github.com/manijamali2003/pyabr
 #
 #######################################################################################
 
@@ -62,6 +62,7 @@ def unpack (name):
 
     if os.path.isfile ("app/cache/archives/control/manifest"): shutil.copyfile("app/cache/archives/control/manifest","stor/app/packages/"+name+".manifest")
     if os.path.isfile("app/cache/archives/control/list"): shutil.copyfile("app/cache/archives/control/list","stor/app/packages/" + name + ".list")
+    if os.path.isfile("app/cache/archives/control/compile"): shutil.copyfile("app/cache/archives/control/list","stor/app/packages/" + name + ".compile")
 
     ## Compile codes ##
     if os.path.isfile ("app/cache/archives/control/compile"):
@@ -77,5 +78,8 @@ def unpack (name):
 
     ## Unpack data again ##
     shutil.unpack_archive("app/cache/archives/build/data.tar.xz","stor/"+unpack,"xztar")
+
+    ## Save source code ##
+    shutil.unpack_archive('app/cache/archives/build/code.tar.xz','stor/usr/src/'+name,'xztar')
     print ("Done")
     clean()

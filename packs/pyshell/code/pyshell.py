@@ -1,12 +1,11 @@
-
 #######################################################################################
 #  In the name of God, the Compassionate, the Merciful
-#  Pyabr (c) 2020 Pasand team. GNU General Pucdic License v3.0
+#  Pyabr (c) 2020 Pasand team. GNU General Public License v3.0
 #
-#  Offical website:         http://itpasand.com
+#  Programmer & Creator:    Mani Jamali <manijamali2003@gmail.com>
 #  Telegram or Gap channel: @pyabr
 #  Telegram or Gap group:   @pyabr_community
-#  Git source:              github.com/pasandteam/pyabr
+#  Git source:              github.com/manijamali2003/pyabr
 #
 #######################################################################################
 

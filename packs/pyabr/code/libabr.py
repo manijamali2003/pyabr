@@ -2,13 +2,14 @@
 #  In the name of God, the Compassionate, the Merciful
 #  Pyabr (c) 2020 Pasand team. GNU General Public License v3.0
 #
-#  Offical website:         http://itpasand.com
+#  Programmer & Creator:    Mani Jamali <manijamali2003@gmail.com>
 #  Telegram or Gap channel: @pyabr
 #  Telegram or Gap group:   @pyabr_community
-#  Git source:              github.com/pasandteam/pyabr
+#  Git source:              github.com/manijamali2003/pyabr
 #
 #######################################################################################
-import importlib, shutil, os, sys, hashlib, subprocess, requests,time,datetime,getpass
+
+import importlib, shutil, os, sys, hashlib, subprocess, requests,time,datetime,getpass,py_compile
 
 # script #
 class Script:
@@ -76,12 +77,7 @@ class Commands:
         permissions = Permissions()
         files = Files()
         colors = Colors()
-
-        if files.readall('/proc/info/so')=='Windows':
-            dl = '.dll'
-        else:
-            dl = '.so'
-
+        control = Control()
         # args #
 
         if args==[]:
@@ -117,17 +113,16 @@ class Commands:
         # compile types #
         if type=='python':
             if args[1:]==[]:
-                subprocess.call ([sys.executable,'-m','nuitka','--module','--remove-output','--no-pyi-file',files.input(filename)])
-                if not permissions.check(files.output(filename.replace('.py',dl)), "w", files.readall("/proc/info/su")):
+                py_compile.compile(files.input(filename),files.input(filename.replace('.py','.pyc')))
+                if not permissions.check(files.output(filename.replace('.py','.pyc')), "w", files.readall("/proc/info/su")):
                     colors.show('cc', 'perm', '')
                     sys.exit(0)
-                files.copy('/'+filename.replace('.py',dl).replace(files.parentdir(filename),"").replace("/",""),filename.replace('.py',dl))
             else:
                 output = args[1]
                 if not permissions.check(files.output(output), "w", files.readall("/proc/info/su")):
                     colors.show('cc', 'perm', '')
                     sys.exit(0)
-                subprocess.call([sys.executable, '-m', 'nuitka', '--remove-output','-o',files.input(output),files.input(filename)])
+                py_compile.compile(files.input(filename), files.input(output))
 
             colors.show('','ok','Compile '+filename+" ...")
 
@@ -140,7 +135,12 @@ class Commands:
             if not permissions.check(files.output(output), "w", files.readall("/proc/info/su")):
                 colors.show('cc', 'perm', '')
                 sys.exit(0)
-            subprocess.call(['gcc', '-o', files.input(output), files.input(filename)])
+
+            strv = control.read_record('exec.c','/etc/compiler').replace ("{src}",files.input(filename)).replace ("{dest}",files.input(output))
+
+            strv = strv.split(" ")
+
+            subprocess.call(strv)
 
             colors.show('', 'ok', 'Compile ' + filename + " ...")
 
@@ -154,10 +154,23 @@ class Commands:
                 colors.show('cc', 'perm', '')
                 sys.exit(0)
 
-            subprocess.call(['g++', '-o', files.input(output), files.input(filename)])
+            strv = control.read_record('exec.c++', '/etc/compiler').replace("{src}", files.input(filename)).replace(
+                "{dest}", files.input(output))
+
+            subprocess.call(strv)
 
             colors.show('', 'ok', 'Compile ' + filename + " ...")
 
+        elif type=='.java':
+            if not permissions.check(files.output(filename.replace('.java','.class')), "w", files.readall("/proc/info/su")):
+                colors.show('cc', 'perm', '')
+                sys.exit(0)
+
+            strv = control.read_record('class.java', '/etc/compiler').replace("{src}", files.input(filename))
+
+            subprocess.call(strv)
+
+            colors.show('', 'ok', 'Compile ' + filename + " ...")
         else:
             colors.show('cc','fail','not supported programing language.')
 
@@ -1307,7 +1320,7 @@ class Package:
                 files.mkdir("/app/cache/archives/data")
                 files.mkdir("/app/cache/archives/build")
         else:
-            colors.show("libabr.Pack.clean", "perm", "")
+            colors.show("paye", "perm", "")
 
     ## Create .pa archive ##
 
@@ -1371,50 +1384,6 @@ class Package:
 
             ## Get database of this package ##
             name = control.read_record("name", "/app/cache/archives/control/manifest").lower()
-            arch = control.read_record('arch','/app/cache/archives/control/manifest')
-            if arch==None:
-                colors.show ('paye','fail','architecture not matched.')
-                sys.exit(0)
-
-            elif arch=='linux64':
-                os = files.readall('/proc/info/os')
-                ar = files.readall('/proc/info/arch')
-
-                if not (os=='Linux' or ar=='64bit'):
-                    colors.show('paye', 'fail',arch+": architecture not matched.")
-                    sys.exit(0)
-
-            elif arch=='linux32':
-                os = files.readall('/proc/info/os')
-                ar = files.readall('/proc/info/arch')
-
-                if not (os == 'Linux' or ar == '32bit'):
-                    colors.show('paye', 'fail', arch + ": architecture not matched.")
-                    sys.exit(0)
-
-            elif arch=='win64':
-                os = files.readall('/proc/info/os')
-                ar = files.readall('/proc/info/arch')
-
-                if not (os == 'Windows' or ar == '64it'):
-                    colors.show('paye', 'fail', arch + ": architecture not matched.")
-                    sys.exit(0)
-
-            elif arch=='win32':
-                os = files.readall('/proc/info/os')
-                ar = files.readall('/proc/info/arch')
-
-                if not (os == 'Windows' or ar == '32bit'):
-                    colors.show('paye', 'fail', arch + ": architecture not matched.")
-                    sys.exit(0)
-
-            elif arch=='all':
-                pass
-
-            else:
-                colors.show('paye', 'fail', arch + ": architecture not found.")
-                sys.exit(0)
-
             unpack = control.read_record("unpack", "/app/cache/archives/control/manifest")
             depends = control.read_record("depends", "/app/cache/archives/control/manifest")
 
@@ -1452,27 +1421,12 @@ class Package:
             if files.isfile("/app/cache/archives/control/manifest"): files.copy("/app/cache/archives/control/manifest","/app/packages/" + name + ".manifest")
             if files.isfile("/app/cache/archives/control/compile"): files.copy("/app/cache/archives/control/compile","/app/packages/" + name + ".compile")
 
-            ## Compile all files ##
-
-            if files.readall('/proc/info/os')=='Windows':
-                ap = '.exe'
-                dl = '.pyd'
-            else:
-                ap = ''
-                dl = '.so'
-
             compilefiles = control.read_record('compile','/app/cache/archives/control/manifest')
             if compilefiles=='Yes':
                 compiles = control.read_list('/app/cache/archives/control/compile')
 
                 for i in compiles:
                     spl = i.split(":")
-
-                    if spl[1].endswith ('.(dl)'):
-                        spl[1]=spl[1].replace('.(dl)',dl)
-
-                    if spl[1].endswith ('.(ap)'):
-                        spl[1]=spl[1].replace('.(ap)',ap)
 
                     code = '/app/cache/archives/code/' + spl[0]
                     dest = "/app/cache/archives/data/" + spl[1]

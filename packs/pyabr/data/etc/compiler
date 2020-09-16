@@ -1,0 +1,2 @@
+exec.c: gcc {src} -o {dest}
+exec.cpp: g++ {src} -o {dest}
