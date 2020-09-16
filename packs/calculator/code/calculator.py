@@ -323,7 +323,11 @@ class MainApp (QMainWindow):
     def __init__(self,ports):
         super(MainApp, self).__init__()
 
+        self.Backend = ports[0]
+        self.Env = ports[1]
+        self.Widget = ports[2]
+
         self.setStyleSheet('background-color:white;')
-        self.setMaximumSize(315,305)
+        self.Widget.setMaximumSize(315,305)
         self.calc = Calc(ports)
         self.setCentralWidget(self.calc)

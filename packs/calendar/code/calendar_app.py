@@ -31,6 +31,8 @@ class MainApp (QMainWindow):
         self.Env = args[1]
         self.Widget = args[2]
 
+        self.Widget.setMaximumSize(400,300)
+
         self.Widget.setWindowTitle (res.get('@string/app_name'))
 
         ## Data base ##

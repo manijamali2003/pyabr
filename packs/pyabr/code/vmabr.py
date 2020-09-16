@@ -366,7 +366,6 @@ if argv[0]=="gui":
     if not desktop==None:
         colors.show("gui", "ok-start", "")
         w = importlib.import_module(desktop).Backend ()
-        w.show()
     else:
         colors.show ('gui','fail-start','')
         colors.show ('kernel','stop','')
@@ -396,7 +395,6 @@ if argv[0]=="gui-splash":
         colors.show("gui", "ok-start", "")
         colors.show("gui-splash", "ok-start", "")
         w = importlib.import_module(desktop).Backend()
-        w.show()
     else:
         colors.show('gui-splash', 'fail-start', '')
         colors.show('kernel', 'stop', '')
@@ -425,7 +423,6 @@ if argv[0]=="gui-login":
         colors.show("gui", "ok-start", "")
         colors.show("gui-login", "ok-start", "")
         w = importlib.import_module(desktop).Backend()
-        w.show()
     else:
         colors.show('gui-login', 'fail-start', '')
         colors.show('kernel', 'stop', '')
@@ -468,7 +465,6 @@ if argv[0]=="gui-enter":
         colors.show("gui", "ok-start", "")
         colors.show("gui-enter", "ok-start", "")
         w = importlib.import_module(desktop).Backend()
-        w.show()
     else:
         colors.show('gui-enter', 'fail-start', '')
         colors.show('kernel', 'stop', '')
@@ -518,7 +514,6 @@ if argv[0]=="gui-desktop":
         colors.show("gui", "ok-start", "")
         colors.show("gui-desktop", "ok-start", "")
         w = importlib.import_module(desktop).Backend()
-        w.show()
     else:
         colors.show('gui-desktop', 'fail-start', '')
         colors.show('kernel', 'stop', '')

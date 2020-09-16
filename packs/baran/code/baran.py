@@ -1505,6 +1505,62 @@ QDockWidget::close-button:hover {
 .replace('{float:hover}', res.get(float_hover))
 )
 
+class AppWidget (QMainWindow):
+    def __init__(self,ports):
+        super(AppWidget, self).__init__()
+
+        self.Backend = ports[0]
+        self.Env = ports[1]
+        self.appname = ports[2]
+
+        # user
+        self.username = self.Env.username
+
+        app.start(self.appname)  # start the application
+
+        self.setObjectName(self.appname)
+
+        exec = control.read_record('exec', '/usr/share/applications/' + self.appname + ".desk")
+
+        if not exec == None:
+            exec = importlib.import_module(exec)
+        else:
+            self.close()
+
+        # title bar #
+        self.titlebar = QWidget()
+        self.titlebar.setStyleSheet('background-color: #ABCDEF;')
+        # center widget #
+        self.mainWidget = exec.MainApp([self.Backend,self.Env,self,self.appname])
+        self.mainWidget.setGeometry(0,40,self.width(),self.height()+40)
+        self.titlebar.setGeometry(0, 0, self.width(), 40)
+        self.setGeometry(int(self.Env.width()/2)-int(self.width()/2),int(self.Env.height()/2)-int(self.height()/2),self.width(),self.height())
+
+        self.layout().addWidget(self.titlebar)
+        self.layout().addWidget(self.mainWidget)
+
+
+    # https://stackoverflow.com/questions/41784521/move-qtwidgets-qtwidget-using-mouse
+    # https://stackoverflow.com/questions/40622095/pyqt5-closeevent-method
+    homeAction = None
+
+    oldPos = QPoint()
+
+    def mousePressEvent(self, evt):
+        """Select the toolbar."""
+        self.oldPos = evt.globalPos()
+
+        app.switch(self.appname)
+        self.activateWindow()
+        self.raise_()
+
+    def mouseMoveEvent(self, evt):
+        """Move the toolbar with mouse iteration."""
+
+        delta = QPoint(evt.globalPos() - self.oldPos)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.oldPos = evt.globalPos()
+
 ## Shell ##
 class Shell (QWidget):
     def __init__(self,ports):
@@ -1531,7 +1587,7 @@ class Desktop (QMainWindow):
     locale = control.read_record("locale", "/etc/gui")
 
     def RunApp (self,appname):
-        self.addDockWidget(Qt.TopDockWidgetArea, Application([self.Backend, self, appname]))
+        self.layout().addWidget(AppWidget([self.Backend, self, appname]))
 
     def RunApplication (self):
         sender = self.sender().objectName()
@@ -2150,9 +2206,3 @@ class Desktop (QMainWindow):
             self.showFullScreen()
         else:
             self.show()
-
-    ## Run baran as Backend ##
-if sys.argv[1:]==[]:
-    mainApp = Backend()
-else:
-    sys.exit(0)
