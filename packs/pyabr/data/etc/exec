@@ -1,0 +1,13 @@
+#!etcetra
+
+# inside commands in /usr/app/libabr.so or /usr/app/libabr.pyd #
+inside: Yes
+
+# library commands #
+outside: Yes
+
+# shell script files #
+script: Yes
+
+# portable apps #
+portable: Yes

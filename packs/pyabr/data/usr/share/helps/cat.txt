@@ -1,0 +1,5 @@
+
+cat [filename] [EOF for exit]
+
+ <filename>     <job>
+ readme.txt     Read all texts or binaries in 'readme.txt' file

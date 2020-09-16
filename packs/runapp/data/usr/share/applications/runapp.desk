@@ -1,0 +1,6 @@
+name[en]: Runner
+name[fa]: بارگذار
+name[ar]: عداء
+logo: @icon/runapp
+exec: runapp
+#shortcut: Ctrl+C
