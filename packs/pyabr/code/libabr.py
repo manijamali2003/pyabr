@@ -1646,14 +1646,9 @@ class Res:
                     return None
 
             elif share.startswith("@background"):
-                if files.isfile("/usr/share/backgrounds/" + name + ".svg"):
-                    if android==False:
-                        return files.input(
-                            "/usr/share/backgrounds/" + name + ".svg")
-                    else:
-                        drawing = svg2rlg(files.input("/usr/share/backgrounds/" + name + ".svg")) # https://stackoverflow.com/questions/6589358/convert-svg-to-png-in-python
-                        renderPM.drawToFile(drawing, files.input("/usr/share/backgrounds/" + name + ".png"), fmt="PNG")
-                        return files.input("/usr/share/backgrounds/" + name + ".png")
+                if files.isfile("/usr/share/backgrounds/" + name + ".svg") and android==False:
+                    return files.input(
+                        "/usr/share/backgrounds/" + name + ".svg")
                 elif files.isfile(
                         "/usr/share/backgrounds/" + name + ".png"):
                     return files.input(
@@ -1674,15 +1669,9 @@ class Res:
                     return None
 
             elif share.startswith("@image"):
-                if files.isfile("/usr/share/images/" + name + ".svg"):
-                    if android == False:
-                        return files.input(
+                if files.isfile("/usr/share/images/" + name + ".svg") and android==False:
+                    return files.input(
                         "/usr/share/images/" + name + ".svg")
-                    else:
-                        drawing = svg2rlg(
-                            files.input("/usr/share/backgrounds/" + name + ".svg"))  # https://stackoverflow.com/questions/6589358/convert-svg-to-png-in-python
-                        renderPM.drawToFile(drawing, files.input("/usr/share/backgrounds/" + name + ".png"), fmt="PNG")
-                        return files.input("/usr/share/backgrounds/" + name + ".png")
                 elif files.isfile(
                         "/usr/share/images/" + name + ".png"):
                     return files.input(
@@ -1721,14 +1710,8 @@ class Res:
                     return None
 
             elif share.startswith("@icon"):
-                if files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg"):
-                    if android == False:
-                        return files.input("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg")
-                    else:
-                        drawing = svg2rlg(
-                            files.input("/usr/share/backgrounds/" + name + ".svg"))  # https://stackoverflow.com/questions/6589358/convert-svg-to-png-in-python
-                        renderPM.drawToFile(drawing, files.input("/usr/share/backgrounds/" + name + ".png"), fmt="PNG")
-                        return files.input("/usr/share/backgrounds/" + name + ".png")
+                if files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg") and android==False:
+                    return files.input("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg")
                 elif files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".png"):
                     return files.input("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".png")
                 elif files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".gif"):
