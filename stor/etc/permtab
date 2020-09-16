@@ -1,0 +1,8 @@
+#!etcetra
+
+/: dr--r-----/root
+/desk/guest: drw----rw-/guest
+/root: drwx------/root
+/tmp: drw-rw----/root
+/usr/app: dr-xr-x--x/root
+/usr/games: dr-xr-x--x/root

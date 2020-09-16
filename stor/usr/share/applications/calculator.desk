@@ -1,0 +1,6 @@
+name[en]: Calculator
+name[fa]: ماشین حساب
+name[ar]: آلة حاسبة
+logo: @icon/calculator
+exec: calculator
+shortcut: Ctrl+Q

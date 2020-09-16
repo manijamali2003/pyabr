@@ -1,0 +1,6 @@
+name[en]: Calendar
+name[fa]: تقویم
+name[ar]: التقويم
+logo: @icon/calendar
+exec: calendar_app
+#shortcut: Ctrl+C
