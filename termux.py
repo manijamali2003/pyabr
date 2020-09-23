@@ -13,7 +13,7 @@ from buildlibs import pack_archives as pack
 from buildlibs import control
 import shutil, os, sys, hashlib,getpass
 
-import shutil, os
+import shutil, os, platform
 
 if not os.path.isfile (".termux"):
     open ('.termux','w')
@@ -38,11 +38,16 @@ if not os.path.isfile (".termux"):
 
     # build #
 
+
     pack.build("pyabr")
     pack.unpack('pyabr')
 
     pack.build("paye")
     pack.unpack('paye')
+
+    if platform.system() == 'Linux' and platform.node() == 'localhost':
+        os.remove('stor/vmabr.pyc')
+        shutil.copyfile('packs/pyabr/code/vmabr.py', 'stor/vmabr.py')
 
     if os.path.isfile('stor/proc/0'):  os.remove('stor/proc/0')
     if os.path.isfile('stor/proc/id/desktop'): os.remove('stor/proc/id/desktop')
@@ -128,9 +133,18 @@ if not os.path.isfile (".termux"):
     file.write('enable_cli: ' + guest + "\nenable_gui: " + guest)
     file.close()
 
-    shutil.copyfile('termux.py','../pyabr.py')
+    file = open ('../pyabr.py','w')
+    file.write('''
+import os
+os.system('cd stor && python vmabr.py kernel')
+''')
 
-if os.path.isfile ('stor/vmabr.py'):
-    os.system('cd stor && python vmabr.py kernel')
-elif os.path.isdir ('stor/vmabr.pyc'):
-    os.system('cd stor && python vmabr.py kernel')
+    finish = input('Installaction of Pyabr was done; do you want to reboot? [Y/n]: ')
+
+    if finish.lower() == 'y':
+        os.remove('setup.py')
+        os.system('cd stor/ && python vmabr.py')
+        sys.exit(0)
+    else:
+        os.remove('setup.py')
+        sys.exit(0)
