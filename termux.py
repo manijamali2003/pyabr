@@ -15,13 +15,7 @@ import shutil, os, sys, hashlib,getpass
 
 import shutil, os, platform
 
-req = [
-    'requests',
-    'py-cpuinfo',
-]
-
-for i in req:
-    os.system('pip install '+i)
+os.system('pip install py-cpuinfo requests svglib')
 
 if not os.path.isfile (".termux"):
     open ('.termux','w')
@@ -55,7 +49,7 @@ if not os.path.isfile (".termux"):
 
     if platform.system() == 'Linux' and platform.node() == 'localhost':
         os.remove('stor/vmabr.pyc')
-        shutil.copyfile('packs/pyabr/code/vmabr.py', 'stor/vmabr.py')
+        shutil.copyfile('packs/pyabr/code/vmabr_cli.py', 'stor/vmabr.py')
 
     if os.path.isfile('stor/proc/0'):  os.remove('stor/proc/0')
     if os.path.isfile('stor/proc/id/desktop'): os.remove('stor/proc/id/desktop')
