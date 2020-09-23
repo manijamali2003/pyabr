@@ -141,6 +141,12 @@ import os
 os.system('cd pyabr/stor && python vmabr.py kernel')
 ''')
 
+    profile = input('Do you want to set pyabr as a startup application in termux? [Y/n]: ')
+    if profile.lower()=='y':
+        file = open ('../.profile','w')
+        file.write('cd pyabr/stor && python vmabr.py')
+        file.close()
+
     finish = input('Installaction of Pyabr was done; do you want to reboot? [Y/n]: ')
 
     if finish.lower() == 'y':
