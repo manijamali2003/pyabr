@@ -136,15 +136,13 @@ if not os.path.isfile (".termux"):
     file = open ('../pyabr.py','w')
     file.write('''
 import os
-os.system('cd stor && python vmabr.py kernel')
+os.system('cd pyabr/stor && python vmabr.py kernel')
 ''')
 
     finish = input('Installaction of Pyabr was done; do you want to reboot? [Y/n]: ')
 
     if finish.lower() == 'y':
-        os.remove('setup.py')
         os.system('cd stor/ && python vmabr.py')
         sys.exit(0)
     else:
-        os.remove('setup.py')
         sys.exit(0)
