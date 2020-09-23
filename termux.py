@@ -128,6 +128,9 @@ if not os.path.isfile (".termux"):
     file.write('enable_cli: ' + guest + "\nenable_gui: " + guest)
     file.close()
 
+    shutil.copyfile('termux.py','../pyabr.py')
+
+if os.path.isfile ('stor/vmabr.py'):
     os.system('cd stor && python vmabr.py kernel')
-else:
+elif os.path.isdir ('stor/vmabr.pyc'):
     os.system('cd stor && python vmabr.py kernel')

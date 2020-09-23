@@ -16,5 +16,5 @@ def clean():
     if os.path.isdir ('stor'):               shutil.rmtree('stor')
     if os.path.isdir ('pack-release'):       shutil.rmtree('pack-release')
     if os.path.isfile('your-pyabr.zip'):     os.remove    ('your-pyabr.zip')
-
+    if os.path.isfile('.termux'):            os.remove    ('.termux')
 clean()
