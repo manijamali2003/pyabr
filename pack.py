@@ -27,6 +27,7 @@ shutil.copyfile('install.py','pack-release/install.py')
 shutil.copyfile('LICENSE','pack-release/LICENSE')
 shutil.copyfile('AUTHERS','pack-release/AUTHERS')
 shutil.copyfile('pack.py','pack-release/pack.py')
+shutil.copyfile('termux.py','pack-release/termux.py')
 shutil.copyfile('README.md','pack-release/README.md')
 shutil.copyfile('requirments.txt','pack-release/requirments.txt')
 
