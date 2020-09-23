@@ -15,6 +15,14 @@ import shutil, os, sys, hashlib,getpass
 
 import shutil, os, platform
 
+req = [
+    'requests',
+    'py-cpuinfo',
+]
+
+for i in req:
+    os.system('pip install '+i)
+
 if not os.path.isfile (".termux"):
     open ('.termux','w')
     ## pre build ##
