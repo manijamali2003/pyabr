@@ -37,13 +37,13 @@ class MainApp(QtWidgets.QMainWindow):
         self.Env = ports[1]
         self.Widget = ports[2]
 
-        self.Widget.resize(700, 500)
-        self.resize(700,500)
+        self.Widget.Resize(700, 500)
+        self.setMaximumHeight(500)
 
-        self.Widget.setWindowTitle(res.get("@string/app_name"))
+        self.Widget.SetWindowTitle(res.get("@string/app_name"))
 
         ## Set Icon ##
-        self.Widget.setWindowIcon(QIcon(res.get('@logo/commento')))
+        self.Widget.SetWindowIcon(QIcon(res.get('@logo/commento')))
 
         self.switch = process.processor()  # Switch the process
         process.check(self.switch)  # Check the switched process
@@ -143,5 +143,5 @@ class MainApp(QtWidgets.QMainWindow):
         else:
             result = subprocess.check_output('"{0}" '.replace('{0}',sys.executable)+files.readall('/proc/info/boot')+' exec '+cmd,shell=True)
             self.textBrowser.setText(self.textBrowser.toPlainText() + ""+ space_username + space1 + space_hostname + space2  + space_path + prompt_symbol + cmd +"\n\n"+ result.decode("utf-8")+'\n')
-            self.Widget.setWindowTitle(space_username + space1 + space_hostname + space2 )
+            self.Widget.SetWindowTitle(space_username + space1 + space_hostname + space2 )
             self.textBrowser.verticalScrollBar().setValue(self.textBrowser.verticalScrollBar().maximum())

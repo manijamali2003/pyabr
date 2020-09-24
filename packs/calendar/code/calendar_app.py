@@ -24,16 +24,16 @@ class MainApp (QMainWindow):
         super(MainApp, self).__init__()
 
         self.calendar = QCalendarWidget()
-
-        self.calendar.setStyleSheet('background-color:white;')
+        self.calendar.setStyleSheet('background: none;')
 
         self.Backend = args[0]
         self.Env = args[1]
         self.Widget = args[2]
 
-        self.Widget.setMaximumSize(400,300)
+        self.Widget.Resize(500,400)
+        self.calendar.setMaximumHeight(400)
 
-        self.Widget.setWindowTitle (res.get('@string/app_name'))
+        self.Widget.SetWindowTitle (res.get('@string/app_name'))
 
         ## Data base ##
         sweek = files.readall("/proc/info/sweek")

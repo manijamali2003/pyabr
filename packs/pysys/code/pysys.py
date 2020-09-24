@@ -44,7 +44,12 @@ class MainApp (QWidget):
         self.Env = ports[1]
         self.Widget = ports[2]
 
-        self.Widget.setWindowTitle (res.get('@string/app_name'))
+        self.Widget.setStyleSheet('background-color:white;')
+
+        self.Widget.SetWindowTitle (res.get('@string/app_name'))
+        self.Widget.SetWindowIcon(QIcon(res.get('@icon/pysys')))
+        self.Widget.Resize (850,400)
+        self.setMaximumHeight(400)
 
         self.layout = QHBoxLayout()
         self.setLayout(self.layout)

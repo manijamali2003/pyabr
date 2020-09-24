@@ -20,7 +20,7 @@ res = Res()
 class MainApp(QLineEdit):
     def correct (self):
         self.setStyleSheet('background-color: white;color: black;')
-        self.Widget.setWindowTitle(res.get('@string/app_name'))
+        self.Widget.SetWindowTitle(res.get('@string/app_name'))
         self.setEnabled(True)
         self.clear()
 
@@ -29,7 +29,7 @@ class MainApp(QLineEdit):
             self.Env.RunApp(self.text())
             QTimer.singleShot(1000, self.correct)
         else:
-            self.Widget.setWindowTitle(res.get('@string/app_not_found').replace('{0}',self.text()))
+            self.Widget.SetWindowTitle(res.get('@string/app_not_found').replace('{0}',self.text()))
             self.setStyleSheet('background-color: red;color: white;')
             self.setEnabled(False)
             QTimer.singleShot(1000, self.correct)
@@ -42,9 +42,11 @@ class MainApp(QLineEdit):
         self.Widget = args[2]
 
         ## Widget configs ##
-        self.Widget.setWindowTitle (res.get('@string/app_name'))
+        self.Widget.SetWindowTitle (res.get('@string/app_name'))
+        self.Widget.SetWindowIcon(QIcon(res.get('@icon/runapp')))
         self.setStyleSheet('background-color:white;color: black;')
-        self.Widget.resize (600,70)
+        self.Widget.Resize (600,40)
+        self.setMaximumHeight(40)
 
         self.returnPressed.connect(self.RunApp)  # https://pythonbasics.org/pyqt/ learn it
 

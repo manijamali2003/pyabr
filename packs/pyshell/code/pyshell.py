@@ -10,6 +10,7 @@
 #######################################################################################
 
 from libabr import Res
+from PyQt5.QtGui import *
 
 res = Res()
 
@@ -23,8 +24,11 @@ class MainApp(PythonConsole):
         self.Env = args[1]
         self.Widget = args[2]
 
-        self.Widget.resize (700,500)
-        self.Widget.setWindowTitle (res.get("@string/app_name"))
+        #self.Widget.Resize (700,500)
+        self.setMaximumSize(700,500)
+        self.Widget.Resize (700,500)
+        self.Widget.SetWindowTitle (res.get("@string/app_name"))
+        self.Widget.SetWindowIcon (QIcon(res.get('@icon/pyshell')))
         self.setStyleSheet('background-color:white;')
 
         self.eval_in_thread()

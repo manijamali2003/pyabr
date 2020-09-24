@@ -126,8 +126,8 @@ class Calc(QWidget):
         mainLayout.addWidget(self.equalButton, 5, 5)
         self.setLayout(mainLayout)
 
-        self.Widget.setWindowTitle(res.get("@string/app_name"))
-        self.Widget.setWindowIcon (QIcon(res.get('@logo/calculator')))
+        self.Widget.SetWindowTitle(res.get("@string/app_name"))
+        self.Widget.SetWindowIcon (QIcon(res.get('@logo/calculator')))
 
     def digitClicked(self):
         clickedButton = self.sender()
@@ -328,6 +328,6 @@ class MainApp (QMainWindow):
         self.Widget = ports[2]
 
         self.setStyleSheet('background-color:white;')
-        self.Widget.setMaximumSize(315,305)
+        self.Widget.Resize(315,305)
         self.calc = Calc(ports)
         self.setCentralWidget(self.calc)

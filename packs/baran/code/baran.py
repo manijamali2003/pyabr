@@ -1506,6 +1506,66 @@ QDockWidget::close-button:hover {
 )
 
 class AppWidget (QMainWindow):
+    def Resize(self,w,h):
+        self.w = w
+        self.h = h
+
+        self.resize(self.w,self.h+40)
+
+    def SetMinimumSize(self,w,h):
+        self.w = w
+        self.h = h
+
+        self.setMinimumSize(self.w,self.h+40)
+
+    def SetMinimumHeight(self,h):
+        self.h = h
+
+        self.setMinimumHeight(self.h+40)
+
+    def SetMinimumWidth(self,w):
+        self.w = w
+
+        self.setMinimumWidth(self.w)
+
+    def SetMaximumSize(self,w,h):
+        self.w = w
+        self.h = h
+
+        self.setMaximumSize(self.w,self.h+40)
+
+    def SetMaximumHeight(self, h):
+        self.h = h
+
+        self.setMaximumHeight(self.h + 40)
+
+    def SetMaximumWidth(self, w):
+        self.w = w
+
+        self.setMaximumWidth(self.w)
+
+    def SetFixedSize(self,w,h):
+        self.w = w
+        self.h = h
+
+        self.setFixedSize(self.w,self.h+40)
+
+    def SetFixedHeight(self, h):
+        self.h = h
+
+        self.setFixedHeight(self.h + 40)
+
+    def SetFixedWidth(self, w):
+        self.w = w
+
+        self.setFixedWidth(self.w)
+
+    def SetWindowTitle (self,text):
+        self.titletext.setText(text)
+
+    def SetWindowIcon (self,icon):
+        self.iconwidget.setPixmap(icon.pixmap(40-7))
+
     def __init__(self,ports):
         super(AppWidget, self).__init__()
 
@@ -1529,10 +1589,38 @@ class AppWidget (QMainWindow):
 
         # title bar #
         self.titlebar = QWidget()
-        self.titlebar.setStyleSheet('background-color: #ABCDEF;')
+        self.titlebar.setStyleSheet('background-color: #ABCDEF;color: white;')
+
+        self.layouts = QHBoxLayout()
+        self.titlebar.setLayout(self.layouts)
+
+        # icon widget #
+        self.icon = QIcon(res.get('@icon/app'))
+        self.iconwidget = QLabel()
+        self.iconwidget.setPixmap(self.icon.pixmap(40 - 15))
+        self.layouts.addWidget(self.iconwidget)
+
+        self.iconwidget.setFixedSize(40-15,40-15)
+
+        # text title #
+        self.titletext = QLabel()
+        self.titletext.setStyleSheet('background-color: #ABCDEF;color: white;')
+        self.titletext.setMaximumWidth(self.titlebar.width()-120)
+
+        self.layouts.addWidget(self.titletext)
+
+        # float button #
+        self.btnMax = QToolButton()
+        self.btnMax.setFixedSize(40-15,40-15)
+        self.layouts.addWidget(self.btnMax)
+
+        self.btnEscape = QToolButton()
+        self.btnEscape.setFixedSize(40-15,40-15)
+        self.layouts.addWidget(self.btnEscape)
+
         # center widget #
         self.mainWidget = exec.MainApp([self.Backend,self.Env,self,self.appname])
-        self.mainWidget.setGeometry(0,40,self.width(),self.height()+40)
+        self.mainWidget.setGeometry(0,40,self.width(),self.height())
         self.titlebar.setGeometry(0, 0, self.width(), 40)
         self.setGeometry(int(self.Env.width()/2)-int(self.width()/2),int(self.Env.height()/2)-int(self.height()/2),self.width(),self.height())
 
