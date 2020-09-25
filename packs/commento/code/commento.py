@@ -43,7 +43,7 @@ class MainApp(QtWidgets.QMainWindow):
         self.Widget.SetWindowTitle(res.get("@string/app_name"))
 
         ## Set Icon ##
-        self.Widget.SetWindowIcon(QIcon(res.get('@logo/commento')))
+        self.Widget.SetWindowIcon(QIcon(res.get('@icon/commento')))
 
         self.switch = process.processor()  # Switch the process
         process.check(self.switch)  # Check the switched process

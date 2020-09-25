@@ -34,6 +34,7 @@ class MainApp (QMainWindow):
         self.calendar.setMaximumHeight(400)
 
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
+        self.Widget.SetWindowIcon (QIcon(res.get('@icon/calendar')))
 
         ## Data base ##
         sweek = files.readall("/proc/info/sweek")

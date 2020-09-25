@@ -9,9 +9,23 @@
 #
 #######################################################################################
 
-import importlib, shutil, os, sys, hashlib, subprocess, requests,time,datetime,getpass,py_compile
-from svglib.svglib import svg2rlg
-from reportlab.graphics import renderPM
+import importlib, shutil, os, sys, hashlib, subprocess,time,datetime,getpass,py_compile, site
+
+siter = site.getsitepackages()[0]
+siteu = site.getusersitepackages()[0]
+
+## Find extra packages ##
+def sitep (module):
+    if os.path.isfile (siter+"/"+module):
+        return True
+    elif os.path.isdir (siter+"/"+module):
+        return True
+    elif os.path.isfile (siteu+"/"+module):
+        return True
+    elif os.path.isdir(siteu + "/" + module):
+        return True
+    else:
+        return False
 
 # script #
 class Script:
@@ -1290,13 +1304,18 @@ class Commands:
 
         colors.show('', 'ok', 'Download \'' + sys.argv[2] + "\' from (" + sys.argv[1] + ") ...")
         url = args[0]
-        r = requests.get(url, allow_redirects=True)
 
-        ## Check permissions ##
-        if permissions.check(files.output(args[1]), "w", files.readall("/proc/info/su")):
-            open(files.input(args[1]), 'wb').write(r.content)
+        if sitep('requests'):
+            import requests
+            r = requests.get(url, allow_redirects=True)
+            ## Check permissions ##
+            if permissions.check(files.output(args[1]), "w", files.readall("/proc/info/su")):
+                open(files.input(args[1]), 'wb').write(r.content)
+            else:
+                colors.show("wget", "perm", "")
         else:
-            colors.show("wget", "perm", "")
+            colors.show ("wget",'fail','cannot download without requests module.')
+
 
 # package #
 class Package:
@@ -1560,13 +1579,18 @@ class Package:
 
             ## Download the file ##
             url = mirror
-            r = requests.get(url, allow_redirects=True)
 
-            ## Check permissions ##
-            open(files.input('/app/cache/gets/' + packname + '.pa'), 'wb').write(r.content)
+            if sitep('requests'):
+                import requests
+                r = requests.get(url, allow_redirects=True)
 
-            ## Remove temporary ##
-            files.remove('/app/cache/gets/' + packname + '.pa')
+                ## Check permissions ##
+                open(files.input('/app/cache/gets/' + packname + '.pa'), 'wb').write(r.content)
+
+                ## Remove temporary ##
+                files.remove('/app/cache/gets/' + packname + '.pa')
+            else:
+                colors.show ("paye",'fail','cannot download without requests module.')
         else:
             colors.show("paye", "perm", "")
 
@@ -1650,7 +1674,9 @@ class Res:
                     if android==False:
                         return files.input(
                             "/usr/share/backgrounds/" + name + ".svg")
-                    else:
+                    elif sitep('svglib'):
+                        from svglib.svglib import svg2rlg
+                        from reportlab.graphics import renderPM
                         drawing = svg2rlg(files.input("/usr/share/backgrounds/" + name + ".svg"))
                         renderPM.drawToFile(drawing, files.input("/usr/share/backgrounds/" + name + ".png"), fmt="PNG")
                         files.remove("/usr/share/backgrounds/" + name + ".svg")
@@ -1679,7 +1705,9 @@ class Res:
                     if android==False:
                         return files.input(
                         "/usr/share/images/" + name + ".svg")
-                    else:
+                    elif sitep('svglib'):
+                        from svglib.svglib import svg2rlg
+                        from reportlab.graphics import renderPM
                         drawing = svg2rlg(files.input("/usr/share/images/" + name + ".svg"))
                         renderPM.drawToFile(drawing, files.input("/usr/share/images/" + name + ".png"), fmt="PNG")
                         files.remove("/usr/share/images/" + name + ".svg")
@@ -1725,7 +1753,9 @@ class Res:
                 if files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg"):
                     if android==False:
                         return files.input("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg")
-                    else:
+                    elif sitep('svglib'):
+                        from svglib.svglib import svg2rlg
+                        from reportlab.graphics import renderPM
                         drawing = svg2rlg(files.input("/usr/share/icons/" + name + ".svg"))
                         renderPM.drawToFile(drawing, files.input("/usr/share/icons/" + name + ".png"), fmt="PNG")
                         files.remove ("/usr/share/icons/" + name + ".svg")

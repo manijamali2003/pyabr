@@ -14,7 +14,7 @@
 # Virtual Memory Abr Kernel (vmabr)
 # (c) 2020 Mani Jamali All rights reserved.
 
-import sys, socket, platform, hashlib, os, getpass, subprocess as sub, cpuinfo, importlib,requests
+import sys, socket, platform, hashlib, os, getpass, subprocess as sub, cpuinfo, importlib, site
 ## @variables ##
 
 hostname = ""
@@ -27,7 +27,7 @@ arch = ""
 os_user = ""
 osname = ""
 kernel_name = "vmabr"
-kernel_version = "0.1.7"
+kernel_version = "0.1.8"
 user = ""
 code = ""
 argv = sys.argv[1:] # kernel parameters
@@ -37,6 +37,8 @@ tz = ""
 cpu = ''
 cpuc = ''
 ram = ''
+siter = site.getsitepackages()[0] # https://stackoverflow.com/questions/122327/how-do-i-find-the-location-of-my-python-site-packages-directory
+siteu = site.getusersitepackages()[0]
 
 ## Configure kernel ###############################################################################
 
@@ -58,6 +60,19 @@ app = App()
 commands = Commands()
 
 modules.get_modules()
+## Find extra packages ##
+def sitep (module):
+    if os.path.isfile (siter+"/"+module):
+        return True
+    elif os.path.isdir (siter+"/"+module):
+        return True
+    elif os.path.isfile (siteu+"/"+module):
+        return True
+    elif os.path.isdir(siteu + "/" + module):
+        return True
+    else:
+        return False
+
 ## @core/interface ##
 
 if argv == []:
@@ -350,27 +365,32 @@ if (argv[0]=="kernel") and files.isfile ("/etc/issue"):
 if argv[0]=="gui":
     desktop = control.read_record('desktop','/etc/gui')
 
-    from PyQt5.QtCore import *
-    from PyQt5.QtWidgets import *
+    if sitep('PyQt5'):
+        from PyQt5.QtCore import *
+        from PyQt5.QtWidgets import *
 
-    ## Main entry ##
-    application = QApplication(sys.argv)
-    app.start('desktop')
-    ## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
-    screen_resolution = application.desktop().screenGeometry()
-    width, height = screen_resolution.width(), screen_resolution.height()
+        ## Main entry ##
+        application = QApplication(sys.argv)
+        app.start('desktop')
+        ## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
+        screen_resolution = application.desktop().screenGeometry()
+        width, height = screen_resolution.width(), screen_resolution.height()
 
-    files.write('/tmp/width',str(width))
-    files.write('/tmp/height',str(height))
+        files.write('/tmp/width', str(width))
+        files.write('/tmp/height', str(height))
 
-    if not desktop==None:
-        colors.show("gui", "ok-start", "")
-        w = importlib.import_module(desktop).Backend ()
+        if not desktop == None:
+            colors.show("gui", "ok-start", "")
+            w = importlib.import_module(desktop).Backend()
+        else:
+            colors.show('gui', 'fail-start', '')
+            colors.show('kernel', 'stop', '')
+
+        sys.exit(application.exec_())
     else:
-        colors.show ('gui','fail-start','')
-        colors.show ('kernel','stop','')
-
-    sys.exit(application.exec_())
+        colors.show ("gui",'fail-start','')
+        colors.show ("kernel",'stop','')
+        sys.exit(0)
 
 ## @core/gui-splash ##
 
@@ -378,27 +398,32 @@ if argv[0]=="gui-splash":
     desktop = control.read_record('desktop', '/etc/gui')
     control.write_record('params','splash','/etc/gui')
 
-    from PyQt5.QtCore import *
-    from PyQt5.QtWidgets import *
+    if sitep("PyQt5"):
+        from PyQt5.QtCore import *
+        from PyQt5.QtWidgets import *
 
-    ## Main entry ##
-    application = QApplication(sys.argv)
-    app.start('desktop')
-    ## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
-    screen_resolution = application.desktop().screenGeometry()
-    width, height = screen_resolution.width(), screen_resolution.height()
+        ## Main entry ##
+        application = QApplication(sys.argv)
+        app.start('desktop')
+        ## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
+        screen_resolution = application.desktop().screenGeometry()
+        width, height = screen_resolution.width(), screen_resolution.height()
 
-    files.write('/tmp/width', str(width))
-    files.write('/tmp/height', str(height))
+        files.write('/tmp/width', str(width))
+        files.write('/tmp/height', str(height))
 
-    if not desktop == None:
-        colors.show("gui", "ok-start", "")
-        colors.show("gui-splash", "ok-start", "")
-        w = importlib.import_module(desktop).Backend()
+        if not desktop == None:
+            colors.show("gui", "ok-start", "")
+            colors.show("gui-splash", "ok-start", "")
+            w = importlib.import_module(desktop).Backend()
+        else:
+            colors.show('gui-splash', 'fail-start', '')
+            colors.show('kernel', 'stop', '')
+        sys.exit(application.exec_())
     else:
-        colors.show('gui-splash', 'fail-start', '')
-        colors.show('kernel', 'stop', '')
-    sys.exit(application.exec_())
+        colors.show("gui-splash", 'fail-start', '')
+        colors.show("kernel", 'stop', '')
+        sys.exit(0)
 
 ## @core/gui-login ##
 
@@ -406,27 +431,32 @@ if argv[0]=="gui-login":
     desktop = control.read_record('desktop', '/etc/gui')
     control.write_record('params','login','/etc/gui')
 
-    from PyQt5.QtCore import *
-    from PyQt5.QtWidgets import *
+    if sitep("PyQt5"):
+        from PyQt5.QtCore import *
+        from PyQt5.QtWidgets import *
 
-    ## Main entry ##
-    application = QApplication(sys.argv)
-    app.start('desktop')
-    ## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
-    screen_resolution = application.desktop().screenGeometry()
-    width, height = screen_resolution.width(), screen_resolution.height()
+        ## Main entry ##
+        application = QApplication(sys.argv)
+        app.start('desktop')
+        ## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
+        screen_resolution = application.desktop().screenGeometry()
+        width, height = screen_resolution.width(), screen_resolution.height()
 
-    files.write('/tmp/width', str(width))
-    files.write('/tmp/height', str(height))
+        files.write('/tmp/width', str(width))
+        files.write('/tmp/height', str(height))
 
-    if not desktop == None:
-        colors.show("gui", "ok-start", "")
-        colors.show("gui-login", "ok-start", "")
-        w = importlib.import_module(desktop).Backend()
+        if not desktop == None:
+            colors.show("gui", "ok-start", "")
+            colors.show("gui-login", "ok-start", "")
+            w = importlib.import_module(desktop).Backend()
+        else:
+            colors.show('gui-login', 'fail-start', '')
+            colors.show('kernel', 'stop', '')
+        sys.exit(application.exec_())
     else:
-        colors.show('gui-login', 'fail-start', '')
-        colors.show('kernel', 'stop', '')
-    sys.exit(application.exec_())
+        colors.show("gui-login", 'fail-start', '')
+        colors.show("kernel", 'stop', '')
+        sys.exit(0)
 
 ## @core/gui-enter ##
 
@@ -447,28 +477,33 @@ if argv[0]=="gui-enter":
     # do the job #
     desktop = control.read_record('desktop', '/etc/gui')
 
-    from PyQt5.QtCore import *
-    from PyQt5.QtWidgets import *
+    if sitep("PyQt5"):
+        from PyQt5.QtCore import *
+        from PyQt5.QtWidgets import *
 
-    ## Main entry ##
-    application = QApplication(sys.argv)
-    app.start('desktop')
-    ## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
-    screen_resolution = application.desktop().screenGeometry()
-    width, height = screen_resolution.width(), screen_resolution.height()
+        ## Main entry ##
+        application = QApplication(sys.argv)
+        app.start('desktop')
+        ## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
+        screen_resolution = application.desktop().screenGeometry()
+        width, height = screen_resolution.width(), screen_resolution.height()
 
-    files.write('/tmp/width', str(width))
-    files.write('/tmp/height', str(height))
+        files.write('/tmp/width', str(width))
+        files.write('/tmp/height', str(height))
 
-    control.write_record('params','enter,{username}'.replace('{username}',argv[1]),'/etc/gui')
-    if not desktop == None:
-        colors.show("gui", "ok-start", "")
-        colors.show("gui-enter", "ok-start", "")
-        w = importlib.import_module(desktop).Backend()
+        control.write_record('params', 'enter,{username}'.replace('{username}', argv[1]), '/etc/gui')
+        if not desktop == None:
+            colors.show("gui", "ok-start", "")
+            colors.show("gui-enter", "ok-start", "")
+            w = importlib.import_module(desktop).Backend()
+        else:
+            colors.show('gui-enter', 'fail-start', '')
+            colors.show('kernel', 'stop', '')
+        sys.exit(application.exec_())
     else:
-        colors.show('gui-enter', 'fail-start', '')
-        colors.show('kernel', 'stop', '')
-    sys.exit(application.exec_())
+        colors.show("gui-enter", 'fail-start', '')
+        colors.show("kernel", 'stop', '')
+        sys.exit(0)
 
 ## @core/gui-desktop ##
 
@@ -496,28 +531,36 @@ if argv[0]=="gui-desktop":
 
     desktop = control.read_record('desktop', '/etc/gui')
 
-    from PyQt5.QtCore import *
-    from PyQt5.QtWidgets import *
+    if sitep("PyQt5"):
+        from PyQt5.QtCore import *
+        from PyQt5.QtWidgets import *
 
-    ## Main entry ##
-    application = QApplication(sys.argv)
-    app.start('desktop')
-    ## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
-    screen_resolution = application.desktop().screenGeometry()
-    width, height = screen_resolution.width(), screen_resolution.height()
+        ## Main entry ##
+        application = QApplication(sys.argv)
+        app.start('desktop')
+        ## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
+        screen_resolution = application.desktop().screenGeometry()
+        width, height = screen_resolution.width(), screen_resolution.height()
 
-    files.write('/tmp/width', str(width))
-    files.write('/tmp/height', str(height))
+        files.write('/tmp/width', str(width))
+        files.write('/tmp/height', str(height))
 
-    control.write_record('params','desktop,{username},{password}'.replace('{username}',argv[1]).replace('{password}',argv[2]),'/etc/gui')
-    if not desktop == None:
-        colors.show("gui", "ok-start", "")
-        colors.show("gui-desktop", "ok-start", "")
-        w = importlib.import_module(desktop).Backend()
+        control.write_record('params',
+                             'desktop,{username},{password}'.replace('{username}', argv[1]).replace('{password}',
+                                                                                                    argv[2]),
+                             '/etc/gui')
+        if not desktop == None:
+            colors.show("gui", "ok-start", "")
+            colors.show("gui-desktop", "ok-start", "")
+            w = importlib.import_module(desktop).Backend()
+        else:
+            colors.show('gui-desktop', 'fail-start', '')
+            colors.show('kernel', 'stop', '')
+        sys.exit(application.exec_())
     else:
-        colors.show('gui-desktop', 'fail-start', '')
-        colors.show('kernel', 'stop', '')
-    sys.exit(application.exec_())
+        colors.show("gui-desktop", 'fail-start', '')
+        colors.show("kernel", 'stop', '')
+        sys.exit(0)
 
 ## @lib/shell ##
 
@@ -658,7 +701,7 @@ def shell():
 
             ## Prompt ##
             prompt = [
-                '"{0}" '.replace("{0}",py)+kernel_file,
+                sys.executable,kernel_file,
                 'exec',
                 cmdln[0]
             ]
