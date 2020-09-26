@@ -49,7 +49,6 @@ class MainApp (QWidget):
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
         self.Widget.SetWindowIcon(QIcon(res.get('@icon/pysys')))
         self.Widget.Resize (850,400)
-        self.setMaximumHeight(400)
 
         self.layout = QHBoxLayout()
         self.setLayout(self.layout)

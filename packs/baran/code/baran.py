@@ -1517,48 +1517,57 @@ class AppWidget (QMainWindow):
         self.h = h
 
         self.setMinimumSize(self.w,self.h+50)
+        self.mainWidget.setMinimumSize(self.w,self.h-50)
 
     def SetMinimumHeight(self,h):
         self.h = h
 
         self.setMinimumHeight(self.h+50)
+        self.mainWidget.setMinimumHeight(self.h-50)
 
     def SetMinimumWidth(self,w):
         self.w = w
 
         self.setMinimumWidth(self.w)
+        self.mainWidget.setMinimumWidth(self.w)
 
     def SetMaximumSize(self,w,h):
         self.w = w
         self.h = h
 
         self.setMaximumSize(self.w,self.h+50)
+        self.mainWidget.setMaximumSize(self.w,self.h-50)
 
     def SetMaximumHeight(self, h):
         self.h = h
 
         self.setMaximumHeight(self.h + 50)
+        self.mainWidget.setMaximumHeight(self.h-50)
 
     def SetMaximumWidth(self, w):
         self.w = w
 
         self.setMaximumWidth(self.w)
+        self.mainWidget.setMaximumWidth(self.h-50)
 
     def SetFixedSize(self,w,h):
         self.w = w
         self.h = h
 
         self.setFixedSize(self.w,self.h+50)
+        self.mainWidget.setFixedSize(self.w,self.h-50)
 
     def SetFixedHeight(self, h):
         self.h = h
 
         self.setFixedHeight(self.h + 50)
+        self.mainWidget.setFixedHeight (self.h-50)
 
     def SetFixedWidth(self, w):
         self.w = w
 
         self.setFixedWidth(self.w)
+        self.mainWidget.setFixedWidth(self.w)
 
     def SetWindowTitle (self,text):
         self.titletext.setText(text)
@@ -1569,6 +1578,28 @@ class AppWidget (QMainWindow):
     def Close (self):
         app.end(self.appname)
         self.close()
+
+    max = False
+    save_w = 0
+    save_h = 0
+    save_ww = 0
+    save_wh = 0
+
+    def ShowMaximize(self):
+        if self.max == False:
+            self.save_w = self.width()
+            self.save_h = self.height()
+            self.save_ww = self.mainWidget.width()
+            self.save_wh = self.mainWidget.height()
+            self.setGeometry(0,0,self.Env.width(),self.Env.height())
+            self.titlebar.setGeometry(0,0,self.Env.width(),50)
+            self.mainWidget.setGeometry(0,50,self.Env.width(),self.Env.height()-50)
+            self.max = True
+        else:
+            self.setGeometry(int(self.Env.width()/2)-int(self.width()/2),int(self.Env.height()/2)-int(self.height()/2),self.save_w,self.save_h)
+            self.titlebar.setGeometry(0, 0, self.save_w, 50)
+            self.mainWidget.setGeometry(0, 50, self.save_ww, self.save_wh-50)
+            self.max = False
 
     def __init__(self,ports):
         super(AppWidget, self).__init__()
@@ -1617,6 +1648,7 @@ class AppWidget (QMainWindow):
         self.btnMax = QToolButton()
         self.btnMax.setIcon(QIcon(res.get('@icon/float')))
         self.btnMax.setGeometry(self.titlebar.width()-100,0,50,50)
+        self.btnMax.clicked.connect(self.ShowMaximize)
         self.layouts.addWidget(self.btnMax)
 
         self.btnEscape = QToolButton()

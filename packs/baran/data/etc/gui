@@ -1,11 +1,11 @@
 #!etcetra
 
 desktop: baran
-fullscreen: Yes
-sides: No
+fullscreen: No
+sides: Yes
 width: 1280
 height: 720
-autosize: Yes
+autosize: No
 logo: @icon/pyabr-logo
 locale: en
 

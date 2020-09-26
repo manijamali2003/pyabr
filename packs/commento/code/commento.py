@@ -38,7 +38,6 @@ class MainApp(QtWidgets.QMainWindow):
         self.Widget = ports[2]
 
         self.Widget.Resize(700, 500)
-        self.setMaximumHeight(500)
 
         self.Widget.SetWindowTitle(res.get("@string/app_name"))
 

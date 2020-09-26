@@ -25,7 +25,6 @@ class MainApp(PythonConsole):
         self.Widget = args[2]
 
         #self.Widget.Resize (700,500)
-        self.setMaximumSize(700,500)
         self.Widget.Resize (700,500)
         self.Widget.SetWindowTitle (res.get("@string/app_name"))
         self.Widget.SetWindowIcon (QIcon(res.get('@icon/python')))
