@@ -37,7 +37,7 @@ class MainApp(QtWidgets.QMainWindow):
         self.Env = ports[1]
         self.Widget = ports[2]
 
-        self.Widget.Resize(700, 500)
+        self.Widget.Resize(self,700, 500)
 
         self.Widget.SetWindowTitle(res.get("@string/app_name"))
 

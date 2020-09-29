@@ -30,7 +30,7 @@ class MainApp (QMainWindow):
         self.Env = args[1]
         self.Widget = args[2]
 
-        self.Widget.Resize(500,400)
+        self.Widget.Resize(self,500,400)
 
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
         self.Widget.SetWindowIcon (QIcon(res.get('@icon/calendar')))

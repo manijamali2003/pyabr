@@ -328,6 +328,6 @@ class MainApp (QMainWindow):
         self.Widget = ports[2]
 
         self.setStyleSheet('background-color:white;')
-        self.Widget.Resize(315,305)
+        self.Widget.Resize(self,315,305)
         self.calc = Calc(ports)
         self.setCentralWidget(self.calc)

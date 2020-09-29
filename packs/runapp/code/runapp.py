@@ -45,7 +45,6 @@ class MainApp(QLineEdit):
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
         self.Widget.SetWindowIcon(QIcon(res.get('@icon/runapp')))
         self.setStyleSheet('background-color:white;color: black;')
-        self.Widget.Resize (600,40)
-
+        self.Widget.Resize (self,600,40)
         self.returnPressed.connect(self.RunApp)  # https://pythonbasics.org/pyqt/ learn it
 

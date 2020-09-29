@@ -40,6 +40,10 @@ ram = ''
 siter = site.getsitepackages()[0] # https://stackoverflow.com/questions/122327/how-do-i-find-the-location-of-my-python-site-packages-directory
 siteu = site.getusersitepackages()[0]
 
+if osname == 'Linux' and os_user == 'localhost':
+    osname = 'Android'
+    kernel_file = 'vmabr.py'
+
 ## Configure kernel ###############################################################################
 
 ################## Module configure ##########################
@@ -314,10 +318,6 @@ if not (argv[0]=='user' or argv[0]=='login'):
     cpu = str(cpuinfo.get_cpu_info()['brand_raw'])  # Create by darkwlf: https://github.com/darkwlf
     cpuc = str(os.cpu_count())  # Create by darkwlf: https://github.com/darkwlf
     py = sys.executable
-
-    if osname=='Linux' and os_user=='localhost':
-        osname = 'Android'
-        kernel_file = 'vmabr.py'
 
     if argv[0] == "kernel":
         interface = "CLI"

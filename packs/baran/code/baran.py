@@ -1506,68 +1506,12 @@ QDockWidget::close-button:hover {
 )
 
 class AppWidget (QMainWindow):
-    def Resize(self,w,h):
+    def Resize(self,mainw,w,h):
         self.w = w
         self.h = h
 
+        mainw.resize(self.w,self.h)
         self.resize(self.w,self.h+50)
-
-    def SetMinimumSize(self,w,h):
-        self.w = w
-        self.h = h
-
-        self.setMinimumSize(self.w,self.h+50)
-        self.mainWidget.setMinimumSize(self.w,self.h-50)
-
-    def SetMinimumHeight(self,h):
-        self.h = h
-
-        self.setMinimumHeight(self.h+50)
-        self.mainWidget.setMinimumHeight(self.h-50)
-
-    def SetMinimumWidth(self,w):
-        self.w = w
-
-        self.setMinimumWidth(self.w)
-        self.mainWidget.setMinimumWidth(self.w)
-
-    def SetMaximumSize(self,w,h):
-        self.w = w
-        self.h = h
-
-        self.setMaximumSize(self.w,self.h+50)
-        self.mainWidget.setMaximumSize(self.w,self.h-50)
-
-    def SetMaximumHeight(self, h):
-        self.h = h
-
-        self.setMaximumHeight(self.h + 50)
-        self.mainWidget.setMaximumHeight(self.h-50)
-
-    def SetMaximumWidth(self, w):
-        self.w = w
-
-        self.setMaximumWidth(self.w)
-        self.mainWidget.setMaximumWidth(self.h-50)
-
-    def SetFixedSize(self,w,h):
-        self.w = w
-        self.h = h
-
-        self.setFixedSize(self.w,self.h+50)
-        self.mainWidget.setFixedSize(self.w,self.h-50)
-
-    def SetFixedHeight(self, h):
-        self.h = h
-
-        self.setFixedHeight(self.h + 50)
-        self.mainWidget.setFixedHeight (self.h-50)
-
-    def SetFixedWidth(self, w):
-        self.w = w
-
-        self.setFixedWidth(self.w)
-        self.mainWidget.setFixedWidth(self.w)
 
     def SetWindowTitle (self,text):
         self.titletext.setText(text)
@@ -1593,12 +1537,12 @@ class AppWidget (QMainWindow):
             self.save_wh = self.mainWidget.height()
             self.setGeometry(0,0,self.Env.width(),self.Env.height())
             self.titlebar.setGeometry(0,0,self.Env.width(),50)
-            self.mainWidget.setGeometry(0,50,self.Env.width(),self.Env.height()-50)
+            self.mainWidget.resize (self.Env.width(),self.Env.height())
             self.max = True
         else:
             self.setGeometry(int(self.Env.width()/2)-int(self.width()/2),int(self.Env.height()/2)-int(self.height()/2),self.save_w,self.save_h)
             self.titlebar.setGeometry(0, 0, self.save_w, 50)
-            self.mainWidget.setGeometry(0, 50, self.save_ww, self.save_wh-50)
+            self.mainWidget.resize(self.save_ww,self.save_wh)
             self.max = False
 
     def __init__(self,ports):
@@ -1659,12 +1603,13 @@ class AppWidget (QMainWindow):
 
         # center widget #
         self.mainWidget = exec.MainApp([self.Backend,self.Env,self,self.appname])
-        self.mainWidget.setGeometry(0,50,self.width(),self.height())
+        self.mainWidget.setGeometry(0,50,self.width(),self.height()-50)
         self.titlebar.setGeometry(0, 0, self.width(), 50)
         self.setGeometry(int(self.Env.width()/2)-int(self.width()/2),int(self.Env.height()/2)-int(self.height()/2),self.width(),self.height())
 
-        self.layout().addWidget(self.titlebar)
         self.layout().addWidget(self.mainWidget)
+        self.layout().addWidget(self.titlebar)
+
 
 
     # https://stackoverflow.com/questions/41784521/move-qtwidgets-qtwidget-using-mouse
