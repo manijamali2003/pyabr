@@ -25,13 +25,19 @@ distro_build = ""
 ip = ""
 arch = ""
 os_user = ""
-osname = ""
 kernel_name = "vmabr"
 kernel_version = "0.1.8"
 user = ""
 code = ""
 argv = sys.argv[1:] # kernel parameters
-kernel_file = "vmabr.pyc"
+
+if platform.system() == 'Linux' and platform.node() == 'localhost':
+    osname = 'Android'
+    kernel_file = 'vmabr.py'
+else:
+    osname = ""
+    kernel_file = 'vmabr.pyc'
+
 select = ""
 tz = ""
 cpu = ''
@@ -39,10 +45,6 @@ cpuc = ''
 ram = ''
 siter = site.getsitepackages()[0] # https://stackoverflow.com/questions/122327/how-do-i-find-the-location-of-my-python-site-packages-directory
 siteu = site.getusersitepackages()[0]
-
-if osname == 'Linux' and os_user == 'localhost':
-    osname = 'Android'
-    kernel_file = 'vmabr.py'
 
 ## Configure kernel ###############################################################################
 
