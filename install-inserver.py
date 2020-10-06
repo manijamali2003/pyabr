@@ -15,7 +15,7 @@ import shutil, os, sys, hashlib,getpass,platform
 
 import shutil, os
 
-os.system ('"{0}" -m pip install -r requirments.txt'.replace('{0}',sys.executable)) # install requirments
+os.system ('python3 -m pip install -r requirments.txt') # install requirments
 
 ## pre build ##
 if os.path.isdir ("stor"): shutil.rmtree("stor")
