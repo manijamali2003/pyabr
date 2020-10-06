@@ -1674,12 +1674,7 @@ class Res:
                     if android==False:
                         return files.input(
                             "/usr/share/backgrounds/" + name + ".svg")
-                    elif sitep('svglib'):
-                        from svglib.svglib import svg2rlg
-                        from reportlab.graphics import renderPM
-                        drawing = svg2rlg(files.input("/usr/share/backgrounds/" + name + ".svg"))
-                        renderPM.drawToFile(drawing, files.input("/usr/share/backgrounds/" + name + ".png"), fmt="PNG")
-                        files.remove("/usr/share/backgrounds/" + name + ".svg")
+                    elif files.isfile("/usr/share/backgrounds/" + name + ".png"):
                         return files.input("/usr/share/backgrounds/" + name + ".png")
                 elif files.isfile(
                         "/usr/share/backgrounds/" + name + ".png"):
@@ -1705,12 +1700,7 @@ class Res:
                     if android==False:
                         return files.input(
                         "/usr/share/images/" + name + ".svg")
-                    elif sitep('svglib'):
-                        from svglib.svglib import svg2rlg
-                        from reportlab.graphics import renderPM
-                        drawing = svg2rlg(files.input("/usr/share/images/" + name + ".svg"))
-                        renderPM.drawToFile(drawing, files.input("/usr/share/images/" + name + ".png"), fmt="PNG")
-                        files.remove("/usr/share/images/" + name + ".svg")
+                    elif files.isfile("/usr/share/images/" + name + ".png"):
                         return files.input("/usr/share/images/" + name + ".png")
                 elif files.isfile(
                         "/usr/share/images/" + name + ".png"):
@@ -1753,12 +1743,7 @@ class Res:
                 if files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg"):
                     if android==False:
                         return files.input("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg")
-                    elif sitep('svglib'):
-                        from svglib.svglib import svg2rlg
-                        from reportlab.graphics import renderPM
-                        drawing = svg2rlg(files.input("/usr/share/icons/" + name + ".svg"))
-                        renderPM.drawToFile(drawing, files.input("/usr/share/icons/" + name + ".png"), fmt="PNG")
-                        files.remove ("/usr/share/icons/" + name + ".svg")
+                    elif files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".png"):
                         return files.input("/usr/share/icons/" + name + ".png")
                 elif files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".png"):
                     return files.input("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".png")

@@ -11,9 +11,6 @@
 
 import getpass, hashlib,sys, os, shutil, subprocess, platform
 
-# hostname
-hostname = input('Enter a new hostname: ')
-
 # root password
 while True:
     root_password = getpass.getpass ('Enter a new root password: ')
@@ -47,7 +44,6 @@ if not save.lower()=='y':
 
 # hostname and users
 
-file = open('etc/hostname','w');file.write(hostname);file.close()
 file = open('etc/users/'+username,'w');file.write('username: {0}\ncode: {1}'.replace('{0}',hashlib.sha3_256(username.encode()).hexdigest()).replace('{1}',hashlib.sha3_512(password.encode()).hexdigest()));file.close()
 file = open('etc/users/root','w');file.write('username: {0}\ncode: {1}'.replace('{0}',hashlib.sha3_256('root'.encode()).hexdigest()).replace('{1}',hashlib.sha3_512(root_password.encode()).hexdigest()));file.close()
 

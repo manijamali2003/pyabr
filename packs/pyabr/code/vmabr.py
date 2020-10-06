@@ -314,7 +314,8 @@ if not (argv[0]=='user' or argv[0]=='login'):
     ip = socket.gethostbyname(socket.gethostname())
     osname = platform.system()
     arch = platform.architecture()[0]
-    os_user = platform.node()
+    os_user = getpass.getuser()
+    os_host = platform.node()
     tz = control.read_record("format", "/etc/time")
     sweek = control.read_record("start-week", "/etc/time")
     cpu = str(cpuinfo.get_cpu_info()['brand_raw'])  # Create by darkwlf: https://github.com/darkwlf
@@ -330,6 +331,7 @@ if not (argv[0]=='user' or argv[0]=='login'):
     files.write("/proc/info/os", osname)
     files.write("/proc/info/arch", arch)
     files.write("/proc/info/os_su", os_user)
+    files.write("/proc/info/os_host", os_user)
     files.write("/proc/info/inter", interface)
     files.write("/proc/info/tz", tz)
     files.write("/proc/info/sweek", sweek)
