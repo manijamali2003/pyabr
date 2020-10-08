@@ -18,6 +18,7 @@ Standard commands in internal Pyabr library ('/usr/app/libabr.pyc'):
     mkdir      Make a directory or directories
     mv         Move or rename directories or files
     new        Create a new switch process
+    passwd     Change users password
     reboot     Reboot the clouding system
     rm         Remove files or directories
     say        Output a nonline message

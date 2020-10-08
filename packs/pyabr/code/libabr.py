@@ -868,6 +868,7 @@ class Commands:
             if files.isdir(i):
                 if permissions.check(files.output(i), "w", files.readall("/proc/info/su")):
                     files.removedirs(i)
+                    control.remove_record(i,'/etc/permtab')
                     colors.show('', 'ok', "Remove '" + i + "' directory.")
                 else:
                     colors.show("rm", "perm", "")
@@ -875,6 +876,7 @@ class Commands:
             elif files.isfile(i):
                 if permissions.check(files.output(i), "w", files.readall("/proc/info/su")):
                     files.remove(i)
+                    control.remove_record(i, '/etc/permtab')
                     colors.show('', 'ok', "Remove '" + i + "' file.")
                 else:
                     colors.show("rm", "perm", "")
@@ -882,6 +884,103 @@ class Commands:
             else:
                 colors.show("rm", "fail", i + ": file or directory not found.")
                 sys.exit(0)
+
+    ## mount ##
+
+    def mount (self,args):
+        modules = Modules()
+        files = Files()
+        control = Control()
+        colors = Colors()
+        process = Process()
+        permissions = Permissions()
+
+        ## Check root ##
+        if not permissions.check_root(files.readall("/proc/info/su")):
+            colors.show("mount", "perm", "")
+            sys.exit(0)
+
+        ## Check inputs ##
+        if args==[] or args[1:]==[]:
+            colors.show("mount", "fail", "no inputs.")
+            sys.exit(0)
+
+        src = args[0]
+        dest = args[1]
+
+        ## Check block ##
+        if not files.isfile ('/dev/'+src) or not src.startswith ("ic") or not src.startswith("nc"):
+            colors.show("mount", "fail", "unknown device block.")
+            sys.exit(0)
+
+        # type block check #
+        tb = 'ic'
+
+        if src.startswith("ic"): tb = 'ic'
+        else:
+            tb = 'nc'
+
+        # check dest #
+        if files.isfile (dest):
+            colors.show("mount", "fail", dest+": dest is a file.")
+            sys.exit(0)
+
+        if files.isdir(dest):
+            colors.show("mount", "fail", dest + ": dest is a file.")
+            sys.exit(0)
+
+        # ################### not done ################ #
+
+
+    ## passwd ##
+    def passwd (self,args):
+        modules = Modules()
+        files = Files()
+        control = Control()
+        colors = Colors()
+        process = Process()
+        permissions = Permissions()
+
+        if args==[]:
+            colors.show('passwd','fail','no inputs.')
+            sys.exit(0)
+
+        user = args[0]
+
+        # check user exists
+        if not files.isfile('/etc/users/'+user):
+            colors.show('passwd', 'fail', user+": user not found.")
+            sys.exit(0)
+
+        # check user exists with hashname
+
+        username = control.read_record('username','/etc/users/'+user)
+        hashname = hashlib.sha3_256(user.encode()).hexdigest()
+
+        if not username==hashname:
+            colors.show('passwd', 'fail', user + ": user not found.")
+            sys.exit(0)
+
+        # old password
+
+        code = control.read_record('code','/etc/users/'+user)
+
+        oldcode = hashlib.sha3_512(getpass.getpass('Enter '+user+"'s old password: ").encode()).hexdigest()
+
+        if not code==oldcode:
+            colors.show('passwd', 'fail', user + ": wrong password.")
+            sys.exit(0)
+
+        newcode = getpass.getpass('Enter a new password: ')
+
+        while True:
+            confirm = getpass.getpass('Confirm the new password: ')
+            if confirm==newcode: break
+            else:
+                print('Try agian!')
+
+        control.write_record('code',hashlib.sha3_512(newcode.encode()).hexdigest(),'/etc/users/'+user)
+        colors.show('', 'ok', 'Password is successfuly changed.')
 
     # say command #
     def say (self,args):
@@ -1142,7 +1241,7 @@ class Commands:
                 if not (email == None or email == ""):
                     control.write_record("email", email, '/etc/users/' + input_username)
 
-                permissions.create("/desk/" + input_username, 7, 1, 0,input_username)  ## Create permission for another user
+                control.write_record('/desk/'+input_username,"drwxr-x---/"+input_username,'/etc/permtab')
 
                 colors.show('', 'ok', "Add '" + input_username + "' user account.")
         else:
@@ -1183,6 +1282,7 @@ class Commands:
                             files.remove("/etc/users/" + input_username)
                             if files.isdir('/desk/' + input_username):
                                 files.removedirs("/desk/" + input_username)
+                                control.remove_record('/desk/'+input_username,'/etc/permtab')
                             colors.show('', 'ok', "Remove '" + input_username + "' user account.")
             else:
                 colors.show("udel", "perm", "")
