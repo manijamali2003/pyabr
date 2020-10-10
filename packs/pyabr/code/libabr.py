@@ -375,7 +375,7 @@ class Commands:
         bold = colors.color(1, colors.get_bgcolor(), colors.get_fgcolor())
 
         print("        Static hostname: " + bold + files.readall("/proc/info/host") + colors.get_colors())
-        print("        cloud software: " + bold + files.readall("/proc/info/cs") + " " + files.readall(
+        print("         cloud software: " + bold + files.readall("/proc/info/cs") + " " + files.readall(
             "/proc/info/ver") + " (" + files.readall("/proc/info/cd") + ")" + colors.get_colors())
         print("             Build date: " + bold + files.readall("/proc/info/bl") + colors.get_colors())
         print("       Operating System: " + bold + files.readall("/proc/info/os") + colors.get_colors())
@@ -908,29 +908,51 @@ class Commands:
         src = args[0]
         dest = args[1]
 
-        ## Check block ##
-        if not files.isfile ('/dev/'+src) or not src.startswith ("ic") or not src.startswith("nc"):
-            colors.show("mount", "fail", "unknown device block.")
+        ## already mounted ##
+        if files.readall('/etc/fstab') == src:
+            colors.show('mount','warning',src+": was already mounted.")
             sys.exit(0)
 
-        # type block check #
-        tb = 'ic'
-
-        if src.startswith("ic"): tb = 'ic'
-        else:
-            tb = 'nc'
+        ## Check block ##
+        if not files.isfile (src):
+            colors.show("mount", "fail", "unknown device block.")
+            sys.exit(0)
 
         # check dest #
         if files.isfile (dest):
             colors.show("mount", "fail", dest+": dest is a file.")
             sys.exit(0)
 
-        if files.isdir(dest):
-            colors.show("mount", "fail", dest + ": dest is a file.")
+        if not files.isdir(dest): files.mkdir(dest)
+
+        # get raw #
+
+        control.write_record(dest,src,'/etc/fstab')
+
+    def umount (self,args):
+        modules = Modules()
+        files = Files()
+        control = Control()
+        colors = Colors()
+        process = Process()
+        permissions = Permissions()
+
+        ## Check root ##
+        if not permissions.check_root(files.readall("/proc/info/su")):
+            colors.show("umount", "perm", "")
             sys.exit(0)
 
-        # ################### not done ################ #
+        ## Check inputs ##
+        if args == []:
+            colors.show("umount", "fail", "no inputs.")
+            sys.exit(0)
 
+        ## check mount point ##
+        if not files.readall('/etc/fstab')==args[0]:
+           colors.show('umount','fail',args[0]+': mount point not found.')
+           sys.exit(0)
+
+        ## not done ##
 
     ## passwd ##
     def passwd (self,args):
