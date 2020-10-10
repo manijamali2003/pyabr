@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="SVGRoot"
+   version="1.1"
+   viewBox="0 0 128.0 128.0"
+   height="128.0px"
+   width="128.0px"
+   inkscape:version="1.0 (6e3e5246a0, 2020-05-07)"
+   sodipodi:docname="calculator.svg">
+  <defs
+     id="defs833">
+    <rect
+       id="rect873"
+       height="64.035156"
+       width="75.496296"
+       y="47"
+       x="34" />
+    <rect
+       x="34"
+       y="47"
+       width="75.4963"
+       height="64.035156"
+       id="rect873-6" />
+    <rect
+       x="34"
+       y="47"
+       width="75.4963"
+       height="64.035156"
+       id="rect886" />
+    <rect
+       x="34"
+       y="47"
+       width="75.4963"
+       height="64.035156"
+       id="rect873-5" />
+    <rect
+       x="34"
+       y="47"
+       width="75.4963"
+       height="64.035156"
+       id="rect915" />
+    <rect
+       id="rect873-6-5"
+       height="64.035156"
+       width="75.4963"
+       y="47"
+       x="34" />
+    <rect
+       id="rect944"
+       height="64.035156"
+       width="75.4963"
+       y="47"
+       x="34" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="7.2407734"
+     inkscape:cx="51.15753"
+     inkscape:cy="59.520327"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       id="grid1403"
+       type="xygrid" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata836">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="opacity:0.825443;fill:#646464;fill-opacity:1;stroke:#000000;stroke-opacity:0.160751"
+       id="rect1410"
+       width="80"
+       height="80"
+       x="25"
+       y="20"
+       ry="15" />
+    <rect
+       ry="15"
+       y="25"
+       x="30"
+       height="30"
+       width="70"
+       id="rect900"
+       style="fill:#646464;fill-opacity:1;stroke-width:6.02495" />
+    <rect
+       ry="7.5"
+       y="60"
+       x="80"
+       height="35"
+       width="15"
+       id="rect904"
+       style="fill:#fddc64;fill-opacity:1;stroke-width:5.04083" />
+    <rect
+       style="fill:#fdaf00;fill-opacity:1;stroke-width:3.3"
+       id="rect904-3"
+       width="15"
+       height="15"
+       x="60"
+       y="60"
+       ry="7.5" />
+    <rect
+       ry="7.5"
+       y="60"
+       x="40"
+       height="15"
+       width="15"
+       id="rect904-3-6"
+       style="fill:#fdaf00;fill-opacity:1;stroke-width:3.3" />
+    <rect
+       ry="7.5"
+       y="80"
+       x="40"
+       height="15"
+       width="15"
+       id="rect904-3-7"
+       style="fill:#fdaf00;fill-opacity:1;stroke-width:3.3" />
+    <rect
+       ry="7.5"
+       y="80"
+       x="60"
+       height="15"
+       width="15"
+       id="rect904-3-5"
+       style="fill:#fdaf00;fill-opacity:1;stroke-width:3.3" />
+    <rect
+       ry="2.5"
+       y="65"
+       x="45"
+       height="5"
+       width="10"
+       id="rect951"
+       style="fill:#fdaf00;fill-opacity:1;stroke-width:5.5" />
+  </g>
+</svg>
