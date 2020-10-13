@@ -46,9 +46,9 @@ class variables:
     submenu_direction = 'ltr'
     submenu_fontsize = 12
     titlebar_close = '@icon/close'
-    titlebar_close_hover = '@icon/close-hover'
+    titlebar_close_hover = 'red'
     titlebar_float = '@icon/float'
-    titlebar_float_hover = '@icon/float-hover'
+    titlebar_float_hover = '#ABCDEF'
     titlebar_bgcolor = '#123456'
     titlebar_fgcolor = 'white'
     taskbar_pins = 'calculator,pyshell,calendar'
@@ -1611,17 +1611,19 @@ class AppWidget (QMainWindow):
         # float button #
         self.btnMax = QToolButton()
         self.btnMax.setIcon(QIcon(res.get(variables.titlebar_float)))
+        self.btnMax.setMinimumSize(variables.app_title_size-15,variables.app_title_size-15)
         self.btnMax.setGeometry(self.titlebar.width()-100,0,variables.app_title_size,variables.app_title_size)
         self.btnMax.clicked.connect(self.ShowMaximize)
-        self.btnMax.setStyleSheet(
-            'QToolButton {border-radius: ' + str(variables.app_title_size / 2) + "% " + str(variables.app_title_size / 2) + "%;} QToolButton:hover {border-radius: " + str(variables.app_title_size / 2) + "% " + str(variables.app_title_size / 2) + "%;background-color: "+variables.titlebar_float_hover+"}")
+        self.btnMax.setStyleSheet('QToolButton {border-radius: {0}% {0}%;} QToolButton::hover {border-radius: {0}% {0}%;background-color: {1}}'.replace("{1}",variables.titlebar_float_hover).replace("{0}",str(int((variables.app_title_size-15)/2))))
+
         self.layouts.addWidget(self.btnMax)
 
         self.btnEscape = QToolButton()
         self.btnEscape.setIcon(QIcon(res.get(variables.titlebar_close)))
+        self.btnEscape.setMinimumSize(variables.app_title_size-15, variables.app_title_size-15)
         self.btnEscape.setGeometry(self.titlebar.width()-variables.app_title_size,0,variables.app_title_size,variables.app_title_size)
         self.btnEscape.clicked.connect (self.Close)
-        self.btnEscape.setStyleSheet('QToolButton {border-radius: '+str(variables.app_title_size/2)+"% "+str(variables.app_title_size/2)+ "%;} QToolButton:hover {border-radius: " + str(variables.app_title_size / 2) + "% " + str(variables.app_title_size / 2) + "%;background-color: "+variables.titlebar_close_hover+"}")
+        self.btnEscape.setStyleSheet('QToolButton {border-radius: {0}% {0}%;} QToolButton::hover {border-radius: {0}% {0}%;background-color: {1}}'.replace("{1}",variables.titlebar_close_hover).replace("{0}",str(int((variables.app_title_size-15)/2))))
         self.layouts.addWidget(self.btnEscape)
 
         # center widget #

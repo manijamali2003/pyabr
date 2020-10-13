@@ -128,14 +128,20 @@ class MainApp(QtWidgets.QMainWindow):
 
         cmd = strcmdln
 
-        if cmd=="shut":
+        if cmd==" shut":
             files.remove ('/proc/'+str(self.switch))
             self.Widget.close()
-        elif cmd=="new":
+        elif cmd==" new":
             self.Env.RunApp('commento')
-        elif cmd=="clear":
+        elif cmd==" clear":
             self.textBrowser.clear()
-        elif cmd.startswith('#') or cmd.startswith(";") or cmd.startswith("//") or (cmd.startswith("/*")and cmd.endswith("*/")):
+        elif cmd==" shutdown":
+            self.Env.escape_act()
+        elif cmd==" reboot":
+            self.Env.reboot_act()
+        elif cmd==" logout":
+            self.Env.signout_act()
+        elif cmd.startswith(' #') or cmd.startswith(" ;") or cmd.startswith(" //") or (cmd.startswith(" /*")and cmd.endswith("*/")):
             pass
         elif cmd=='' or cmd==' ' or cmd=='  ':
             pass

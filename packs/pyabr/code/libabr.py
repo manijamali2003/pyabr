@@ -425,6 +425,16 @@ class Commands:
                 else:
                     colors.show("cat", "perm", "")
 
+        ## Write in lines
+        elif option == '-l':
+            if files.isdir(name):
+                colors.show("cat", "fail", name + ": is a directory.")
+            else:
+                if permissions.check(files.output(name), "w", files.readall("/proc/info/su")):
+                    files.write(name,cmdln[3])
+                else:
+                    colors.show("cat", "perm", "")
+
         ## Write into files ##
         elif option == '-w':
             if files.isdir(name):

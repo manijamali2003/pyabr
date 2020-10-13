@@ -27,6 +27,7 @@ class MainApp(QLineEdit):
     def RunApp (self):
         if files.isfile ("/usr/share/applications/"+self.text()+".desk"):
             self.Env.RunApp(self.text())
+            self.setEnabled(False)
             QTimer.singleShot(1000, self.correct)
         else:
             self.Widget.SetWindowTitle(res.get('@string/app_not_found').replace('{0}',self.text()))

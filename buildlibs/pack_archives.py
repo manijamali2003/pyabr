@@ -83,3 +83,9 @@ def unpack (name):
     shutil.unpack_archive('app/cache/archives/build/code.tar.xz','stor/usr/src/'+name,'xztar')
     print ("Done")
     clean()
+
+def install ():
+    list = os.listdir('packs')
+    for i in list:
+        build(i)
+        unpack(i)

@@ -36,33 +36,7 @@ if not os.path.isdir ("build-packs"): os.mkdir ("build-packs")
 
 # build #
 
-pack.build ("pyabr")
-pack.unpack ('pyabr')
-
-pack.build ("baran")
-pack.unpack ('baran')
-
-pack.build ("paye")
-pack.unpack ('paye')
-
-pack.build('pyshell')
-pack.unpack('pyshell')
-
-pack.build('calendar')
-pack.unpack('calendar')
-
-pack.build('calculator')
-pack.unpack('calculator')
-
-
-pack.build('runapp')
-pack.unpack('runapp')
-
-pack.build('pysys')
-pack.unpack('pysys')
-
-pack.build('commento')
-pack.unpack('commento')
+pack.install()
 
 # run #
 i = input('Choose your kernel parameter ([G]UI, [C]Li, [R]OOT, G[U]ST, Default): ')

@@ -37,37 +37,7 @@ if not os.path.isdir ("stor"):
 
 if not os.path.isdir ("build-packs"): os.mkdir ("build-packs")
 
-# build #
-pack.build ("pyabr")
-pack.unpack ('pyabr')
-
-pack.build ("baran")
-pack.unpack ('baran')
-
-pack.build ("paye")
-pack.unpack ('paye')
-
-pack.build('pyshell')
-pack.unpack('pyshell')
-
-
-pack.build('calendar')
-pack.unpack('calendar')
-
-
-pack.build('calculator')
-pack.unpack('calculator')
-
-
-pack.build('runapp')
-pack.unpack('runapp')
-
-
-pack.build('commento')
-pack.unpack('commento')
-
-pack.build('setup')
-pack.unpack('setup')
+pack.install()
 
 if platform.system()=='Linux' and platform.node()=='localhost':
 	os.remove('stor/vmabr.pyc')
