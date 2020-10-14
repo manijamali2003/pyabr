@@ -37,16 +37,46 @@ if not os.path.isdir ("stor"):
 
 if not os.path.isdir ("build-packs"): os.mkdir ("build-packs")
 
-pack.install()
-pack.inst('baran')
+plat = input('Choose your platform to install (Linux and Windows etc: 0, Termux: 1, PyDroid: 2): ')
 
-if platform.system()=='Linux' and platform.node()=='localhost':
+if plat=='1':
+	pack.inst('pyabr')
+	pack.inst('pyabr_cli')
+	pack.inst('paye')
+	pack.inst('setup_cli')
+	shutil.make_archive('pyabr-for-termux', 'zip', 'stor')
+elif plat=='2':
+	pack.inst('pyabr')
+	pack.inst('paye')
+	pack.inst('calculator')
+	pack.inst('calendar')
+	pack.inst('numix')
+	pack.inst('commento')
+	pack.inst('roller')
+	pack.inst('runapp')
+	pack.inst('paye')
+	pack.inst('baran')
+	pack.inst('setup')
 	os.remove('stor/vmabr.pyc')
 	shutil.copyfile('packs/pyabr/code/vmabr.py','stor/vmabr.py')
+	shutil.make_archive('pyabr-for-pydroid', 'zip', 'stor')
+else:
+	pack.inst('pyabr')
+	pack.inst('paye')
+	pack.inst('calculator')
+	pack.inst('calendar')
+	pack.inst('numix')
+	pack.inst('commento')
+	pack.inst('roller')
+	pack.inst('pyshell')
+	pack.inst('pysys')
+	pack.inst('runapp')
+	pack.inst('paye')
+	pack.inst('baran')
+	pack.inst('setup')
+	shutil.make_archive('pyabr', 'zip', 'stor')
 
 # clean #
 if os.path.isdir('app'): shutil.rmtree('app')
 if os.path.isdir('build-packs'): shutil.rmtree('build-packs')
-if os.path.isdir('stor'):
-	shutil.make_archive('your-pyabr', 'zip', 'stor')
-	shutil.rmtree('stor')
+if os.path.isdir('stor'): shutil.rmtree('stor')

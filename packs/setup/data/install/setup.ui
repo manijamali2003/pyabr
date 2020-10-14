@@ -34,50 +34,6 @@
     </property>
    </widget>
   </widget>
-  <widget class="QWizardPage" name="wizardPage2">
-   <widget class="QLineEdit" name="leLocation">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>200</y>
-      <width>395</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btnLocation">
-    <property name="geometry">
-     <rect>
-      <x>450</x>
-      <y>200</y>
-      <width>100</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">\</string>
-    </property>
-    <property name="text">
-     <string>Browse</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>50</x>
-      <y>180</y>
-      <width>500</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Choose current location for install Pyabr</string>
-    </property>
-   </widget>
-  </widget>
   <widget class="QWizardPage" name="wizardPage">
    <widget class="QLineEdit" name="lePassword">
     <property name="geometry">

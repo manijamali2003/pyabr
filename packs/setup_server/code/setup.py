@@ -180,6 +180,7 @@ loginw.enter.height: 60
 loginw.unlock.height: 60
 splash.logo: @icon/pyabr-logo
 splash.logo-size: 300
+loginw.userlogo: @icon/account
     ''')
     file.close()
 # finish
@@ -187,10 +188,9 @@ splash.logo-size: 300
 finish = input('Installaction of Pyabr was done; do you want to reboot? [Y/n]: ')
 
 if finish.lower()=='y':
-    os.remove('setup.py')
-    os.remove('setup-server.py')
+    os.remove('setup.pyc')
     subprocess.call([sys.executable,'vmabr.pyc'])
     sys.exit(0)
 else:
-    os.remove('setup.py')
+    os.remove('setup.pyc')
     sys.exit(0)

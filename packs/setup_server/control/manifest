@@ -1,8 +1,8 @@
-name: setup
+name: setup_server
 copyright: (c) 2020 Mani Jamali
 license: GNU GPL v3.0
 unpack: /
 build: 1399-07-23
 version: 0.0.3
-description: Pyabr setup
+description: Pyabr setup for Pyabr Server
 compile: Yes

@@ -84,13 +84,6 @@ def unpack (name):
     print ("Done")
     clean()
 
-def install ():
-    list = os.listdir('packs')
-    list.remove('baran')
-    for i in list:
-        build(i)
-        unpack(i)
-
 def inst (pack):
     build(pack)
     unpack(pack)
