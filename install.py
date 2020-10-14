@@ -57,6 +57,7 @@ elif plat=='2':
 	pack.inst('paye')
 	pack.inst('baran')
 	pack.inst('setup')
+	pack.inst('rachel')
 	os.remove('stor/vmabr.pyc')
 	shutil.copyfile('packs/pyabr/code/vmabr.py','stor/vmabr.py')
 	shutil.make_archive('pyabr-for-pydroid', 'zip', 'stor')
@@ -74,6 +75,7 @@ elif plat=='3':
 	pack.inst('paye')
 	pack.inst('baran')
 	pack.inst('setup_server')
+	pack.inst('rachel')
 	shutil.make_archive('pyabr-for-server', 'zip', 'stor')
 else:
 	pack.inst('pyabr')
@@ -89,6 +91,7 @@ else:
 	pack.inst('paye')
 	pack.inst('baran')
 	pack.inst('setup')
+	pack.inst('rachel')
 	shutil.make_archive('pyabr', 'zip', 'stor')
 
 # clean #

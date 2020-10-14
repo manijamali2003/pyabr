@@ -195,8 +195,6 @@ splash.logo-size: 300
             ''')
             file.close()
 
-    os.remove('configure.pyc')
-    os.remove('configure-inserver.pyc')
     shutil.rmtree('install')
     os.remove('app/packages/setup.compile')
     os.remove('app/packages/setup.list')

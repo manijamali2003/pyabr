@@ -188,9 +188,17 @@ loginw.userlogo: @icon/account
 finish = input('Installaction of Pyabr was done; do you want to reboot? [Y/n]: ')
 
 if finish.lower()=='y':
+    shutil.rmtree('install')
+    os.remove('app/packages/setup_server.compile')
+    os.remove('app/packages/setup_server.list')
+    os.remove('app/packages/setup_server.manifest')
     os.remove('setup.pyc')
     subprocess.call([sys.executable,'vmabr.pyc'])
     sys.exit(0)
 else:
+    shutil.rmtree('install')
+    os.remove('app/packages/setup_server.compile')
+    os.remove('app/packages/setup_server.list')
+    os.remove('app/packages/setup_server.manifest')
     os.remove('setup.pyc')
     sys.exit(0)

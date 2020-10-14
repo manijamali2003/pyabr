@@ -1,3 +1,5 @@
+from libabr import Files
+files = Files()
 #The chatDict, it can be empty, or you can add some manual q/a into it.
 chatDict = {
         'you ok?':'yeah im ok',
@@ -13,7 +15,7 @@ chatDict = {
 
 try:
     #Loading dataset
-    with open('./chatDataset/set.txt','r') as datasetFile:
+    with open(files.input('/usr/share/rachel/set.txt'),'r') as datasetFile:
         dataset = datasetFile.read()
     lines = dataset.splitlines()
     errors = 0
