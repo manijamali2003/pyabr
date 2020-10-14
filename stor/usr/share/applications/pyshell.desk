@@ -1,6 +1,0 @@
-name[en]: Python shell
-name[fa]: مفسر پایتون
-name[ar]: قذيفة بايثون
-logo: @icon/python
-exec: pyshell
-#shortcut: Ctrl+C

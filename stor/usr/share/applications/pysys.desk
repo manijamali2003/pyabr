@@ -1,6 +1,0 @@
-name[en]: Power Options
-name[fa]: تنظیمات خاموش/روشن
-name[ar]: خيارات الطاقة
-logo: @icon/pysys
-exec: pysys
-shortcut: Esc
