@@ -1,0 +1,8 @@
+name: numix
+copyright: (c) Debian Desktop Theme Team
+license: GNU GPL v3.+
+unpack: /
+build: 1399-07-22
+version: 20.06.07
+description: The Numix Icon Theme
+compile: No

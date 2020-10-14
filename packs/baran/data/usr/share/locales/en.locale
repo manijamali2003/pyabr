@@ -21,6 +21,7 @@ March: March
 April: April
 May: May
 June: June
+July: July
 August: August
 September: September
 October: October
@@ -43,6 +44,7 @@ desktop.switchuser: Switch user
 desktop.lock: Lock
 desktop.escape: Escape
 desktop.restart: Restart
+desktop.unlock_hint: Enter your password
 desktop.sleep: Sleep
 pyshell.app_name: PyShell
 calendar.app_name: Calendar

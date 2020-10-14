@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>frmSetup</class>
+ <widget class="QWizard" name="frmSetup">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>616</width>
+    <height>465</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Pyabr installer</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:white;</string>
+  </property>
+  <widget class="QWizardPage" name="wizardPage1">
+   <property name="styleSheet">
+    <string notr="true">background-image: url(setup.png);</string>
+   </property>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>-10</x>
+      <y>-10</y>
+      <width>612</width>
+      <height>411</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-image: url(setup.png);</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWizardPage" name="wizardPage2">
+   <widget class="QLineEdit" name="leLocation">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>200</y>
+      <width>395</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 15% 15%;border-style: solid;border-color: gray;border-width: 1%;</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnLocation">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>200</y>
+      <width>100</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 15% 15%;border-style: solid;border-color: gray;border-width: 1%;</string>
+    </property>
+    <property name="text">
+     <string>Browse</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>180</y>
+      <width>500</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Choose current location for install Pyabr</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QWizardPage" name="wizardPage">
+   <widget class="QLineEdit" name="lePassword">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>220</y>
+      <width>341</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 15% 15%;border-style: solid;border-color: gray;border-width: 1%;</string>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>200</y>
+      <width>331</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>New Password</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>140</y>
+      <width>500</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pick an username</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="leUsername">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>160</y>
+      <width>341</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 15% 15%;border-style: solid;border-color: gray;border-width: 1%;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>80</y>
+      <width>251</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>New Root password</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="leRootCode">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>100</y>
+      <width>245</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 15% 15%;border-style: solid;border-color: gray;border-width: 1%;</string>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_5">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>260</y>
+      <width>341</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Confirm the new password</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="leConfirmPassword">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>280</y>
+      <width>341</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 15% 15%;border-style: solid;border-color: gray;border-width: 1%;</string>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="chGuest">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>140</y>
+      <width>150</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Enable Guest user</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>20</y>
+      <width>341</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Hostname</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="leHostname">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>40</y>
+      <width>341</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 15% 15%;border-style: solid;border-color: gray;border-width: 1%;</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cmUI">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>190</y>
+      <width>151</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <item>
+     <property name="text">
+      <string>Graphical User Interface</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Command Line Interface</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>170</y>
+      <width>341</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Choose the user interface</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="leConfirmRootCode">
+    <property name="geometry">
+     <rect>
+      <x>305</x>
+      <y>100</y>
+      <width>245</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 15% 15%;border-style: solid;border-color: gray;border-width: 1%;</string>
+    </property>
+    <property name="echoMode">
+     <enum>QLineEdit::Password</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>80</y>
+      <width>251</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Confirm the new root password</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>220</y>
+      <width>341</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Choose language</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cmLang">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>240</y>
+      <width>151</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>English</string>
+     </property>
+    </item>
+   </widget>
+  </widget>
+  <widget class="QWizardPage" name="wizardPage_3">
+   <widget class="QLineEdit" name="leLastName">
+    <property name="geometry">
+     <rect>
+      <x>295</x>
+      <y>90</y>
+      <width>245</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 15% 15%;border-style: solid;border-color: gray;border-width: 1%;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_11">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>70</y>
+      <width>251</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Last name</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>70</y>
+      <width>251</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>First name</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_13">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>130</y>
+      <width>500</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Email address</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="leEmail">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>150</y>
+      <width>500</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 15% 15%;border-style: solid;border-color: gray;border-width: 1%;</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="leFirstName">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>90</y>
+      <width>245</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 15% 15%;border-style: solid;border-color: gray;border-width: 1%;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_14">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>190</y>
+      <width>331</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Phone number</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lePhone">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>210</y>
+      <width>500</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 15% 15%;border-style: solid;border-color: gray;border-width: 1%;</string>
+    </property>
+   </widget>
+   <zorder>leLastName</zorder>
+   <zorder>label_11</zorder>
+   <zorder>label_12</zorder>
+   <zorder>label_13</zorder>
+   <zorder>leFirstName</zorder>
+   <zorder>label_14</zorder>
+   <zorder>lePhone</zorder>
+   <zorder>leEmail</zorder>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

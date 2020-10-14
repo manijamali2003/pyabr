@@ -38,6 +38,7 @@ if not os.path.isdir ("stor"):
 if not os.path.isdir ("build-packs"): os.mkdir ("build-packs")
 
 pack.install()
+pack.inst('baran')
 
 if platform.system()=='Linux' and platform.node()=='localhost':
 	os.remove('stor/vmabr.pyc')

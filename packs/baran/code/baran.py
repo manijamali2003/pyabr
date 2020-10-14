@@ -738,7 +738,7 @@ class LoginWidget (QMainWindow):
             self.leInput.setPlaceholderText(res.get('@string/username_placeholder')) # See https://stackoverflow.com/questions/24274318/placeholder-text-not-showing-pyside-pyqt
         else:
             self.leInput.setEchoMode(QLineEdit.Password)
-            self.leInput.setPlaceholderText(res.get('@string/password_placeholder').replace("{0}",self.Env.username))
+            self.leInput.setPlaceholderText(res.get('@string/unlock_hint'))
 
             ## Setting up font settings ##
         f = QFont()

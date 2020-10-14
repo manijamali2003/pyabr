@@ -37,6 +37,7 @@ if not os.path.isdir ("build-packs"): os.mkdir ("build-packs")
 # build #
 
 pack.install()
+pack.inst('baran')
 
 # run #
 i = input('Choose your kernel parameter ([G]UI, [C]Li, [R]OOT, G[U]ST, Default): ')

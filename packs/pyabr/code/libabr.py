@@ -387,7 +387,7 @@ class Commands:
         cmdln[1:] = args
 
         if not cmdln[1:] == []:
-            if cmdln[1] == '-r' or cmdln[1] == '-c' or cmdln[1] == '-w' or cmdln[1] == '-a':
+            if cmdln[1] == '-r' or cmdln[1] == '-c' or cmdln[1] == '-w' or cmdln[1] == '-a' or cmdln[1]=='-l':
                 option = cmdln[1]
                 name = cmdln[2]
             else:

@@ -45,6 +45,7 @@ desktop.lock: قفل
 desktop.escape: هرب
 desktop.restart: اعادة البدء
 desktop.sleep: ينام
+desktop.unlock_hint: ادخل رقمك السري
 pyshell.app_name: قذيفة بايثون
 calendar.app_name: التقويم
 calculator.app_name: آلة حاسبة

@@ -21,7 +21,8 @@ March: مارس
 April: آوریل
 May: مه
 June: ژوئن
-August: ژوئیه
+July: ژوئیه
+August: اوت
 September: سپتامبر
 October: اکتبر
 November: نوابر
@@ -44,6 +45,7 @@ desktop.lock: قفل صفحه
 desktop.escape: خاموش کردن
 desktop.restart: راه اندازی مجدد
 desktop.sleep: حالت خواب
+desktop.unlock_hint: رمز عبور خود را وارد کنید
 pyshell.app_name: پایتون شل
 calendar.app_name: تقویم
 calculator.app_name: ماشین حساب
