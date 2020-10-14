@@ -2519,7 +2519,7 @@ class Files:
         file.close()
 
     def readall(self,filename):
-        file = open(self.input(filename), "r")
+        file = open(self.input(filename), "r",encoding='utf-8')
         strv = file.read()
         file.close()
         return strv
