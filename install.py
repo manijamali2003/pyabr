@@ -37,7 +37,7 @@ if not os.path.isdir ("stor"):
 
 if not os.path.isdir ("build-packs"): os.mkdir ("build-packs")
 
-plat = input('Choose your platform to install (Linux and Windows etc: 0, Termux: 1, PyDroid: 2): ')
+plat = input('Choose your platform to install (Linux and Windows etc: 0, Termux: 1, PyDroid: 2, Server: 3): ')
 
 if plat=='1':
 	pack.inst('pyabr')
@@ -60,6 +60,21 @@ elif plat=='2':
 	os.remove('stor/vmabr.pyc')
 	shutil.copyfile('packs/pyabr/code/vmabr.py','stor/vmabr.py')
 	shutil.make_archive('pyabr-for-pydroid', 'zip', 'stor')
+elif plat=='3':
+	pack.inst('pyabr')
+	pack.inst('paye')
+	pack.inst('calculator')
+	pack.inst('calendar')
+	pack.inst('numix')
+	pack.inst('commento')
+	pack.inst('roller')
+	pack.inst('pyshell')
+	pack.inst('pysys')
+	pack.inst('runapp')
+	pack.inst('paye')
+	pack.inst('baran')
+	pack.inst('setup_server')
+	shutil.make_archive('pyabr-for-server', 'zip', 'stor')
 else:
 	pack.inst('pyabr')
 	pack.inst('paye')

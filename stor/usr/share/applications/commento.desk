@@ -1,0 +1,6 @@
+name[en]: Terminal
+name[fa]: پایانه
+name[ar]: محطة
+logo: @icon/commento
+exec: commento
+#shortcut: Ctrl+C

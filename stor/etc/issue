@@ -1,0 +1,18 @@
+       In the name of God, the Compassionate, the Merciful
+  Pyabr (c) 2020 Pasand team. Free software license GNU GPL v3.0
+
+  Welcome to Pyabr!
+
+  * Offical website:              http://www.itpasand.com
+  * Git source:                   https://github.com/pasandteam/pyabr
+  * Telegram or Gap Channels:     @pyabr
+  * Telegram or Gap Groups:       @pyabr_community
+
+  Working with packages:
+  
+  * Install packages:       paye -i [package]
+  * Remove packages:        paye -r [package]
+
+  Root enviroment:
+
+  * Please use su root [password] or sudo [command] for run commands as root

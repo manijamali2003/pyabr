@@ -84,6 +84,17 @@ def unpack (name):
     print ("Done")
     clean()
 
+def install ():
+    list = os.listdir('packs')
+    list.remove('baran')
+    list.remove('setup')
+    list.remove('pyabr_cli')
+    list.remove('setup_server')
+    list.remove('setup_cli')
+    for i in list:
+        build(i)
+        unpack(i)
+
 def inst (pack):
     build(pack)
     unpack(pack)

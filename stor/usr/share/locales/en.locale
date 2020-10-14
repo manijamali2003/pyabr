@@ -1,0 +1,61 @@
+0: 0
+1: 1
+2: 2
+3: 3
+4: 4
+5: 5
+6: 6
+7: 7
+8: 8
+9: 9
+Sat: Saturday
+Sun: Sunday
+Mon: Monday
+Tue: Tuesday
+Wed: Wednesday
+Thu: Thursday
+Fri: Friday
+January: January
+February: February
+March: March
+April: April
+May: May
+June: June
+July: July
+August: August
+September: September
+October: October
+November: November
+December: December
+desktop.username_placeholder: Enter an username
+desktop.password_placeholder: Enter {0}'s password
+desktop.user_not_found: {0} user not found
+desktop.wrong_password: Password is not correct. Try again
+desktop.next_text: Next
+desktop.enter_text: Login
+desktop.unlock_text: Unlock
+desktop.appmenu: Applications
+desktop.etcmenu: Etcetra
+desktop.guest: Guest Account
+desktop.powermenu: Power Options
+desktop.accountsettings: Account Settings
+desktop.signout: Sign out
+desktop.switchuser: Switch user
+desktop.lock: Lock
+desktop.escape: Escape
+desktop.restart: Restart
+desktop.unlock_hint: Enter your password
+desktop.sleep: Sleep
+pyshell.app_name: PyShell
+calendar.app_name: Calendar
+calculator.app_name: Calculator
+runapp.app_name: App Runner
+runapp.app_not_found: {0} application not found
+pysys.signout: Sign out
+pysys.switchuser: Switch user
+pysys.lock: Lock
+pysys.escape: Escape
+pysys.restart: Restart
+pysys.sleep: Sleep
+pysys.app_name: Power Options
+commento.app_name: Terminal
