@@ -44,6 +44,7 @@ if plat=='1':
 	pack.inst('pyabr_cli')
 	pack.inst('paye')
 	pack.inst('setup_cli')
+	pack.inst('rachel')
 	shutil.make_archive('pyabr-for-termux', 'zip', 'stor')
 elif plat=='2':
 	pack.inst('pyabr')
