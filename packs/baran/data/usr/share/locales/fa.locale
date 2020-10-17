@@ -59,3 +59,4 @@ pysys.restart: راه اندازی مجدد
 pysys.sleep: حالت خواب
 pysys.app_name: تنظیمات خاموش/روشن
 commento.app_name: پایانه
+roller.app_name: فایل ها

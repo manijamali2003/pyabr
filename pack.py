@@ -1,6 +1,6 @@
 #######################################################################################
 #  In the name of God, the Compassionate, the Merciful
-#  Pyabr (c) 2020 Pasand team. GNU General Public License v3.0
+#  Pyabr (c) 2020 Mani Jamali. GNU General Public License v3.0
 #
 #  Programmer & Creator:    Mani Jamali <manijamali2003@gmail.com>
 #  Telegram or Gap channel: @pyabr
@@ -13,23 +13,23 @@ import os, shutil
 from buildlibs import control
 
 name = control.read_record('name','packs/pyabr/data/etc/distro')
-build = control.read_record('build','packs/pyabr/data/etc/distro')
-version = control.read_record('version','packs/pyabr/data/etc/distro')
 
 if os.path.isdir ('pack-release'):
     shutil.rmtree('pack-release')
-    os.mkdir('pack-release')
 
-shutil.copytree('buildlibs','pack-release/buildlibs')
-shutil.copytree('packs','pack-release/packs')
-shutil.copyfile('debug.py','pack-release/debug.py')
-shutil.copyfile('install.py','pack-release/install.py')
-shutil.copyfile('LICENSE','pack-release/LICENSE')
-shutil.copyfile('AUTHERS','pack-release/AUTHERS')
-shutil.copyfile('pack.py','pack-release/pack.py')
-shutil.copyfile('termux.py','pack-release/termux.py')
-shutil.copyfile('README.md','pack-release/README.md')
-shutil.copyfile('requirments.txt','pack-release/requirments.txt')
+os.mkdir('pack-release')
 
-shutil.make_archive(name+'-'+version+'-'+build,'zip','pack-release')
+list = os.listdir('.')
+list.remove('.git')
+list.remove('.idea')
+list.remove('pack-release')
+
+for i in list:
+    if os.path.isdir(i):
+        shutil.copytree(i,'pack-release/'+i)
+    else:
+        shutil.copyfile(i, 'pack-release/'+i)
+
+shutil.make_archive(name,'zip','pack-release')
+shutil.make_archive(name,'xztar','pack-release')
 shutil.rmtree('pack-release')

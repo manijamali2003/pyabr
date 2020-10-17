@@ -1,6 +1,6 @@
 #######################################################################################
 #  In the name of God, the Compassionate, the Merciful
-#  Pyabr (c) 2020 Pasand team. GNU General Public License v3.0
+#  Pyabr (c) 2020 Mani Jamali. GNU General Public License v3.0
 #
 #  Programmer & Creator:    Mani Jamali <manijamali2003@gmail.com>
 #  Telegram or Gap channel: @pyabr
@@ -45,12 +45,6 @@ class variables:
     submenu_bgcolor = 'white'
     submenu_direction = 'ltr'
     submenu_fontsize = 12
-    titlebar_close = '@icon/close'
-    titlebar_close_hover = 'red'
-    titlebar_float = '@icon/float'
-    titlebar_float_hover = '#ABCDEF'
-    titlebar_bgcolor = '#123456'
-    titlebar_fgcolor = 'white'
     taskbar_pins = 'calculator,pyshell,calendar'
     taskbar_location = 'bottom'
     taskbar_size = 50
@@ -58,7 +52,7 @@ class variables:
     taskbar_float = 'Yes'
     backend_color = '#000000'
     backend_timeout = 1000
-    splash_color = '#ABCDEF'
+    splash_color = '#FFFFFF'
     splash_timeout = 3000
     fullscreen = True
     width = width
@@ -139,6 +133,12 @@ class variables:
     app_title_close_hover = "red"
     app_shadow = "Yes"
     app_logo = "@icon/app"
+    app_bgcolor = "#FFFFFF"
+    app_fgcolor = "#000000"
+    app_menu_bgcolor = "#FFFFFF"
+    app_menu_fgcolor = "#000000"
+    app_menu_bgcolor_pressed = "#ABCDEF"
+    app_menu_fgcolor_pressed = "#FFFFFF"
 
 ## ## ## ## ##
 
@@ -1402,118 +1402,6 @@ class TaskBar (QToolBar):
         sender = self.sender().objectName()
         self.Env.RunApp (sender)
 
-## Application ##
-class Application (QDockWidget):
-    def __init__(self,ports):
-        super(Application, self).__init__()
-
-        self.Backend = ports[0]
-        self.Env = ports[1]
-        self.App = ports[2]
-
-        self.username = self.Env.username
-
-        app.start(self.App) # start the application
-
-        self.setObjectName(self.App)
-
-        exec = control.read_record('exec','/usr/share/applications/'+self.App+".desk")
-
-        if not exec==None:
-            exec = importlib.import_module(exec)
-        else:
-            self.close()
-
-        self.setWidget(exec.MainApp([self.Backend,self.Env,self]))
-
-        close = getdata('titlebar.close')
-        if not self.Env.username == 'guest':
-            value = control.read_record('titlebar.close', '/etc/users/' + self.username)
-            if not value == None: close = value
-        if close == None: close = variables.titlebar_close
-
-        close_hover = getdata('titlebar.close-hover')
-        if not self.Env.username == 'guest':
-            value = control.read_record('titlebar.close-hover', '/etc/users/' + self.username)
-            if not value == None: close_hover = value
-        if close_hover == None: close_hover = variables.titlebar_close_hover
-
-        float = getdata('titlebar.float')
-        if not self.Env.username == 'guest':
-            value = control.read_record('titlebar.float', '/etc/users/' + self.username)
-            if not value == None: float = value
-        if float == None: float = variables.titlebar_float
-
-        float_hover = getdata('titlebar.float-hover')
-        if not self.Env.username == 'guest':
-            value = control.read_record('titlebar.float-hover', '/etc/users/' + self.username)
-            if not value == None: float_hover = value
-        if float_hover == None: float_hover = variables.titlebar_float_hover
-
-        bgcolor = getdata('titlebar.bgcolor')
-        if not self.Env.username == 'guest':
-            value = control.read_record('titlebar.bgcolor', '/etc/users/' + self.username)
-            if not value == None: bgcolor = value
-        if bgcolor == None: bgcolor = variables.titlebar_bgcolor
-
-        fgcolor = getdata('titlebar.fgcolor')
-        if not self.Env.username == 'guest':
-            value = control.read_record('titlebar.fgcolor', '/etc/users/' + self.username)
-            if not value == None: fgcolor = value
-        if fgcolor == None: fgcolor = variables.titlebar_fgcolor
-
-        self.setStyleSheet('''
-/* see: https://stackoverflow.com/questions/32145080/qdockwidget-float-close-button-hover-images */
-QDockWidget { 
-    background: rgb(36,38,41);
-    titlebar-close-icon: url({close});
-    titlebar-normal-icon: url({float});
-    color: {fgcolor}; 
-}
-
-QDockWidget::title {
-    background-color: {bgcolor}; 
-    color: {fgcolor}; 
-    text-align: center;
-    border: none;
-}
-
-QDockWidget::close-button, QDockWidget::float-button {
-    border: none;
-    background: transparent;
-    icon-size: 30px;
-    padding: 1px;
-    color: {fgcolor}; 
-}
-
-QDockWidget::float-button {
-    image: url({float});
-    color: {fgcolor}; 
-}
-
-QDockWidget::close-button {
-    image: url({close});
-    color: {fgcolor}; 
-}
-
-QDockWidget::float-button:hover {
-    image: url({float:hover});
-    color: {fgcolor}; 
-}
-
-QDockWidget::close-button:hover {
-    image: url({close:hover});
-    color: {fgcolor}; 
-}
-        '''
-.replace('{bgcolor}', bgcolor)
-.replace('{fgcolor}', fgcolor)
-.replace('{close}',res.get(close))
-.replace('{float}',res.get(float))
-.replace('{close:hover}', res.get(close_hover))
-.replace('{float:hover}', res.get(float_hover))
-)
-
 class AppWidget (QMainWindow):
     def Resize(self,mainw,w,h):
         self.w = w
@@ -1557,17 +1445,6 @@ class AppWidget (QMainWindow):
     def __init__(self,ports):
         super(AppWidget, self).__init__()
 
-        '''
-        app_title_size = 50
-        app_title_fgcolor = '#FFFFFF'
-        app_title_bgcolor = "#123456"
-        app_title_float = "@icon/float"
-        app_title_float_hover = "@icon/float-hover"
-        app_title_close = "@icon/close"
-        app_title_close_hover = "@icon/close-hover"
-        app_shadow = "Yes"
-        '''
-
         self.Backend = ports[0]
         self.Env = ports[1]
         self.appname = ports[2]
@@ -1576,6 +1453,102 @@ class AppWidget (QMainWindow):
         self.username = self.Env.username
 
         app.start(self.appname)  # start the application
+
+        app_title_size = getdata('appw.title.size')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.title.size', '/etc/users/' + self.username)
+            if not value == None: app_title_size = value
+        if app_title_size == None: app_title_size = variables.app_title_size
+
+        app_bgcolor = getdata('appw.bgcolor')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.bgcolor', '/etc/users/' + self.username)
+            if not value == None: app_bgcolor = value
+        if app_bgcolor == None: app_bgcolor = variables.app_bgcolor
+
+        app_shadow = getdata('appw.shadow')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.shadow', '/etc/users/' + self.username)
+            if not value == None: app_shadow = value
+        if app_shadow == None: app_shadow = variables.app_shadow
+
+        app_fgcolor = getdata('appw.fgcolor')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.fgcolor', '/etc/users/' + self.username)
+            if not value == None: app_fgcolor = value
+        if app_fgcolor == None: app_fgcolor = variables.app_fgcolor
+
+        app_menu_bgcolor = getdata('appw.menu.bgcolor')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.menu.bgcolor', '/etc/users/' + self.username)
+            if not value == None: app_menu_bgcolor = value
+        if app_menu_bgcolor == None: app_menu_bgcolor = variables.app_menu_bgcolor
+
+        app_logo = getdata('appw.logo')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.logo', '/etc/users/' + self.username)
+            if not value == None: app_logo = value
+        if app_logo == None: app_logo = variables.app_logo
+
+        app_menu_fgcolor = getdata('appw.menu.fgcolor')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.menu.fgcolor', '/etc/users/' + self.username)
+            if not value == None: app_menu_fgcolor = value
+        if app_menu_fgcolor == None: app_menu_fgcolor = variables.app_menu_fgcolor
+
+        app_title_bgcolor = getdata('appw.title.bgcolor')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.title.bgcolor', '/etc/users/' + self.username)
+            if not value == None: app_title_bgcolor = value
+        if app_title_bgcolor == None: app_title_bgcolor = variables.app_title_bgcolor
+
+        app_title_fgcolor = getdata('appw.title.fgcolor')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.title.fgcolor', '/etc/users/' + self.username)
+            if not value == None: app_title_fgcolor = value
+        if app_title_fgcolor == None: app_title_fgcolor = variables.app_title_fgcolor
+
+        app_title_close = getdata('appw.title.close')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.title.close', '/etc/users/' + self.username)
+            if not value == None: app_title_close = value
+        if app_title_close == None: app_title_close = variables.app_title_close
+
+        app_title_float = getdata('appw.title.float')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.title.float', '/etc/users/' + self.username)
+            if not value == None: app_title_float = value
+        if app_title_float == None: app_title_float = variables.app_title_float
+
+        app_title_float_hover = getdata('appw.title.float-hover')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.title.float-hover', '/etc/users/' + self.username)
+            if not value == None: app_title_float_hover = value
+        if app_title_float_hover == None: app_title_float_hover = variables.app_title_float_hover
+
+        app_title_close = getdata('appw.title.close')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.title.close', '/etc/users/' + self.username)
+            if not value == None: app_title_close = value
+        if app_title_close == None: app_title_close = variables.app_title_close
+
+        app_title_close_hover = getdata('appw.title.close-hover')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.title.close-hover', '/etc/users/' + self.username)
+            if not value == None: app_title_close_hover = value
+        if app_title_close_hover == None: app_title_close_hover = variables.app_title_close_hover
+
+        app_menu_bgcolor_pressed = getdata('appw.menu.bgcolor-pressed')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.menu.bgcolor-pressed', '/etc/users/' + self.username)
+            if not value == None: app_menu_bgcolor_pressed = value
+        if app_menu_bgcolor_pressed == None: app_menu_bgcolor_pressed = variables.app_menu_bgcolor_pressed
+
+        app_menu_fgcolor_pressed = getdata('appw.menu.fgcolor-pressed')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.menu.fgcolor-pressed', '/etc/users/' + self.username)
+            if not value == None: app_menu_fgcolor_pressed = value
+        if app_menu_fgcolor_pressed == None: app_menu_fgcolor_pressed = variables.app_menu_fgcolor_pressed
 
         self.setObjectName(self.appname)
 
@@ -1586,56 +1559,91 @@ class AppWidget (QMainWindow):
         else:
             self.close()
 
+        # parent style #
+        self.setStyleSheet('''
+        QMenuBar {
+            background-color: 0;
+            color: 1;
+        }
+        QMainWindow {
+            background-color: 2;
+            color: 3;
+        }
+        QAction {
+            background-color: 0;
+            color: 1;
+        }
+        QMenu {
+            background-color: 0;
+            color: 1;
+        }
+        QAction::pressed {
+            background-color: 4;
+            color: 5;
+        }
+        QMenu::pressed {
+            background-color: 4;
+            color: 5;
+        }
+        '''
+                           .replace('0',app_menu_bgcolor)
+                           .replace('1',app_menu_fgcolor)
+                           .replace('2',app_bgcolor)
+                           .replace('3',app_fgcolor)
+                           .replace('4',app_menu_bgcolor_pressed)
+                           .replace('5',app_menu_fgcolor_pressed)
+        )
+
         # title bar #
         self.titlebar = QWidget()
-        self.titlebar.setStyleSheet('background-color: {0};color: {1};'.replace('{0}',variables.app_title_bgcolor).replace("{1}",variables.app_title_fgcolor))
+        self.titlebar.setStyleSheet('background-color: {0};color: {1};'.replace('{0}',app_title_bgcolor).replace("{1}",app_title_fgcolor))
 
         self.layouts = QHBoxLayout()
         self.titlebar.setLayout(self.layouts)
 
         # icon widget #
-        self.icon = QIcon(res.get(variables.app_logo))
+        self.icon = QIcon(res.get(app_logo))
         self.iconwidget = QLabel()
-        self.iconwidget.setPixmap(self.icon.pixmap(variables.app_title_size-5,variables.app_title_size-5))
+        self.iconwidget.setPixmap(self.icon.pixmap(app_title_size-5,app_title_size-5))
         self.layouts.addWidget(self.iconwidget)
 
         self.iconwidget.setGeometry(0,0,variables.app_title_size,variables.app_title_size)
 
         # text title #
         self.titletext = QLabel()
-        self.titletext.setStyleSheet('background-color: {0};color: {1};'.replace('{0}',variables.app_title_bgcolor).replace("{1}",variables.app_title_fgcolor))
+        self.titletext.setStyleSheet('background-color: {0};color: {1};'.replace('{0}',app_title_bgcolor).replace("{1}",app_title_fgcolor))
         self.titletext.setMaximumWidth(self.titlebar.width()-120)
 
         self.layouts.addWidget(self.titletext)
 
         # float button #
         self.btnMax = QToolButton()
-        self.btnMax.setIcon(QIcon(res.get(variables.titlebar_float)))
-        self.btnMax.setMinimumSize(variables.app_title_size-15,variables.app_title_size-15)
-        self.btnMax.setGeometry(self.titlebar.width()-100,0,variables.app_title_size,variables.app_title_size)
+        self.btnMax.setIcon(QIcon(res.get(app_title_float)))
+        self.btnMax.setMinimumSize(app_title_size-15,app_title_size-15)
+        self.btnMax.setGeometry(self.titlebar.width()-100,0,app_title_size,app_title_size)
         self.btnMax.clicked.connect(self.ShowMaximize)
-        self.btnMax.setStyleSheet('QToolButton {border-radius: {0}% {0}%;} QToolButton::hover {border-radius: {0}% {0}%;background-color: {1}}'.replace("{1}",variables.titlebar_float_hover).replace("{0}",str(int((variables.app_title_size-15)/2))))
+        self.btnMax.setStyleSheet('QToolButton {border-radius: {0}% {0}%;} QToolButton::hover {border-radius: {0}% {0}%;background-color: {1}}'.replace("{1}",app_title_float_hover).replace("{0}",str(int((app_title_size-15)/2))))
 
         self.layouts.addWidget(self.btnMax)
 
         self.btnEscape = QToolButton()
-        self.btnEscape.setIcon(QIcon(res.get(variables.titlebar_close)))
-        self.btnEscape.setMinimumSize(variables.app_title_size-15, variables.app_title_size-15)
-        self.btnEscape.setGeometry(self.titlebar.width()-variables.app_title_size,0,variables.app_title_size,variables.app_title_size)
+        self.btnEscape.setIcon(QIcon(res.get(app_title_close)))
+        self.btnEscape.setMinimumSize(app_title_size-15, app_title_size-15)
+        self.btnEscape.setGeometry(self.titlebar.width()-app_title_size,0,app_title_size,app_title_size)
         self.btnEscape.clicked.connect (self.Close)
-        self.btnEscape.setStyleSheet('QToolButton {border-radius: {0}% {0}%;} QToolButton::hover {border-radius: {0}% {0}%;background-color: {1}}'.replace("{1}",variables.titlebar_close_hover).replace("{0}",str(int((variables.app_title_size-15)/2))))
+        self.btnEscape.setStyleSheet('QToolButton {border-radius: {0}% {0}%;} QToolButton::hover {border-radius: {0}% {0}%;background-color: {1}}'.replace("{1}",app_title_close_hover).replace("{0}",str(int((app_title_size-15)/2))))
         self.layouts.addWidget(self.btnEscape)
 
         # center widget #
         self.mainWidget = exec.MainApp([self.Backend,self.Env,self,self.appname])
-        self.mainWidget.setGeometry(0,variables.app_title_size,self.width(),self.height()-variables.app_title_size)
-        self.titlebar.setGeometry(0, 0, self.width(), variables.app_title_size)
+        self.mainWidget.setGeometry(0,app_title_size,self.width(),self.height()-app_title_size)
+        self.titlebar.setGeometry(0, 0, self.width(), app_title_size)
         self.setGeometry(int(self.Env.width()/2)-int(self.width()/2),int(self.Env.height()/2)-int(self.height()/2),self.width(),self.height())
 
         self.layout().addWidget(self.mainWidget)
         self.layout().addWidget(self.titlebar)
 
-        if variables.app_shadow=="Yes":
+        if app_shadow=="Yes":
             shadow = QGraphicsDropShadowEffect()
             shadow.setColor(QColor(10, 2, 34, 255 * 0.8))
             shadow.setOffset(0)

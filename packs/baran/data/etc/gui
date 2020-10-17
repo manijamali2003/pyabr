@@ -65,3 +65,7 @@ loginw.enter.round: Yes
 loginw.enter.round-size: 20
 loginw.unlock.round: Yes
 loginw.unlock.round-size: 20
+
+appw.bgcolor: #FFFFFF
+appw.menubar.bgcolor: #FFFFFF
+appw.menubar.shadow: Yes

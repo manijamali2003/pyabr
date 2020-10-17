@@ -59,3 +59,4 @@ pysys.restart: اعادة البدء
 pysys.sleep: ينام
 pysys.app_name: خيارات الطاقة
 commento.app_name: محطة
+roller.app_name: الملفات

@@ -1,6 +1,8 @@
 etc/interface
 etc/gui
+etc/deskdirs
 usr/app/baran.pyc
+usr/app/box.pyc
 usr/share/docs/baran
 usr/share/icons
 usr/share/locales

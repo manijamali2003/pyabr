@@ -59,3 +59,4 @@ pysys.restart: Restart
 pysys.sleep: Sleep
 pysys.app_name: Power Options
 commento.app_name: Terminal
+roller.app_name: Files

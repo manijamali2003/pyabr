@@ -1,12 +1,24 @@
+#######################################################################################
+#  In the name of God, the Compassionate, the Merciful
+#  Pyabr (c) 2020 Mani Jamali. GNU General Public License v3.0
+#
+#  Programmer & Creator:    Mani Jamali <manijamali2003@gmail.com>
+#  Telegram or Gap channel: @pyabr
+#  Telegram or Gap group:   @pyabr_community
+#  Git source:              github.com/manijamali2003/pyabr
+#
+#######################################################################################
+
 import sys , os
 from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtGui import QBrush, QColor
 
-from libabr import Files, Control, System, Res
+from libabr import Files, Control, System, Res, Commands
 
 res = Res()
 files = Files()
 control = Control()
+commands = Commands()
 
 class FileListView (QtWidgets.QListView):
     def format(self, it, text):
@@ -31,7 +43,7 @@ class FileListView (QtWidgets.QListView):
         it.setIcon(QtGui.QIcon(res.get('@icon/folder')))
         self.entry.appendRow(it)
 
-        System ("mkdir '"+dirname+"'")
+        commands.mkdir([dirname])
 
     def __init__(self):
         super().__init__()
@@ -44,6 +56,8 @@ class FileListView (QtWidgets.QListView):
         self.clicked[QtCore.QModelIndex].connect(self.on_clicked)
         # When you receive the signal, you call QtGui.QStandardItemModel.itemFromIndex()
         # on the given model index to get a pointer to the item
+
+        self.setStyleSheet('background:white;')
 
         self.dir = files.readall('/proc/info/pwd')
         files.write('/proc/info/dsel', self.dir)
@@ -67,7 +81,7 @@ class FileListView (QtWidgets.QListView):
         if x == True:
 
             if self.item.whatsThis() == "<parent>":
-                System ('cd ..')
+                commands.cd (['..'])
                 self.dir = files.readall('/proc/info/pwd')
                 files.write('/proc/info/dsel',self.dir)
                 self.listdir = files.list(self.dir)
@@ -90,7 +104,7 @@ class FileListView (QtWidgets.QListView):
 
             elif files.isdir(self.item.whatsThis()):
                 files.write('/proc/info/dsel', self.item.whatsThis())  # Send Directory selected
-                System ('cd "'+self.item.whatsThis()+'"')
+                commands.cd ([self.item.whatsThis()])
                 self.dir = files.readall("/proc/info/pwd")
                 self.listdir = files.list(self.dir)
                 self.listdir.sort()
@@ -127,7 +141,7 @@ class DirListView (QtWidgets.QListView):
         it.setIcon(QtGui.QIcon(res.get('@icon/folder')))
         self.entry.appendRow(it)
 
-        System ("mkdir '"+dirname+"'")
+        commands.mkdir ([dirname])
 
     def __init__(self):
         super().__init__()
@@ -164,7 +178,7 @@ class DirListView (QtWidgets.QListView):
         if x == True:
 
             if self.item.whatsThis() == "<parent>":
-                System('cd ..')
+                commands.cd (['..'])
                 self.dir = files.readall('/proc/info/pwd')
                 files.write('/proc/info/dsel',self.dir)
                 self.listdir = files.list(self.dir)
@@ -188,7 +202,7 @@ class DirListView (QtWidgets.QListView):
 
             elif files.isdir(self.item.whatsThis()):
                 files.write('/proc/info/dsel', self.item.whatsThis())  # Send Directory selected
-                System ('cd "'+self.item.whatsThis()+'"')
+                commands.cd ([self.item.whatsThis()])
                 self.dir = files.readall("/proc/info/pwd")
                 self.listdir = files.list(self.dir)
                 self.listdir.sort()
@@ -261,5 +275,4 @@ class MainApp (QtWidgets.QMainWindow):
         self.setCentralWidget(self.x)
 
     def New_Folder (self):
-        #core.system ('inputbox "Enter a folder name:"')
         self.x.mkdir(files.readall("/proc/info/inp")) #  https://www.tutorialspoint.com/pyqt/pyqt_qinputdialog_widget.htm
