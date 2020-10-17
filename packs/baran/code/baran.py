@@ -2045,6 +2045,53 @@ class Desktop (QMainWindow):
         self.username = username.lower()
         self.password = password
 
+        ## Setting ups ##
+        files.write("/proc/info/su", self.username)
+        permissions.user = self.username
+
+        ## Check user ##
+        if not self.username == "guest":
+            if not files.isfile("/etc/users/" + self.username):
+                exit(0)
+
+            user = control.read_record("username", "/etc/users/" + self.username)
+            hashname = hashlib.sha3_256(
+                str(self.username).encode()).hexdigest()
+
+            if not user == hashname:
+                exit(0)
+
+            password = control.read_record("code", "/etc/users/" + self.username)
+            hashcode = hashlib.sha3_512(
+                str(self.password).encode()).hexdigest()
+
+            if not password == hashcode:
+                exit(0)
+        else:
+            enable_gui = control.read_record("enable_gui", "/etc/guest")
+            if enable_gui == "No":
+                exit(0)
+
+        ## Desktop /desk files extract ##
+
+        deskdirs = control.read_list("/etc/deskdirs")
+
+        if self.username == "root":
+            for i in deskdirs:
+                if not files.isdir("/root/" + i):
+                    files.mkdir("/root/" + i)
+        else:
+            if not files.isdir("/desk/" + self.username): files.mkdir("/desk/" + self.username)
+            for i in deskdirs:
+                if not files.isdir("/desk/" + self.username + "/" + i):
+                    files.mkdir("/desk/" + self.username + "/" + i)
+
+        ## Create pwd for this user
+        if self.username == "root":
+            files.write("/proc/info/pwd", "/root")
+        else:
+            files.write("/proc/info/pwd", "/desk/" + self.username)
+
         ## Get informations ##
         cs = files.readall('/proc/info/cs')
         ver = files.readall('/proc/info/ver')

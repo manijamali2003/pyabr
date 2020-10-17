@@ -37,7 +37,7 @@ if not os.path.isdir ("stor"):
 
 if not os.path.isdir ("build-packs"): os.mkdir ("build-packs")
 
-plat = input('Choose your platform to install (Linux and Windows etc: 0, Termux: 1, PyDroid: 2, Server: 3): ')
+plat = input('Choose your platform to build (Linux and Windows etc: 0, Termux: 1, PyDroid: 2, Server: 3): ')
 
 if plat=='1':
 	pack.inst('pyabr')

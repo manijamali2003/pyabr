@@ -16,28 +16,28 @@ class FileListView (QtWidgets.QListView):
             format = it.whatsThis().split('.')
             format = max(format)
             if it.whatsThis().endswith(format):
-                logo = control.read_record(format + '.logo', '/etc/ext')
+                logo = control.read_record(format + '.icon', '/etc/ext')
                 if not logo == None:
                     it.setIcon(QtGui.QIcon(res.get(logo)))
                 else:
-                    it.setIcon(QtGui.QIcon(res.get('@logo/gtk-file')))
+                    it.setIcon(QtGui.QIcon(res.get('@icon/gtk-file')))
             else:
-                it.setIcon(QtGui.QIcon(res.get('@logo/gtk-file')))
+                it.setIcon(QtGui.QIcon(res.get('@icon/gtk-file')))
 
 
     def mkdir (self,dirname):
         it = QtGui.QStandardItem(dirname)
         it.setWhatsThis(self.dir + "/" + dirname)
-        it.setIcon(QtGui.QIcon(res.get('@logo/folder')))
+        it.setIcon(QtGui.QIcon(res.get('@icon/folder')))
         self.entry.appendRow(it)
 
-        core.system ("mkdir '"+dirname+"'")
+        System ("mkdir '"+dirname+"'")
 
     def __init__(self):
         super().__init__()
         self.entry = QtGui.QStandardItemModel()
         self.parentdir = QtGui.QStandardItem()
-        self.parentdir.setIcon(QtGui.QIcon(res.get('@logo/folder')))
+        self.parentdir.setIcon(QtGui.QIcon(res.get('@icon/folder')))
         self.entry.appendRow(self.parentdir)
         self.setModel(self.entry)
         self.setIconSize(QtCore.QSize(64,64))
@@ -67,7 +67,7 @@ class FileListView (QtWidgets.QListView):
         if x == True:
 
             if self.item.whatsThis() == "<parent>":
-                core.system('cd ..')
+                System ('cd ..')
                 self.dir = files.readall('/proc/info/pwd')
                 files.write('/proc/info/dsel',self.dir)
                 self.listdir = files.list(self.dir)
@@ -78,7 +78,7 @@ class FileListView (QtWidgets.QListView):
                 self.setIconSize(QtCore.QSize(64, 64))
                 self.clicked[QtCore.QModelIndex].connect(self.on_clicked)
                 self.parentdir = QtGui.QStandardItem()
-                self.parentdir.setIcon(QtGui.QIcon(res.get('@logo/folder')))
+                self.parentdir.setIcon(QtGui.QIcon(res.get('@icon/folder')))
                 self.parentdir.setWhatsThis('<parent>')
                 self.entry.appendRow(self.parentdir)
 
@@ -90,7 +90,7 @@ class FileListView (QtWidgets.QListView):
 
             elif files.isdir(self.item.whatsThis()):
                 files.write('/proc/info/dsel', self.item.whatsThis())  # Send Directory selected
-                core.system ('cd "'+self.item.whatsThis()+'"')
+                System ('cd "'+self.item.whatsThis()+'"')
                 self.dir = files.readall("/proc/info/pwd")
                 self.listdir = files.list(self.dir)
                 self.listdir.sort()
@@ -100,7 +100,7 @@ class FileListView (QtWidgets.QListView):
                 self.setIconSize(QtCore.QSize(64, 64))
                 self.clicked[QtCore.QModelIndex].connect(self.on_clicked)
                 self.parentdir = QtGui.QStandardItem()
-                self.parentdir.setIcon(QtGui.QIcon(res.get('@logo/folder')))
+                self.parentdir.setIcon(QtGui.QIcon(res.get('@icon/folder')))
                 self.parentdir.setWhatsThis('<parent>')
                 self.entry.appendRow(self.parentdir)
 
@@ -119,21 +119,21 @@ class FileListView (QtWidgets.QListView):
 class DirListView (QtWidgets.QListView):
     def format(self, it, text):
         if files.isdir(self.dir + '/' + text):
-            it.setIcon(QtGui.QIcon(res.get('@logo/folder')))
+            it.setIcon(QtGui.QIcon(res.get('@icon/folder')))
 
     def mkdir (self,dirname):
         it = QtGui.QStandardItem(dirname)
         it.setWhatsThis(self.dir + "/" + dirname)
-        it.setIcon(QtGui.QIcon(res.get('@logo/folder')))
+        it.setIcon(QtGui.QIcon(res.get('@icon/folder')))
         self.entry.appendRow(it)
 
-        core.system ("mkdir '"+dirname+"'")
+        System ("mkdir '"+dirname+"'")
 
     def __init__(self):
         super().__init__()
         self.entry = QtGui.QStandardItemModel()
         self.parentdir = QtGui.QStandardItem()
-        self.parentdir.setIcon(QtGui.QIcon(res.get('@logo/folder')))
+        self.parentdir.setIcon(QtGui.QIcon(res.get('@icon/folder')))
         self.entry.appendRow(self.parentdir)
         self.setModel(self.entry)
         self.setIconSize(QtCore.QSize(64,64))
@@ -164,7 +164,7 @@ class DirListView (QtWidgets.QListView):
         if x == True:
 
             if self.item.whatsThis() == "<parent>":
-                core.system('cd ..')
+                System('cd ..')
                 self.dir = files.readall('/proc/info/pwd')
                 files.write('/proc/info/dsel',self.dir)
                 self.listdir = files.list(self.dir)
@@ -175,7 +175,7 @@ class DirListView (QtWidgets.QListView):
                 self.setIconSize(QtCore.QSize(64, 64))
                 self.clicked[QtCore.QModelIndex].connect(self.on_clicked)
                 self.parentdir = QtGui.QStandardItem()
-                self.parentdir.setIcon(QtGui.QIcon(res.get('@logo/folder')))
+                self.parentdir.setIcon(QtGui.QIcon(res.get('@icon/folder')))
                 self.parentdir.setWhatsThis('<parent>')
                 self.entry.appendRow(self.parentdir)
 
@@ -188,7 +188,7 @@ class DirListView (QtWidgets.QListView):
 
             elif files.isdir(self.item.whatsThis()):
                 files.write('/proc/info/dsel', self.item.whatsThis())  # Send Directory selected
-                core.system ('cd "'+self.item.whatsThis()+'"')
+                System ('cd "'+self.item.whatsThis()+'"')
                 self.dir = files.readall("/proc/info/pwd")
                 self.listdir = files.list(self.dir)
                 self.listdir.sort()
@@ -198,7 +198,7 @@ class DirListView (QtWidgets.QListView):
                 self.setIconSize(QtCore.QSize(64, 64))
                 self.clicked[QtCore.QModelIndex].connect(self.on_clicked)
                 self.parentdir = QtGui.QStandardItem()
-                self.parentdir.setIcon(QtGui.QIcon(res.get('@logo/folder')))
+                self.parentdir.setIcon(QtGui.QIcon(res.get('@icon/folder')))
                 self.parentdir.setWhatsThis('<parent>')
                 self.entry.appendRow(self.parentdir)
 
@@ -210,3 +210,56 @@ class DirListView (QtWidgets.QListView):
                         it.setWhatsThis(self.dir + "/" + text)
                         self.format(it,text)
                         self.entry.appendRow(it)
+                        
+class MainApp (QtWidgets.QMainWindow):
+    def format (self,it,text):
+        if os.path.isdir(self.dir + '/' + text):
+            it.setIcon(QtGui.QIcon(res.get('@icon/folder')))
+        else:
+            format = it.whatsThis().split('.')
+            format = max(format)
+            if it.whatsThis().endswith(format):
+                logo = control.read_record(format + '.icon', '/etc/ext')
+                if not logo==None:
+                    it.setIcon(QtGui.QIcon(res.get(logo)))
+                else:
+                    it.setIcon(QtGui.QIcon(res.get('@icon/gtk-file')))
+            else:
+                it.setIcon(QtGui.QIcon(res.get('@icon/gtk-file')))
+
+    def __init__(self,args):
+        super().__init__()
+
+        self.Backend = args[0]
+        self.Env = args[1]
+        self.Widget = args[2]
+
+        self.x = FileListView()
+
+        ## Menubar ##
+
+        self.menubar = self.menuBar()
+        self.file = self.menubar.addMenu("File")
+        self.view = self.menubar.addMenu("View")
+        self.help = self.menubar.addMenu("Help")
+
+        ## File menu
+
+        self.new_folder = self.file.addAction("New Folder")
+        self.new_folder.triggered.connect(self.New_Folder)
+        self.exit = self.file.addAction("Exit")
+        self.exit.triggered.connect(self.Widget.Close)
+
+        ## end File menu
+
+        ## end Menubar
+
+        self.Widget.setWindowTitle (res.get('@string/app_name'))
+        self.Widget.setWindowIcon (QtGui.QIcon(res.get('@icon/roller')))
+        self.Widget.Resize (self,1000,600)
+
+        self.setCentralWidget(self.x)
+
+    def New_Folder (self):
+        #core.system ('inputbox "Enter a folder name:"')
+        self.x.mkdir(files.readall("/proc/info/inp")) #  https://www.tutorialspoint.com/pyqt/pyqt_qinputdialog_widget.htm
