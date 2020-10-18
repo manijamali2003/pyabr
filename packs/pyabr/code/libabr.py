@@ -72,6 +72,21 @@ class Script:
 class Commands:
     def __init__(self):
         pass
+
+    def unset(self,args):
+        files = Files()
+        control = Control()
+        permissions = Permissions()
+        colors = Colors()
+        for name in args:
+            select = files.readall("/proc/info/sel")
+            if not select.startswith("/proc/"):
+                if permissions.check(files.output(select), "w", files.readall("/proc/info/su")):
+                    control.remove_record(name, select)
+                else:
+                    colors.show("unset", "perm", "")
+            else:
+                control.remove_record(name, select)
     # cc command #
     def cc (self,args):
         permissions = Permissions()

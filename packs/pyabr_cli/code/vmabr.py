@@ -49,7 +49,7 @@ ram = ''
 
 sys.path.append("usr/app")
 
-from libabr import Modules, Files, Control, Colors, Process, Permissions, System, App, Commands, Script
+from libabr import Modules, Files, Control, Colors, Process, Permissions, System, Commands, Script
 
 ################## Interface configure ##########################
 

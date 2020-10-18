@@ -32,6 +32,9 @@ width = int(files.readall('/tmp/width'))
 files.remove('/tmp/height')
 files.remove('/tmp/width')
 
+control.write_record ('height',str(height),'/etc/gui')
+control.write_record ('width',str(width),'/etc/gui')
+
 ## variables ##
 
 class variables:
@@ -186,7 +189,9 @@ class Backend (QMainWindow):
         if not color==None:
             variables.backend_color = color
 
-        self.setStyleSheet('background-color: ' + variables.backend_color+";color: black;")
+        self.wb = QMainWindow()
+        self.wb.setStyleSheet('background-color: ' + variables.backend_color+";color: black;")
+        self.setCentralWidget(self.wb)
 
         ## Set size ##
         autosize = getdata('autosize')
@@ -200,6 +205,7 @@ class Backend (QMainWindow):
             variables.height = int(height)
 
         self.resize(variables.width, variables.height)
+        self.setGeometry(int(width)/2-int(variables.width)/2,int(height)/2-int(variables.height)/2,variables.width,variables.height)
 
         ## Set sides ##
         ## Set sides ##
@@ -300,7 +306,9 @@ class Splash (QMainWindow):
         if not color==None:
             variables.splash_color = color
 
-        self.setStyleSheet('background-color: {0}'.replace('{0}',variables.splash_color))
+        self.wb = QMainWindow()
+        self.wb.setStyleSheet('background-color: {0}'.replace('{0}',variables.splash_color))
+        self.setCentralWidget(self.wb)
 
         ## Set size ##
         width = getdata('width')
@@ -314,6 +322,8 @@ class Splash (QMainWindow):
             variables.height = int(height)
 
         self.resize(variables.width, variables.height)
+        self.setGeometry(int(width) / 2 - int(variables.width) / 2, int(height) / 2 - int(variables.height) / 2,
+                         variables.width, variables.height)
 
         ## Set sides ##
         sides = getdata('sides')
@@ -345,7 +355,7 @@ class Splash (QMainWindow):
         logo = getdata('splash.logo')
 
         self.logo = QToolButton()
-        self.layout().addWidget (self.logo)
+        self.wb.layout().addWidget (self.logo)
 
         ## Set logo ##
         if not logo==None:
@@ -1017,6 +1027,8 @@ class Login (QMainWindow):
             variables.height = int(height)
 
         self.resize(variables.width, variables.height)
+        self.setGeometry(int(width) / 2 - int(variables.width) / 2, int(height) / 2 - int(variables.height) / 2,
+                         variables.width, variables.height)
 
         ## Set sides ##
         ## Set sides ##
@@ -1137,6 +1149,8 @@ class Enter (QMainWindow):
             variables.height = int(height)
 
         self.resize(variables.width, variables.height)
+        self.setGeometry(int(width) / 2 - int(variables.width) / 2, int(height) / 2 - int(variables.height) / 2,
+                         variables.width, variables.height)
 
         ## Set sides ##
         ## Set sides ##
@@ -1257,6 +1271,8 @@ class Unlock (QMainWindow):
             variables.height = int(height)
 
         self.resize(variables.width, variables.height)
+        self.setGeometry(int(width) / 2 - int(variables.width) / 2, int(height) / 2 - int(variables.height) / 2,
+                         variables.width, variables.height)
 
         ## Set sides ##
         ## Set sides ##
@@ -1560,39 +1576,6 @@ class AppWidget (QMainWindow):
             self.close()
 
         # parent style #
-        self.setStyleSheet('''
-        QMenuBar {
-            background-color: 0;
-            color: 1;
-        }
-        QMainWindow {
-            background-color: 2;
-            color: 3;
-        }
-        QAction {
-            background-color: 0;
-            color: 1;
-        }
-        QMenu {
-            background-color: 0;
-            color: 1;
-        }
-        QAction::pressed {
-            background-color: 4;
-            color: 5;
-        }
-        QMenu::pressed {
-            background-color: 4;
-            color: 5;
-        }
-        '''
-                           .replace('0',app_menu_bgcolor)
-                           .replace('1',app_menu_fgcolor)
-                           .replace('2',app_bgcolor)
-                           .replace('3',app_fgcolor)
-                           .replace('4',app_menu_bgcolor_pressed)
-                           .replace('5',app_menu_fgcolor_pressed)
-        )
 
         # title bar #
         self.titlebar = QWidget()
@@ -2335,6 +2318,8 @@ class Desktop (QMainWindow):
             variables.height = int(height)
 
         self.resize(variables.width, variables.height)
+        self.setGeometry(int(width) / 2 - int(variables.width) / 2, int(height) / 2 - int(variables.height) / 2,
+                         variables.width, variables.height)
 
         ## Set sides ##
         ## Set sides ##
