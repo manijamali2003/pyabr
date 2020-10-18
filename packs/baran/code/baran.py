@@ -32,9 +32,6 @@ width = int(files.readall('/tmp/width'))
 files.remove('/tmp/height')
 files.remove('/tmp/width')
 
-control.write_record ('height',str(height),'/etc/gui')
-control.write_record ('width',str(width),'/etc/gui')
-
 ## variables ##
 
 class variables:
@@ -205,7 +202,6 @@ class Backend (QMainWindow):
             variables.height = int(height)
 
         self.resize(variables.width, variables.height)
-        self.setGeometry(int(width)/2-int(variables.width)/2,int(height)/2-int(variables.height)/2,variables.width,variables.height)
 
         ## Set sides ##
         ## Set sides ##
@@ -322,8 +318,6 @@ class Splash (QMainWindow):
             variables.height = int(height)
 
         self.resize(variables.width, variables.height)
-        self.setGeometry(int(width) / 2 - int(variables.width) / 2, int(height) / 2 - int(variables.height) / 2,
-                         variables.width, variables.height)
 
         ## Set sides ##
         sides = getdata('sides')
@@ -1027,8 +1021,6 @@ class Login (QMainWindow):
             variables.height = int(height)
 
         self.resize(variables.width, variables.height)
-        self.setGeometry(int(width) / 2 - int(variables.width) / 2, int(height) / 2 - int(variables.height) / 2,
-                         variables.width, variables.height)
 
         ## Set sides ##
         ## Set sides ##
@@ -1149,8 +1141,6 @@ class Enter (QMainWindow):
             variables.height = int(height)
 
         self.resize(variables.width, variables.height)
-        self.setGeometry(int(width) / 2 - int(variables.width) / 2, int(height) / 2 - int(variables.height) / 2,
-                         variables.width, variables.height)
 
         ## Set sides ##
         ## Set sides ##
@@ -1271,8 +1261,6 @@ class Unlock (QMainWindow):
             variables.height = int(height)
 
         self.resize(variables.width, variables.height)
-        self.setGeometry(int(width) / 2 - int(variables.width) / 2, int(height) / 2 - int(variables.height) / 2,
-                         variables.width, variables.height)
 
         ## Set sides ##
         ## Set sides ##
@@ -2318,8 +2306,6 @@ class Desktop (QMainWindow):
             variables.height = int(height)
 
         self.resize(variables.width, variables.height)
-        self.setGeometry(int(width) / 2 - int(variables.width) / 2, int(height) / 2 - int(variables.height) / 2,
-                         variables.width, variables.height)
 
         ## Set sides ##
         ## Set sides ##

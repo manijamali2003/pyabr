@@ -268,8 +268,8 @@ class MainApp (QtWidgets.QMainWindow):
 
         ## end Menubar
 
-        self.Widget.setWindowTitle (res.get('@string/app_name'))
-        self.Widget.setWindowIcon (QtGui.QIcon(res.get('@icon/roller')))
+        self.Widget.SetWindowTitle (res.get('@string/app_name'))
+        self.Widget.SetWindowIcon (QtGui.QIcon(res.get('@icon/roller')))
         self.Widget.Resize (self,1000,600)
 
         self.setCentralWidget(self.x)
