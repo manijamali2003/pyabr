@@ -1493,11 +1493,11 @@ class Package:
             files.copydir(name + '/code', '/app/cache/archives/code')
 
             ## Pack archives ##
-            shutil.make_archive(files.input("/app/cache/archives/build/data"), "xztar",
+            shutil.make_archive(files.input("/app/cache/archives/build/data"), "zip",
                                 files.input('/app/cache/archives/data'))
-            shutil.make_archive(files.input("/app/cache/archives/build/control"), "xztar",
+            shutil.make_archive(files.input("/app/cache/archives/build/control"), "zip",
                                 files.input('/app/cache/archives/control'))
-            shutil.make_archive(files.input("/app/cache/archives/build/code"), "xztar",
+            shutil.make_archive(files.input("/app/cache/archives/build/code"), "zip",
                                 files.input('/app/cache/archives/code'))
             shutil.make_archive(files.input(name), "zip", files.input("/app/cache/archives/build"))
 
@@ -1519,12 +1519,12 @@ class Package:
             ## unpack package ##
             shutil.unpack_archive(files.input(name), files.input("/app/cache/archives/build"), "zip")
 
-            shutil.unpack_archive(files.input("/app/cache/archives/build/data.tar.xz"),
-                                  files.input("/app/cache/archives/data"), "xztar")
-            shutil.unpack_archive(files.input("/app/cache/archives/build/control.tar.xz"),
-                                  files.input("/app/cache/archives/control"), "xztar")
-            shutil.unpack_archive(files.input("/app/cache/archives/build/code.tar.xz"),
-                                  files.input("/app/cache/archives/code"), "xztar")
+            shutil.unpack_archive(files.input("/app/cache/archives/build/data.zip"),
+                                  files.input("/app/cache/archives/data"), "zip")
+            shutil.unpack_archive(files.input("/app/cache/archives/build/control.zip"),
+                                  files.input("/app/cache/archives/control"), "zip")
+            shutil.unpack_archive(files.input("/app/cache/archives/build/code.zip"),
+                                  files.input("/app/cache/archives/code"), "zip")
 
             ## Get database of this package ##
             name = control.read_record("name", "/app/cache/archives/control/manifest").lower()
@@ -1577,14 +1577,14 @@ class Package:
                     commands.cc([code, dest])
 
             ## Create data archive ##
-            shutil.make_archive(files.input("/app/cache/archives/build/data"), 'xztar',files.input('/app/cache/archives/data'))
+            shutil.make_archive(files.input("/app/cache/archives/build/data"), 'zip',files.input('/app/cache/archives/data'))
 
             ## Unpack data again ##
-            shutil.unpack_archive(files.input("/app/cache/archives/build/data.tar.xz"), files.input(unpack), "xztar")
+            shutil.unpack_archive(files.input("/app/cache/archives/build/data.zip"), files.input(unpack), "zip")
 
             ## Save the source
 
-            shutil.unpack_archive(files.input('/app/cache/archives/build/code.tar.xz'),files.input('/usr/src/'+name),'xztar')
+            shutil.unpack_archive(files.input('/app/cache/archives/build/code.zip'),files.input('/usr/src/'+name),'zip')
 
             ## After install ##
 

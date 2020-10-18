@@ -24,9 +24,9 @@ def build(name):
             "packs/"+name + "/control") and ("packs/"+name + "/control/manifest"):
         exit(0)
 
-    shutil.make_archive("app/cache/archives/build/data", "xztar",    "packs/"+name + "/data")
-    shutil.make_archive("app/cache/archives/build/code", "xztar",    "packs/"+name + "/code")
-    shutil.make_archive("app/cache/archives/build/control", "xztar", "packs/"+ name + "/control")
+    shutil.make_archive("app/cache/archives/build/data", "zip",    "packs/"+name + "/data")
+    shutil.make_archive("app/cache/archives/build/code", "zip",    "packs/"+name + "/code")
+    shutil.make_archive("app/cache/archives/build/control", "zip", "packs/"+ name + "/control")
 
     shutil.make_archive(name, "zip", "app/cache/archives/build")
     os.rename (name+".zip","build-packs/"+name+".pa")
@@ -49,9 +49,9 @@ def clean():
 def unpack (name):
     print ("Unpack "+name+" archive package ... ",end='')
     shutil.unpack_archive("build-packs/"+name+".pa","app/cache/archives/build","zip")
-    shutil.unpack_archive("app/cache/archives/build/data.tar.xz","app/cache/archives/data","xztar")
-    shutil.unpack_archive("app/cache/archives/build/code.tar.xz","app/cache/archives/code", "xztar")
-    shutil.unpack_archive("app/cache/archives/build/control.tar.xz","app/cache/archives/control", "xztar")
+    shutil.unpack_archive("app/cache/archives/build/data.zip","app/cache/archives/data","zip")
+    shutil.unpack_archive("app/cache/archives/build/code.zip","app/cache/archives/code", "zip")
+    shutil.unpack_archive("app/cache/archives/build/control.zip","app/cache/archives/control", "zip")
 
     ## Unpack database only ##
 
@@ -74,13 +74,13 @@ def unpack (name):
 
 
     ## Archive data again ##
-    shutil.make_archive("app/cache/archives/build/data","xztar","app/cache/archives/data")
+    shutil.make_archive("app/cache/archives/build/data","zip","app/cache/archives/data")
 
     ## Unpack data again ##
-    shutil.unpack_archive("app/cache/archives/build/data.tar.xz","stor/"+unpack,"xztar")
+    shutil.unpack_archive("app/cache/archives/build/data.zip","stor/"+unpack,"zip")
 
     ## Save source code ##
-    shutil.unpack_archive('app/cache/archives/build/code.tar.xz','stor/usr/src/'+name,'xztar')
+    shutil.unpack_archive('app/cache/archives/build/code.zip','stor/usr/src/'+name,'zip')
     print ("Done")
     clean()
 

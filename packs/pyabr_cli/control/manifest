@@ -2,7 +2,7 @@ name: pyabr_cli
 copyright: (c) 2020 Mani Jamali
 license: GNU GPL v3.0
 unpack: /
-build: 1399-07-21
-version: 0.1.9
+build: 1399-07-27
+version: 0.2.0
 description: Pyabr for Termux
 compile: Yes
