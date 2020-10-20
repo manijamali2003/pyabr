@@ -35,9 +35,7 @@ if not os.path.isdir("stor"):
 
 if not os.path.isdir("build-packs"): os.mkdir("build-packs")
 
-list = control.read_list('upgrade.list')
-for i in list:
-    pack.inst(i)
+pack.install()
 
 # clean #
 if os.path.isdir('app'): shutil.rmtree('app')

@@ -1788,6 +1788,14 @@ class Package:
             n1 = int(new_version.split('.')[1])
             n2 = int(new_version.split('.')[2])
 
+            # list upgrades internal packages #
+            listu = files.list('/app/packages')
+
+            for i in listu:
+                if i.endswith('.manifest'):
+                    if i=='baran' or i=='calculator' or i=='calendar' or i=='commento' or i=='numix':
+                        files.append('/app/cache/clones/pyabr/upgrade.list',i.replace('.manifest')+"\n")
+
             #if o0<n0 or o1<n1 or o2<n2:
             commands.cc(['/app/cache/clones/pyabr/upgrade.py'])
             System('/app/cache/clones/pyabr/upgrade')
