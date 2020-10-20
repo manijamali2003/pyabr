@@ -13,13 +13,11 @@ import shutil, os, sys,glob, platform,py_compile
 from buildlibs import control
 
 def compile (src,dest):
-    print ('\nCompile '+src+" ...")
     py_compile.compile(src,dest)
 
 
 ## Build ##
 def build(name):
-    print ("Build "+name+" archive package ... ",end='')
     if not ("packs/"+name + "/code") and ("packs/"+name + "/data") and (
             "packs/"+name + "/control") and ("packs/"+name + "/control/manifest"):
         exit(0)
@@ -30,7 +28,6 @@ def build(name):
 
     shutil.make_archive(name, "zip", "app/cache/archives/build")
     os.rename (name+".zip","build-packs/"+name+".pa")
-    print ("done")
     clean()
 
 ## Clean the cache ##
@@ -47,7 +44,6 @@ def clean():
 ## Unpack .pa archives ##
 
 def unpack (name):
-    print ("Unpack "+name+" archive package ... ",end='')
     shutil.unpack_archive("build-packs/"+name+".pa","app/cache/archives/build","zip")
     shutil.unpack_archive("app/cache/archives/build/data.zip","app/cache/archives/data","zip")
     shutil.unpack_archive("app/cache/archives/build/code.zip","app/cache/archives/code", "zip")
@@ -81,7 +77,6 @@ def unpack (name):
 
     ## Save source code ##
     shutil.unpack_archive('app/cache/archives/build/code.zip','stor/usr/src/'+name,'zip')
-    print ("Done")
     clean()
 
 def install ():

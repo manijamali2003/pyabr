@@ -9,7 +9,7 @@
 #
 #######################################################################################
 
-import importlib, shutil, os, sys, hashlib, subprocess,time,datetime,getpass,py_compile, site
+import importlib, shutil, os, sys, hashlib, subprocess,time,datetime,getpass,py_compile, git
 
 # script #
 class Script:
@@ -1719,14 +1719,37 @@ class Package:
             colors.show("paye", "perm", "")
 
     ## Create a mirro ##
-    def add (self,name, mirror):
+    def add(self, mirror):
         permissions = Permissions()
         files = Files()
         colors = Colors()
         control = Control()
 
         if permissions.check_root(files.readall("/proc/info/su")):
-            files.write('/app/mirrors/' + name, mirror)
+            endsplit = mirror.replace('https://', '').replace('http://', '')
+            endsplit = mirror.split('/')
+            name = max(endsplit)
+            if name.endswith('.pa'):
+                files.write('/app/mirrors/' + name.replace('.pa', ''), mirror)
+            else:
+                colors.show('paye', 'fail', 'cannot add unknown mirror.')
+        else:
+            colors.show("paye", "perm", "")
+
+    def gitinstall (self, mirror):
+        permissions = Permissions()
+        files = Files()
+        colors = Colors()
+        control = Control()
+
+        if permissions.check_root(files.readall("/proc/info/su")):
+            git.Git(files.input("/app/cache/clones")).clone(mirror)
+            endsplit = mirror.replace('https://','').replace('http://','').replace('.git','')
+            endsplit = mirror.split ('/')
+            endsplit = max(endsplit)
+
+            self.build('/app/cache/clones/'+endsplit)
+            self.unpack('/app/cache/clones/'+endsplit+".pa")
         else:
             colors.show("paye", "perm", "")
 

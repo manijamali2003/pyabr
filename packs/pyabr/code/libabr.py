@@ -9,7 +9,7 @@
 #
 #######################################################################################
 
-import importlib, shutil, os, sys, hashlib, subprocess,time,datetime,getpass,py_compile, site
+import importlib, shutil, os, sys, hashlib, subprocess,time,datetime,getpass,py_compile, site, git
 
 # script #
 class Script:
@@ -1506,6 +1506,7 @@ class Package:
         else:
             colors.show("paye", "perm", "")
 
+
     ## Unpack .pa archives ##
 
     def unpack(self,name):
@@ -1720,17 +1721,82 @@ class Package:
             colors.show("paye", "perm", "")
 
     ## Create a mirro ##
-    def add (self,name, mirror):
+    def add (self, mirror):
         permissions = Permissions()
         files = Files()
         colors = Colors()
         control = Control()
 
         if permissions.check_root(files.readall("/proc/info/su")):
-            files.write('/app/mirrors/' + name, mirror)
+            endsplit = mirror.replace('https://', '').replace('http://', '')
+            endsplit = mirror.split('/')
+            name = min(endsplit)
+            print(name)
+            if name.endswith ('.pa'):
+                files.write('/app/mirrors/' + name.replace('.pa',''), mirror)
+            else:
+                colors.show('paye','fail','cannot add unknown mirror.')
         else:
             colors.show("paye", "perm", "")
 
+    ## Git from source code ##
+    def gitinstall (self, mirror):
+        permissions = Permissions()
+        files = Files()
+        colors = Colors()
+        control = Control()
+
+        if permissions.check_root(files.readall("/proc/info/su")):
+            git.Git(files.input("/app/cache/clones")).clone(mirror)
+            endsplit = mirror.replace('https://','').replace('http://','').replace('.git','')
+            endsplit = mirror.split ('/')
+            endsplit = max(endsplit)
+
+            self.build('/app/cache/clones/'+endsplit)
+            self.unpack('/app/cache/clones/'+endsplit+".pa")
+        else:
+            colors.show("paye", "perm", "")
+
+    # update cloud software #
+    def upcloud (self, mirror):
+        permissions = Permissions()
+        files = Files()
+        colors = Colors()
+        control = Control()
+        commands = Commands()
+
+        if permissions.check_root(files.readall("/proc/info/su")):
+            git.Git(files.input("/app/cache/clones")).clone(mirror)
+            endsplit = mirror.replace('https://','').replace('http://','').replace('.git','')
+            endsplit = mirror.split ('/')
+            endsplit = max(endsplit)
+
+            # backup #
+            if files.isdir ('/app/backups/etc.bak.d'):
+                files.copydir('/etc','/app/backups/etc.bak.d')
+
+            # check version #
+            now_version = control.read_record('version','/etc/distro')
+
+            o0 = int(now_version.split('.')[0])
+            o1 = int(now_version.split('.')[1])
+            o2 = int(now_version.split('.')[2])
+
+            new_version = control.read_record('version','/etc/distro')
+
+            n0 = int(new_version.split('.')[0])
+            n1 = int(new_version.split('.')[1])
+            n2 = int(new_version.split('.')[2])
+
+            #if o0<n0 or o1<n1 or o2<n2:
+            commands.cc(['/app/cache/clones/pyabr/upgrade.py'])
+            System('/app/cache/clones/pyabr/upgrade')
+            shutil.make_archive(files.input('/app/cache/clones/pyabr/stor'),'zip',files.input('/app/cache/clones/pyabr/stor'))
+            shutil.unpack_archive(files.input('/app/cache/clones/pyabr/stor.zip'),files.input('/'),'zip')
+            #else:
+            #    colors.show('', 'ok', 'Cloud software is up to date.')
+        else:
+            colors.show("paye", "perm", "")
     ##  remove a mirror ##
     def remove (self,name):
         permissions = Permissions()

@@ -3,8 +3,8 @@
 desktop: baran
 fullscreen: No
 sides: Yes
-width: 1280
-height: 720
+width: 500
+height: 500
 autosize: No
 logo: @icon/pyabr-logo
 locale: en

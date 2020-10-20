@@ -33,11 +33,11 @@ if sys.argv[1:]==[]:
 
 option = sys.argv[1]
 
-if option=="-c":
+if option=="cl":
     pack.clean()
     colors.show("", "ok", "Clean the cache.")
 
-elif option=="-b":
+elif option=="pak":
     if files.isfile ("/app/cache/lock"):
         colors.show ("paye","fail","cache has already locked.")
         sys.exit(0)
@@ -57,7 +57,7 @@ elif option=="-b":
     pack.clean()
 
 
-elif option=="-u":
+elif option=="upak":
     if files.isfile ("/app/cache/lock"):
         colors.show ("paye","fail","cache has already locked.")
         sys.exit(0)
@@ -93,7 +93,7 @@ elif option=="-u":
 
     pack.clean()
 
-elif option=="-r":
+elif option=="rm":
     if files.isfile ("/app/cache/lock"):
         colors.show ("paye","fail","cache has already locked.")
         sys.exit(0)
@@ -125,7 +125,7 @@ elif option=="-r":
 
     pack.clean()
 
-elif option=="-g":
+elif option=="get":
 
     if sys.argv[2]==[]:
         colors.show("paye", "fail", "no inputs.")
@@ -134,7 +134,7 @@ elif option=="-g":
     package = sys.argv[2:]
 
     if package[1:] == []:
-        y = input('Do you want to download {0} package? [Y/n]: '.replace('{0}', package[0]))
+        y = input('Do you want to get {0} package? [Y/n]: '.replace('{0}', package[0]))
         if not y.lower().startswith('y'):
             sys.exit(0)
     else:
@@ -142,15 +142,15 @@ elif option=="-g":
         for i in package:
             strv += ',' + i
 
-        y = input('Do you want to download {0} packages? [Y/n]: '.replace('{0}', strv))
+        y = input('Do you want to get {0} packages? [Y/n]: '.replace('{0}', strv))
         if not y.lower().startswith('y'):
             sys.exit(0)
 
     for i in package:
-        colors.show ('',"ok","Download \'"+i+"\' archive package.")
+        colors.show ('',"ok","Get \'"+i+"\' archive package.")
         pack.download (i.lower())
 
-elif option=="-i":
+elif option=="in":
     if files.isfile ("/app/cache/lock"):
         colors.show ("paye","fail","cache has already locked.")
         sys.exit(0)
@@ -186,7 +186,7 @@ elif option=="-i":
 
     pack.clean()
 
-elif option=="-v":
+elif option=="info":
     if sys.argv[2:]==[]:
         colors.show ('paye','fail','no inputs.')
         sys.exit(0)
@@ -221,12 +221,10 @@ elif option=="-v":
             "\t   Package depends: " + bold + depends + colors.get_colors())
         if not (unpack == None or unpack == ""):  print(
             "\t      Installed in: " + bold + unpack + colors.get_colors())
-        if not (unpack == None or unpack == ""):  print(
-            "\t      Architecture: " + bold + arch + colors.get_colors())
     else:
         colors.show ("paye","fail",sys.argv[2]+": package has not already installed.")
 
-elif option=="-l":
+elif option=="ls":
     list = files.list ("/app/packages")
     bold = colors.color(1, colors.get_bgcolor(), colors.green)
     for i in list:
@@ -236,16 +234,16 @@ elif option=="-l":
             version = control.read_record("version", "/app/packages/"+i)
             print (bold+name+colors.get_colors()+"/"+colors.get_path()+version+colors.get_colors()+"/"+build)
 
-elif option=='-a':
-    if sys.argv[2:]==[] or sys.argv[3:]==[]:
+elif option=='add':
+    if sys.argv[2:]==[]:
         colors.show ('paye','fail','no inputs.')
         sys.exit(0)
 
     y = input ('Do you want to add {0} mirror? [Y/n]: '.replace('{0}',sys.argv[2]))
     if y.lower().startswith('y'):
-        pack.add (sys.argv[2],sys.argv[3])
-        colors.show ("",'ok','Add \''+sys.argv[2]+'\' mirror from ('+sys.argv[3]+").")
-elif option=='-d':
+        pack.add (sys.argv[2])
+        colors.show ("",'ok','Add mirror from ('+sys.argv[2]+").")
+elif option=='del':
     if sys.argv[2:]==[]:
         colors.show ('paye','fail','no inputs.')
         sys.exit(0)
@@ -253,5 +251,19 @@ elif option=='-d':
     if y.lower().startswith('y'):
         pack.remove (sys.argv[2])
         colors.show("", 'ok', 'Remove \'' + sys.argv[2] + '\' mirror.')
+elif option=='git':
+    if sys.argv[2:]==[]:
+        colors.show ('paye','fail','no inputs.')
+        sys.exit(0)
+
+    y = input ('Do you want to git install from {0}? [Y/n]: '.replace('{0}',sys.argv[2]))
+    if y.lower().startswith('y'):
+        colors.show ("",'ok','clone \''+sys.argv[2]+'\' source code from ('+sys.argv[2]+").")
+        pack.gitinstall (sys.argv[2])
+
+elif option=='up':
+    update_mirror = 'https://github.com/manijamali2003/pyabr'
+    colors.show ("",'ok','Update cloud software from ('+update_mirror+").")
+    pack.upcloud (update_mirror)
 else:
     colors.show ("paye","fail",option+": option not found.")

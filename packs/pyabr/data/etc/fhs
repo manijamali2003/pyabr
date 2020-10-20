@@ -7,6 +7,7 @@
 /app/cache/archives/control
 /app/cache/archives/code
 /app/cache/archives/data
+/app/cache/clones
 /app/cache/gets
 /app/mirrors
 /app/packages

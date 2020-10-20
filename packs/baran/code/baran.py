@@ -1411,8 +1411,12 @@ class AppWidget (QMainWindow):
         self.w = w
         self.h = h
 
-        mainw.resize(self.w,self.h)
-        self.resize(self.w,self.h+variables.app_title_size)
+        if self.w<self.Env.width() and self.h<self.Env.height():
+            mainw.resize(self.w,self.h)
+            self.resize(self.w,self.h+variables.app_title_size)
+        else:
+            self.setGeometry(0, 0, self.Env.width(), self.Env.height())
+            mainw.resize(self.Env.width(), self.Env.height() - variables.app_title_size)
 
     def SetWindowTitle (self,text):
         self.titletext.setText(text)
