@@ -1797,10 +1797,12 @@ class Package:
                         files.append('/app/cache/clones/pyabr/upgrade.list',i.replace('.manifest')+"\n")
 
             #if o0<n0 or o1<n1 or o2<n2:
-            commands.cc(['/app/cache/clones/pyabr/upgrade.py'])
-            System('/app/cache/clones/pyabr/upgrade')
-            shutil.make_archive(files.input('/app/cache/clones/pyabr/stor'),'zip',files.input('/app/cache/clones/pyabr/stor'))
-            shutil.unpack_archive(files.input('/app/cache/clones/pyabr/stor.zip'),files.input('/'),'zip')
+            listu = files.list('/app/packages')
+            for i in listu:
+                if i.endswith('.manifest'):
+                    if files.isdir ('/app/cache/clones/pyabr/packs/'+i.replace('.manifest','')):
+                        self.build('/app/cache/clones/pyabr/packs/'+i.replace('.manifest',''))
+                        self.unpack('/app/cache/clones/pyabr/packs/'+i.replace('.manifest','.pa'))
             #else:
             #    colors.show('', 'ok', 'Cloud software is up to date.')
         else:
