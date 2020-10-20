@@ -16,7 +16,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyabr",  # Replace with your own username
-    version="0.1.9",
+    version="0.2.0",
     author="Mani Jamali",
     author_email="manijamali2003@gmail.com",
     description="Pyabr cloud software",

@@ -1,0 +1,10 @@
+
+cc [src] [dest]
+
+ <src>          <dest>      <job>
+ main.py                    Compile 'main.py' to 'main.pyc' file.
+ main.py        hello.pyc   Compile 'main.py' to 'hello.pyc' file.
+ main.c                     Compile 'main.c' to 'main' file.
+ main.c         hello       Compile 'main.c' to 'hello' file.
+ main.cpp                   Compile 'main.cpp' to 'main' file.
+ main.cpp       hello       Compile 'main.cpp' to 'hello' file.

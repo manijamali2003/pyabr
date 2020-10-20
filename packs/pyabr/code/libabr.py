@@ -446,7 +446,10 @@ class Commands:
                 colors.show("cat", "fail", name + ": is a directory.")
             else:
                 if permissions.check(files.output(name), "w", files.readall("/proc/info/su")):
-                    files.write(name,cmdln[3])
+                    strv = ''
+                    for i in cmdln[3:]:
+                        strv+=' '+i
+                    files.write(name,strv[1:])
                 else:
                     colors.show("cat", "perm", "")
 

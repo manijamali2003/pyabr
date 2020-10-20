@@ -8,6 +8,7 @@ Standard commands in internal Pyabr library ('/usr/app/libabr.pyc'):
     chown      Change owner of permissions
     clean      Clear all variables in controller
     clear      Clear screen
+    cc         Compiler Collection
     cp         Copy files or directories
     date       Show time and date
     echo       Output a message

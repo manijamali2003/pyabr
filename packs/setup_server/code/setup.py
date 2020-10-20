@@ -75,9 +75,9 @@ file.write('enable_cli: '+guest+"\nenable_gui: "+guest)
 file.close()
 
 # remove the setup
-if os.path.isfile ('app/packages/setup.compile'): os.remove('app/packages/setup.compile')
-if os.path.isfile ('app/packages/setup.list'): os.remove('app/packages/setup.list')
-if os.path.isfile ('app/packages/setup.manifest'): os.remove('app/packages/setup.manifest')
+if os.path.isfile ('app/packages/setup_server.compile'): os.remove('app/packages/setup_server.compile')
+if os.path.isfile ('app/packages/setup_server.list'): os.remove('app/packages/setup_server.list')
+if os.path.isfile ('app/packages/setup_server.manifest'): os.remove('app/packages/setup_server.manifest')
 
 # theme
 

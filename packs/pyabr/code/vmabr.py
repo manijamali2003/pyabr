@@ -128,9 +128,31 @@ if argv[0]=='exec':
 
                 appname = argv[1]
 
-                sys.path.append(files.parentdir (appname))
+                parent = files.parentdir(files.output(appname))[1:]
+
+                sys.path.append(parent)
                 __import__(files.filename(appname))
-                sys.path.remove (files.parentdir (appname))
+                sys.path.remove (parent)
+
+                # remove pycache
+                if files.isdir (files.output('./__pycache__')): files.removedirs (files.output('./__pycache__'))
+            else:
+                colors.show(argv[1], "perm", "")
+
+        elif files.isfile(argv[1]+".py") and outside=='Yes':
+            if permissions.check(files.output(argv[1])+".py", "x", user):
+                ## Set args ##
+                sys.argv = argv[1:]
+
+                appname = argv[1]
+
+                parent = files.parentdir(files.output(appname))[1:]
+
+                sys.path.append(parent)
+                __import__(files.filename(appname))
+                sys.path.remove (parent)
+
+                if files.isdir (files.output('./__pycache__')): files.removedirs (files.output('./__pycache__'))
             else:
                 colors.show(argv[1], "perm", "")
 
@@ -188,6 +210,17 @@ if argv[0]=='exec':
                 sys.argv = argv[1:]
 
                 __import__(argv[1])
+            else:
+                colors.show(argv[1], "perm", "")
+
+        elif files.isfile("/usr/app/"+argv[1]+".py") and outside=='Yes':
+            if permissions.check("/usr/app/"+files.output(argv[1])+".py", "x", user):
+                ## Set args ##
+                sys.argv = argv[1:]
+
+                __import__(argv[1])
+
+                if files.isdir (files.output('./__pycache__')): files.removedirs (files.output('./__pycache__'))
             else:
                 colors.show(argv[1], "perm", "")
 
