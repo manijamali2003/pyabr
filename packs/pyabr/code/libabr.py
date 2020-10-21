@@ -124,6 +124,8 @@ class Commands:
             type = 'c++'
         elif filename.endswith ('.py'):
             type = 'python'
+        elif filename.endswith ('.java'):
+            type = 'java'
 
         # compile types #
         if type=='python':
@@ -139,7 +141,6 @@ class Commands:
                     sys.exit(0)
                 py_compile.compile(files.input(filename), files.input(output))
 
-            colors.show('','ok','Compile '+filename+" ...")
 
         elif type=='c':
             if args[1:] == []:
@@ -157,7 +158,6 @@ class Commands:
 
             subprocess.call(strv)
 
-            colors.show('', 'ok', 'Compile ' + filename + " ...")
 
         elif type=='c++':
             if args[1:] == []:
@@ -174,9 +174,8 @@ class Commands:
 
             subprocess.call(strv)
 
-            colors.show('', 'ok', 'Compile ' + filename + " ...")
 
-        elif type=='.java':
+        elif type=='java':
             if not permissions.check(files.output(filename.replace('.java','.class')), "w", files.readall("/proc/info/su")):
                 colors.show('cc', 'perm', '')
                 sys.exit(0)
@@ -186,11 +185,10 @@ class Commands:
             if java_home==None:
                 colors.show('cc', 'fail', 'java_home variable was not set.')
             else:
-                strv = java_home+"/"+control.read_record('class.java', '/etc/compiler').replace("{src}", files.input(filename))
+                strv = (java_home+control.read_record('class.java', '/etc/compiler').replace("{src}", files.input(filename).replace('.//',''))).split (' ')
 
                 subprocess.call(strv)
 
-                colors.show('', 'ok', 'Compile ' + filename + " ...")
         else:
             colors.show('cc','fail','not supported programing language.')
 
@@ -246,7 +244,6 @@ class Commands:
         if permissions.check_owner(files.output(filename), files.readall("/proc/info/su")):
             owner = permissions.get_owner(files.output(filename))
             permissions.create(files.output(filename), perm_user, perm_others, perm_guest, owner)
-            colors.show('', 'ok', 'Change mode of \'' + filename + '\' to ' + mod + '.')
         else:
             colors.show("chmod", "perm", "")
 
@@ -288,7 +285,6 @@ class Commands:
         colors = Colors()
         process = Process()
 
-        colors.show('', 'ok', 'Logging out from all users ...')
         if files.isfile("/proc/selected"): files.remove("/proc/selected")
         process.endall()
         subprocess.call([sys.executable,files.readall("/proc/info/boot"), 'login'])
@@ -304,7 +300,6 @@ class Commands:
         user = control.read_record("username", "/tmp/su.tmp")
         code = control.read_record ("code","/tmp/su.tmp")
 
-        colors.show('', 'ok', 'Switching a new process ...')
         if files.isfile("/proc/selected"): files.remove("/proc/selected")
         if user == "guest":
             subprocess.call([sys.executable,boot, 'user', 'guest'])
@@ -317,7 +312,6 @@ class Commands:
         files = Files()
         process = Process()
 
-        colors.show('', 'ok', 'Rebooting the cloud software ...')
         if files.isfile("/proc/selected"): files.remove("/proc/selected")
         colors.show("kernel", "reboot", "")
         if files.isdir("/desk/guest"):
@@ -335,7 +329,6 @@ class Commands:
         files = Files()
         process = Process()
 
-        colors.show('', 'ok', 'Closing the switched process ...')
         if files.isfile("/proc/selected"): files.remove("/proc/selected")
         process.end(int(files.readall("/proc/info/sp")))
 
@@ -355,7 +348,6 @@ class Commands:
         files = Files()
         process = Process()
 
-        colors.show('', 'ok', 'Shutdowning the cloud software ...')
         if files.isdir("/desk/guest"):
             files.removedirs("/desk/guest")
         if files.isdir("/tmp"):
@@ -565,8 +557,6 @@ class Commands:
         if not select.startswith("/proc/"):
             if permissions.check(files.output(select), "w", user):
                 files.create(select)
-                text = 'Clean the \'' + select + "' controller."
-                colors.show('', 'ok', text)
             else:
                 colors.show("clean", "perm", "")
         else:
@@ -608,7 +598,6 @@ class Commands:
         src = cmdln[1]
         dest = cmdln[2]
 
-        colors.show('', 'ok', 'Copy \'' + cmdln[1] + '\' to \'' + cmdln[2] + '\'.')
 
 
         if files.isdir(src):
@@ -681,7 +670,6 @@ class Commands:
             listinfo = files.list("/proc/info")
             for i in listinfo:
                 control.write_record(i, files.readall("/proc/info/" + i), select)
-        colors.show('', 'ok', 'Insert informations into \'' + select + "\' controller.")
 
     # help command #
     def help (self,args):
@@ -795,7 +783,6 @@ class Commands:
             else:
                 if permissions.check(files.output(i), "w", files.readall("/proc/info/su")):
                     files.makedirs(i)
-                    colors.show('', 'ok', 'Create \'' + i + "' directory.")
                 else:
                     colors.show("mkdir", "perm", "")
 
@@ -881,7 +868,6 @@ class Commands:
                 if permissions.check(files.output(i), "w", files.readall("/proc/info/su")):
                     files.removedirs(i)
                     control.remove_record(i,'/etc/permtab')
-                    colors.show('', 'ok', "Remove '" + i + "' directory.")
                 else:
                     colors.show("rm", "perm", "")
                     sys.exit(0)
@@ -889,7 +875,6 @@ class Commands:
                 if permissions.check(files.output(i), "w", files.readall("/proc/info/su")):
                     files.remove(i)
                     control.remove_record(i, '/etc/permtab')
-                    colors.show('', 'ok', "Remove '" + i + "' file.")
                 else:
                     colors.show("rm", "perm", "")
                     sys.exit(0)
@@ -1014,7 +999,6 @@ class Commands:
                 print('Try agian!')
 
         control.write_record('code',hashlib.sha3_512(newcode.encode()).hexdigest(),'/etc/users/'+user)
-        colors.show('', 'ok', 'Password is successfuly changed.')
 
     # say command #
     def say (self,args):
@@ -1048,7 +1032,6 @@ class Commands:
             if permissions.check(files.output(database_name), "r", files.readall("/proc/info/su")):
                 files.write("/proc/info/sel", database_name)
                 files.create("/proc/selected")
-                colors.show('', 'ok', "Select '" + database_name + "' controller.")
             else:
                 colors.show("sel", "perm", "")
         else:
@@ -1078,7 +1061,6 @@ class Commands:
         if not select.startswith("/proc/"):
             if permissions.check(files.output(select), "w", files.readall("/proc/info/su")):
                 control.write_record(name, value, select)
-                colors.show('', 'ok', "Set '" + name + "' as '" + value + "'.")
             else:
                 colors.show("set", "perm", "")
         else:
@@ -1094,11 +1076,9 @@ class Commands:
         permissions = Permissions()
 
         if args == []:
-            colors.show('', 'ok', "Wait about 3 seconds ...")
             time.sleep(3)
         else:
             timeout = float(args[0])
-            colors.show('', 'ok', "Wait about " + str(timeout) + " seconds ...")
             time.sleep(int(timeout))
 
     # su command #
@@ -1123,7 +1103,6 @@ class Commands:
         elif input_username == "guest":
             enable_cli = control.read_record("enable_cli", "/etc/guest")
             if enable_cli == "Yes":
-                colors.show('', 'ok', "Switching '" + input_username + "' user account.")
                 subprocess.call ([sys.executable,files.readall("/proc/info/boot"),'user','guest'])
             else:
                 colors.show(input_username, "fail", "user not found.")
@@ -1136,7 +1115,6 @@ class Commands:
                 hashcode = hashlib.sha3_512(str(input_password).encode()).hexdigest()
                 password = control.read_record("code", "/etc/users/" + input_username)
                 if hashcode == password:
-                    colors.show('', 'ok', "Switching '" + input_username + "' user account ...")
                     subprocess.call ([sys.executable,files.readall("/proc/info/boot"),'user',input_username,input_password])
                 else:
                     colors.show("su", "fail", input_username + ": wrong password.")
@@ -1201,7 +1179,6 @@ class Commands:
 
                 if hashname == username:
                     files.append('/etc/sudoers', args[1] + "\n")
-                    colors.show('', 'ok', 'Add \'' + args[1] + '\' user account in sudoers.')
                 else:
                     colors.show('sudo', 'fail', args[1] + ": user not found.")
             else:
@@ -1277,7 +1254,6 @@ class Commands:
 
                 control.write_record('/desk/'+input_username,"drwxr-x---/"+input_username,'/etc/permtab')
 
-                colors.show('', 'ok', "Add '" + input_username + "' user account.")
         else:
             colors.show("uadd", "perm", "")
 
@@ -1317,7 +1293,6 @@ class Commands:
                             if files.isdir('/desk/' + input_username):
                                 files.removedirs("/desk/" + input_username)
                                 control.remove_record('/desk/'+input_username,'/etc/permtab')
-                            colors.show('', 'ok', "Remove '" + input_username + "' user account.")
             else:
                 colors.show("udel", "perm", "")
 
@@ -1389,7 +1364,6 @@ class Commands:
         else:
             files.write("/proc/info/sel", "/proc/" + files.readall("/proc/info/sp"))
             if files.isfile("/proc/selected"): files.remove("/proc/selected")
-            colors.show('', 'ok', 'Select the switched process as a controller.')
 
     # upv command #
     def upv (self,args):
@@ -1436,7 +1410,6 @@ class Commands:
 
         ## Download ##
 
-        colors.show('', 'ok', 'Download \'' + sys.argv[2] + "\' from (" + sys.argv[1] + ") ...")
         url = args[0]
 
         import requests
@@ -1799,15 +1772,15 @@ class Package:
                     if i=='baran' or i=='calculator' or i=='calendar' or i=='commento' or i=='numix':
                         files.append('/app/cache/clones/pyabr/upgrade.list',i.replace('.manifest')+"\n")
 
-            #if o0<n0 or o1<n1 or o2<n2:
-            listu = files.list('/app/packages')
-            for i in listu:
-                if i.endswith('.manifest'):
-                    if files.isdir ('/app/cache/clones/pyabr/packs/'+i.replace('.manifest','')):
-                        self.build('/app/cache/clones/pyabr/packs/'+i.replace('.manifest',''))
-                        self.unpack('/app/cache/clones/pyabr/packs/'+i.replace('.manifest','.pa'))
-            #else:
-            #    colors.show('', 'ok', 'Cloud software is up to date.')
+            if o0<n0 or o1<n1 or o2<n2:
+                listu = files.list('/app/packages')
+                for i in listu:
+                    if i.endswith('.manifest'):
+                        if files.isdir('/app/cache/clones/pyabr/packs/' + i.replace('.manifest', '')):
+                            self.build('/app/cache/clones/pyabr/packs/' + i.replace('.manifest', ''))
+                            self.unpack('/app/cache/clones/pyabr/packs/' + i.replace('.manifest', '.pa'))
+            else:
+                colors.show ('paye','warning','all package was up to date.')
         else:
             colors.show("paye", "perm", "")
     ##  remove a mirror ##
@@ -2005,7 +1978,6 @@ class App:
         if files.isfile('/proc/id/' + id):
             pass
 
-        colors.show(id, 'ok-start', '')
 
         ## Create id ##
         files.create("/proc/id/" + id)
@@ -2037,7 +2009,6 @@ class App:
         self.lang = control.read_record('locale', '/etc/gui')
         if files.isfile('/proc/id/' + id):
             ## Remove id ##
-            colors.show(id, 'ok-end', '')
             files.remove("/proc/id/" + id)
 
     ## Shut id ##
@@ -2061,7 +2032,6 @@ class App:
         for i in listid:
             if files.isfile('/proc/id/' + i):
                 files.remove('/proc/id/' + i)
-                colors.show(i, 'ok-endid', '')
 
     ## Switch id process ##
     def switch(self,id):
@@ -2070,7 +2040,6 @@ class App:
         colors = Colors()
         self.lang = control.read_record('locale', '/etc/gui')
         if files.isfile('/proc/id/' + id):
-            colors.show(id, 'ok-id', '')
             files.write("/proc/info/id", id)
 
 # process #
@@ -2114,8 +2083,6 @@ class Process:
         colors = Colors()
 
         if not files.isfile("/proc/" + str(switch)):
-            colors.show("/proc/" + str(switch), "ok-endswitch", "")
-            colors.show("", "poweroff", "process")
             sys.exit(0)
         else:
             if files.isfile("/proc/info/sp"): files.remove("/proc/info/sp")
@@ -2788,133 +2755,18 @@ class Colors:
         control = Control()
         if process_type == "fail":
             print(self.get_fail() + process_name + ": error: " + process_message + self.get_colors())
-        elif process_type == "ok":
-            ok = control.read_record('ok', '/etc/procmsg')
-            if ok == 'Yes':
-                print(self.get_ok() + process_message + self.get_colors())
         elif process_type == "perm":
             print(self.get_fail() + process_name + ": error: " + "Permission denied." + self.get_colors())
-        elif process_type == "upgrade":
-            repo = control.read_record('upgrade-mirror', '/etc/repo')
-            print(self.get_ok() + "Upgrade: " + self.get_colors() + " to lates version from (" + repo + ") ...")
         elif process_type == "warning":
             print(self.get_warning() + process_name + ": warning: " + process_message + self.get_colors())
-        elif process_type == "ok-start":
-            if (
-                    (self.argv == 'kernel' and self.kernel == "Yes") or
-                    (self.argv == 'gui' and self.gui == "Yes") or
-                    (self.argv == 'gui-splash' and self.gui_splash == "Yes") or
-                    (self.argv == 'gui-login' and self.gui_login == "Yes") or
-                    (self.argv == 'gui-enter' and self.gui_enter == "Yes") or
-                    (self.argv == 'gui-desktop' and self.gui_desktop == "Yes") or
-                    (self.argv == 'login' and self.login == "Yes") or
-                    (self.argv == 'user' and self.user == "Yes") or
-                    (self.argv == 'exec' and self.exec == "Yes")
-            ):
-                print("[ " + self.get_ok() + " OK " + self.get_colors() + " ] Start " + process_name + " process.")
-        elif process_type == "ok-end":
-            if (
-                    (self.argv == 'kernel' and self.kernel == "Yes") or
-                    (self.argv == 'gui' and self.gui == "Yes") or
-                    (self.argv == 'gui-splash' and self.gui_splash == "Yes") or
-                    (self.argv == 'gui-login' and self.gui_login == "Yes") or
-                    (self.argv == 'gui-enter' and self.gui_enter == "Yes") or
-                    (self.argv == 'gui-desktop' and self.gui_desktop == "Yes") or
-                    (self.argv == 'login' and self.login == "Yes") or
-                    (self.argv == 'user' and self.user == "Yes") or
-                    (self.argv == 'exec' and self.exec == "Yes")
-            ):
-                print("[ " + self.get_ok() + " OK " + self.get_colors() + " ] End " + process_name + " process.")
-        elif process_type == "ok-switch":
-            if (
-                    (self.argv == 'kernel' and self.kernel == "Yes") or
-                    (self.argv == 'gui' and self.gui == "Yes") or
-                    (self.argv == 'gui-splash' and self.gui_splash == "Yes") or
-                    (self.argv == 'gui-login' and self.gui_login == "Yes") or
-                    (self.argv == 'gui-enter' and self.gui_enter == "Yes") or
-                    (self.argv == 'gui-desktop' and self.gui_desktop == "Yes") or
-                    (self.argv == 'login' and self.login == "Yes") or
-                    (self.argv == 'user' and self.user == "Yes") or
-                    (self.argv == 'exec' and self.exec == "Yes")
-            ):
-                print("[ " + self.get_ok() + " OK " + self.get_colors() + " ] Switch " + process_name + " process.")
-        elif process_type == "ok-endswitch":
-            if (
-                    (self.argv == 'kernel' and self.kernel == "Yes") or
-                    (self.argv == 'gui' and self.gui == "Yes") or
-                    (self.argv == 'gui-splash' and self.gui_splash == "Yes") or
-                    (self.argv == 'gui-login' and self.gui_login == "Yes") or
-                    (self.argv == 'gui-enter' and self.gui_enter == "Yes") or
-                    (self.argv == 'gui-desktop' and self.gui_desktop == "Yes") or
-                    (self.argv == 'login' and self.login == "Yes") or
-                    (self.argv == 'user' and self.user == "Yes") or
-                    (self.argv == 'exec' and self.exec == "Yes")
-            ):
-                print("[ " + self.get_ok() + " OK " + self.get_colors() + " ] End " + process_name + " switched process.")
-        elif process_type == "ok-id":
-            if (
-                    (self.argv == 'kernel' and self.kernel == "Yes") or
-                    (self.argv == 'gui' and self.gui == "Yes") or
-                    (self.argv == 'gui-splash' and self.gui_splash == "Yes") or
-                    (self.argv == 'gui-login' and self.gui_login == "Yes") or
-                    (self.argv == 'gui-enter' and self.gui_enter == "Yes") or
-                    (self.argv == 'gui-desktop' and self.gui_desktop == "Yes") or
-                    (self.argv == 'login' and self.login == "Yes") or
-                    (self.argv == 'user' and self.user == "Yes") or
-                    (self.argv == 'exec' and self.exec == "Yes")
-            ):
-                print("[ " + self.get_ok() + " OK " + self.get_colors() + " ] Switch ID " + process_name + " process.")
-        elif process_type == "ok-endid":
-            if (
-                    (self.argv == 'kernel' and self.kernel == "Yes") or
-                    (self.argv == 'gui' and self.gui == "Yes") or
-                    (self.argv == 'gui-splash' and self.gui_splash == "Yes") or
-                    (self.argv == 'gui-login' and self.gui_login == "Yes") or
-                    (self.argv == 'gui-enter' and self.gui_enter == "Yes") or
-                    (self.argv == 'gui-desktop' and self.gui_desktop == "Yes") or
-                    (self.argv == 'login' and self.login == "Yes") or
-                    (self.argv == 'user' and self.user == "Yes") or
-                    (self.argv == 'exec' and self.exec == "Yes")
-            ):
-                print("[ " + self.get_ok() + " OK " + self.get_colors() + " ] End " + process_name + " ID process.")
         elif process_type == "fail-start":
             print("[ " + self.get_fail() + "FAIL " + self.get_colors() + "] Fail to start " + process_name + " process.")
         elif process_type == "fail-switch":
             print("[ " + self.get_fail() + "FAIL " + self.get_colors() + "] Fail to switch " + process_name + " process.")
         elif process_type == "stop":
             print("[ " + self.get_fail() + "STOP" + self.get_colors() + " ] Stop the " + process_name)
-        elif process_type == "ok-show":
-            print("[ " + self.get_ok() + " OK " + self.get_colors() + " ] " + process_message)
         elif process_type == "fail-show":
             print("[ " + self.get_fail() + "FAIL" + self.get_colors() + " ] " + process_message)
-        elif process_type == "poweron":
-            if (
-                    (self.argv == 'kernel' and self.kernel == "Yes") or
-                    (self.argv == 'gui' and self.gui == "Yes") or
-                    (self.argv == 'gui-splash' and self.gui_splash == "Yes") or
-                    (self.argv == 'gui-login' and self.gui_login == "Yes") or
-                    (self.argv == 'gui-enter' and self.gui_enter == "Yes") or
-                    (self.argv == 'gui-desktop' and self.gui_desktop == "Yes") or
-                    (self.argv == 'login' and self.login == "Yes") or
-                    (self.argv == 'user' and self.user == "Yes") or
-                    (self.argv == 'exec' and self.exec == "Yes")
-            ):
-                print("[ " + self.get_ok() + " OK " + self.get_colors() + " ] Power on the kernel")
-        elif process_type == "poweroff":
-            if (
-                    (self.argv == 'kernel' and self.kernel == "Yes") or
-                    (self.argv == 'gui' and self.gui == "Yes") or
-                    (self.argv == 'gui-splash' and self.gui_splash == "Yes") or
-                    (self.argv == 'gui-login' and self.gui_login == "Yes") or
-                    (self.argv == 'gui-enter' and self.gui_enter == "Yes") or
-                    (self.argv == 'gui-desktop' and self.gui_desktop == "Yes") or
-                    (self.argv == 'login' and self.login == "Yes") or
-                    (self.argv == 'user' and self.user == "Yes") or
-                    (self.argv == 'exec' and self.exec == "Yes")
-            ):
-                print("[ " + self.get_ok() + " OK " + self.get_colors() + " ] Power off the kernel")
-        elif process_type == "reboot":
-            print("[ " + self.get_ok() + " OK " + self.get_colors() + " ] Restart the kernel")
 
     def color(self,style, text, background):
         files = Files()

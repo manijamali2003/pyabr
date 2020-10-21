@@ -60,3 +60,13 @@ pysys.sleep: Sleep
 pysys.app_name: Power Options
 commento.app_name: Terminal
 roller.app_name: Files
+input.title: Enter a value
+input.cancel: Cancel
+input.ok: OK
+select.dir: Choose a directory
+select.file: Choose a file
+select.choose: Choose
+select.cancel: Cancel
+select.open: Open
+select.save: Save
+select.save-as: Save As

@@ -1,2 +1,3 @@
 baran.py:usr/app/baran.pyc
-box.py:usr/app/box.pyc
+inputbox.py:usr/app/inputbox.pyc
+selectbox.py:usr/app/selectbox.pyc

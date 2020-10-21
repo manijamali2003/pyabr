@@ -60,3 +60,13 @@ pysys.sleep: ينام
 pysys.app_name: خيارات الطاقة
 commento.app_name: محطة
 roller.app_name: الملفات
+input.title: أدخل قيمة
+input.cancel: إلغاء
+input.ok: حسنا
+select.dir: اختر دليلاً
+select.file: اختيار ملف
+select.choose: أختر
+select.cancel: إلغاء
+select.open: افتح
+select.save: حفظ
+select.save-as: حفظ

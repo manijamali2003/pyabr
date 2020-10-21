@@ -60,3 +60,15 @@ pysys.sleep: حالت خواب
 pysys.app_name: تنظیمات خاموش/روشن
 commento.app_name: پایانه
 roller.app_name: فایل ها
+input.title: یک مقدار وارد کنید
+open.choose_dir: یک پوشه انتخاب کنید
+open.choose_file: یک فایل انتخاب کنید
+input.cancel: انصراف
+input.ok: تایید
+select.dir: یک پوشه انتخاب کنید
+select.file: یک فایل انتخاب کنید
+select.choose: انتخاب
+select.cancel: انصراف
+select.open: بازکن
+select.save: ذخیره کن
+select.save-as: ذخیره کن

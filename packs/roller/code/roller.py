@@ -118,8 +118,6 @@ class FileListView (QtWidgets.QListView):
                 self.parentdir.setWhatsThis('<parent>')
                 self.entry.appendRow(self.parentdir)
 
-                print (files.output(files.output(self.dir)))
-
                 for text in self.listdir:
                     it = QtGui.QStandardItem(text)
                     it.setWhatsThis(self.dir + "/" + text)
@@ -215,8 +213,6 @@ class DirListView (QtWidgets.QListView):
                 self.parentdir.setIcon(QtGui.QIcon(res.get('@icon/folder')))
                 self.parentdir.setWhatsThis('<parent>')
                 self.entry.appendRow(self.parentdir)
-
-                print (files.output(files.output(self.dir)))
 
                 for text in self.listdir:
                     if files.isdir (self.dir + "/" + text):

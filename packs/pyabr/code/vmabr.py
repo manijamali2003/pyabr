@@ -287,7 +287,6 @@ if switch == None:
 files.write("/proc/info/sel","/proc/"+str(switch))
 select = files.readall("/proc/info/sel")
 
-colors.show ("/proc/"+str(switch),"ok-switch","")
 
 ####################################################################################################
 
@@ -296,7 +295,6 @@ colors.show ("/proc/"+str(switch),"ok-switch","")
 if files.isfile("/etc/hostname"):
     files.copy("/etc/hostname", "/proc/info/host")
     hostname = files.readall("/etc/hostname")
-    colors.show("hostname", "ok-start", "")
 else:
     colors.show("hostname", "fail-start", "")
     colors.show("kernel", "stop", "")
@@ -314,7 +312,6 @@ if files.isfile("/etc/distro"):
     files.write("/proc/info/cd", distro_code)
     files.write("/proc/info/ver", distro_version)
     files.write("/proc/info/bl", distro_build)
-    colors.show("distro", "ok-start", "")
 else:
     colors.show("distro", "fail-start", "")
     colors.show("kernel", "stop", "")
@@ -323,13 +320,11 @@ else:
 ## @core/kernel-info ##
 
 if not (argv[0]=='user' or argv[0]=='login'):
-    colors.show("kernel-info", "ok-start", "")
     files.write("/proc/info/kname", kernel_name)
     files.write("/proc/info/kver", kernel_version)
 
 ## @core/system-info ##
 
-    colors.show("system-info", "ok-start", "")
     ip = socket.gethostbyname(socket.gethostname())
     osname = platform.system()
     arch = platform.architecture()[0]
@@ -361,7 +356,6 @@ if not (argv[0]=='user' or argv[0]=='login'):
 
 ## @core/dirs ##
 
-colors.show("dirs", "ok-start", "")
 fhs = control.read_list ("/etc/fhs")
 for i in fhs:
     if not files.isdir (i) and not files.isfile (i):
@@ -370,7 +364,6 @@ for i in fhs:
 ## @core/welcome ##
 
 if argv[0]=="kernel":
-    colors.show("welcome", "ok-start", "")
     print ()
     print ("Welcome to "+distro_name+" "+distro_version+" ("+distro_code+") cloud software.")
     print()
@@ -378,7 +371,6 @@ if argv[0]=="kernel":
 ## @core/issue ##
 
 if (argv[0]=="kernel") and files.isfile ("/etc/issue"):
-    colors.show("issue","ok-start","")
     print ()
     print (files.readall("/etc/issue"))
     print ()
@@ -402,7 +394,6 @@ if argv[0]=="gui":
     files.write('/tmp/height', str(height))
 
     if not desktop == None:
-        colors.show("gui", "ok-start", "")
         w = importlib.import_module(desktop).Backend()
     else:
         colors.show('gui', 'fail-start', '')
@@ -430,8 +421,6 @@ if argv[0]=="gui-splash":
     files.write('/tmp/height', str(height))
 
     if not desktop == None:
-        colors.show("gui", "ok-start", "")
-        colors.show("gui-splash", "ok-start", "")
         w = importlib.import_module(desktop).Backend()
     else:
         colors.show('gui-splash', 'fail-start', '')
@@ -458,8 +447,6 @@ if argv[0]=="gui-login":
     files.write('/tmp/height', str(height))
 
     if not desktop == None:
-        colors.show("gui", "ok-start", "")
-        colors.show("gui-login", "ok-start", "")
         w = importlib.import_module(desktop).Backend()
     else:
         colors.show('gui-login', 'fail-start', '')
@@ -500,8 +487,6 @@ if argv[0]=="gui-enter":
 
     control.write_record('params', 'enter,{username}'.replace('{username}', argv[1]), '/etc/gui')
     if not desktop == None:
-        colors.show("gui", "ok-start", "")
-        colors.show("gui-enter", "ok-start", "")
         w = importlib.import_module(desktop).Backend()
     else:
         colors.show('gui-enter', 'fail-start', '')
@@ -552,8 +537,6 @@ if argv[0]=="gui-desktop":
                                                                                                 argv[2]),
                          '/etc/gui')
     if not desktop == None:
-        colors.show("gui", "ok-start", "")
-        colors.show("gui-desktop", "ok-start", "")
         w = importlib.import_module(desktop).Backend()
     else:
         colors.show('gui-desktop', 'fail-start', '')
@@ -756,7 +739,6 @@ if argv[0]=="user":
 ## @core/login ##
 
 if argv[0]=="kernel" or argv[0]=="login":
-    colors.show ("login","ok-start","")
     while True:
         print()
 

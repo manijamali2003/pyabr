@@ -3,11 +3,11 @@
 desktop: baran
 fullscreen: No
 sides: Yes
-width: 500
-height: 500
+width: 1280
+height: 720
 autosize: No
 logo: @icon/pyabr-logo
-locale: en
+locale: fa
 
 backend.color: black
 backend.timeout: 1000
