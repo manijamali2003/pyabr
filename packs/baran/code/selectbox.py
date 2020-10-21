@@ -273,7 +273,6 @@ class MainApp (QMainWindow):
         self.layout().addWidget(self.y)
 
         self.Widget.Resize(self,int(self.Env.width()/2),int(self.Env.height()/2))
-        files.write('/proc/info/inp', '')
 
     def inp(self):
         if self.mode=='select' or self.mode=='save' or self.mode=='save-as':

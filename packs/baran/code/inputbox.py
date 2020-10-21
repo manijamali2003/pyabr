@@ -34,7 +34,6 @@ class MainApp (QMainWindow):
         ## Finds ##
 
         self.Widget.Resize(self,int(self.Env.width()/3),100)
-        files.write('/proc/info/inp', '')
         self.leInput = QLineEdit()
         self.leInput.resize(int(self.Env.width()/3),50)
         f = QFont()

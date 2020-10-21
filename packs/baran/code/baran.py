@@ -2156,6 +2156,7 @@ class Desktop (QMainWindow):
             # app name
             appname = control.read_record('name['+self.locale+"]", find)
             shortcut = control.read_record('shortcut',find)
+            hidden = control.read_record('hidden',find)
 
             if appname == None:
                 appname = i.replace('.desk','')
@@ -2177,6 +2178,8 @@ class Desktop (QMainWindow):
             self.actApp.setFont(f) # set font actions
 
             self.actApp.triggered.connect(self.RunApplication)
+
+            if hidden=='Yes': self.actApp.setVisible(False)
 
         ## Etcetra menu ##
         self.etcmenu = QMenu()

@@ -271,4 +271,8 @@ class MainApp (QtWidgets.QMainWindow):
         self.setCentralWidget(self.x)
 
     def New_Folder (self):
-        self.x.mkdir(files.readall("/proc/info/inp")) #  https://www.tutorialspoint.com/pyqt/pyqt_qinputdialog_widget.htm
+        self.Env.RunApp('input')
+        self.printInp()
+
+    def printInp (self):
+        print(files.readall('/proc/info/inp'))
