@@ -45,6 +45,14 @@ class FileListView (QtWidgets.QListView):
 
         commands.mkdir([dirname])
 
+    def mkfile (self,filename):
+        it = QtGui.QStandardItem(filename)
+        it.setWhatsThis(self.dir + "/" + filename)
+        it.setIcon(QtGui.QIcon(res.get('@icon/gtk-file')))
+        self.entry.appendRow(it)
+        self.format(it, filename)
+        commands.cat (['-c',filename])
+
     def __init__(self):
         super().__init__()
         self.entry = QtGui.QStandardItemModel()
@@ -140,6 +148,14 @@ class DirListView (QtWidgets.QListView):
         self.entry.appendRow(it)
 
         commands.mkdir ([dirname])
+
+    def mkfile (self,filename):
+        it = QtGui.QStandardItem(filename)
+        it.setWhatsThis(self.dir + "/" + filename)
+        it.setIcon(QtGui.QIcon(res.get('@icon/gtk-file')))
+        self.entry.appendRow(it)
+        self.format(it, filename)
+        commands.cat (['-c',filename])
 
     def __init__(self):
         super().__init__()
@@ -256,8 +272,12 @@ class MainApp (QtWidgets.QMainWindow):
 
         ## File menu
 
+        self.new_file = self.file.addAction("New File")
+        self.new_file.triggered.connect(self.New_File)
+
         self.new_folder = self.file.addAction("New Folder")
         self.new_folder.triggered.connect(self.New_Folder)
+
         self.exit = self.file.addAction("Exit")
         self.exit.triggered.connect(self.Widget.Close)
 
@@ -271,10 +291,8 @@ class MainApp (QtWidgets.QMainWindow):
 
         self.setCentralWidget(self.x)
 
-    def newfolder(self,dirname):
-        self.x.mkdir(dirname)
-
     def New_Folder (self):
-        self.Env.RunApp('input',self.newfolder)
-        self.x.update()
-        self.update()
+        self.Env.RunApp('input',self.x.mkdir)
+
+    def New_File (self):
+        self.Env.RunApp('input',self.x.mkfile)
