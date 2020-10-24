@@ -46,7 +46,11 @@ class MainApp (QMainWindow):
         password_hint = control.read_record ('input.password_hint','/etc/configbox')
         if password_hint=='Yes':
             self.leInput.setEchoMode(QLineEdit.Password)
-        self.Widget.SetWindowTitle (res.get('@string/title'))
+
+        if self.External[0]=='' or self.External[0]==None:
+            self.Widget.SetWindowTitle (res.get('@string/title'))
+        else:
+            self.Widget.SetWindowTitle (self.External[0])
 
         self.btnCancel = QPushButton()
         self.btnCancel.setText(res.get('@string/cancel'))
@@ -62,5 +66,5 @@ class MainApp (QMainWindow):
 
     def inp(self):
         inputx = self.leInput.text()
-        self.External(inputx)
+        self.External[1](inputx)
         self.Widget.Close()

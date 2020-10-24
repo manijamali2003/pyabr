@@ -13,12 +13,13 @@ import sys , os
 from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtGui import QBrush, QColor
 
-from libabr import Files, Control, System, Res, Commands
+from libabr import Files, Control, System, Res, Commands, Permissions
 
 res = Res()
 files = Files()
 control = Control()
 commands = Commands()
+permissions = Permissions()
 
 class FileListView (QtWidgets.QListView):
     def format(self, it, text):
@@ -259,7 +260,14 @@ class MainApp (QtWidgets.QMainWindow):
         self.Backend = args[0]
         self.Env = args[1]
         self.Widget = args[2]
-        self.External = args[3]
+        self.AppName = args[3]
+        self.External = args[4]
+
+        if not self.External == None:
+            if not self.External[0]==None:
+                if permissions.check(files.output(self.External[0]), "r", files.readall("/proc/info/su")):
+                    if files.isdir (files.output(self.External[0])):
+                        files.write('/proc/info/pwd',files.output(self.External[0]))
 
         self.x = FileListView()
 
@@ -292,7 +300,7 @@ class MainApp (QtWidgets.QMainWindow):
         self.setCentralWidget(self.x)
 
     def New_Folder (self):
-        self.Env.RunApp('input',self.x.mkdir)
+        self.Env.RunApp('input',['Enter your folder name',self.x.mkdir])
 
     def New_File (self):
-        self.Env.RunApp('input',self.x.mkfile)
+        self.Env.RunApp('input',['Enter your file name',self.x.mkfile])

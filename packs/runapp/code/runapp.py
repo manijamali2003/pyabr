@@ -13,20 +13,22 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys, importlib
-from libabr import Files, Res
+from libabr import Files, Res, App
 files = Files()
 res = Res()
+app = App()
 
 class MainApp(QLineEdit):
     def correct (self):
         self.setStyleSheet('background-color: white;color: black;')
+        app.switch('runapp')
         self.Widget.SetWindowTitle(res.get('@string/app_name'))
         self.setEnabled(True)
         self.clear()
 
     def RunApp (self):
-        if files.isfile ("/usr/share/applications/"+self.text()+".desk"):
-            command = self.text().split(' ')
+        command = self.text().split(' ')
+        if files.isfile ("/usr/share/applications/"+command[0]+".desk"):
             self.Env.RunApp(command[0],command[1:])
             self.setEnabled(False)
             QTimer.singleShot(1000, self.correct)
@@ -42,7 +44,8 @@ class MainApp(QLineEdit):
         self.Backend = args[0]
         self.Env = args[1]
         self.Widget = args[2]
-        self.External = args[3]
+        self.AppName = args[3]
+        self.External = args[4]
 
         ## Widget configs ##
         self.Widget.SetWindowTitle (res.get('@string/app_name'))

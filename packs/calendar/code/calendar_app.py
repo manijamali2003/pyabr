@@ -29,7 +29,8 @@ class MainApp (QMainWindow):
         self.Backend = args[0]
         self.Env = args[1]
         self.Widget = args[2]
-        self.External = args[3]
+        self.AppName = args[3]
+        self.External = args[4]
 
         self.Widget.Resize(self,500,400)
 

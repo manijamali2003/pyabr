@@ -33,7 +33,8 @@ class MainApp (QWidget):
         self.Backend = ports[0]
         self.Env = ports[1]
         self.Widget = ports[2]
-        self.External = ports[3]
+        self.AppName = ports[3]
+        self.External = ports[4]
 
         self.Widget.setStyleSheet('background-color:white;')
 
