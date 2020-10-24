@@ -62,13 +62,13 @@
        height="80"
        width="80"
        id="rect1410"
-       style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-opacity:0.160751" />
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:0.160751" />
     <g
-       style="fill:#ffffff;fill-opacity:1"
+       style="fill:#000000;fill-opacity:1"
        id="g2162"
        transform="matrix(0.35875631,0,0,0.35875631,32.04508,44.125489)">
       <rect
-         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:8.50358;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.50358;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
          id="rect1970"
          width="70.351387"
          height="13.228465"
@@ -86,7 +86,7 @@
          height="13.228465"
          width="70.351387"
          id="rect1976"
-         style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:8.50358;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+         style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:8.50358;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
     </g>
     <rect
        style="opacity:0.8;fill:#008aff;fill-opacity:1;stroke-width:0.326599"

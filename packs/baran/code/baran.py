@@ -1456,6 +1456,7 @@ class AppWidget (QMainWindow):
         self.Backend = ports[0]
         self.Env = ports[1]
         self.appname = ports[2]
+        self.external = ports[3]
 
         # user
         self.username = self.Env.username
@@ -1610,7 +1611,7 @@ class AppWidget (QMainWindow):
         self.layouts.addWidget(self.btnEscape)
 
         # center widget #
-        self.mainWidget = exec.MainApp([self.Backend,self.Env,self,self.appname])
+        self.mainWidget = exec.MainApp([self.Backend,self.Env,self,self.appname,self.external])
         self.mainWidget.setGeometry(0,app_title_size,self.width(),self.height()-app_title_size)
         self.titlebar.setGeometry(0, 0, self.width(), app_title_size)
         self.setGeometry(int(self.Env.width()/2)-int(self.width()/2),int(self.Env.height()/2)-int(self.height()/2),self.width(),self.height())
@@ -1671,12 +1672,12 @@ class Shell (QWidget):
 class Desktop (QMainWindow):
     locale = control.read_record("locale", "/etc/gui")
 
-    def RunApp (self,appname):
-        self.layout().addWidget(AppWidget([self.Backend, self, appname]))
+    def RunApp (self,appname,external):
+        self.layout().addWidget(AppWidget([self.Backend, self, appname,external]))
 
     def RunApplication (self):
         sender = self.sender().objectName()
-        self.RunApp (sender.replace('.desk',''))
+        self.RunApp (sender.replace('.desk',''),None)
 
     def escape_act (self):
         app.endall()
@@ -2341,3 +2342,5 @@ class Desktop (QMainWindow):
             self.showFullScreen()
         else:
             self.show()
+
+    input = ''

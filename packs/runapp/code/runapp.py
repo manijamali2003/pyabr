@@ -26,7 +26,8 @@ class MainApp(QLineEdit):
 
     def RunApp (self):
         if files.isfile ("/usr/share/applications/"+self.text()+".desk"):
-            self.Env.RunApp(self.text())
+            command = self.text().split(' ')
+            self.Env.RunApp(command[0],command[1:])
             self.setEnabled(False)
             QTimer.singleShot(1000, self.correct)
         else:
@@ -41,6 +42,7 @@ class MainApp(QLineEdit):
         self.Backend = args[0]
         self.Env = args[1]
         self.Widget = args[2]
+        self.External = args[3]
 
         ## Widget configs ##
         self.Widget.SetWindowTitle (res.get('@string/app_name'))

@@ -29,6 +29,8 @@ class MainApp (QMainWindow):
         self.Backend = ports[0]
         self.Env = ports[1]
         self.Widget = ports[2]
+        self.Appname = ports[3]
+        self.External = ports[4]
 
         self.setStyleSheet('background-color: white;')
         ## Finds ##
@@ -59,5 +61,6 @@ class MainApp (QMainWindow):
         self.layout().addWidget(self.btnOK)
 
     def inp(self):
-        files.write ('/proc/info/inp',self.leInput.text())
+        inputx = self.leInput.text()
+        self.External(inputx)
         self.Widget.Close()

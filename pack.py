@@ -13,6 +13,8 @@ import os, shutil
 from buildlibs import control
 
 name = control.read_record('name','packs/pyabr/data/etc/distro')
+version = control.read_record('version','packs/pyabr/data/etc/distro')
+build = control.read_record('build','packs/pyabr/data/etc/distro')
 
 if os.path.isdir ('pack-release'):
     shutil.rmtree('pack-release')
@@ -30,6 +32,5 @@ for i in list:
     else:
         shutil.copyfile(i, 'pack-release/'+i)
 
-shutil.make_archive(name,'zip','pack-release')
-shutil.make_archive(name,'xztar','pack-release')
+shutil.make_archive(name+"-"+version+"-"+build,'zip','pack-release')
 shutil.rmtree('pack-release')

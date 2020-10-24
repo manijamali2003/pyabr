@@ -31,11 +31,10 @@ class MainApp(QtWidgets.QMainWindow):
         super(MainApp, self).__init__()
         uic.loadUi(res.get('@layout/commento'), self)
 
-        self.setStyleSheet('background-color: black;color: white;')
-
         self.Backend = ports[0]
         self.Env = ports[1]
         self.Widget = ports[2]
+        self.External = ports[3]
 
         self.Widget.Resize(self,700, 500)
 

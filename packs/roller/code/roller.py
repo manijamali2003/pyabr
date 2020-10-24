@@ -243,6 +243,7 @@ class MainApp (QtWidgets.QMainWindow):
         self.Backend = args[0]
         self.Env = args[1]
         self.Widget = args[2]
+        self.External = args[3]
 
         self.x = FileListView()
 
@@ -270,9 +271,10 @@ class MainApp (QtWidgets.QMainWindow):
 
         self.setCentralWidget(self.x)
 
-    def New_Folder (self):
-        self.Env.RunApp('input')
-        self.printInp()
+    def newfolder(self,dirname):
+        self.x.mkdir(dirname)
 
-    def printInp (self):
-        print(files.readall('/proc/info/inp'))
+    def New_Folder (self):
+        self.Env.RunApp('input',self.newfolder)
+        self.x.update()
+        self.update()
