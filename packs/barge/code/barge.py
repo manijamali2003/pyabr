@@ -27,4 +27,4 @@ class MainApp(QtWidgets.QMainWindow):
         # set font size
         f = QtGui.QFont()
         f.setPointSize(12)
-        self.setFont(f)
+        self.teEdit.setFont(f)

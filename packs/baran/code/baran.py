@@ -1404,7 +1404,7 @@ class TaskBar (QToolBar):
 
     def RunApplication (self):
         sender = self.sender().objectName()
-        self.Env.RunApp (sender)
+        self.Env.RunApp (sender,None)
 
 class AppWidget (QMainWindow):
     def Resize(self,mainw,w,h):
@@ -2323,6 +2323,8 @@ class Desktop (QMainWindow):
 
         self.resize(variables.width, variables.height)
 
+        ## Startup Applications ##
+        self.StartupApplication()
         ## Set sides ##
         ## Set sides ##
         sides = getdata('sides')
@@ -2350,8 +2352,5 @@ class Desktop (QMainWindow):
             self.showFullScreen()
         else:
             self.show()
-
-        ## Startup Applications ##
-        self.StartupApplication()
 
     input = ''

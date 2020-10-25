@@ -22,7 +22,6 @@ control = Control()
 res = Res()
 commands = Commands()
 
-
 class FileListView(QListView):
     def format(self, it, text):
         if files.isdir(self.dir + '/' + text):

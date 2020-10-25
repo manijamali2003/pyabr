@@ -28,7 +28,7 @@ class MainApp(QLineEdit):
 
     def RunApp (self):
         command = self.text().split(' ')
-        if files.isfile ("/usr/share/applications/"+command[0]+".desk"):
+        if app.exists(command[0]):
             self.Env.RunApp(command[0],command[1:])
             self.setEnabled(False)
             QTimer.singleShot(1000, self.correct)

@@ -29,7 +29,7 @@ app = App()
 class MainApp(QtWidgets.QMainWindow):
     def __init__(self,ports):
         super(MainApp, self).__init__()
-        uic.loadUi(res.get('@layout/commento'), self)
+        #uic.loadUi(res.get('@layout/commento'), self)
 
         self.Backend = ports[0]
         self.Env = ports[1]
@@ -53,13 +53,29 @@ class MainApp(QtWidgets.QMainWindow):
         files.write("/proc/info/sel", "/proc/" + str(self.switch))
         self.select = files.readall("/proc/info/sel")
 
+        self.textBrowser = QTextBrowser()
+        self.textBrowser.setStyleSheet('background-color:black;color:white;')
+        self.textBrowser.setGeometry(0,0,self.width(),self.height()-40)
+        f = QFont()
+        f.setFamily('DejaVu Sans Mono')
+        f.setPointSize(11)
+        self.textBrowser.setFont(f)
+        self.layout().addWidget(self.textBrowser)
+        self.lineEdit = QLineEdit()
+        f = QFont()
+        f.setFamily('Monospace')
+        f.setPointSize(11)
+        self.lineEdit.setFont(f)
+        self.lineEdit.setGeometry(0,self.height()-40,self.width(),40)
+
+        self.layout().addWidget(self.lineEdit)
+
         self.lineEdit.returnPressed.connect(self.doCMD)
         # self.pushButtonInstall.clicked.connect(self.onClick)
 
     def doCMD(self):
         cmd = self.lineEdit.text()
         self.lineEdit.setText("")
-
 
         ## Prompt data base ##
 
@@ -141,6 +157,10 @@ class MainApp(QtWidgets.QMainWindow):
             self.Env.reboot_act()
         elif cmd==" logout":
             self.Env.signout_act()
+        elif cmd.startswith(' @'):
+            command = cmd.replace(' @','').split(' ')
+            if app.exists(command[0]):
+                self.Env.RunApp(command[0], command[1:])
         elif cmd.startswith(' #') or cmd.startswith(" ;") or cmd.startswith(" //") or (cmd.startswith(" /*")and cmd.endswith("*/")):
             pass
         elif cmd=='' or cmd==' ' or cmd=='  ':

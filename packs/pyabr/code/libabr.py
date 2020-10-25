@@ -2042,6 +2042,14 @@ class App:
         if files.isfile('/proc/id/' + id):
             files.write("/proc/info/id", id)
 
+    ## Check application ##
+    def exists (self,app):
+        files = Files()
+        if files.isfile('/usr/share/applications/'+app+".desk"):
+            return True
+        else:
+            return False
+
 # process #
 
 class Process:
