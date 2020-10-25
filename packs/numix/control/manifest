@@ -3,6 +3,6 @@ copyright: (c) Debian Desktop Theme Team
 license: GNU GPL v3.+
 unpack: /
 build: 1399-07-22
-version: 20.06.07
-description: The Numix Icon Theme
+version: 0.0.2
+description: Numix for Pyabr cloud system
 compile: No

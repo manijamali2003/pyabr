@@ -86,10 +86,6 @@ class MainApp(QtWidgets.QWizard):
             pack.install()
             pack.inst('baran')
 
-            if platform.system() == 'Linux' and platform.node() == 'localhost':
-                os.remove('stor/vmabr.pyc')
-                shutil.copyfile('packs/pyabr/code/vmabr.py', 'stor/vmabr.py')
-
             # clean #
             if os.path.isdir('app'): shutil.rmtree('app')
             if os.path.isdir('build-packs'): shutil.rmtree('build-packs')
@@ -141,103 +137,77 @@ class MainApp(QtWidgets.QWizard):
             file = open("stor/etc/gui", "w")
             file.write("locale: " + locale + "\n")
             file.write('''
+#!etcetra
+
 desktop: baran
 fullscreen: Yes
 sides: No
-width: 720
-height: 1280
+width: 1280
+height: 720
 autosize: Yes
 logo: @icon/pyabr-logo
 locale: en
-lock.clock.shadow: No
-lock.clock.size: 30
-lock.clock.color: white
-lock.clock.location: center
-submenu.hide: No
-submenu.fgcolor: black
-submenu.bgcolor: white
-submenu.direction: ltr
-submenu.fontsize: 12
-titlebar.close: @icon/close
-titlebar.close-hover: @icon/close-hover
-titlebar.float: @icon/float
-titlebar.float-hover: @icon/float-hover
-titlebar.bgcolor: #123456
-titlebar.fgcolor: white
-taskbar.pins: calculator,calendar,pyshell,pysys,runapp
-taskbar.location: left
-taskbar.size: 140
-taskbar.locked: Yes
-taskbar.float: No
-backend.color: #000000
-backend.timeout: 100
-splash.color: #ABCDEF
+
+backend.color: black
+backend.timeout: 1000
+
 splash.timeout: 3000
-fullscreen: Yes
-autosize: Yes
-login.fgcolor: #000000
-login.background: @background/default
-enter.fgcolor: #000000
-enter.background: @background/default
-unlock.fgcolor: #000000
-unlock.background: @background/default
-desktop.fgcolor: #000000
-desktop.background: @background/default
-lock.bgcolor: #FFFFFF
-lock.fgcolor: #000000
-lock.background: @background/default
-taskbar.bgcolor: #FFFFFF
-loginw.bgcolor: #FFFFFF
-userlogo.color: #FFFFFF
-input.bgcolor: #FFFFFF
-input.fgcolor: #000000
-loginw.fgcolor: #000000
-loginw.round.size: 20
-loginw.userlogo.round-size: 350
-loginw.input.round-size: 20
-loginw.location: center
-loginw.input.fontsize: 16
-loginw.login.bgcolor: #ABCDEF
-loginw.login.fgcolor: #FFFFFF
-loginw.login.hover-bgcolor: #123456
-loginw.login.hover-fgcolor: #FFFFFF
-loginw.login.fontsize: 12
-loginw.login.round: Yes
-loginw.login.round-size: 20
-loginw.login.hide: No
-loginw.login.width: 350
-loginw.enter.bgcolor: pink
-loginw.enter.fgcolor: #FFFFFF
-loginw.enter.hover-bgcolor: purple
-loginw.enter.hover-fgcolor: #FFFFFF
-loginw.enter.fontsize: 12
-loginw.enter.round: Yes
-loginw.enter.round-size: 20
-loginw.enter.hide: No
-loginw.enter.width: 350
-loginw.unlock.bgcolor: lime
-loginw.unlock.fgcolor: green
-loginw.unlock.hover-bgcolor: green
-loginw.unlock.hover-fgcolor: lime
-loginw.unlock.fontsize: 12
-loginw.unlock.round: Yes
-loginw.unlock.round-size: 20
-loginw.unlock.hide: No
-loginw.unlock.width: 350
-loginw.shadow: Yes
-loginw.userlogo.shadow: Yes
-loginw.input.shadow: No
-loginw.login.shadow: No
-loginw.enter.shadow: No
-loginw.unlock.shadow: No
-loginw.input.width: 350
-loginw.input.height: 60
-loginw.login.height: 60
-loginw.enter.height: 60
-loginw.unlock.height: 60
-loginw.userlogo: @icon/account
 splash.logo: @icon/pyabr-logo
 splash.logo-size: 300
+splash.color: #ABCDEF
+
+login.bgcolor: #123456
+login.background: @background/default
+login.fgcolor: #FFFFFF
+
+enter.bgcolor: #123456
+enter.background: @background/default
+enter.fgcolor: #FFFFFF
+
+unlock.bgcolor: #123456
+unlock.background: @background/default
+unlock.fgcolor: #FFFFFF
+
+loginw.bgcolor: white
+loginw.fgcolor: black
+loginw.round: Yes
+loginw.round-size: 20 20
+loginw.location: center
+loginw.shadow: Yes
+loginw.userlogo: @icon/account
+loginw.userlogo.shadow: Yes
+loginw.userlogo.color: white
+loginw.userlogo.round: Yes
+loginw.userlogo.round-size: 125 125
+loginw.input.shadow: Yes
+loginw.input.fgcolor: gray
+loginw.input.bgcolor: white
+loginw.input.round: Yes
+loginw.input.round-size: 20 20
+loginw.input.font-size: 12
+
+taskbar.bgcolor: white
+taskbar.fgcolor: black
+taskbar.locked: No
+taskbar.float: Yes
+
+desktop.bgcolor: white
+desktop.fgcolor: black
+desktop.background: @background/default
+lock.fgcolor: black
+lock.bgcolor: black
+lock.background: @background/default
+
+loginw.login.round: Yes
+loginw.login.round-size: 20
+loginw.enter.round: Yes
+loginw.enter.round-size: 20
+loginw.unlock.round: Yes
+loginw.unlock.round-size: 20
+
+appw.bgcolor: #FFFFFF
+appw.menubar.bgcolor: #FFFFFF
+appw.menubar.shadow: Yes
             ''')
             file.close()
 

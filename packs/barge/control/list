@@ -1,12 +1,5 @@
-etc/interface
-etc/gui
-etc/deskdirs
-usr/app/baran.pyc
-usr/app/box.pyc
-usr/share/docs/baran
-usr/share/icons
-usr/share/locales
-usr/share/themes
-usr/share/backgrounds
-usr/share/applications/input.desk
-usr/share/applications/open.desk
+usr/app/barge_app.pyc
+usr/share/applications/barge.desk
+usr/share/docs/barge
+usr/share/icons/barge.png
+usr/share/icons/barge.svg

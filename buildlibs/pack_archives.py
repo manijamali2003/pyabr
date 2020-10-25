@@ -83,9 +83,6 @@ def install ():
     list = os.listdir('packs')
     list.remove('baran')
     list.remove('setup')
-    list.remove('pyabr_cli')
-    list.remove('setup_server')
-    list.remove('setup_cli')
     for i in list:
         if os.path.isdir('packs/'+i):
             build(i)

@@ -1,8 +1,0 @@
-name: setup_cli
-copyright: (c) 2020 Mani Jamali
-license: GNU GPL v3.0
-unpack: /
-build: 1399-07-23
-version: 0.0.3
-description: Pyabr setup for Termux
-compile: Yes

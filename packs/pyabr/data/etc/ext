@@ -4,7 +4,7 @@ zip.icon: @icon/application-archive-zip
 sql.icon: @icon/application-database
 accdb.icon: @icon/application-database
 dwg.icon: @icon/application-dwg
-dxf.icon: @icon/application-dxf
+dxf.icon: @icon/application-dwg
 ttf.icon: @icon/application-font
 snf.icon: @icon/application-font
 gz.icon: @icon/application-gzip
@@ -35,7 +35,7 @@ doc.icon: @icon/application-wps-office.doc
 docx.icon: @icon/application-wps-office.doc
 dot.icon: @icon/application-wps-office.dot
 dotx.icon: @icon/application-wps-office.dot
-acad.icon: @icon/application-x-acad
+acad.icon: @icon/application-dwg
 ace.icon: @icon/application-x-ace
 ar.icon: @icon/application-x-ar
 arc.icon: @icon/application-x-arc
@@ -104,7 +104,7 @@ postremove.icon: @icon/application-x-executable-script
 cs.icon: @icon/text-csharp
 css.icon: @icon/text-css
 csv.icon: @icon/text-csv
-md.icon: @icon/text-markdown
+md.icon: @icon/application-x-m4
 rdf.icon: @icon/text-rtf
 sgml.icon: @icon/application-text
 bak.icon: @icon/text-x-bak
@@ -118,7 +118,7 @@ h.icon: @icon/text-x-chdr
 make.icon: @icon/text-x-makefile
 dtd.icon: @icon/text-x-dtd
 go.icon: @icon/text-x-go
-log.icon: @icon/text-x-log
+log.icon: @icon/text-x-changelog
 lua.icon: @icon/text-x-lua
 pas.icon: @icon/text-x-pascal
 patch.icon: @icon/text-x-patch
