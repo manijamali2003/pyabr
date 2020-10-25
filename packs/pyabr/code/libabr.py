@@ -366,7 +366,7 @@ class Commands:
         bold = colors.color(1, colors.get_bgcolor(), colors.get_fgcolor())
 
         print("        Static hostname: " + bold + files.readall("/proc/info/host") + colors.get_colors())
-        print("         cloud software: " + bold + files.readall("/proc/info/cs") + " " + files.readall(
+        print("         cloud Software: " + bold + files.readall("/proc/info/cs") + " " + files.readall(
             "/proc/info/ver") + " (" + files.readall("/proc/info/cd") + ")" + colors.get_colors())
         print("             Build date: " + bold + files.readall("/proc/info/bl") + colors.get_colors())
         print("       Operating System: " + bold + files.readall("/proc/info/os") + colors.get_colors())

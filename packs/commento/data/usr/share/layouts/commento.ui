@@ -22,8 +22,8 @@
      <widget class="QTextBrowser" name="textBrowser">
       <property name="font">
        <font>
-        <family>DejaVu Sans Mono</family>
-        <pointsize>10</pointsize>
+        <family>Tahoma</family>
+        <pointsize>12</pointsize>
        </font>
       </property>
       <property name="styleSheet">
@@ -31,11 +31,11 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
+    <item row="2" column="0">
      <widget class="QLineEdit" name="lineEdit">
       <property name="font">
        <font>
-        <family>Monospace</family>
+        <family>Tahoma</family>
        </font>
       </property>
       <property name="styleSheet">

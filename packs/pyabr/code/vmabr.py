@@ -512,7 +512,7 @@ if argv[0]=="gui-desktop":
     hashcode = hashlib.sha3_512(argv[2].encode()).hexdigest()
     password = control.read_record('code','/etc/users/'+argv[1])
 
-    if hashcode==password:
+    if not hashcode==password:
         colors.show('gui-desktop', 'fail-start', '')
         colors.show('kernel', 'stop', '')
         sys.exit(0)

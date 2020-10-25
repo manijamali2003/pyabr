@@ -250,13 +250,13 @@ class Backend (QMainWindow):
             control.write_record('params','splash','/etc/gui')
             QTimer.singleShot(variables.backend_timeout, self.runSplash)
         elif self.gui_params[0]=='login':
-            control.write_record('params','splash','/etc/gui')
+            control.write_record('params','login','/etc/gui')
             QTimer.singleShot(variables.backend_timeout, self.runLogin)
         elif self.gui_params[0]=='enter':
-            control.write_record('params','splash','/etc/gui')
+            control.write_record('params','enter','/etc/gui')
             QTimer.singleShot(variables.backend_timeout, self.runEnter)
         elif self.gui_params[0]=='desktop':
-            control.write_record('params','splash','/etc/gui')
+            control.write_record('params','desktop','/etc/gui')
             QTimer.singleShot(variables.backend_timeout, self.runDesktop)
         else:
             sys.exit(0)
@@ -1675,6 +1675,14 @@ class Desktop (QMainWindow):
     def RunApp (self,appname,external):
         self.layout().addWidget(AppWidget([self.Backend, self, appname,external]))
 
+    def StartupApplication (self):
+
+        self.suapp = control.read_list('/etc/suapp')
+
+        if not files.readall('/etc/suapp')=='':
+            for i in self.suapp:
+                self.RunApp(i,None)
+
     def RunApplication (self):
         sender = self.sender().objectName()
         self.RunApp (sender.replace('.desk',''),None)
@@ -2342,5 +2350,8 @@ class Desktop (QMainWindow):
             self.showFullScreen()
         else:
             self.show()
+
+        ## Startup Applications ##
+        self.StartupApplication()
 
     input = ''

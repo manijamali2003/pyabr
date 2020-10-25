@@ -1,7 +1,6 @@
 etc/interface
 etc/gui
 etc/deskdirs
-etc/suapp
 usr/app/baran.pyc
 usr/app/box.pyc
 usr/share/docs/baran

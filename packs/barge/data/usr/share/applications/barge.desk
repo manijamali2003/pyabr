@@ -1,0 +1,5 @@
+name[en]: Barge
+name[fa]: برگه
+name[ar]: ورق
+exec: barge_app
+logo: @icon/barge

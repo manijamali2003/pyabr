@@ -87,8 +87,9 @@ def install ():
     list.remove('setup_server')
     list.remove('setup_cli')
     for i in list:
-        build(i)
-        unpack(i)
+        if os.path.isdir('packs/'+i):
+            build(i)
+            unpack(i)
 
 def inst (pack):
     build(pack)
