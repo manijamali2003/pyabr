@@ -54,3 +54,4 @@ class MainApp(QLineEdit):
         self.Widget.Resize (self,600,40)
         self.returnPressed.connect(self.RunApp)  # https://pythonbasics.org/pyqt/ learn it
 
+        self.Widget.DisableFloat()

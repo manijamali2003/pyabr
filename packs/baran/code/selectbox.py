@@ -229,10 +229,13 @@ class MainApp (QMainWindow):
         self.Backend = ports[0]
         self.Env = ports[1]
         self.Widget = ports[2]
-        self.External = ports[3]
+        self.AppName = ports[3]
+        self.External = ports[4]
 
         self.setStyleSheet('background-color: white;')
         ## Finds ##
+
+
 
         self.btnCancel = QPushButton()
         self.btnCancel.setText(res.get('@string/cancel'))
@@ -246,58 +249,76 @@ class MainApp (QMainWindow):
                                    int(self.Env.width() / 4), 50)
         self.layout().addWidget(self.btnSelect)
 
-        mode = control.read_record('select.mode', '/etc/configbox')
-        self.mode = mode
+        self.leSave = QLineEdit()
+        self.leSave.setGeometry(0, int(self.Env.height() / 2)-90, int(self.Env.width() / 2), 40)
+        self.layout().addWidget(self.leSave)
+
+        if self.External[1]==None:
+            mode = control.read_record('select.mode', '/etc/configbox')
+            self.mode = mode
+        else:
+            self.mode = self.External[1]
 
         # widget #
         if self.External[0]==None or self.External[0]=="":
-            if mode == 'select':
+            if self.mode == 'select':
                 self.Widget.SetWindowTitle(res.get('@string/dir'))
                 self.btnSelect.setText(res.get('@string/choose'))
-                self.x = DirListView()
-            elif mode == 'open':
+                self.xwid = DirListView()
+            elif self.mode == 'open':
                 self.Widget.SetWindowTitle(res.get('@string/file'))
                 self.btnSelect.setText(res.get('@string/open'))
-                self.x = FileListView()
-            elif mode == 'save':
+                self.xwid = FileListView()
+            elif self.mode == 'save':
                 self.Widget.SetWindowTitle(res.get('@string/dir'))
                 self.btnSelect.setText(res.get('@string/save'))
-                self.x = DirListView()
-            elif mode == 'save-as':
+                self.xwid = FileListView()
+            elif self.mode == 'save-as':
                 self.Widget.SetWindowTitle(res.get('@string/dir'))
                 self.btnSelect.setText(res.get('@string/save-as'))
-                self.x = DirListView()
+                self.xwid = FileListView()
+            else:
+                self.xwid = FileListView()
         else:
-            if mode == 'select':
+            if self.mode == 'select':
                 self.Widget.SetWindowTitle(self.External[0])
                 self.btnSelect.setText(res.get('@string/choose'))
-                self.x = DirListView()
-            elif mode == 'open':
+                self.xwid = DirListView()
+            elif self.mode == 'open':
                 self.Widget.SetWindowTitle(self.External[0])
                 self.btnSelect.setText(res.get('@string/open'))
-                self.x = FileListView()
-            elif mode == 'save':
+                self.xwid = FileListView()
+            elif self.mode == 'save':
                 self.Widget.SetWindowTitle(self.External[0])
                 self.btnSelect.setText(res.get('@string/save'))
-                self.x = DirListView()
-            elif mode == 'save-as':
+                self.xwid = FileListView()
+            elif self.mode == 'save-as':
                 self.Widget.SetWindowTitle(self.External[0])
                 self.btnSelect.setText(res.get('@string/save-as'))
-                self.x = DirListView()
+                self.xwid = FileListView()
+            else:
+                self.xwid = FileListView()
 
-        self.y = QMainWindow()
-        self.y.resize(int(self.Env.width()/2),int(self.Env.height()/2)-50)
-        self.y.setCentralWidget(self.x)
-        self.layout().addWidget(self.y)
+        self.ywid = QMainWindow()
+        if self.External[1].startswith('save'):
+            self.ywid.resize(int(self.Env.width()/2),int(self.Env.height()/2)-90)
+        else:
+            self.ywid.resize(int(self.Env.width() / 2), int(self.Env.height() / 2) - 50)
+        self.ywid.setCentralWidget(self.xwid)
+        self.layout().addWidget(self.ywid)
 
         self.Widget.Resize(self,int(self.Env.width()/2),int(self.Env.height()/2))
 
     def inp(self):
-        if self.mode=='select' or self.mode=='save' or self.mode=='save-as':
+        if self.mode=='select':
             inputx = files.readall('/proc/info/dsel')
-            self.External[1](inputx)
+            self.External[2](inputx)
+        elif self.mode=='save' or self.mode=='save-as':
+            self.leSave.setPlaceholderText('Enter a filename')
+            inputx = files.readall('/proc/info/dsel')+'/'+self.leSave.text()
+            self.External[2](inputx)
         else:
             inputx = files.readall('/proc/info/fsel')
-            self.External[1](inputx)
+            self.External[2](inputx)
 
         self.Widget.Close()

@@ -1421,12 +1421,25 @@ class AppWidget (QMainWindow):
     def SetWindowTitle (self,text):
         self.titletext.setText(text)
 
+    def WindowTitle (self):
+        return self.titletext.text()
+
     def SetWindowIcon (self,icon):
         self.iconwidget.setPixmap(icon.pixmap(variables.app_title_size-5,variables.app_title_size-5))
 
     def Close (self):
         app.end(self.appname)
         self.close()
+
+    maxbtn = True
+
+    def DisableFloat (self):
+        if self.maxbtn:
+            self.btnMax.setEnabled(False)
+            self.maxbtn = False
+        else:
+            self.btnMax.setEnabled(True)
+            self.maxbtn = True
 
     max = False
     save_w = 0
@@ -1568,8 +1581,6 @@ class AppWidget (QMainWindow):
         else:
             self.close()
 
-        # parent style #
-
         # title bar #
         self.titlebar = QWidget()
         self.titlebar.setStyleSheet('background-color: {0};color: {1};'.replace('{0}',app_title_bgcolor).replace("{1}",app_title_fgcolor))
@@ -1589,6 +1600,10 @@ class AppWidget (QMainWindow):
         self.titletext = QLabel()
         self.titletext.setStyleSheet('background-color: {0};color: {1};'.replace('{0}',app_title_bgcolor).replace("{1}",app_title_fgcolor))
         self.titletext.setMaximumWidth(self.titlebar.width()-120)
+
+        f = QFont()
+        f.setPointSize(12)
+        self.titletext.setFont(f)
 
         self.layouts.addWidget(self.titletext)
 

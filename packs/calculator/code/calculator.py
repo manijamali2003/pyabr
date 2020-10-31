@@ -23,17 +23,70 @@ class Button(QToolButton):
         super(Button, self).__init__(parent)
 
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        style_numbtn = '''
+           QToolButton {
+                   background-color: white;
+                   border-style: solid;
+                   border-radius: 15% 15%;
+                   border-color: silver;
+                   border-width: 1%;
+                   color: gray;
+               }
+           QToolButton::hover {
+                   background-color: #ABCDEF;
+                   border-style: solid;
+                   border-radius: 15% 15%;
+                   border-color: white;
+                   border-width: 1%;
+                   color: white;
+           }
+           '''
+        self.setStyleSheet(style_numbtn)
+        f = QFont()
+        f.setPointSize(12)
+        self.setFont(f)
         self.setText(text)
 
     def sizeHint(self):
         size = super(Button, self).sizeHint()
-        size.setHeight(size.height() + 20)
+        size.setHeight(size.height() + 32)
         size.setWidth(max(size.width(), size.height()))
         return size
 
 
 class Calc(QWidget):
     NumDigitButtons = 10
+
+    style_opbtn = '''
+        QToolButton {
+            background-color: #ABCDEF;
+            color: white;
+            border-radius: 15% 15%;
+        }
+        QToolButton::hover {
+            background-color: white;
+            color: gray;
+            border-color: silver;
+            border-radius: 15% 15%;
+            border-style: solid;
+             border-width: 1%;
+        }
+    '''
+
+
+
+    style_upbtn = '''
+    QToolButton {
+            background-color: blue;
+            color: white;
+            border-radius: 15% 15%;
+        }
+        QToolButton::hover {
+            background-color: #ABCDEF;
+            color: white;
+            border-radius: 15% 15%;
+        }
+    '''
 
     def __init__(self,args):
         super(Calc, self).__init__()
@@ -51,12 +104,22 @@ class Calc(QWidget):
         self.waitingForOperand = True
 
         self.display = QLineEdit('0')
+        self.display.setStyleSheet('''
+        QLineEdit {
+            background-color: white;
+            color: gray;
+            border-radius: 15% 15%;
+            border-color: silver;
+            border-style: solid;
+            border-width: 1%;
+        }
+        ''')
         self.display.setReadOnly(True)
         self.display.setAlignment(Qt.AlignRight)
         self.display.setMaxLength(15)
 
         font = self.display.font()
-        font.setPointSize(font.pointSize() + 8)
+        font.setPointSize(20)
         self.display.setFont(font)
 
         self.digitButtons = []
@@ -71,28 +134,43 @@ class Calc(QWidget):
 
         self.backspaceButton = self.createButton("Backspace",
                                                  self.backspaceClicked)
+        self.backspaceButton.setStyleSheet(self.style_upbtn)
         self.clearButton = self.createButton("Clear", self.clear)
+        self.clearButton.setStyleSheet(self.style_upbtn)
         self.clearAllButton = self.createButton("Clear All", self.clearAll)
+        self.clearAllButton.setStyleSheet(self.style_upbtn)
 
         self.clearMemoryButton = self.createButton("MC", self.clearMemory)
+        self.clearMemoryButton.setStyleSheet(self.style_opbtn)
         self.readMemoryButton = self.createButton("MR", self.readMemory)
+        self.readMemoryButton.setStyleSheet(self.style_opbtn)
         self.setMemoryButton = self.createButton("MS", self.setMemory)
+        self.setMemoryButton.setStyleSheet(self.style_opbtn)
         self.addToMemoryButton = self.createButton("M+", self.addToMemory)
+        self.addToMemoryButton.setStyleSheet(self.style_opbtn)
 
         self.divisionButton = self.createButton(u"\N{DIVISION SIGN}",
                                                 self.multiplicativeOperatorClicked)
+        self.divisionButton.setStyleSheet(self.style_opbtn)
         self.timesButton = self.createButton(u"\N{MULTIPLICATION SIGN}",
                                              self.multiplicativeOperatorClicked)
+        self.timesButton.setStyleSheet(self.style_opbtn)
         self.minusButton = self.createButton("-", self.additiveOperatorClicked)
+        self.minusButton.setStyleSheet(self.style_opbtn)
         self.plusButton = self.createButton("+", self.additiveOperatorClicked)
+        self.plusButton.setStyleSheet(self.style_opbtn)
 
         self.squareRootButton = self.createButton("Sqrt",
                                                   self.unaryOperatorClicked)
+        self.squareRootButton.setStyleSheet(self.style_opbtn)
         self.powerButton = self.createButton(u"x\N{SUPERSCRIPT TWO}",
                                              self.unaryOperatorClicked)
+        self.powerButton.setStyleSheet(self.style_opbtn)
         self.reciprocalButton = self.createButton("1/x",
                                                   self.unaryOperatorClicked)
+        self.reciprocalButton.setStyleSheet(self.style_opbtn)
         self.equalButton = self.createButton("=", self.equalClicked)
+        self.equalButton.setStyleSheet(self.style_opbtn)
 
         mainLayout = QGridLayout()
         mainLayout.setSizeConstraint(QLayout.SetFixedSize)
@@ -331,6 +409,8 @@ class MainApp (QMainWindow):
         self.External = ports[4]
 
         self.setStyleSheet('background-color:white;')
-        self.Widget.Resize(self,315,305)
+        self.Widget.Resize(self,420,400)
         self.calc = Calc(ports)
         self.setCentralWidget(self.calc)
+
+        self.Widget.DisableFloat()

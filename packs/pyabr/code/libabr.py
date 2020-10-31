@@ -9,7 +9,7 @@
 #
 #######################################################################################
 
-import importlib, shutil, os, sys, hashlib, subprocess,time,datetime,getpass,py_compile, site, git
+import importlib, shutil, os, sys, hashlib, subprocess,time,datetime,getpass,py_compile, site
 
 # script #
 class Script:
@@ -170,7 +170,7 @@ class Commands:
                 sys.exit(0)
 
             strv = control.read_record('exec.c++', '/etc/compiler').replace("{src}", files.input(filename)).replace(
-                "{dest}", files.input(output))
+                "{dest}", files.input(output)).split (" ")
 
             subprocess.call(strv)
 
@@ -180,15 +180,9 @@ class Commands:
                 colors.show('cc', 'perm', '')
                 sys.exit(0)
 
-            java_home = control.read_record('java_home','/etc/exec')
 
-            if java_home==None:
-                colors.show('cc', 'fail', 'java_home variable was not set.')
-            else:
-                strv = (java_home+control.read_record('class.java', '/etc/compiler').replace("{src}", files.input(filename).replace('.//',''))).split (' ')
-
-                subprocess.call(strv)
-
+            strv = (control.read_record('class.java', '/etc/compiler').replace("{src}", files.input(filename).replace('.//',''))).split (' ')
+            subprocess.call(strv)
         else:
             colors.show('cc','fail','not supported programing language.')
 
@@ -1690,14 +1684,11 @@ class Package:
 
             ## Check permissions ##
             open(files.input('/app/cache/gets/' + packname + '.pa'), 'wb').write(r.content)
-
-            ## Remove temporary ##
-            files.remove('/app/cache/gets/' + packname + '.pa')
         else:
             colors.show("paye", "perm", "")
 
     ## Create a mirro ##
-    def add (self, mirror):
+    def add (self,mirror,name):
         permissions = Permissions()
         files = Files()
         colors = Colors()
@@ -1706,30 +1697,7 @@ class Package:
         if permissions.check_root(files.readall("/proc/info/su")):
             endsplit = mirror.replace('https://', '').replace('http://', '')
             endsplit = mirror.split('/')
-            name = min(endsplit)
-            print(name)
-            if name.endswith ('.pa'):
-                files.write('/app/mirrors/' + name.replace('.pa',''), mirror)
-            else:
-                colors.show('paye','fail','cannot add unknown mirror.')
-        else:
-            colors.show("paye", "perm", "")
-
-    ## Git from source code ##
-    def gitinstall (self, mirror):
-        permissions = Permissions()
-        files = Files()
-        colors = Colors()
-        control = Control()
-
-        if permissions.check_root(files.readall("/proc/info/su")):
-            git.Git(files.input("/app/cache/clones")).clone(mirror)
-            endsplit = mirror.replace('https://','').replace('http://','').replace('.git','')
-            endsplit = mirror.split ('/')
-            endsplit = max(endsplit)
-
-            self.build('/app/cache/clones/'+endsplit)
-            self.unpack('/app/cache/clones/'+endsplit+".pa")
+            files.write('/app/mirrors/' + name.replace('.pa',''), mirror)
         else:
             colors.show("paye", "perm", "")
 
@@ -1742,14 +1710,45 @@ class Package:
         commands = Commands()
 
         if permissions.check_root(files.readall("/proc/info/su")):
-            git.Git(files.input("/app/cache/clones")).clone(mirror)
-            endsplit = mirror.replace('https://','').replace('http://','').replace('.git','')
-            endsplit = mirror.split ('/')
-            endsplit = max(endsplit)
+            self.add('https://github.com/manijamali2003/pyabr/archive/master.zip','pyabr')
+            self.download('pyabr')
 
             # backup #
-            if files.isdir ('/app/backups/etc.bak.d'):
-                files.copydir('/etc','/app/backups/etc.bak.d')
+            if files.isdir ('/app/cache/backups/users.bak.d'):
+                files.copydir('/etc/users','/app/cache/backups/users.bak.d')
+
+            if files.isfile ('/app/cache/backups/colors.bak'):
+                files.copy('/etc/colors','/app/cache/backups/colors.bak')
+
+            if files.isfile ('/app/cache/backups/compiler.bak'):
+                files.copy('/etc/compiler','/app/cache/backups/compiler.bak')
+
+            if files.isfile ('/app/cache/backups/exec.bak'):
+                files.copy('/etc/exec','/app/cache/backups/exec.bak')
+
+            if files.isfile ('/app/cache/backups/fstab.bak'):
+                files.copy('/etc/fstab','/app/cache/backups/fstab.bak')
+
+            if files.isfile ('/app/cache/backups/guest.bak'):
+                files.copy('/etc/guest','/app/cache/backups/guest.bak')
+                
+            if files.isfile ('/app/cache/backups/gui.bak'):
+                files.copy('/etc/gui','/app/cache/backups/gui.bak')
+                
+            if files.isfile ('/app/cache/backups/hostname.bak'):
+                files.copy('/etc/hostname','/app/cache/backups/hostname.bak')
+                
+            if files.isfile ('/app/cache/backups/interface.bak'):
+                files.copy('/etc/interface','/app/cache/backups/interface.bak')
+
+            if files.isfile('/app/cache/backups/modules.bak'):
+                files.copy('/etc/modules', '/app/cache/backups/modules.bak')
+                
+            if files.isfile ('/app/cache/backups/permtab.bak'):
+                files.copy('/etc/permtab','/app/cache/backups/permtab.bak')
+
+            if files.isfile('/app/cache/backups/time.bak'):
+                files.copy('/etc/time', '/app/cache/backups/time.bak')
 
             # check version #
             now_version = control.read_record('version','/etc/distro')
@@ -1758,27 +1757,25 @@ class Package:
             o1 = int(now_version.split('.')[1])
             o2 = int(now_version.split('.')[2])
 
-            new_version = control.read_record('version','/etc/distro')
+            ## unpack pyabr ##
+            shutil.unpack_archive(files.input('/app/cache/gets/pyabr.pa'),files.input('/tmp'),'zip')
+
+            ## Should be develop ... ##
+            new_version = control.read_record('version','/tmp/pyabr-master/packs/pyabr/data/etc/distro')
 
             n0 = int(new_version.split('.')[0])
             n1 = int(new_version.split('.')[1])
             n2 = int(new_version.split('.')[2])
 
             # list upgrades internal packages #
-            listu = files.list('/app/packages')
 
-            for i in listu:
-                if i.endswith('.manifest'):
-                    if i=='baran' or i=='calculator' or i=='calendar' or i=='commento' or i=='numix':
-                        files.append('/app/cache/clones/pyabr/upgrade.list',i.replace('.manifest')+"\n")
-
-            if o0<n0 or o1<n1 or o2<n2:
+            if o0<=n0 or o1<=n1 or o2<n2:
                 listu = files.list('/app/packages')
                 for i in listu:
                     if i.endswith('.manifest'):
-                        if files.isdir('/app/cache/clones/pyabr/packs/' + i.replace('.manifest', '')):
-                            self.build('/app/cache/clones/pyabr/packs/' + i.replace('.manifest', ''))
-                            self.unpack('/app/cache/clones/pyabr/packs/' + i.replace('.manifest', '.pa'))
+                        if files.isdir('/tmp/pyabr-master/packs/' + i.replace('.manifest', '')):
+                            self.build('/tmp/pyabr-master/packs/' + i.replace('.manifest', ''))
+                            self.unpack('/tmp/pyabr-master/packs/' + i.replace('.manifest', '.pa'))
             else:
                 colors.show ('paye','warning','all package was up to date.')
         else:
@@ -2746,17 +2743,6 @@ class Colors:
     bg_purple = 45
     bg_cyan = 46
     bg_white = 47
-
-    kernel = control.read_record("kernel", "/etc/procmsg")
-    gui = control.read_record("gui", "/etc/procmsg")
-    gui_splash = control.read_record("gui-splash", "/etc/procmsg")
-    gui_login = control.read_record("gui-login", "/etc/procmsg")
-    gui_enter = control.read_record("gui-enter", "/etc/procmsg")
-    gui_desktop = control.read_record("gui-desktop", "/etc/procmsg")
-    login = control.read_record("login", "/etc/procmsg")
-    user = control.read_record("user", "/etc/procmsg")
-    exec = control.read_record("exec", "/etc/procmsg")
-    client = control.read_record("client", "/etc/procmsg")
 
     def show(self,process_name, process_type, process_message):
         files = Files()

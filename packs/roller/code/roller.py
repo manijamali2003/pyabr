@@ -135,108 +135,6 @@ class FileListView (QtWidgets.QListView):
 
             elif files.isfile (self.item.whatsThis()):
                 files.write ('/proc/info/fsel',self.item.whatsThis()) # Send File selected
-
-
-class DirListView (QtWidgets.QListView):
-    def format(self, it, text):
-        if files.isdir(self.dir + '/' + text):
-            it.setIcon(QtGui.QIcon(res.get('@icon/folder')))
-
-    def mkdir (self,dirname):
-        it = QtGui.QStandardItem(dirname)
-        it.setWhatsThis(self.dir + "/" + dirname)
-        it.setIcon(QtGui.QIcon(res.get('@icon/folder')))
-        self.entry.appendRow(it)
-
-        commands.mkdir ([dirname])
-
-    def mkfile (self,filename):
-        it = QtGui.QStandardItem(filename)
-        it.setWhatsThis(self.dir + "/" + filename)
-        it.setIcon(QtGui.QIcon(res.get('@icon/gtk-file')))
-        self.entry.appendRow(it)
-        self.format(it, filename)
-        commands.cat (['-c',filename])
-
-    def __init__(self):
-        super().__init__()
-        self.entry = QtGui.QStandardItemModel()
-        self.parentdir = QtGui.QStandardItem()
-        self.parentdir.setIcon(QtGui.QIcon(res.get('@icon/folder')))
-        self.entry.appendRow(self.parentdir)
-        self.setModel(self.entry)
-        self.setIconSize(QtCore.QSize(64,64))
-        self.clicked[QtCore.QModelIndex].connect(self.on_clicked)
-        # When you receive the signal, you call QtGui.QStandardItemModel.itemFromIndex()
-        # on the given model index to get a pointer to the item
-
-        self.dir = files.readall('/proc/info/pwd')
-        files.write('/proc/info/dsel', self.dir)
-        self.listdir = (files.list(self.dir))
-        self.listdir.sort()
-
-        for text in self.listdir:
-            if files.isdir (self.dir+"/"+text):
-                it = QtGui.QStandardItem(text)
-                it.setWhatsThis(self.dir+"/"+text)
-                self.format(it,text)
-                self.entry.appendRow(it)
-
-        self.itemOld = QtGui.QStandardItem("text")
-
-    def on_clicked(self, index):
-        self.item = self.entry.itemFromIndex(index)
-
-        x = hasattr(self.item,'whatsThis') # W3CSHCOOL.COM LEARN IT
-
-
-        if x == True:
-
-            if self.item.whatsThis() == "<parent>":
-                commands.cd (['..'])
-                self.dir = files.readall('/proc/info/pwd')
-                files.write('/proc/info/dsel',self.dir)
-                self.listdir = files.list(self.dir)
-                self.listdir.sort() # Credit: https://www.geeksforgeeks.org/sort-in-python/
-
-                self.entry = QtGui.QStandardItemModel()
-                self.setModel(self.entry)
-                self.setIconSize(QtCore.QSize(64, 64))
-                self.clicked[QtCore.QModelIndex].connect(self.on_clicked)
-                self.parentdir = QtGui.QStandardItem()
-                self.parentdir.setIcon(QtGui.QIcon(res.get('@icon/folder')))
-                self.parentdir.setWhatsThis('<parent>')
-                self.entry.appendRow(self.parentdir)
-
-                for text in self.listdir:
-                    if files.isdir(self.dir + "/" + text):
-                        it = QtGui.QStandardItem(text)
-                        it.setWhatsThis(self.dir + "/" + text)
-                        self.format(it,text)
-                        self.entry.appendRow(it)
-
-            elif files.isdir(self.item.whatsThis()):
-                files.write('/proc/info/dsel', self.item.whatsThis())  # Send Directory selected
-                commands.cd ([self.item.whatsThis()])
-                self.dir = files.readall("/proc/info/pwd")
-                self.listdir = files.list(self.dir)
-                self.listdir.sort()
-
-                self.entry = QtGui.QStandardItemModel()
-                self.setModel(self.entry)
-                self.setIconSize(QtCore.QSize(64, 64))
-                self.clicked[QtCore.QModelIndex].connect(self.on_clicked)
-                self.parentdir = QtGui.QStandardItem()
-                self.parentdir.setIcon(QtGui.QIcon(res.get('@icon/folder')))
-                self.parentdir.setWhatsThis('<parent>')
-                self.entry.appendRow(self.parentdir)
-
-                for text in self.listdir:
-                    if files.isdir (self.dir + "/" + text):
-                        it = QtGui.QStandardItem(text)
-                        it.setWhatsThis(self.dir + "/" + text)
-                        self.format(it,text)
-                        self.entry.appendRow(it)
                         
 class MainApp (QtWidgets.QMainWindow):
     def format (self,it,text):
@@ -275,8 +173,6 @@ class MainApp (QtWidgets.QMainWindow):
 
         self.menubar = self.menuBar()
         self.file = self.menubar.addMenu("File")
-        self.view = self.menubar.addMenu("View")
-        self.help = self.menubar.addMenu("Help")
 
         ## File menu
 

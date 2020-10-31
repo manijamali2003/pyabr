@@ -45,8 +45,9 @@ if os.path.isfile ('stor/proc/id/desktop'): os.remove('stor/proc/id/desktop')
 
 # debug app #
 shutil.copyfile('debug_apps','stor/etc/suapp')
-
-os.system('cd stor && "{0}" vmabr.pyc gui-desktop root toor'.replace('{0}', sys.executable))
+file = open ('debug_params','r')
+os.system('cd stor && "{0}" vmabr.pyc {1}'.replace('{0}', sys.executable).replace("{1}",file.read()))
+file.close()
 
 # clean #
 if os.path.isdir('app'): shutil.rmtree('app')

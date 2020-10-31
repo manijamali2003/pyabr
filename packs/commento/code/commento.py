@@ -170,3 +170,5 @@ class MainApp(QtWidgets.QMainWindow):
             self.textBrowser.setText(self.textBrowser.toPlainText() + ""+ space_username + space1 + space_hostname + space2  + space_path + prompt_symbol + cmd +"\n\n"+ result.decode("utf-8")+'\n')
             self.Widget.SetWindowTitle(space_username + space1 + space_hostname + space2 )
             self.textBrowser.verticalScrollBar().setValue(self.textBrowser.verticalScrollBar().maximum())
+
+        self.Widget.DisableFloat()
