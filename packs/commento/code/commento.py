@@ -40,6 +40,7 @@ class MainApp(QtWidgets.QMainWindow):
         self.Widget.Resize(self,700, 500)
 
         self.Widget.SetWindowTitle(res.get("@string/app_name"))
+        self.Widget.DisableFloat()
 
         ## Set Icon ##
         self.Widget.SetWindowIcon(QIcon(res.get('@icon/commento')))

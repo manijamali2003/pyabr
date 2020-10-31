@@ -1487,6 +1487,7 @@ class Package:
         commands = Commands()
 
         if permissions.check_root(files.readall("/proc/info/su")):
+
             ## unpack package ##
             shutil.unpack_archive(files.input(name), files.input("/app/cache/archives/build"), "zip")
 
@@ -1714,41 +1715,18 @@ class Package:
             self.download('pyabr')
 
             # backup #
-            if files.isdir ('/app/cache/backups/users.bak.d'):
-                files.copydir('/etc/users','/app/cache/backups/users.bak.d')
-
-            if files.isfile ('/app/cache/backups/colors.bak'):
-                files.copy('/etc/colors','/app/cache/backups/colors.bak')
-
-            if files.isfile ('/app/cache/backups/compiler.bak'):
-                files.copy('/etc/compiler','/app/cache/backups/compiler.bak')
-
-            if files.isfile ('/app/cache/backups/exec.bak'):
-                files.copy('/etc/exec','/app/cache/backups/exec.bak')
-
-            if files.isfile ('/app/cache/backups/fstab.bak'):
-                files.copy('/etc/fstab','/app/cache/backups/fstab.bak')
-
-            if files.isfile ('/app/cache/backups/guest.bak'):
-                files.copy('/etc/guest','/app/cache/backups/guest.bak')
-                
-            if files.isfile ('/app/cache/backups/gui.bak'):
-                files.copy('/etc/gui','/app/cache/backups/gui.bak')
-                
-            if files.isfile ('/app/cache/backups/hostname.bak'):
-                files.copy('/etc/hostname','/app/cache/backups/hostname.bak')
-                
-            if files.isfile ('/app/cache/backups/interface.bak'):
-                files.copy('/etc/interface','/app/cache/backups/interface.bak')
-
-            if files.isfile('/app/cache/backups/modules.bak'):
-                files.copy('/etc/modules', '/app/cache/backups/modules.bak')
-                
-            if files.isfile ('/app/cache/backups/permtab.bak'):
-                files.copy('/etc/permtab','/app/cache/backups/permtab.bak')
-
-            if files.isfile('/app/cache/backups/time.bak'):
-                files.copy('/etc/time', '/app/cache/backups/time.bak')
+            shutil.make_archive(files.input('/app/cache/backups/users.bak'),'zip',files.input('/etc/users'))
+            files.copy('/etc/color','/app/cache/backups/color.bak')
+            files.copy('/etc/compiler','/app/cache/backups/compiler.bak')
+            files.copy('/etc/exec','/app/cache/backups/exec.bak')
+            files.copy('/etc/fstab','/app/cache/backups/fstab.bak')
+            files.copy('/etc/guest','/app/cache/backups/guest.bak')
+            files.copy('/etc/gui','/app/cache/backups/gui.bak')
+            files.copy('/etc/hostname','/app/cache/backups/hostname.bak')
+            files.copy('/etc/interface','/app/cache/backups/interface.bak')
+            files.copy('/etc/modules', '/app/cache/backups/modules.bak')
+            files.copy('/etc/permtab','/app/cache/backups/permtab.bak')
+            files.copy('/etc/time', '/app/cache/backups/time.bak')
 
             # check version #
             now_version = control.read_record('version','/etc/distro')
@@ -1769,7 +1747,7 @@ class Package:
 
             # list upgrades internal packages #
 
-            if o0<=n0 or o1<=n1 or o2<n2:
+            if o0<n0 or o1<n1 or o2<n2:
                 listu = files.list('/app/packages')
                 for i in listu:
                     if i.endswith('.manifest'):
@@ -1778,8 +1756,24 @@ class Package:
                             self.unpack('/tmp/pyabr-master/packs/' + i.replace('.manifest', '.pa'))
             else:
                 colors.show ('paye','warning','all package was up to date.')
+
+                # backup #
+                shutil.unpack_archive(files.input('/app/cache/backups/users.bak.zip'),files.input('/etc/users'),'zip')
+                files.remove('/app/cache/backups/users.bak.zip')
+                files.cut('/app/cache/backups/color.bak','/etc/color')
+                files.cut('/app/cache/backups/compiler.bak','/etc/compiler')
+                files.cut('/app/cache/backups/exec.bak','/etc/exec')
+                files.cut('/app/cache/backups/fstab.bak','/etc/fstab')
+                files.cut('/app/cache/backups/guest.bak','/etc/guest')
+                files.cut('/app/cache/backups/gui.bak','/etc/gui')
+                files.cut('/app/cache/backups/hostname.bak','/etc/hostname')
+                files.cut('/app/cache/backups/interface.bak','/etc/interface')
+                files.cut('/app/cache/backups/modules.bak','/etc/modules')
+                files.cut('/app/cache/backups/permtab.bak','/etc/permtab')
+                files.cut('/app/cache/backups/time.bak','/etc/time')
         else:
             colors.show("paye", "perm", "")
+
     ##  remove a mirror ##
     def remove (self,name):
         permissions = Permissions()

@@ -45,7 +45,7 @@ class variables:
     submenu_bgcolor = 'white'
     submenu_direction = 'ltr'
     submenu_fontsize = 12
-    taskbar_pins = 'calculator,pyshell,calendar'
+    taskbar_pins = 'barge,calculator,calendar,commento,pyshell,pysys,roller,runapp'
     taskbar_location = 'bottom'
     taskbar_size = 50
     taskbar_locked = 'Yes'
@@ -1572,6 +1572,10 @@ class AppWidget (QMainWindow):
             if not value == None: app_menu_fgcolor_pressed = value
         if app_menu_fgcolor_pressed == None: app_menu_fgcolor_pressed = variables.app_menu_fgcolor_pressed
 
+        self.app_title_bgcolor = app_title_bgcolor
+        self.app_title_fgcolor = app_title_fgcolor
+        self.app_title_size = app_title_size
+
         self.setObjectName(self.appname)
 
         exec = control.read_record('exec', '/usr/share/applications/' + self.appname + ".desk")
@@ -1599,7 +1603,9 @@ class AppWidget (QMainWindow):
         # text title #
         self.titletext = QLabel()
         self.titletext.setStyleSheet('background-color: {0};color: {1};'.replace('{0}',app_title_bgcolor).replace("{1}",app_title_fgcolor))
-        self.titletext.setMaximumWidth(self.titlebar.width()-120)
+        self.titletext.setMaximumWidth(self.titlebar.width())
+        self.titletext.setGeometry(0,0,self.titlebar.width(),app_title_size)
+        self.titletext.setAlignment(Qt.AlignLeft)
 
         f = QFont()
         f.setPointSize(12)

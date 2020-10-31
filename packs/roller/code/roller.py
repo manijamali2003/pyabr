@@ -62,6 +62,8 @@ class FileListView (QtWidgets.QListView):
         self.entry.appendRow(self.parentdir)
         self.setModel(self.entry)
         self.setIconSize(QtCore.QSize(64,64))
+
+
         self.clicked[QtCore.QModelIndex].connect(self.on_clicked)
         # When you receive the signal, you call QtGui.QStandardItemModel.itemFromIndex()
         # on the given model index to get a pointer to the item
@@ -78,6 +80,9 @@ class FileListView (QtWidgets.QListView):
             it.setWhatsThis(self.dir+"/"+text)
             self.format(it,text)
             self.entry.appendRow(it)
+            f = QtGui.QFont()
+            f.setPointSize(12)
+            it.setFont(f)
 
         self.itemOld = QtGui.QStandardItem("text")
 
@@ -110,6 +115,9 @@ class FileListView (QtWidgets.QListView):
                     it.setWhatsThis(self.dir + "/" + text)
                     self.format(it,text)
                     self.entry.appendRow(it)
+                    f = QtGui.QFont()
+                    f.setPointSize(12)
+                    it.setFont(f)
 
             elif files.isdir(self.item.whatsThis()):
                 files.write('/proc/info/dsel', self.item.whatsThis())  # Send Directory selected
@@ -132,6 +140,9 @@ class FileListView (QtWidgets.QListView):
                     it.setWhatsThis(self.dir + "/" + text)
                     self.format(it,text)
                     self.entry.appendRow(it)
+                    f = QtGui.QFont()
+                    f.setPointSize(12)
+                    it.setFont(f)
 
             elif files.isfile (self.item.whatsThis()):
                 files.write ('/proc/info/fsel',self.item.whatsThis()) # Send File selected

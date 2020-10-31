@@ -36,7 +36,6 @@ setuptools.setup(
         'pyqtconsole',
         'py-cpuinfo',
         'requests',
-        'gitpython'
     ],
     include_package_data=True,
 )

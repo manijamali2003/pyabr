@@ -58,7 +58,7 @@ def unpack (name):
 
     if os.path.isfile ("app/cache/archives/control/manifest"): shutil.copyfile("app/cache/archives/control/manifest","stor/app/packages/"+name+".manifest")
     if os.path.isfile("app/cache/archives/control/list"): shutil.copyfile("app/cache/archives/control/list","stor/app/packages/" + name + ".list")
-    if os.path.isfile("app/cache/archives/control/compile"): shutil.copyfile("app/cache/archives/control/list","stor/app/packages/" + name + ".compile")
+    if os.path.isfile("app/cache/archives/control/compile"): shutil.copyfile("app/cache/archives/control/compile","stor/app/packages/" + name + ".compile")
 
     ## Compile codes ##
     if os.path.isfile ("app/cache/archives/control/compile"):

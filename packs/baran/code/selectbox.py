@@ -234,9 +234,7 @@ class MainApp (QMainWindow):
 
         self.setStyleSheet('background-color: white;')
         ## Finds ##
-
-
-
+        self.Widget.SetWindowIcon (QIcon(res.get('@icon/app')))
         self.btnCancel = QPushButton()
         self.btnCancel.setText(res.get('@string/cancel'))
         self.btnCancel.setGeometry(0, int(self.Env.height() / 2) - 50, int(self.Env.width() / 4), 50)
@@ -308,6 +306,7 @@ class MainApp (QMainWindow):
         self.layout().addWidget(self.ywid)
 
         self.Widget.Resize(self,int(self.Env.width()/2),int(self.Env.height()/2))
+        self.Widget.DisableFloat()
 
     def inp(self):
         if self.mode=='select':

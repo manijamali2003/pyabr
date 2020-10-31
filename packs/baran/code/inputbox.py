@@ -33,6 +33,7 @@ class MainApp (QMainWindow):
         self.External = ports[4]
 
         self.setStyleSheet('background-color: white;')
+        self.Widget.SetWindowIcon(QIcon(res.get('@icon/about')))
         ## Finds ##
 
         self.Widget.Resize(self,int(self.Env.width()/3),100)
@@ -63,6 +64,8 @@ class MainApp (QMainWindow):
         self.btnOK.setText(res.get('@string/ok'))
         self.btnOK.setGeometry(int(self.Env.width() / 6), 50, int(self.Env.width() / 6), 50)
         self.layout().addWidget(self.btnOK)
+
+        self.Widget.DisableFloat()
 
     def inp(self):
         inputx = self.leInput.text()

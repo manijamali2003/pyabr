@@ -1,0 +1,6 @@
+name[en]: About System
+name[fa]: درباره سیستم
+name[ar]: حول النظام
+exec: page_about
+logo: @icon/about
+#hidden: Yes

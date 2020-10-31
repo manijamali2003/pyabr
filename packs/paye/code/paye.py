@@ -72,10 +72,10 @@ elif option=="upak":
         strv = ''
         for i in archive:
             strv+=','+i
+
     for i in archive:
         if files.isfile(i):
             pack.unpack(i)
-
         else:
             colors.show("paye", "fail", i + ": archive not found.")
 

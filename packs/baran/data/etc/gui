@@ -51,6 +51,7 @@ taskbar.bgcolor: white
 taskbar.fgcolor: black
 taskbar.locked: No
 taskbar.float: Yes
+taskbar.size: 70
 
 desktop.bgcolor: white
 desktop.fgcolor: black
