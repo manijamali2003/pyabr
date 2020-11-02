@@ -1754,6 +1754,7 @@ class Package:
                         if files.isdir('/tmp/pyabr-master/packs/' + i.replace('.manifest', '')):
                             self.build('/tmp/pyabr-master/packs/' + i.replace('.manifest', ''))
                             self.unpack('/tmp/pyabr-master/packs/' + i.replace('.manifest', '.pa'))
+                files.removedirs('/tmp/pyabr-master')
             else:
                 colors.show ('paye','warning','all package was up to date.')
 
@@ -1774,6 +1775,25 @@ class Package:
         else:
             colors.show("paye", "perm", "")
 
+    ## install from git source ##
+    def gitinstall (self,name):
+        permissions = Permissions()
+        files = Files()
+        colors = Colors()
+        control = Control()
+        commands = Commands()
+
+        if permissions.check_root(files.readall("/proc/info/su")):
+            self.download(name.lower())
+
+            ## unpack pyabr ##
+            shutil.unpack_archive(files.input('/app/cache/gets/'+name.lower()+'.pa'), files.input('/tmp'), 'zip')
+
+            self.build('/tmp/'+name+'-master/packs/'+name.lower())
+            self.unpack('/tmp/'+name+'-master/packs/'+name.lower()+".pa")
+            files.removedirs('/tmp/'+name+"-master")
+        else:
+            colors.show("paye", "perm", "")
     ##  remove a mirror ##
     def remove (self,name):
         permissions = Permissions()

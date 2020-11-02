@@ -1,7 +1,7 @@
 #!etcetra
 
 code: Treatment
-version: 0.2.1
+version: 0.2.2
 name: Pyabr
 build: 1399-08-04
 copyright: (c) 2020 Mani Jamali

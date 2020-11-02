@@ -141,7 +141,11 @@ elif option=="in":
         pack.download(i.lower())
 
     for j in package:
-        pack.unpack("/app/cache/gets/" + j.lower() + ".pa")
+        checkgit = files.readall('/app/mirrors/'+j.lower())
+        if checkgit.__contains__('git'):
+            pack.gitinstall(j)
+        else:
+            pack.unpack("/app/cache/gets/" + j.lower() + ".pa")
 
     pack.clean()
 
@@ -194,18 +198,19 @@ elif option=="ls":
             print (bold+name+colors.get_colors()+"/"+colors.get_path()+version+colors.get_colors()+"/"+build)
 
 elif option=='add':
-    if sys.argv[2:]==[]:
+    if sys.argv[2:]==[] or sys.argv[3:]==[]:
         colors.show ('paye','fail','no inputs.')
         sys.exit(0)
 
+    pack.add (sys.argv[2],sys.argv[3])
 
-    pack.add (sys.argv[2])
 elif option=='del':
     if sys.argv[2:]==[]:
         colors.show ('paye','fail','no inputs.')
         sys.exit(0)
 
     pack.remove (sys.argv[2])
+
 elif option=='git':
     if sys.argv[2:]==[]:
         colors.show ('paye','fail','no inputs.')
