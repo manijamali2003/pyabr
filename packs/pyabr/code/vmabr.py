@@ -111,7 +111,7 @@ if argv[0]=='exec':
     outside = control.read_record('outside', '/etc/exec')
     script = control.read_record('script', '/etc/exec')
     portable = control.read_record('portable', '/etc/exec')
-    java_home = control.read_record('java_home','/etc/exec')
+    mirror = control.read_record('mirror','/etc/exec')
 
     if (argv[1:] == [] or
             argv[1] == "" or
@@ -265,6 +265,11 @@ if argv[0]=='exec':
                 Script ('/usr/app/'+argv[1])
             else:
                 colors.show(argv[1], "perm", "")
+        elif files.isfile ('/app/mirrors/'+argv[1]) and mirror=='Yes':
+            if files.isfile ('/app/mirrors/'+argv[1]+".try"):
+                print (files.readall('/app/mirrors/'+argv[1]+".try"))
+            else:
+                print ("Run `sudo paye in "+argv[1]+'`')
         else:
             colors.show(argv[1], "fail", "command not found.")
 

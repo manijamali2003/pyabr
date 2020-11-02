@@ -165,7 +165,6 @@ elif option=="info":
         depends = control.read_record("depends", pack)
         license = control.read_record("license", pack)
         copyright = control.read_record("copyright", pack)
-        arch = control.read_record("arch", pack)
 
         bold = colors.color(1, colors.get_bgcolor(), colors.get_fgcolor())
         if not (name == None or name == ""):  print(

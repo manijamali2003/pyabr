@@ -11,3 +11,6 @@ script: Yes
 
 # portable apps #
 portable: Yes
+
+# show mirror ##
+mirror: Yes
