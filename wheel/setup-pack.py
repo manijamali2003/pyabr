@@ -36,6 +36,7 @@ setuptools.setup(
         'pyqtconsole',
         'py-cpuinfo',
         'requests',
+        'goolesearch-python',
     ],
     include_package_data=True,
 )
