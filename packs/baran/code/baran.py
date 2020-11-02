@@ -1448,14 +1448,45 @@ class AppWidget (QMainWindow):
     save_wh = 0
 
     def ShowMaximize(self):
+        location = getdata('taskbar.location')
+        if not self.Env.username == 'guest':
+            value = control.read_record('taskbar.location', '/etc/users/' + self.username)
+            if not value == None: location = value
+        if location == None: location = variables.taskbar_location
+
+        size = int(getdata('taskbar.size'))
+        if not self.Env.username == 'guest':
+            value = control.read_record('taskbar.size', '/etc/users/' + self.username)
+            if not value == None: size = int(value)
+        if size == None: size = int(variables.taskbar_size)
+
         if self.max == False:
             self.save_w = self.width()
             self.save_h = self.height()
             self.save_ww = self.mainWidget.width()
             self.save_wh = self.mainWidget.height()
-            self.setGeometry(0,0,self.Env.width(),self.Env.height())
-            self.titlebar.setGeometry(0,0,self.Env.width(),variables.app_title_size)
-            self.mainWidget.resize (self.Env.width(),self.Env.height()-variables.app_title_size)
+
+            if location=='bottom':
+                self.setGeometry(0, 0, self.Env.width(), self.Env.height()-size-15)
+                self.mainWidget.resize (self.Env.width(),self.Env.height()-variables.app_title_size-size-15)
+                self.titlebar.setGeometry(0,0,self.Env.width(),self.app_title_size)
+            elif location=='top':
+                self.setGeometry(0, size+15, self.Env.width(), self.Env.height() - size - 15)
+                self.mainWidget.resize(self.Env.width(), self.Env.height() - variables.app_title_size - size - 15)
+                self.titlebar.setGeometry(0, 0, self.Env.width(), self.app_title_size)
+            elif location=="left":
+                self.setGeometry(size+15, 0, self.Env.width() - size - 15, self.Env.height())
+                self.mainWidget.resize(self.Env.width()-size-15, self.Env.height() - variables.app_title_size)
+                self.titlebar.setGeometry(0, 0, self.Env.width()-size-15, self.app_title_size)
+            elif location=="right":
+                self.setGeometry(0, 0, self.Env.width() - size - 15, self.Env.height())
+                self.mainWidget.resize(self.Env.width()-size-15, self.Env.height() - variables.app_title_size)
+                self.titlebar.setGeometry(0, 0, self.Env.width()-size-15, self.app_title_size)
+            else:
+                self.setGeometry(0, 0, self.Env.width(), self.Env.height())
+                self.mainWidget.resize(self.Env.width(), self.Env.height() - variables.app_title_size)
+                self.titlebar.setGeometry(0, 0, self.Env.width(), self.app_title_size)
+
             self.max = True
         else:
             self.setGeometry(int(self.Env.width()/2)-int(self.save_w/2),int(self.Env.height()/2)-int(self.save_h/2),self.save_w,self.save_h)
@@ -2158,6 +2189,10 @@ class Desktop (QMainWindow):
 
         if submenu_direction=='ltr': self.submenu.setLayoutDirection(Qt.LeftToRight)
         elif submenu_direction=='rtl': self.submenu.setLayoutDirection(Qt.RightToLeft)
+
+        # hide #
+        if submenu_hide=='Yes':
+            self.submenu.hide()
 
         f = QFont()
         f.setPointSize(int(submenu_fontsize))

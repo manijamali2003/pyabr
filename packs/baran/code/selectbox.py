@@ -234,7 +234,7 @@ class MainApp (QMainWindow):
 
         self.setStyleSheet('background-color: white;')
         ## Finds ##
-        self.Widget.SetWindowIcon (QIcon(res.get('@icon/app')))
+        self.Widget.SetWindowIcon (QIcon(res.get('@icon/about')))
         self.btnCancel = QPushButton()
         self.btnCancel.setText(res.get('@string/cancel'))
         self.btnCancel.setGeometry(0, int(self.Env.height() / 2) - 50, int(self.Env.width() / 4), 50)
