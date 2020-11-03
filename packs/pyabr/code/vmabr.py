@@ -331,7 +331,8 @@ if not (argv[0]=='user' or argv[0]=='login'):
 ## @core/system-info ##
 
     ip = socket.gethostbyname(socket.gethostname())
-    osname = platform.system()
+    if kernel_file=='vmabr.pyc':
+        osname = platform.system()
     arch = platform.architecture()[0]
     os_user = getpass.getuser()
     os_host = platform.node()
