@@ -73,3 +73,17 @@ select.open: افتح
 select.save: حفظ
 select.save-as: حفظ
 barge.app_name: ورق
+barge.file: ملف
+barge.open: افتح
+barge.new: جديد
+barge.new_page: صفحة جديدة
+barge.save: حفظ
+barge.save_as: حفظ باسم
+barge.exit: خروج
+barge.untitled: بدون عنوان - ورق
+barge.saveafile: احفظ الملف
+barge.chooseafile: اختيار ملف
+barge.saveasfile: حفظ كملف
+calculator.backspace: مسافة للخلف
+calculator.clear: واضح
+calculator.clearall: امسح الكل

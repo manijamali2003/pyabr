@@ -20,7 +20,7 @@ class MainApp(QtWidgets.QMainWindow):
         self.Widget.SetWindowTitle(res.get('@string/app_name'))
         self.Widget.SetWindowIcon (QtGui.QIcon(res.get('@icon/barge')))
 
-        self.Widget.SetWindowTitle("Untitled - Barge")
+        self.Widget.SetWindowTitle(res.get('@string/untitled'))
 
         # text box
         self.teEdit = QtWidgets.QTextEdit()
@@ -28,20 +28,20 @@ class MainApp(QtWidgets.QMainWindow):
 
         # menubar
         self.menubar = self.menuBar()
-        self.file = self.menubar.addMenu("File")
+        self.file = self.menubar.addMenu(res.get('@string/file'))
 
         # file menu #
-        self.new = self.file.addAction("New")
+        self.new = self.file.addAction(res.get('@string/new'))
         self.new.triggered.connect (self.new_act)
-        self.new_page = self.file.addAction("New Page")
+        self.new_page = self.file.addAction(res.get('@string/new_page'))
         self.new_page.triggered.connect (self.new_page_act)
-        self.open = self.file.addAction("Open")
+        self.open = self.file.addAction(res.get('@string/open'))
         self.open.triggered.connect (self.open_act)
-        self.save = self.file.addAction("Save")
+        self.save = self.file.addAction(res.get('@string/save'))
         self.save.triggered.connect (self.save_)
-        self.saveas = self.file.addAction("Save As")
+        self.saveas = self.file.addAction(res.get('@string/save_as'))
         self.saveas.triggered.connect (self.save_as)
-        self.exit = self.file.addAction("Exit")
+        self.exit = self.file.addAction(res.get('@string/exit'))
         self.exit.triggered.connect (self.Widget.Close)
 
         # set font size
@@ -53,7 +53,7 @@ class MainApp(QtWidgets.QMainWindow):
         self.Env.RunApp ('barge',None)
 
     def new_act (self):
-        self.Widget.SetWindowTitle ("Untitled - Barge")
+        self.Widget.SetWindowTitle (res.get('@string/untitled'))
         self.teEdit.clear()
 
     def gettext (self,filename):
@@ -65,13 +65,13 @@ class MainApp(QtWidgets.QMainWindow):
         self.Widget.SetWindowTitle(files.output(filename).replace('//',''))
 
     def save_ (self,filename):
-        if not self.Widget.WindowTitle()=='Untitled - Barge':
+        if not self.Widget.WindowTitle()==res.get('@string/untitled'):
             files.write(files.output(self.Widget.WindowTitle()),self.teEdit.toPlainText())
         else:
-            self.Env.RunApp('select', ['Save a file', 'save', self.saveas_])
+            self.Env.RunApp('select', [res.get('@string/saveafile'), 'save', self.saveas_])
 
     def open_act (self):
-        self.Env.RunApp('select',['Choose a text file','open',self.gettext])
+        self.Env.RunApp('select',[res.get('@string/chooseafile'),'open',self.gettext])
 
     def save_as (self):
-        self.Env.RunApp('select', ['Save as file', 'save-as', self.saveas_])
+        self.Env.RunApp('select', [res.get('@string/saveasfile'), 'save-as', self.saveas_])

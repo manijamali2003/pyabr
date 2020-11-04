@@ -109,9 +109,6 @@ class Calc(QWidget):
             background-color: white;
             color: gray;
             border-radius: 15% 15%;
-            border-color: silver;
-            border-style: solid;
-            border-width: 1%;
         }
         ''')
         self.display.setReadOnly(True)
@@ -132,12 +129,12 @@ class Calc(QWidget):
         self.changeSignButton = self.createButton(u"\N{PLUS-MINUS SIGN}",
                                                   self.changeSignClicked)
 
-        self.backspaceButton = self.createButton("Backspace",
+        self.backspaceButton = self.createButton(res.get('@string/backspace'),
                                                  self.backspaceClicked)
         self.backspaceButton.setStyleSheet(self.style_upbtn)
-        self.clearButton = self.createButton("Clear", self.clear)
+        self.clearButton = self.createButton(res.get('@string/clear'), self.clear)
         self.clearButton.setStyleSheet(self.style_upbtn)
-        self.clearAllButton = self.createButton("Clear All", self.clearAll)
+        self.clearAllButton = self.createButton(res.get('@string/clearall'), self.clearAll)
         self.clearAllButton.setStyleSheet(self.style_upbtn)
 
         self.clearMemoryButton = self.createButton("MC", self.clearMemory)
@@ -219,7 +216,7 @@ class Calc(QWidget):
             self.display.clear()
             self.waitingForOperand = False
 
-        self.display.setText(self.display.text() + str(digitValue))
+        self.display.setText(self.display.text() + str(res.num(digitValue)))
 
     def unaryOperatorClicked(self):
         clickedButton = self.sender()
@@ -241,7 +238,7 @@ class Calc(QWidget):
 
             result = 1.0 / operand
 
-        self.display.setText(str(result))
+        self.display.setText(str(res.num(result)))
         self.waitingForOperand = True
 
     def additiveOperatorClicked(self):
@@ -315,10 +312,10 @@ class Calc(QWidget):
 
     def pointClicked(self):
         if self.waitingForOperand:
-            self.display.setText('0')
+            self.display.setText(res.num('0'))
 
         if "." not in self.display.text():
-            self.display.setText(self.display.text() + ".")
+            self.display.setText(res.num(self.display.text() + "."))
 
         self.waitingForOperand = False
 
@@ -331,7 +328,7 @@ class Calc(QWidget):
         elif value < 0.0:
             text = text[1:]
 
-        self.display.setText(text)
+        self.display.setText(res.num(text))
 
     def backspaceClicked(self):
         if self.waitingForOperand:
@@ -339,7 +336,7 @@ class Calc(QWidget):
 
         text = self.display.text()[:-1]
         if not text:
-            text = '0'
+            text = res.num('0')
             self.waitingForOperand = True
 
         self.display.setText(text)
@@ -348,7 +345,7 @@ class Calc(QWidget):
         if self.waitingForOperand:
             return
 
-        self.display.setText('0')
+        self.display.setText(res.num('0'))
         self.waitingForOperand = True
 
     def clearAll(self):
@@ -356,7 +353,7 @@ class Calc(QWidget):
         self.factorSoFar = 0.0
         self.pendingAdditiveOperator = ''
         self.pendingMultiplicativeOperator = ''
-        self.display.setText('0')
+        self.display.setText(res.num('0'))
         self.waitingForOperand = True
 
     def clearMemory(self):

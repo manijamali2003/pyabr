@@ -73,4 +73,17 @@ select.open: Open
 select.save: Save
 select.save-as: Save As
 barge.app_name: Barge Text Editor
-about.app_name: About system
+barge.file: File
+barge.open: Open
+barge.new: New
+barge.new_page: New Page
+barge.save: Save
+barge.save_as: Save As
+barge.exit: Exit
+barge.untitled: Untitled - Barge
+barge.saveafile: Save a file
+barge.chooseafile: Choose a file
+barge.saveasfile: Save as file
+calculator.backspace: Backscape
+calculator.clear: Clear
+calculator.clearall: Clear All
