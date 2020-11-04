@@ -103,7 +103,7 @@ class Calc(QWidget):
         self.factorSoFar = 0.0
         self.waitingForOperand = True
 
-        self.display = QLineEdit('0')
+        self.display = QLineEdit(res.num('0'))
         self.display.setStyleSheet('''
         QLineEdit {
             background-color: white;
@@ -209,7 +209,7 @@ class Calc(QWidget):
         clickedButton = self.sender()
         digitValue = int(clickedButton.text())
 
-        if self.display.text() == '0' and digitValue == 0.0:
+        if self.display.text() == res.num('0') and digitValue == 0.0:
             return
 
         if self.waitingForOperand:
@@ -251,7 +251,7 @@ class Calc(QWidget):
                 self.abortOperation()
                 return
 
-            self.display.setText(str(self.factorSoFar))
+            self.display.setText(res.num(str(self.factorSoFar)))
             operand = self.factorSoFar
             self.factorSoFar = 0.0
             self.pendingMultiplicativeOperator = ''
@@ -261,7 +261,7 @@ class Calc(QWidget):
                 self.abortOperation()
                 return
 
-            self.display.setText(str(self.sumSoFar))
+            self.display.setText(res.num(str(self.sumSoFar)))
         else:
             self.sumSoFar = operand
 
@@ -278,7 +278,7 @@ class Calc(QWidget):
                 self.abortOperation()
                 return
 
-            self.display.setText(str(self.factorSoFar))
+            self.display.setText(res.num(str(self.factorSoFar)))
         else:
             self.factorSoFar = operand
 
@@ -306,7 +306,7 @@ class Calc(QWidget):
         else:
             self.sumSoFar = operand
 
-        self.display.setText(str(self.sumSoFar))
+        self.display.setText(res.num(str(self.sumSoFar)))
         self.sumSoFar = 0.0
         self.waitingForOperand = True
 
@@ -360,7 +360,7 @@ class Calc(QWidget):
         self.sumInMemory = 0.0
 
     def readMemory(self):
-        self.display.setText(str(self.sumInMemory))
+        self.display.setText(res.num(str(self.sumInMemory)))
         self.waitingForOperand = True
 
     def setMemory(self):

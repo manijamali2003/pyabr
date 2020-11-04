@@ -183,17 +183,17 @@ class MainApp (QtWidgets.QMainWindow):
         ## Menubar ##
 
         self.menubar = self.menuBar()
-        self.file = self.menubar.addMenu("File")
+        self.file = self.menubar.addMenu(res.get('@string/file'))
 
         ## File menu
 
-        self.new_file = self.file.addAction("New File")
+        self.new_file = self.file.addAction(res.get('@string/newfile'))
         self.new_file.triggered.connect(self.New_File)
 
-        self.new_folder = self.file.addAction("New Folder")
+        self.new_folder = self.file.addAction(res.get('@string/newfolder'))
         self.new_folder.triggered.connect(self.New_Folder)
 
-        self.exit = self.file.addAction("Exit")
+        self.exit = self.file.addAction(res.get('@string/exit'))
         self.exit.triggered.connect(self.Widget.Close)
 
         ## end File menu
@@ -207,7 +207,7 @@ class MainApp (QtWidgets.QMainWindow):
         self.setCentralWidget(self.x)
 
     def New_Folder (self):
-        self.Env.RunApp('input',['Enter your folder name',self.x.mkdir])
+        self.Env.RunApp('input',[res.get('@string/foldername'),self.x.mkdir])
 
     def New_File (self):
-        self.Env.RunApp('input',['Enter your file name',self.x.mkfile])
+        self.Env.RunApp('input',[res.get('@string/filename'),self.x.mkfile])

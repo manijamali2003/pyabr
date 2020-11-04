@@ -87,3 +87,9 @@ barge.saveasfile: حفظ كملف
 calculator.backspace: مسافة للخلف
 calculator.clear: واضح
 calculator.clearall: امسح الكل
+roller.file: ملف
+roller.newfile: ملف جديد
+roller.newfolder: مجلد الجديد
+roller.exit: خروج
+roller.foldername: أدخل اسم المجلد الخاص بك
+roller.filename: أدخل اسم الملف الخاص بك

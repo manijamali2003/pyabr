@@ -87,3 +87,9 @@ barge.saveasfile: Save as file
 calculator.backspace: Backscape
 calculator.clear: Clear
 calculator.clearall: Clear All
+roller.file: File
+roller.newfile: New File
+roller.newfolder: New Folder
+roller.exit: Exit
+roller.foldername: Enter your folder name
+roller.filename: Enter your file name

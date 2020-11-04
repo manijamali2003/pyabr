@@ -34,8 +34,8 @@ class MainApp(QMainWindow):
 
     def homeScreen(self):
         # Set title of the MainWindow
-        self.Widget.setWindowTitle('SoundBox Audio Player')
-        self.Widget.setWindowIcon(QIcon(res.get('@logo/soundbox')))
+        self.Widget.SetWindowTitle('SoundBox Audio Player')
+        self.Widget.SetWindowIcon(QIcon(res.get('@logo/soundbox')))
 
         # Create Menubar
         self.createMenubar()
@@ -55,7 +55,7 @@ class MainApp(QMainWindow):
         self.setCentralWidget(centralWidget)
 
         # Set Dimensions of the MainWindow
-        self.Widget.resize(400, 200)
+        self.Widget.Resize(self,400, 200)
 
         # show everything.
         self.show()
