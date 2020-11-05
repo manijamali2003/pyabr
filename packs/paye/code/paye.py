@@ -9,7 +9,7 @@
 #
 #######################################################################################
 
-import sys
+import sys, subprocess
 
 from libabr import Files, Control, Permissions, Colors, Process, Modules, Package
 
@@ -220,5 +220,12 @@ elif option=='git':
 elif option=='up':
     update_mirror = 'https://github.com/manijamali2003/pyabr'
     pack.upcloud (update_mirror)
+
+elif option=='pip':
+    argsv = [files.readall('/proc/info/py'),'-m','pip']
+    for i in sys.argv[2:]:
+        argsv.append(i)
+    subprocess.call(argsv)
+
 else:
     colors.show ("paye","fail",option+": option not found.")

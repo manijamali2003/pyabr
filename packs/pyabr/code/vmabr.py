@@ -224,10 +224,10 @@ if argv[0]=='exec':
             else:
                 colors.show(argv[1], "perm", "")
 
-        elif files.isfile('/usr/app/'+argv[1]+".jar") and portable=='Yes' and not java_home==None:
+        elif files.isfile('/usr/app/'+argv[1]+".jar") and portable=='Yes':
             if permissions.check('/usr/app/'+files.output(argv[1]+".jar"), "x", user):
                 ## command ##
-                command = [java_home+"java",'--jar',files.input('/usr/app/'+argv[1]+".jar")]
+                command = ["java",'--jar',files.input('/usr/app/'+argv[1]+".jar")]
 
                 for i in argv[2:]:
                     command.append(i)
@@ -270,6 +270,14 @@ if argv[0]=='exec':
                 print (files.readall('/app/mirrors/'+argv[1]+".try"))
             else:
                 print ("Run `sudo paye in "+argv[1]+'`')
+        elif argv[1]=='python' or argv[1]=='py':
+            sub.call([files.readall('/proc/info/py')])
+        elif argv[1]=='pip':
+            argsv = [files.readall('/proc/info/py'), '-m', 'pip']
+            for i in sys.argv[3:]:
+                argsv.append(i)
+            print (argsv)
+            sub.call(argsv)
         else:
             colors.show(argv[1], "fail", "command not found.")
 
