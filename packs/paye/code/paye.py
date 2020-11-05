@@ -75,7 +75,9 @@ elif option=="upak":
 
     for i in archive:
         if files.isfile(i):
+            print (f'Unpacking \'{i}\' archive package ...',end='')
             pack.unpack(i)
+            print ('done')
         else:
             colors.show("paye", "fail", i + ": archive not found.")
 
@@ -100,7 +102,9 @@ elif option=="rm":
             strv += ',' + i
 
     for i in package:
+        print (f"Uninstalling {i} package ... ",end='')
         pack.uninstall(i.lower())
+        print ('done')
 
     pack.clean()
 
@@ -117,7 +121,9 @@ elif option=="get":
         for i in package:
             strv += ',' + i
     for i in package:
+        print (f'Downloading {i} archive package ... ',end='')
         pack.download (i.lower())
+        print ('done')
 
 elif option=="in":
     if files.isfile ("/app/cache/lock"):
@@ -138,14 +144,20 @@ elif option=="in":
             strv+=','+i
 
     for i in package:
+        print(f'Downloading {i} archive package ... ', end='')
         pack.download(i.lower())
+        print ('done')
 
     for j in package:
         checkgit = files.readall('/app/mirrors/'+j.lower())
         if checkgit.__contains__('git'):
+            print(f'Cloning and Installing {j} archive package ... ', end='')
             pack.gitinstall(j)
+            print ('done')
         else:
+            print(f'Installing {i} archive package ... ', end='')
             pack.unpack("/app/cache/gets/" + j.lower() + ".pa")
+            print ('done')
 
     pack.clean()
 
@@ -215,17 +227,20 @@ elif option=='git':
         colors.show ('paye','fail','no inputs.')
         sys.exit(0)
 
+    print(f'Cloning {sys.argv[2]} archive package ... ', end='')
     pack.gitinstall (sys.argv[2])
+    print('done')
 
 elif option=='up':
     update_mirror = 'https://github.com/manijamali2003/pyabr'
+    print(f'Updating the cloud software ...', end='')
     pack.upcloud (update_mirror)
+    print ('done')
 
 elif option=='pip':
     argsv = [files.readall('/proc/info/py'),'-m','pip']
     for i in sys.argv[2:]:
         argsv.append(i)
     subprocess.call(argsv)
-
 else:
     colors.show ("paye","fail",option+": option not found.")
