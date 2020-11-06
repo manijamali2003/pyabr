@@ -7,7 +7,7 @@ width: 1280
 height: 720
 autosize: No
 logo: @icon/pyabr-logo
-locale: ar
+locale: en
 
 backend.color: black
 backend.timeout: 1000
@@ -69,4 +69,4 @@ loginw.enter.round-size: 20
 loginw.unlock.round: Yes
 loginw.unlock.round-size: 20
 
-submenu.hide: Yes
+submenu.hide: No

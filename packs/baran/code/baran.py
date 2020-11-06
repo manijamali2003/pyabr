@@ -1662,6 +1662,10 @@ class AppWidget (QMainWindow):
         self.btnEscape.setStyleSheet('QToolButton {border-radius: {0}% {0}%;} QToolButton::hover {border-radius: {0}% {0}%;background-color: {1}}'.replace("{1}",app_title_close_hover).replace("{0}",str(int((app_title_size-15)/2))))
         self.layouts.addWidget(self.btnEscape)
 
+        self.whitewidget = QMainWindow()
+        self.whitewidget.setStyleSheet('background-color: white;')
+        self.setCentralWidget(self.whitewidget)
+
         # center widget #
         self.mainWidget = exec.MainApp([self.Backend,self.Env,self,self.appname,self.external])
         self.mainWidget.setGeometry(0,app_title_size,self.width(),self.height()-app_title_size)
