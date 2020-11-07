@@ -7,7 +7,7 @@ width: 1280
 height: 720
 autosize: No
 logo: @icon/pyabr-logo
-locale: en
+locale: ar
 
 backend.color: black
 backend.timeout: 1000
