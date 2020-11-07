@@ -87,6 +87,39 @@ class Commands:
                     colors.show("unset", "perm", "")
             else:
                 control.remove_record(name, select)
+
+    # net #
+    def net (self,args):
+        permissions = Permissions()
+        files = Files()
+        colors = Colors()
+        control = Control()
+
+        if args==[] or args[1:]==[]:
+            colors.show('net','fail','no inputs.')
+            sys.exit(0)
+
+        connect = args[0]
+        mount = args[1]
+
+        numberic = 0
+
+        listdev = files.list('/dev')
+        listnc = []
+        for i in listdev:
+            if i.startswith ('nc'):
+                listnc.append(int(i.replace('nc','')))
+
+        if listnc==[]:
+            files.create('/dev/nc0')
+            self.sel(['/dev/nc0'])
+        else:
+            files.create('/dev/nc'+str(max(listnc)))
+            self.sel(['/dev/nc'+str(max(listnc))])
+
+        self.set(['connect:',connect])
+        self.set(['mount:',mount])
+
     # cc command #
     def cc (self,args):
         permissions = Permissions()
@@ -126,6 +159,8 @@ class Commands:
             type = 'python'
         elif filename.endswith ('.java'):
             type = 'java'
+        elif filename.endswith ('.sa'):
+            type = 'saye'
 
         # compile types #
         if type=='python':
@@ -183,6 +218,21 @@ class Commands:
 
             strv = (control.read_record('class.java', '/etc/compiler').replace("{src}", files.input(filename).replace('.//',''))).split (' ')
             subprocess.call(strv)
+
+        elif type=='saye':
+            if not permissions.check(files.output(filename.replace('.sa','.pyc')), "w", files.readall("/proc/info/su")):
+                colors.show('cc', 'perm', '')
+                sys.exit(0)
+
+            files.write(files.output(filename.replace('.sa','.py')),'from libabr import System\n')
+
+            listc = control.read_list(files.output(filename))
+            for i in listc:
+                files.append(filename.replace('.sa','.py'),f"System ('{i}');\n")
+
+            py_compile.compile(files.input(filename.replace('.sa','.py')),files.input(filename.replace('.sa','.pyc')))
+
+            files.remove (filename.replace('.sa','.py'))
         else:
             colors.show('cc','fail','not supported programing language.')
 
