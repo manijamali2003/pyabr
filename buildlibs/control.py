@@ -9,6 +9,8 @@
 #
 #######################################################################################
 
+import os
+
 def read_record (name,filename):
     file = open (filename,"r")
     strv = file.read()
@@ -35,7 +37,7 @@ def write_record(name, value, filename):
     record = read_record(name, filename)
     os.remove(filename)
     if not (record == None):
-        all = all.replace(name + ": " + record, "")
+        all = all.replace("\n"+name + ": " + record, "")
     file = open(filename,'w')
     file.write(all + "\n" + name + ": " + value)
     file.close()

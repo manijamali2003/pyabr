@@ -11,6 +11,37 @@
 
 import importlib, shutil, os, sys, hashlib, subprocess,time,datetime,getpass,py_compile, site
 
+def read_record (name,filename):
+    file = open (filename,"r")
+    strv = file.read()
+    file.close()
+    strv = strv.split("\n")
+
+    for i in strv:
+        if i.startswith(name):
+            i = i.split(": ")
+            if i[0]==(name):
+                return i[1]
+
+def read_list (filename):
+    file = open (filename,"r")
+    strv = file.read()
+    file.close()
+    strv = strv.split("\n")
+    return strv
+
+def write_record(name, value, filename):
+    file = open (filename,'r')
+    all = file.read()
+    file.close()
+    record = read_record(name, filename)
+    os.remove(filename)
+    if not (record == None):
+        all = all.replace("\n"+name + ": " + record, "")
+    file = open(filename,'w')
+    file.write(all + "\n" + name + ": " + value)
+    file.close()
+
 # script #
 class Script:
     def __init__(self,filename):
@@ -95,12 +126,21 @@ class Commands:
         colors = Colors()
         control = Control()
 
+        ## Check root ##
+        if not permissions.check_root(files.readall("/proc/info/su")):
+            colors.show("net", "perm", "")
+            sys.exit(0)
+
         if args==[] or args[1:]==[]:
             colors.show('net','fail','no inputs.')
             sys.exit(0)
 
         connect = args[0]
         mount = args[1]
+
+        if not control.read_record(mount,'/etc/fstab')==None:
+            colors.show ('net','fail',mount+": target is busy.")
+            sys.exit(0)
 
         numberic = 0
 
@@ -114,11 +154,48 @@ class Commands:
             files.create('/dev/nc0')
             self.sel(['/dev/nc0'])
         else:
-            files.create('/dev/nc'+str(max(listnc)))
-            self.sel(['/dev/nc'+str(max(listnc))])
+            files.create('/dev/nc'+str(max(listnc)+1))
+            self.sel(['/dev/nc'+str(max(listnc)+1)])
 
         self.set(['connect:',connect])
         self.set(['mount:',mount])
+        self.set(['fs:','ncfs'])
+
+        self.unsel([])
+        self.sel (['/etc/fstab'])
+
+        if listnc==[]:
+            self.set([mount+":",'nc0'])
+        else:
+            self.set([mount+":",'nc'+str(max(listnc)+1)])
+
+    # unet #
+    def umount (self,args):
+        permissions = Permissions()
+        files = Files()
+        colors = Colors()
+        control = Control()
+
+        permissions = Permissions()
+        files = Files()
+        colors = Colors()
+        control = Control()
+        if not permissions.check_root(files.readall("/proc/info/su")):
+            colors.show("umount", "perm", "")
+            sys.exit(0)
+
+        for i in args:
+            ## Check root ##
+
+            target = i
+
+            ## not mounted ##
+            if control.read_record(target, '/etc/fstab') == None:
+                colors.show('umount', 'fail', target + ": target not mounted.")
+                sys.exit(0)
+
+            ## remove block files ##
+            files.remove('/dev/' + control.read_record(target, '/etc/fstab'))
 
     # cc command #
     def cc (self,args):
@@ -969,31 +1046,6 @@ class Commands:
         # get raw #
 
         control.write_record(dest,src,'/etc/fstab')
-
-    def umount (self,args):
-        modules = Modules()
-        files = Files()
-        control = Control()
-        colors = Colors()
-        process = Process()
-        permissions = Permissions()
-
-        ## Check root ##
-        if not permissions.check_root(files.readall("/proc/info/su")):
-            colors.show("umount", "perm", "")
-            sys.exit(0)
-
-        ## Check inputs ##
-        if args == []:
-            colors.show("umount", "fail", "no inputs.")
-            sys.exit(0)
-
-        ## check mount point ##
-        if not files.readall('/etc/fstab')==args[0]:
-           colors.show('umount','fail',args[0]+': mount point not found.')
-           sys.exit(0)
-
-        ## not done ##
 
     ## passwd ##
     def passwd (self,args):
@@ -2360,6 +2412,42 @@ class Permissions:
         perms = control.read_record(name, "/etc/permtab")  ## get permissions
         if not perms == None:
             return perms
+        elif name.startswith ('ic') and name.__contains__(":/"):
+            splitic = name.split (":")
+            dev = splitic[0]
+            name = splitic[1]
+
+            ## Father permtab ##
+            if files.isdir(name):
+                dirfile = "d"
+            else:
+                dirfile = "-"
+
+            ## The most important part of father permtab ##
+            names = name.split("/")
+
+            while not self.exists(name):
+                l = len(names) - 1
+                names.pop(l)
+                name = ""
+                for i in names:
+                    name = name + "/" + i
+                name = name.replace("//", "/")
+
+            perm = control.read_record(dev+":"+name, "/etc/permtab")  ## get permissions
+            perm = perm.split("/")
+            owner = perm[1]
+            perms = perm[0]
+            user_r = perms[1]
+            user_w = perms[2]
+            user_x = perms[3]
+            others_r = perms[4]
+            others_w = perms[5]
+            others_x = perms[6]
+            guest_r = perms[7]
+            guest_w = perms[8]
+            guest_x = perms[9]
+            return dirfile + user_r + user_w + user_x + others_r + others_w + others_x + guest_r + guest_w + guest_x + "/" + owner
         else:
             ## Father permtab ##
             if files.isdir(name):
@@ -2626,20 +2714,52 @@ class Files:
     root = "./"
 
     def input(self,filename):
-        if filename.startswith("/"):
+        f = open ('proc/info/pwd','r')
+        pwd = f.read()
+        f.close()
+        # check fstab #
+        if filename.startswith ('ic') and filename.__contains__(":/"):
+            # ic0:/
+            splitic = filename.split (':')
+
+            device = splitic[0]
+
+            real = read_record('connect','dev/'+splitic[0])
+
+            if os.path.isfile ('dev/'+device) and not real==None:
+                return real + "/" + splitic[1]
+            else:
+                return self.root + pwd + "/" + filename
+
+        elif filename.startswith("/"):
             return self.root + filename
         else:
-            pwd = self.readall("/proc/info/pwd")
-            return self.root + pwd + "/" + filename
+            if pwd.startswith('ic') and pwd.__contains__(':/'):
+                # ic0:/
+                splitic = pwd.split(':')
+
+                device = splitic[0]
+
+                real = read_record('connect', 'dev/' + splitic[0])
+
+                if os.path.isfile('dev/' + device) and not real == None:
+                    return real + "/" + splitic[1] + "/" + filename
+                else:
+                    return self.root + pwd + "/" + filename
+            else:
+                return self.root + pwd + "/" + filename
 
     def output_shell(self,filename):
-        return self.input(filename).replace("///", "/").replace("//", "/").replace("./", "/")
+        if filename.startswith ('ic') and filename.__contains__(":/"):
+            return filename
+        else:
+            return self.input(filename).replace("///", "/").replace("//", "/").replace("./", "/")
 
     def input_exec(self,filename):
         return self.input(filename.replace("./", "")).replace(".//", "").replace("/", ".")
 
     def output(self,filename):
-        if filename.startswith("/"):
+        if filename.startswith("/") or (filename.startswith('ic') and filename.__contains__(":/")):
             return filename
         else:
             return self.input(filename).replace("///", "/").replace("//", "/").replace("./", "/").replace("//", "/")
@@ -2753,7 +2873,8 @@ class Control:
         record = self.read_record(name, filename)
         files.remove(filename)
         if not (record == None):
-            all = all.replace(name + ": " + record, "")
+            all = all.replace("\n"+name + ": " + record, "")
+
         files.write(filename, all + "\n" + name + ": " + value)
 
     def remove_record(self,name, filename):
