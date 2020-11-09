@@ -1,0 +1,4 @@
+
+umount [device-block] ...
+
+Job: Unmouting Inside-Cloud partitions

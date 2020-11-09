@@ -120,54 +120,42 @@ class Commands:
                 control.remove_record(name, select)
 
     # net #
-    def net (self,args):
+    def mount (self,args):
         permissions = Permissions()
         files = Files()
         colors = Colors()
         control = Control()
-
+        commands = Commands()
         ## Check root ##
         if not permissions.check_root(files.readall("/proc/info/su")):
-            colors.show("net", "perm", "")
+            colors.show("mount", "perm", "")
             sys.exit(0)
 
-        if args==[] or args[1:]==[]:
-            colors.show('net','fail','no inputs.')
+        if args==[]:
+            colors.show('mount','fail','no inputs.')
             sys.exit(0)
 
         connect = args[0]
-        mount = args[1]
-
-        if not control.read_record(mount,'/etc/fstab')==None:
-            colors.show ('net','fail',mount+": target is busy.")
-            sys.exit(0)
 
         numberic = 0
 
         listdev = files.list('/dev')
         listnc = []
         for i in listdev:
-            if i.startswith ('nc'):
-                listnc.append(int(i.replace('nc','')))
+            if i.startswith ('ic'):
+                listnc.append(int(i.replace('ic','')))
 
-        if listnc==[]:
-            files.create('/dev/nc0')
-            self.sel(['/dev/nc0'])
-        else:
-            files.create('/dev/nc'+str(max(listnc)+1))
-            self.sel(['/dev/nc'+str(max(listnc)+1)])
-
+        files.create('/dev/ic'+str(max(listnc)+1))
+        d = '/dev/ic'+str(max(listnc)+1)
+        self.sel([d])
         self.set(['connect:',connect])
-        self.set(['mount:',mount])
-        self.set(['fs:','ncfs'])
-
         self.unsel([])
-        self.sel (['/etc/fstab'])
 
-        if listnc==[]:
-            self.set([mount+":",'nc0'])
-        else:
-            self.set([mount+":",'nc'+str(max(listnc)+1)])
+        print (f"Mouting {d} partition ... ",end='')
+
+        files.append('/etc/permtab',"\nic"+str(max(listnc)+1)+":/: dr--r-----/root")
+
+        print ("done")
 
     # unet #
     def umount (self,args):
@@ -185,17 +173,21 @@ class Commands:
             sys.exit(0)
 
         for i in args:
-            ## Check root ##
-
-            target = i
-
-            ## not mounted ##
-            if control.read_record(target, '/etc/fstab') == None:
-                colors.show('umount', 'fail', target + ": target not mounted.")
+            ## check syntax ##
+            if not (i.startswith('ic') or i.__contains__(":/")):
+                colors.show ('umount','fail','incorrect block name.')
                 sys.exit(0)
 
-            ## remove block files ##
-            files.remove('/dev/' + control.read_record(target, '/etc/fstab'))
+            ## check busy ##
+            if files.readall('/proc/info/pwd').startswith (i):
+                colors.show ('umount','fail','device block is already busy.')
+                sys.exit(0)
+
+            ## not mounted ##
+            if not files.isfile('/dev/'+i):
+                colors.show('umount', 'fail', i + ": block not mounted.")
+                sys.exit(0)
+            files.remove ('/dev/'+i)
 
     # cc command #
     def cc (self,args):
@@ -645,17 +637,34 @@ class Commands:
         if permissions.check(files.output(path), "r", files.readall("/proc/info/su")):
             if path == '..':
                 pwd = files.readall('/proc/info/pwd')
-                pwd = pwd.split('/')
-                lens = len(pwd) - 1
-                pwd.pop(lens)
+                if pwd.startswith ("ic") and pwd.__contains__("/"):
+                    splitic = pwd.split(":/")
+                    dev = splitic[0]
+                    path = splitic[1]
 
-                strv = ''
+                    path = path.split('/')
+                    lens = len(path) - 1
+                    path.pop(lens)
 
-                for i in pwd:
-                    strv += "/" + i
+                    strv = ''
 
-                pwd = files.output_shell(strv)
-                files.write("/proc/info/pwd", pwd)
+                    for i in path:
+                        strv += "/" + i
+
+                    path = files.output_shell(dev+":/"+strv)
+                    files.write("/proc/info/pwd", path)
+                else:
+                    pwd = pwd.split('/')
+                    lens = len(pwd) - 1
+                    pwd.pop(lens)
+
+                    strv = ''
+
+                    for i in pwd:
+                        strv += "/" + i
+
+                    pwd = files.output_shell(strv)
+                    files.write("/proc/info/pwd", pwd)
             elif files.isdir(path):
                 files.write("/proc/info/pwd", files.output_shell(path))
             else:
@@ -1002,50 +1011,6 @@ class Commands:
             else:
                 colors.show("rm", "fail", i + ": file or directory not found.")
                 sys.exit(0)
-
-    ## mount ##
-
-    def mount (self,args):
-        modules = Modules()
-        files = Files()
-        control = Control()
-        colors = Colors()
-        process = Process()
-        permissions = Permissions()
-
-        ## Check root ##
-        if not permissions.check_root(files.readall("/proc/info/su")):
-            colors.show("mount", "perm", "")
-            sys.exit(0)
-
-        ## Check inputs ##
-        if args==[] or args[1:]==[]:
-            colors.show("mount", "fail", "no inputs.")
-            sys.exit(0)
-
-        src = args[0]
-        dest = args[1]
-
-        ## already mounted ##
-        if files.readall('/etc/fstab') == src:
-            colors.show('mount','warning',src+": was already mounted.")
-            sys.exit(0)
-
-        ## Check block ##
-        if not files.isfile (src):
-            colors.show("mount", "fail", "unknown device block.")
-            sys.exit(0)
-
-        # check dest #
-        if files.isfile (dest):
-            colors.show("mount", "fail", dest+": dest is a file.")
-            sys.exit(0)
-
-        if not files.isdir(dest): files.mkdir(dest)
-
-        # get raw #
-
-        control.write_record(dest,src,'/etc/fstab')
 
     ## passwd ##
     def passwd (self,args):
@@ -2307,9 +2272,15 @@ class Permissions:
             if files.isdir(name):
                 control.write_record(name, "d" + user + others + guest + "/" + owner,
                                      "/etc/permtab")  # Write permissions for this directory
+                if name.startswith ("/") and (files.readall('/proc/info/pwd').startswith ("ic0")):
+                    control.write_record('ic0:'+name, "d" + user + others + guest + "/" + owner,
+                                         "/etc/permtab")  # Write permissions for this directory
             else:
                 control.write_record(name, "-" + user + others + guest + "/" + owner,
                                      "/etc/permtab")  # Write permissions for this file
+                if name.startswith("/") and (files.readall('/proc/info/pwd').startswith("ic0")):
+                    control.write_record('ic0:'+name, "-" + user + others + guest + "/" + owner,
+                                         "/etc/permtab")  # Write permissions for this file
 
     def exists(self,name):
         files = Files()
@@ -2729,10 +2700,10 @@ class Files:
             if os.path.isfile ('dev/'+device) and not real==None:
                 return real + "/" + splitic[1]
             else:
-                return self.root + pwd + "/" + filename
+                return self.root +"/" + pwd + "/" + filename
 
         elif filename.startswith("/"):
-            return self.root + filename
+            return self.root +"/"+ filename
         else:
             if pwd.startswith('ic') and pwd.__contains__(':/'):
                 # ic0:/
@@ -2745,15 +2716,23 @@ class Files:
                 if os.path.isfile('dev/' + device) and not real == None:
                     return real + "/" + splitic[1] + "/" + filename
                 else:
-                    return self.root + pwd + "/" + filename
+                    return self.root + "/"+ pwd + "/" + filename
             else:
-                return self.root + pwd + "/" + filename
+                return self.root +"/"+ pwd + "/" + filename
 
     def output_shell(self,filename):
         if filename.startswith ('ic') and filename.__contains__(":/"):
             return filename
+        elif filename.startswith ('/'):
+            return filename
         else:
-            return self.input(filename).replace("///", "/").replace("//", "/").replace("./", "/")
+            f = open ('proc/info/pwd','r')
+            pwd = f.read()
+            f.close()
+            if pwd.startswith('ic') and pwd.__contains__(':/'):
+                return (pwd+"/"+filename).replace("///", "/").replace("//", "/").replace("./", "/")
+            else:
+                return self.input(filename).replace("///", "/").replace("//", "/").replace("./", "/")
 
     def input_exec(self,filename):
         return self.input(filename.replace("./", "")).replace(".//", "").replace("/", ".")
@@ -2762,7 +2741,13 @@ class Files:
         if filename.startswith("/") or (filename.startswith('ic') and filename.__contains__(":/")):
             return filename
         else:
-            return self.input(filename).replace("///", "/").replace("//", "/").replace("./", "/").replace("//", "/")
+            f = open('proc/info/pwd', 'r')
+            pwd = f.read()
+            f.close()
+            if pwd.startswith('ic') and pwd.__contains__(':/'):
+                return (pwd+"/" + filename).replace("///", "/").replace("//", "/").replace("./", "/").replace("//", "/")
+            else:
+                return self.input(filename).replace("///", "/").replace("//", "/").replace("./", "/").replace("//", "/")
 
     def create(self,filename):
         file = open(self.input(filename), "w")

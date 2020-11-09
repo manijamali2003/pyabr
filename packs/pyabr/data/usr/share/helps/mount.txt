@@ -1,0 +1,4 @@
+
+mount [real-path] ...
+
+Job: Mouting Inside-Cloud partitions

@@ -1,6 +1,6 @@
 name: mines
-copyright: (c) 2020
-license: GNU GPL v3.0
+copyright: (c) 2020 Martin Fitzpatrick
+license: MIT
 unpack: /
 build: 1399-08-16
 version: 0.0.1

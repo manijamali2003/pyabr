@@ -18,6 +18,7 @@ Standard commands in internal Pyabr library ('/usr/app/libabr.pyc'):
     ls         Show list of files and directories
     mkdir      Make a directory or directories
     mv         Move or rename directories or files
+    mount      Mount a cloud partition
     new        Create a new switch process
     passwd     Change users password
     reboot     Reboot the clouding system
@@ -33,6 +34,7 @@ Standard commands in internal Pyabr library ('/usr/app/libabr.pyc'):
     uadd       Create an user account
     udel       Delete an user account
     uinfo      Show informations about an user account
+    umount     Unmount a cloud partition
     unsel      Unselect a controller
     unset      Unset a variable in controller
     ver        Show important informations about system
