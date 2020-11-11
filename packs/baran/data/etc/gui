@@ -7,10 +7,12 @@ width: 1280
 height: 720
 autosize: No
 logo: @icon/pyabr-logo
-locale: ar
+locale: en
 
 backend.color: black
 backend.timeout: 1000
+
+titlebar.bgcolor: #fff
 
 taskbar.location: left
 
@@ -23,7 +25,7 @@ login.bgcolor: #123456
 login.background: @background/default
 login.fgcolor: #FFFFFF
 
-enter.bgcolor: #123456
+enter.bgcolor: #fff
 enter.background: @background/default
 enter.fgcolor: #FFFFFF
 
@@ -68,5 +70,6 @@ loginw.enter.round: Yes
 loginw.enter.round-size: 20
 loginw.unlock.round: Yes
 loginw.unlock.round-size: 20
+
 
 submenu.hide: No

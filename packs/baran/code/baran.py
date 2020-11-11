@@ -76,7 +76,7 @@ class variables:
     lock_fgcolor = '#000000'
     lock_background = ''
     taskbar_bgcolor = '#FFFFFF'
-    loginw_bgcolor = '#FFFFFF'
+    loginw_bgcolor = '#FFF'
     userlogo_color = '#FFFFFF'
     input_bgcolor = '#FFFFFF'
     input_fgcolor = '#000000'
@@ -303,7 +303,7 @@ class Splash (QMainWindow):
             variables.splash_color = color
 
         self.wb = QMainWindow()
-        self.wb.setStyleSheet('background-color: {0}'.replace('{0}',variables.splash_color))
+        self.wb.setStyleSheet(f'background-color: {variables.splash_color}')
         self.setCentralWidget(self.wb)
 
         ## Set size ##
@@ -669,12 +669,9 @@ class LoginWidget (QMainWindow):
             ##
 
             ## Set colors ##
-        self.setStyleSheet('color:{0};border-radius:{1};'
-            .replace('{0}', loginw_fgcolor)
-            .replace('{1}', loginw_round)
+        self.setStyleSheet(f'color:{loginw_fgcolor};border-radius:{loginw_round};'
         )  ## Set color white as default
-        self.btnColorButton.setStyleSheet('background-color:{0};'
-            .replace('{0}',loginw_bgcolor)
+        self.btnColorButton.setStyleSheet(f'background-color:{loginw_bgcolor};'
         )
 
         ## Userlogo ##
@@ -687,16 +684,13 @@ class LoginWidget (QMainWindow):
 
         if loginw_userlogo_color == None: loginw_userlogo_color = variables.userlogo_color
 
-        if not loginw_userlogo == None:
-            if self.Env.objectName()=='Enter' or self.Env.objectName()=='Unlock':
-                logo = control.read_record ('loginw.userlogo','/etc/users/'+self.Env.username)
-                if not logo == None: loginw_userlogo = logo
+        #if not loginw_userlogo == None:
+        if self.Env.objectName() == 'Enter' or self.Env.objectName() == 'Unlock':
+            logo = control.read_record('loginw.userlogo', '/etc/users/' + self.Env.username)
+            if not logo == None: loginw_userlogo = logo
 
-            self.userlogo.setStyleSheet('background-color: {0};border-radius: {1};background-image: url({2});'
-                .replace('{0}', loginw_userlogo_color)
-                .replace('{1}',loginw_userlogo_round)
-                .replace('{2}', res.get(loginw_userlogo))
-            )
+        self.userlogo.setStyleSheet(
+            f'background-color: {loginw_userlogo_color};border-radius: {loginw_userlogo_round};background-image: url({res.get(loginw_userlogo)});')
 
             ## Shadow for userlogo ##
         ## Shadow ##
@@ -883,7 +877,7 @@ class LoginWidget (QMainWindow):
                 self.leInput.clear()
                 self.leInput.setEnabled(False)
                 message = res.get('@string/user_not_found')
-                if not message==None: message = message.replace("{0}",username)
+                if not message==None: message = message
                 self.leInput.setPlaceholderText(message)
                 QTimer.singleShot(2500, self.clean)
             else:
@@ -895,7 +889,7 @@ class LoginWidget (QMainWindow):
                     self.leInput.clear()
                     self.leInput.setEnabled(False)
                     message = res.get('@string/user_not_found')
-                    if not message == None: message = message.replace("{0}", username)
+                    if not message == None: message = message
                     self.leInput.setPlaceholderText(message)
                     QTimer.singleShot(2500, self.clean)
 
@@ -945,7 +939,7 @@ class LoginWidget (QMainWindow):
         if self.Env.objectName()=='Login':
             self.leInput.setPlaceholderText(res.get('@string/username_placeholder')) # See https://stackoverflow.com/questions/24274318/placeholder-text-not-showing-pyside-pyqt
         else:
-            self.leInput.setPlaceholderText(res.get('@string/password_placeholder').replace('{0}',self.Env.username))
+            self.leInput.setPlaceholderText(res.get('@string/password_placeholder'))
 
 ## Login ##
 class Login (QMainWindow):
@@ -988,8 +982,8 @@ class Login (QMainWindow):
         if background==None and bgcolor==None and not fgcolor==None:
             variables.login_fgcolor = fgcolor
             ## Set colors ##
-            self.setStyleSheet('color: {0};'.replace('{0}',variables.login_fgcolor))
-            self.backgroundButton.setStyleSheet('border:none;background-color: {0};'.replace('{0}',variables.login_bgcolor))
+            self.setStyleSheet(f'color: {variables.login_fgcolor};')
+            self.backgroundButton.setStyleSheet(f'border:none;background-color: {variables.login_bgcolor};')
 
         elif background==None and not fgcolor==None:
 
@@ -997,17 +991,16 @@ class Login (QMainWindow):
             variables.login_bgcolor = bgcolor
             variables.login_fgcolor = fgcolor
 
-            self.setStyleSheet('color: {0};'.replace('{0}', variables.login_fgcolor))
-
-            self.backgroundButton.setStyleSheet('border:none;background-color: {0};'.replace('{0}', variables.login_bgcolor))
+            self.setStyleSheet(f'color: {variables.login_fgcolor};')
+            self.backgroundButton.setStyleSheet(f'border:none;background-color: {variables.login_bgcolor};')
         elif not background==None and not fgcolor==None:
             ## Set bgcolor ##
 
             variables.login_background = res.get(background)
-            self.setStyleSheet('color: {0};'.replace('{0}', variables.login_fgcolor))
-            self.backgroundButton.setStyleSheet('border:none;background-image: url({0});'.replace('{0}', variables.login_background))
+            self.setStyleSheet(f'color: {variables.login_fgcolor};')
+            self.backgroundButton.setStyleSheet(f'border:none;background-image: url({variables.login_background});')
         else:
-            self.setStyleSheet('background-color:{1};color: {0};'.replace('{0}', variables.login_fgcolor).replace('{1}',variables.login_bgcolor))
+            self.setStyleSheet(f'background-color:{variables.login_bgcolor};color: {variables.login_fgcolor};')
 
         ## Set size ##
         width = getdata('width')
@@ -1105,9 +1098,9 @@ class Enter (QMainWindow):
         if background == None and bgcolor == None and not fgcolor == None:
             variables.enter_fgcolor = fgcolor
             ## Set colors ##
-            self.setStyleSheet('color: {0};'.replace('{0}', variables.enter_fgcolor))
+            self.setStyleSheet(f'color: {variables.enter_fgcolor};')
             self.backgroundButton.setStyleSheet(
-                'border:none;background-color: {0};'.replace('{0}', variables.enter_bgcolor))
+                f'border:none;background-color: {variables.enter_bgcolor};')
 
         elif background == None and not fgcolor == None:
 
@@ -1115,19 +1108,19 @@ class Enter (QMainWindow):
             variables.enter_bgcolor = bgcolor
             variables.enter_fgcolor = fgcolor
 
-            self.setStyleSheet('color: {0};'.replace('{0}', variables.enter_fgcolor))
+            self.setStyleSheet(f'color: {variables.enter_fgcolor};')
 
             self.backgroundButton.setStyleSheet(
-                'border:none;background-color: {0};'.replace('{0}', variables.enter_bgcolor))
+                f'border:none;background-color: {variables.enter_bgcolor};')
         elif not background == None and not fgcolor == None:
             ## Set bgcolor ##
 
             variables.enter_background = res.get(background)
-            self.setStyleSheet('color: {0};'.replace('{0}', variables.enter_fgcolor))
+            self.setStyleSheet(f'color: {variables.enter_fgcolor};')
             self.backgroundButton.setStyleSheet(
-                'border:none;background-image: url({0});'.replace('{0}', variables.enter_background))
+                f'border:none;background-image: url({variables.enter_background});')
         else:
-            self.setStyleSheet('background-color:{1};color: {0};'.replace('{0}', variables.enter_fgcolor).replace('{1}',variables.enter_bgcolor))
+            self.setStyleSheet(f'background-color:{variables.enter_bgcolor};color: {variables.enter_fgcolor};')
 
         ## Set size ##
         width = getdata('width')
@@ -1225,9 +1218,9 @@ class Unlock (QMainWindow):
         if background == None and bgcolor == None and not fgcolor == None:
             variables.unlock_fgcolor = fgcolor
             ## Set colors ##
-            self.setStyleSheet('color: {0};'.replace('{0}', variables.unlock_fgcolor))
+            self.setStyleSheet(f'color: {variables.unlock_fgcolor};')
             self.backgroundButton.setStyleSheet(
-                'border:none;background-color: {0};'.replace('{0}', variables.unlock_bgcolor))
+                f'border:none;background-color: {variables.unlock_bgcolor};')
 
         elif background == None and not fgcolor == None:
 
@@ -1235,19 +1228,19 @@ class Unlock (QMainWindow):
             variables.unlock_bgcolor = bgcolor
             variables.unlock_fgcolor = fgcolor
 
-            self.setStyleSheet('color: {0};'.replace('{0}', variables.unlock_fgcolor))
+            self.setStyleSheet(f'color: {variables.unlock_fgcolor};')
 
             self.backgroundButton.setStyleSheet(
-                'border:none;background-color: {0};'.replace('{0}', variables.unlock_bgcolor))
+                f'border:none;background-color: {variables.unlock_bgcolor};')
         elif not background == None and not fgcolor == None:
             ## Set bgcolor ##
 
             variables.unlock_background = res.get(background)
-            self.setStyleSheet('color: {0};'.replace('{0}', variables.unlock_fgcolor))
+            self.setStyleSheet(f'color: {variables.unlock_fgcolor};')
             self.backgroundButton.setStyleSheet(
-                'border:none;background-image: url({0});'.replace('{0}', variables.unlock_background))
+                f'border:none;background-image: url({variables.unlock_background});')
         else:
-            self.setStyleSheet('background-color:{1};color: {0};'.replace('{0}', variables.unlock_fgcolor).replace('{1}',variables.unlock_bgcolor))
+            self.setStyleSheet(f'background-color:{variables.unlock_bgcolor};color: {variables.unlock_fgcolor};')
 
         ## Set size ##
         width = getdata('width')
@@ -1385,6 +1378,12 @@ class TaskBar (QToolBar):
         self.setMinimumSize(QSize(int(size),int(size)))
         self.setIconSize(QSize(int(size), int(size))) # https://stackoverflow.com/questions/21133612/how-to-change-iconsize-of-qtoolbutton
 
+        self.btnMenu = QToolButton()
+        self.btnMenu.setIcon(QIcon(res.get('@icon/menu')))
+        self.btnMenu.setMinimumSize(int(size), int(size))
+        self.btnMenu.setObjectName('btnMenu')
+        self.btnMenu.clicked.connect (self.menuApps)
+        self.addWidget(self.btnMenu)
         # pins #
         pins = pins.split (',')
 
@@ -1402,9 +1401,59 @@ class TaskBar (QToolBar):
                 self.btnApp.clicked.connect (self.RunApplication)
                 self.addWidget(self.btnApp)
 
+    menu_click = False
+    def menuApps (self):
+        if self.menu_click==False:
+            self.w = MenuApplications([self.Backend,self.Env])
+            self.w.setStyleSheet('background-color: white;')
+            self.Env.layout().addWidget(self.w)
+            self.menu_click = True
+        else:
+            self.Env.backgroundButton.raise_()
+            self.Env.backgroundButton.activateWindow()
+            self.activateWindow()
+            self.raise_()
+            self.menu_click = False
+
     def RunApplication (self):
         sender = self.sender().objectName()
         self.Env.RunApp (sender,None)
+
+class MenuApplications (QMainWindow):
+    def __init__(self,ports):
+        super(MenuApplications, self).__init__()
+
+        ## Ports ##
+        self.Backend = ports[0]
+        self.Env = ports[1]
+
+        self.username = self.Env.username
+
+        self.setGeometry(0,0,self.Env.width(),self.Env.height())
+        self.setStyleSheet('background-color: white')
+
+        location = getdata('taskbar.location')
+        if not self.Env.username == 'guest':
+            value = control.read_record('taskbar.location', '/etc/users/' + self.username)
+            if not value == None: location = value
+        if location == None: location = variables.taskbar_location
+
+        size = int(getdata('taskbar.size'))
+        if not self.Env.username == 'guest':
+            value = control.read_record('taskbar.size', '/etc/users/' + self.username)
+            if not value == None: size = int(value)
+        if size == None: size = int(variables.taskbar_size)
+
+        if location == 'bottom':
+            self.setGeometry(0, 0, self.Env.width(), self.Env.height() - size - 15)
+        elif location == 'top':
+            self.setGeometry(0, size + 15, self.Env.width(), self.Env.height() - size - 15)
+        elif location == "left":
+            self.setGeometry(size + 15, 0, self.Env.width() - size - 15, self.Env.height())
+        elif location == "right":
+            self.setGeometry(0, 0, self.Env.width() - size - 15, self.Env.height())
+        else:
+            self.setGeometry(0, 0, self.Env.width(), self.Env.height())
 
 class AppWidget (QMainWindow):
     def Resize(self,mainw,w,h):
@@ -1487,11 +1536,14 @@ class AppWidget (QMainWindow):
                 self.mainWidget.resize(self.Env.width(), self.Env.height() - variables.app_title_size)
                 self.titlebar.setGeometry(0, 0, self.Env.width(), self.app_title_size)
 
+            self.mainWidget.update()
+
             self.max = True
         else:
             self.setGeometry(int(self.Env.width()/2)-int(self.save_w/2),int(self.Env.height()/2)-int(self.save_h/2),self.save_w,self.save_h)
             self.titlebar.setGeometry(0, 0, self.save_w, variables.app_title_size)
             self.mainWidget.resize(self.save_ww,self.save_wh)
+            self.mainWidget.update()
             self.max = False
 
     def __init__(self,ports):
@@ -1618,7 +1670,7 @@ class AppWidget (QMainWindow):
 
         # title bar #
         self.titlebar = QWidget()
-        self.titlebar.setStyleSheet('background-color: {0};color: {1};'.replace('{0}',app_title_bgcolor).replace("{1}",app_title_fgcolor))
+        self.titlebar.setStyleSheet(f'background-color: {app_title_bgcolor};color: {app_title_fgcolor};')
 
         self.layouts = QHBoxLayout()
         self.titlebar.setLayout(self.layouts)
@@ -1633,7 +1685,7 @@ class AppWidget (QMainWindow):
 
         # text title #
         self.titletext = QLabel()
-        self.titletext.setStyleSheet('background-color: {0};color: {1};'.replace('{0}',app_title_bgcolor).replace("{1}",app_title_fgcolor))
+        self.titletext.setStyleSheet(f'background-color:  {app_title_bgcolor};color: {app_title_fgcolor};')
         self.titletext.setMaximumWidth(self.titlebar.width())
         self.titletext.setGeometry(0,0,self.titlebar.width(),app_title_size)
         self.titletext.setAlignment(Qt.AlignLeft)
@@ -1923,7 +1975,7 @@ class Desktop (QMainWindow):
             variables.lock_fgcolor = fgcolor
             ## Set colors ##
             self.BtnUnlock.setStyleSheet(
-                'border:none;background-color: {0};color:{1};'.replace('{0}', variables.lock_bgcolor).replace('{0}', variables.lock_fgcolor))
+                f'border:none;background-color: {variables.lock_bgcolor};color:{variables.lock_fgcolor};')
 
         elif background == None and not fgcolor == None:
 
@@ -1932,17 +1984,16 @@ class Desktop (QMainWindow):
             variables.lock_fgcolor = fgcolor
 
             self.BtnUnlock.setStyleSheet(
-                'border:none;background-color: {0};color:{1};'.replace('{0}', variables.lock_bgcolor).replace('{0}', variables.lock_fgcolor))
+                f'border:none;background-color: {variables.lock_bgcolor};color:{variables.lock_fgcolor};')
         elif not background == None and not fgcolor == None:
             ## Set bgcolor ##
 
             variables.lock_background = res.get(background)
             self.BtnUnlock.setStyleSheet(
-                'border:none;background-image: url({0});color: {1};'.replace('{0}', variables.lock_background).replace('{1}', variables.lock_fgcolor))
+                f'border:none;background-image: url({variables.lock_background});color: {variables.lock_fgcolor};')
         else:
             self.BtnUnlock.setStyleSheet(
-                'background-color:{1};color: {0};'.replace('{0}', variables.lock_fgcolor).replace('{1}',
-                                                                                                     variables.lock_bgcolor))
+                f'background-color:{variables.lock_bgcolor};color: {variables.lock_fgcolor};')
 
         ## Get informations ##
         cs = files.readall('/proc/info/cs')
@@ -2189,7 +2240,7 @@ class Desktop (QMainWindow):
         self.submenu =QMenuBar() # Sub menu
         self.Backend.setMenuBar(self.submenu)
 
-        self.submenu.setStyleSheet('background-color:none;color:{1};'.replace('{0}',submenu_bgcolor).replace("{1}",submenu_fgcolor))
+        #self.submenu.setStyleSheet(f'background-color:none;color:{submenu_bgcolor};')
 
         if submenu_direction=='ltr': self.submenu.setLayoutDirection(Qt.LeftToRight)
         elif submenu_direction=='rtl': self.submenu.setLayoutDirection(Qt.RightToLeft)
@@ -2212,43 +2263,58 @@ class Desktop (QMainWindow):
         self.appmenu = QMenu (res.get('@string/appmenu'))
         self.submenu.addMenu(self.appmenu)
 
-        apps = files.list('/usr/share/applications')
+        cate = files.list('/usr/share/categories')
 
         # default language
         if self.locale==None: self.locale = variables.locale
 
         # menu action
+        for i in cate:
+            if i.endswith('.cat'):
+                find = '/usr/share/categories/' + i
 
-        for i in apps:
-            find = '/usr/share/applications/' + i
-            # data
-            # app name
-            appname = control.read_record('name['+self.locale+"]", find)
-            shortcut = control.read_record('shortcut',find)
-            hidden = control.read_record('hidden',find)
+                catname = control.read_record('name[' + self.locale + "]", find)
+                if catname == None:
+                    catname = i.replace('.cate', '')
+                self.catMenu = self.appmenu.addMenu(i)
+                self.catMenu.setFont(f)  # set font actions
+                self.catMenu.setObjectName(i)
+                self.catMenu.setTitle(catname)
 
-            if appname == None:
-                appname = i.replace('.desk','')
+                apps = control.read_list(find.replace(".cat",'.list'))
 
-            # app logo
-            applogo = control.read_record('logo', find)
+                for j in apps:
+                    find = '/usr/share/applications/' + j+'.desk'
+                    # data
+                    # app name
+                    appname = control.read_record('name[' + self.locale + "]", find)
+                    shortcut = control.read_record('shortcut', find)
+                    hidden = control.read_record('hidden', find)
 
-            # design
-            self.actApp = self.appmenu.addAction(i)
-            self.actApp.setObjectName(i)
-            self.actApp.setText(appname)
+                    if appname == None:
+                        appname = j.replace('.desk', '')
 
-            if not applogo==None:
-                self.actApp.setIcon(QIcon(res.get(applogo)))
+                    # app logo
+                    applogo = control.read_record('logo', find)
 
-            if not shortcut==None:
-                self.actApp.setShortcut(shortcut)
+                    # design
+                    self.actApp = self.catMenu.addAction(j)
+                    self.actApp.setObjectName(j)
+                    self.actApp.setText(appname)
 
-            self.actApp.setFont(f) # set font actions
+                    if not applogo == None:
+                        self.actApp.setIcon(QIcon(res.get(applogo)))
 
-            self.actApp.triggered.connect(self.RunApplication)
+                    if not shortcut == None:
+                        self.actApp.setShortcut(shortcut)
 
-            if hidden=='Yes': self.actApp.setVisible(False)
+                    self.actApp.setFont(f)  # set font actions
+
+                    self.actApp.triggered.connect(self.RunApplication)
+
+                    if hidden == 'Yes': self.actApp.setVisible(False)
+
+
 
         ## Etcetra menu ##
         self.etcmenu = QMenu()
@@ -2344,9 +2410,9 @@ class Desktop (QMainWindow):
         if background == None and bgcolor == None and not fgcolor == None:
             variables.desktop_fgcolor = fgcolor
             ## Set colors ##
-            self.setStyleSheet('color: {0};'.replace('{0}', variables.desktop_fgcolor))
+            self.setStyleSheet(f'color: {variables.desktop_fgcolor};')
             self.backgroundButton.setStyleSheet(
-                'border:none;background-color: {0};'.replace('{0}', variables.desktop_bgcolor))
+                f'border:none;background-color: {variables.desktop_bgcolor};')
 
         elif background == None and not fgcolor == None:
 
@@ -2354,21 +2420,21 @@ class Desktop (QMainWindow):
             variables.desktop_bgcolor = bgcolor
             variables.desktop_fgcolor = fgcolor
 
-            self.setStyleSheet('color: {0};'.replace('{0}', variables.desktop_fgcolor))
+            self.setStyleSheet(f'color: {variables.desktop_fgcolor};')
 
             self.backgroundButton.setStyleSheet(
-                'border:none;background-color: {0};'.replace('{0}', variables.desktop_bgcolor))
+                f'border:none;background-color: {variables.desktop_bgcolor};')
+
         elif not background == None and not fgcolor == None:
             ## Set bgcolor ##
 
             variables.desktop_background = res.get(background)
-            self.setStyleSheet('color: {0};'.replace('{0}', variables.desktop_fgcolor))
+            self.setStyleSheet(f'color: {variables.desktop_fgcolor};')
             self.backgroundButton.setStyleSheet(
-                'border:none;background-image: url({0});'.replace('{0}', variables.desktop_background))
+                f'border:none;background-image: url({variables.desktop_background});')
         else:
             self.setStyleSheet(
-                'background-color:{1};color: {0};'.replace('{0}', variables.desktop_fgcolor).replace('{1}',
-                                                                                                     variables.desktop_bgcolor))
+                f'background-color:{variables.desktop_bgcolor};color: {variables.desktop_fgcolor};')
 
         ## Set size ##
         width = getdata('width')
@@ -2412,5 +2478,3 @@ class Desktop (QMainWindow):
             self.showFullScreen()
         else:
             self.show()
-
-    input = ''
