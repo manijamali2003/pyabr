@@ -86,7 +86,7 @@ file.close()
 locale = input('Choose your language (fa/en/ar): ')
 file = open("stor/etc/gui", "w")
 file.write("locale: " + locale + "\n")
-file.write('''
+file.write(f'''
 #!etcetra
 
 desktop: baran
@@ -96,28 +96,23 @@ width: 1280
 height: 720
 autosize: Yes
 logo: @icon/pyabr-logo
-locale: en
-
+locale: {locale}
 backend.color: black
 backend.timeout: 1000
-
+taskbar.location: left
 splash.timeout: 3000
 splash.logo: @icon/pyabr-logo
 splash.logo-size: 300
 splash.color: #ABCDEF
-
 login.bgcolor: #123456
 login.background: @background/default
 login.fgcolor: #FFFFFF
-
-enter.bgcolor: #123456
+enter.bgcolor: #fff
 enter.background: @background/default
 enter.fgcolor: #FFFFFF
-
 unlock.bgcolor: #123456
 unlock.background: @background/default
 unlock.fgcolor: #FFFFFF
-
 loginw.bgcolor: white
 loginw.fgcolor: black
 loginw.round: Yes
@@ -135,28 +130,23 @@ loginw.input.bgcolor: white
 loginw.input.round: Yes
 loginw.input.round-size: 20 20
 loginw.input.font-size: 12
-
 taskbar.bgcolor: white
 taskbar.fgcolor: black
-taskbar.locked: No
+taskbar.locked: Yes
 taskbar.float: Yes
-
+taskbar.size: 70
 desktop.bgcolor: white
 desktop.fgcolor: black
 desktop.background: @background/default
 lock.fgcolor: black
 lock.bgcolor: black
 lock.background: @background/default
-
 loginw.login.round: Yes
 loginw.login.round-size: 20
 loginw.enter.round: Yes
 loginw.enter.round-size: 20
 loginw.unlock.round: Yes
 loginw.unlock.round-size: 20
-
-appw.bgcolor: #FFFFFF
-appw.menubar.bgcolor: #FFFFFF
-appw.menubar.shadow: Yes
+submenu.hide: No
             ''')
 file.close()

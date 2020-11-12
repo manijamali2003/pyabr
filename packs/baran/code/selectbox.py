@@ -220,7 +220,6 @@ class DirListView(QListView):
                         self.format(it, text)
                         self.entry.appendRow(it)
 
-
 # select box #
 class MainApp (QMainWindow):
     def __init__(self,ports):

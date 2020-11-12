@@ -27,6 +27,7 @@ rss.icon: @icon/application-rss
 rtf.icon: @icon/application-rtf
 txt.icon: @icon/application-text
 list.icon: @icon/application-text
+cat.icon: @icon/application-text
 manifest.icon: @icon/application-text
 compile.icon: @icon/application-text
 json.icon: @icon/application-json

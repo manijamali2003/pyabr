@@ -11,8 +11,9 @@
 
 import sys , os
 from PyQt5 import QtWidgets, QtGui, QtCore
-from PyQt5.QtGui import QBrush, QColor
-
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 from libabr import Files, Control, System, Res, Commands, Permissions
 
 res = Res()
@@ -54,8 +55,9 @@ class FileListView (QtWidgets.QListView):
         self.format(it, filename)
         commands.cat (['-c',filename])
 
-    def __init__(self):
+    def __init__(self,ports):
         super().__init__()
+        self.Env = ports[0]
         self.entry = QtGui.QStandardItemModel()
         self.parentdir = QtGui.QStandardItem()
         self.parentdir.setIcon(QtGui.QIcon(res.get('@icon/folder')))
@@ -98,6 +100,12 @@ class FileListView (QtWidgets.QListView):
                 commands.cd (['..'])
                 self.dir = files.readall('/proc/info/pwd')
                 files.write('/proc/info/dsel',self.dir)
+
+                print(self.dir)
+
+                if self.dir.startswith ("ic") and (self.dir.endswith (":/")):
+                    self.Env.setCentralWidget(DriveListView([self.Env]))
+
                 self.listdir = files.list(self.dir)
                 self.listdir.sort() # Credit: https://www.geeksforgeeks.org/sort-in-python/
 
@@ -146,6 +154,51 @@ class FileListView (QtWidgets.QListView):
 
             elif files.isfile (self.item.whatsThis()):
                 files.write ('/proc/info/fsel',self.item.whatsThis()) # Send File selected
+
+class DriveListView(QListView):
+    def format(self, it, text):
+        it.setText('Drive ('+text.upper()+":)")
+        it.setIcon(QIcon(res.get('@icon/harddrive')))
+        f = QFont()
+        f.setPointSize(20)
+        it.setFont(f)
+
+    def __init__(self,ports):
+        super().__init__()
+
+        self.Env = ports[0]
+
+        self.entry = QStandardItemModel()
+        self.setModel(self.entry)
+        self.setIconSize(QSize(128, 128))
+        self.clicked[QModelIndex].connect(self.on_clicked)
+        # When you receive the signal, you call QtGui.QStandardItemModel.itemFromIndex()
+        # on the given model index to get a pointer to the item
+
+        files.write('/proc/info/icsel', 'ic0:/')
+        self.listdir = files.list('/dev')
+        self.listdir.sort()
+
+        for text in self.listdir:
+            it = QStandardItem(text)
+            it.setWhatsThis(text+":/")
+            self.format(it, text)
+            self.entry.appendRow(it)
+
+        self.itemOld = QStandardItem("text")
+
+    def on_clicked(self, index):
+        self.item = self.entry.itemFromIndex(index)
+
+        x = hasattr(self.item, 'whatsThis')  # W3CSHCOOL.COM LEARN IT
+
+        if x == True:
+            files.write('/proc/info/icsel', self.item.whatsThis())  # Send Directory selected
+            commands.cd([self.item.whatsThis()])
+
+            self.x = FileListView([self.Env])
+            self.Env.setCentralWidget(self.x)
+
                         
 class MainApp (QtWidgets.QMainWindow):
     def format (self,it,text):
@@ -178,7 +231,7 @@ class MainApp (QtWidgets.QMainWindow):
                     if files.isdir (files.output(self.External[0])):
                         files.write('/proc/info/pwd',files.output(self.External[0]))
 
-        self.x = FileListView()
+        self.x = DriveListView([self])
 
         ## Menubar ##
 
