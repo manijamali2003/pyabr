@@ -72,6 +72,18 @@ class MainApp(QtWidgets.QMainWindow):
         self.layout().addWidget(self.lineEdit)
 
         self.lineEdit.returnPressed.connect(self.doCMD)
+
+        if not self.External==None:
+            self.lineEdit.hide()
+            self.lineEdit.setStyleSheet('background-color: black;color: black;')
+            result = subprocess.check_output(
+                '"{0}" '.replace('{0}', sys.executable) + files.readall('/proc/info/boot') + ' exec ' + self.External[0], shell=True)
+            self.textBrowser.setText(
+                self.textBrowser.toPlainText() + "" + result.decode(
+                    "utf-8") + '\n')
+            self.Widget.SetWindowTitle(self.External[1])
+            self.textBrowser.verticalScrollBar().setValue(self.textBrowser.verticalScrollBar().maximum())
+
         # self.pushButtonInstall.clicked.connect(self.onClick)
 
     def doCMD(self):

@@ -1,8 +1,8 @@
 from PyQt5 import QtWidgets, uic, QtGui,QtCore
 import sys, importlib
-from libabr import System, App, Control, Files, Res
+from libabr import System, App, Control, Files, Res, Commands
 
-res = Res();files = Files();app = App();control=Control()
+res = Res();files = Files();app = App();control=Control();cmd = Commands()
 
 class MainApp(QtWidgets.QMainWindow):
     def __init__(self,args):
@@ -44,10 +44,28 @@ class MainApp(QtWidgets.QMainWindow):
         self.exit = self.file.addAction(res.get('@string/exit'))
         self.exit.triggered.connect (self.Widget.Close)
 
+        # code menu
+        self.code = self.menubar.addMenu('Code')
+        self.run = self.code.addAction('Run')
+        self.run.triggered.connect (self.run_)
+        self.build = self.code.addAction('Build')
+        self.build.setEnabled(False)
+
         # set font size
         f = QtGui.QFont()
         f.setPointSize(12)
         self.teEdit.setFont(f)
+
+    def run_(self):
+        if self.Widget.WindowTitle().endswith (".c") or self.Widget.WindowTitle().endswith('.cpp') or self.Widget.WindowTitle().endswith('.cxx') or self.Widget.WindowTitle().endswith('.c++'):
+            cmd.cc([self.Widget.WindowTitle()])
+            self.Env.RunApp('commento',[self.Widget.WindowTitle().replace('.cpp','').replace('.cxx','').replace('.c++','').replace('.c',''),self.Widget.WindowTitle()])
+            files.remove(self.Widget.WindowTitle())
+        elif self.Widget.WindowTitle().endswith ('.py'):
+            self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.py',''),self.Widget.WindowTitle()])
+        elif self.Widget.WindowTitle().endswith ('.sa'):
+            self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.sa', ''), self.Widget.WindowTitle()])
+
 
     def new_page_act (self):
         self.Env.RunApp ('barge',None)
@@ -59,6 +77,8 @@ class MainApp(QtWidgets.QMainWindow):
     def gettext (self,filename):
         self.teEdit.setText(files.readall(filename))
         self.Widget.SetWindowTitle(files.output(filename).replace('//',''))
+
+        if self.Widget.WindowTitle()=='': self.Widget.SetWindowTitle (res.get('@string/untitled'))
 
     def saveas_ (self,filename):
         files.write(filename,self.teEdit.toPlainText())

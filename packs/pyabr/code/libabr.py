@@ -265,7 +265,7 @@ class Commands:
 
         elif type=='c++':
             if args[1:] == []:
-                output = filename.replace('.c','').replace('.cpp','').replace('.cxx','')
+                output = filename.replace('.cpp','').replace('.cxx','').replace('.c++','')
             else:
                 output = args[1]
 
