@@ -57,12 +57,19 @@ class MainApp(QtWidgets.QMainWindow):
         self.teEdit.setFont(f)
 
     def run_(self):
+        control = Control()
         if self.Widget.WindowTitle().endswith (".c") or self.Widget.WindowTitle().endswith('.cpp') or self.Widget.WindowTitle().endswith('.cxx') or self.Widget.WindowTitle().endswith('.c++'):
             cmd.cc([self.Widget.WindowTitle()])
             self.Env.RunApp('commento',[self.Widget.WindowTitle().replace('.cpp','').replace('.cxx','').replace('.c++','').replace('.c',''),self.Widget.WindowTitle()])
             files.remove(self.Widget.WindowTitle())
         elif self.Widget.WindowTitle().endswith ('.py'):
-            self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.py',''),self.Widget.WindowTitle()])
+            # check graphical PyQt5 #
+            if files.readall(self.Widget.WindowTitle()).__contains__('from PyQt5'):
+                files.create('/usr/share/applications/debug.desk')
+                cmd.cc([self.Widget.WindowTitle(),'/usr/app/debug_app.pyc'])
+                self.Env.RunApp('debug',[None])
+            else:
+                self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.py',''),self.Widget.WindowTitle()])
         elif self.Widget.WindowTitle().endswith ('.sa'):
             self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.sa', ''), self.Widget.WindowTitle()])
 
