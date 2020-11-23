@@ -78,13 +78,24 @@ class FileListView (QtWidgets.QListView):
         self.listdir.sort()
 
         for text in self.listdir:
-            it = QtGui.QStandardItem(text)
-            it.setWhatsThis(self.dir+"/"+text)
-            self.format(it,text)
-            self.entry.appendRow(it)
-            f = QtGui.QFont()
-            f.setPointSize(12)
-            it.setFont(f)
+            if files.isdir(self.dir+"/"+text):
+                it = QtGui.QStandardItem(text)
+                it.setWhatsThis(self.dir + "/" + text)
+                self.format(it, text)
+                self.entry.appendRow(it)
+                f = QtGui.QFont()
+                f.setPointSize(12)
+                it.setFont(f)
+
+        for text in self.listdir:
+            if files.isfile(self.dir + "/" + text):
+                it = QtGui.QStandardItem(text)
+                it.setWhatsThis(self.dir + "/" + text)
+                self.format(it, text)
+                self.entry.appendRow(it)
+                f = QtGui.QFont()
+                f.setPointSize(12)
+                it.setFont(f)
 
         self.itemOld = QtGui.QStandardItem("text")
 
@@ -101,11 +112,6 @@ class FileListView (QtWidgets.QListView):
                 self.dir = files.readall('/proc/info/pwd')
                 files.write('/proc/info/dsel',self.dir)
 
-                print(self.dir)
-
-                if self.dir.startswith ("ic") and (self.dir.endswith (":/")):
-                    self.Env.setCentralWidget(DriveListView([self.Env]))
-
                 self.listdir = files.list(self.dir)
                 self.listdir.sort() # Credit: https://www.geeksforgeeks.org/sort-in-python/
 
@@ -119,13 +125,24 @@ class FileListView (QtWidgets.QListView):
                 self.entry.appendRow(self.parentdir)
 
                 for text in self.listdir:
-                    it = QtGui.QStandardItem(text)
-                    it.setWhatsThis(self.dir + "/" + text)
-                    self.format(it,text)
-                    self.entry.appendRow(it)
-                    f = QtGui.QFont()
-                    f.setPointSize(12)
-                    it.setFont(f)
+                    if files.isdir(self.dir+"/"+text):
+                        it = QtGui.QStandardItem(text)
+                        it.setWhatsThis(self.dir + "/" + text)
+                        self.format(it, text)
+                        self.entry.appendRow(it)
+                        f = QtGui.QFont()
+                        f.setPointSize(12)
+                        it.setFont(f)
+
+                for text in self.listdir:
+                    if files.isfile(self.dir+"/"+text):
+                        it = QtGui.QStandardItem(text)
+                        it.setWhatsThis(self.dir + "/" + text)
+                        self.format(it, text)
+                        self.entry.appendRow(it)
+                        f = QtGui.QFont()
+                        f.setPointSize(12)
+                        it.setFont(f)
 
             elif files.isdir(self.item.whatsThis()):
                 files.write('/proc/info/dsel', self.item.whatsThis())  # Send Directory selected
@@ -144,61 +161,26 @@ class FileListView (QtWidgets.QListView):
                 self.entry.appendRow(self.parentdir)
 
                 for text in self.listdir:
-                    it = QtGui.QStandardItem(text)
-                    it.setWhatsThis(self.dir + "/" + text)
-                    self.format(it,text)
-                    self.entry.appendRow(it)
-                    f = QtGui.QFont()
-                    f.setPointSize(12)
-                    it.setFont(f)
+                    if files.isdir(self.dir+"/"+text):
+                        it = QtGui.QStandardItem(text)
+                        it.setWhatsThis(self.dir + "/" + text)
+                        self.format(it, text)
+                        self.entry.appendRow(it)
+                        f = QtGui.QFont()
+                        f.setPointSize(12)
+                        it.setFont(f)
+                for text in self.listdir:
+                    if files.isfile(self.dir+"/"+text):
+                        it = QtGui.QStandardItem(text)
+                        it.setWhatsThis(self.dir + "/" + text)
+                        self.format(it, text)
+                        self.entry.appendRow(it)
+                        f = QtGui.QFont()
+                        f.setPointSize(12)
+                        it.setFont(f)
 
             elif files.isfile (self.item.whatsThis()):
                 files.write ('/proc/info/fsel',self.item.whatsThis()) # Send File selected
-
-class DriveListView(QListView):
-    def format(self, it, text):
-        it.setText('Drive ('+text.upper()+":)")
-        it.setIcon(QIcon(res.get('@icon/harddrive')))
-        f = QFont()
-        f.setPointSize(20)
-        it.setFont(f)
-
-    def __init__(self,ports):
-        super().__init__()
-
-        self.Env = ports[0]
-
-        self.entry = QStandardItemModel()
-        self.setModel(self.entry)
-        self.setIconSize(QSize(128, 128))
-        self.clicked[QModelIndex].connect(self.on_clicked)
-        # When you receive the signal, you call QtGui.QStandardItemModel.itemFromIndex()
-        # on the given model index to get a pointer to the item
-
-        files.write('/proc/info/icsel', 'ic0:/')
-        self.listdir = files.list('/dev')
-        self.listdir.sort()
-
-        for text in self.listdir:
-            it = QStandardItem(text)
-            it.setWhatsThis(text+":/")
-            self.format(it, text)
-            self.entry.appendRow(it)
-
-        self.itemOld = QStandardItem("text")
-
-    def on_clicked(self, index):
-        self.item = self.entry.itemFromIndex(index)
-
-        x = hasattr(self.item, 'whatsThis')  # W3CSHCOOL.COM LEARN IT
-
-        if x == True:
-            files.write('/proc/info/icsel', self.item.whatsThis())  # Send Directory selected
-            commands.cd([self.item.whatsThis()])
-
-            self.x = FileListView([self.Env])
-            self.Env.setCentralWidget(self.x)
-
                         
 class MainApp (QtWidgets.QMainWindow):
     def format (self,it,text):
@@ -230,8 +212,6 @@ class MainApp (QtWidgets.QMainWindow):
                 if permissions.check(files.output(self.External[0]), "r", files.readall("/proc/info/su")):
                     if files.isdir (files.output(self.External[0])):
                         files.write('/proc/info/pwd',files.output(self.External[0]))
-
-        self.x = DriveListView([self])
 
         ## Menubar ##
 

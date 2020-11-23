@@ -15,6 +15,7 @@ import hashlib, shutil, os, sys
 from buildlibs import pack_archives as pack
 from pathlib import Path
 
+from pathlib import  Path
 
 class MainApp(QtWidgets.QWizard):
     def BrowseClick(self):

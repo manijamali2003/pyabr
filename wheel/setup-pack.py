@@ -16,9 +16,9 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyabr",  # Replace with your own username
-    version="0.2.3",
+    version="0.2.4",
     author="Mani Jamali",
-    author_email="manijamali2003@gmail.com",
+    author_email="pyabrsystem@gmail.com",
     description="Pyabr cloud software",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -36,7 +36,6 @@ setuptools.setup(
         'pyqtconsole',
         'py-cpuinfo',
         'requests',
-        'googlesearch-python',
     ],
     include_package_data=True,
 )

@@ -98,6 +98,7 @@ oth.icon: @icon/libreoffice-oasis-web
 ods.icon: @icon/libreoffice-spreadsheet
 pa.icon: @icon/application-x-pak
 sh.icon: @icon/application-x-executable-script
+sa.icon: @icon/application-x-executable-script
 preinstall.icon: @icon/application-x-executable-script
 postinstall.icon: @icon/application-x-executable-script
 preremove.icon: @icon/application-x-executable-script
@@ -113,6 +114,7 @@ cpp.icon: @icon/text-x-c++
 c++.icon: @icon/text-x-c++
 cxx.icon: @icon/text-x-c++
 hpp.icon: @icon/text-x-c++hdr
+bat.icon: @icon/application-x-executable-script
 c.icon: @icon/text-x-c
 changelog.icon: @icon/text-x-changelog
 h.icon: @icon/text-x-chdr

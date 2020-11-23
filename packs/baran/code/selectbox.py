@@ -66,10 +66,18 @@ class FileListView(QListView):
         self.listdir.sort()
 
         for text in self.listdir:
-            it = QStandardItem(text)
-            it.setWhatsThis(self.dir + "/" + text)
-            self.format(it, text)
-            self.entry.appendRow(it)
+            if files.isdir(self.dir+"/"+text):
+                it = QStandardItem(text)
+                it.setWhatsThis(self.dir + "/" + text)
+                self.format(it, text)
+                self.entry.appendRow(it)
+
+        for text in self.listdir:
+            if files.isfile(self.dir+"/"+text):
+                it = QStandardItem(text)
+                it.setWhatsThis(self.dir + "/" + text)
+                self.format(it, text)
+                self.entry.appendRow(it)
 
         self.itemOld = QStandardItem("text")
 
@@ -97,10 +105,18 @@ class FileListView(QListView):
                 self.entry.appendRow(self.parentdir)
 
                 for text in self.listdir:
-                    it = QStandardItem(text)
-                    it.setWhatsThis(self.dir + "/" + text)
-                    self.format(it, text)
-                    self.entry.appendRow(it)
+                    if files.isdir(self.dir+"/"+text):
+                        it = QStandardItem(text)
+                        it.setWhatsThis(self.dir + "/" + text)
+                        self.format(it, text)
+                        self.entry.appendRow(it)
+
+                for text in self.listdir:
+                    if files.isfile(self.dir+"/"+text):
+                        it = QStandardItem(text)
+                        it.setWhatsThis(self.dir + "/" + text)
+                        self.format(it, text)
+                        self.entry.appendRow(it)
 
             elif files.isdir(self.item.whatsThis()):
                 files.write('/proc/info/dsel', self.item.whatsThis())  # Send Directory selected
@@ -119,10 +135,18 @@ class FileListView(QListView):
                 self.entry.appendRow(self.parentdir)
 
                 for text in self.listdir:
-                    it = QStandardItem(text)
-                    it.setWhatsThis(self.dir + "/" + text)
-                    self.format(it, text)
-                    self.entry.appendRow(it)
+                    if files.isdir(self.dir+"/"+text):
+                        it = QStandardItem(text)
+                        it.setWhatsThis(self.dir + "/" + text)
+                        self.format(it, text)
+                        self.entry.appendRow(it)
+
+                for text in self.listdir:
+                    if files.isfile(self.dir+"/"+text):
+                        it = QStandardItem(text)
+                        it.setWhatsThis(self.dir + "/" + text)
+                        self.format(it, text)
+                        self.entry.appendRow(it)
 
             elif files.isfile(self.item.whatsThis()):
                 files.write('/proc/info/fsel', self.item.whatsThis())  # Send File selected
