@@ -216,6 +216,7 @@ submenu.hide: No
         ## Finds ##
         self.leLocation = self.findChild(QtWidgets.QLineEdit, 'leLocation')
         self.leLocation.setEnabled(False)
+        #self.leLocation.setStyleSheet ('background-color: white;border-radius: 15% 15%')
         self.btnLocation = self.findChild(QtWidgets.QPushButton, 'btnLocation')
         self.leHostname = self.findChild(QtWidgets.QLineEdit, 'leHostname')
         self.leRootCode = self.findChild(QtWidgets.QLineEdit, 'leRootCode')
