@@ -214,26 +214,104 @@ submenu.hide: No
         uic.loadUi('setup.ui', self)
 
         ## Finds ##
+        self.setStyleSheet('background-color:white;')
         self.leLocation = self.findChild(QtWidgets.QLineEdit, 'leLocation')
+        self.leLocation.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.leLocation.setEnabled(False)
         #self.leLocation.setStyleSheet ('background-color: white;border-radius: 15% 15%')
         self.btnLocation = self.findChild(QtWidgets.QPushButton, 'btnLocation')
+        self.btnLocation.setStyleSheet ('''
+        QPushButton {
+            background-color: #ABCDEF;
+            color: white;
+            border-radius: 15% 15%;
+        }
+        QPushButton::hover {
+            background-color: #123456;
+            color: white;
+            border-radius: 15% 15%;
+        }
+        ''')
         self.leHostname = self.findChild(QtWidgets.QLineEdit, 'leHostname')
+        self.leHostname.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.leRootCode = self.findChild(QtWidgets.QLineEdit, 'leRootCode')
-        self.leConfirmRootCode = self.findChild(QtWidgets.QLineEdit, 'leConfirmRootCode')
+        self.leRootCode.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.leUsername = self.findChild(QtWidgets.QLineEdit, 'leUsername')
+        self.leUsername.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.lePassword = self.findChild(QtWidgets.QLineEdit, 'lePassword')
-        self.leConfirmPassword = self.findChild(QtWidgets.QLineEdit, 'leConfirmPassword')
+        self.lePassword.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.chGuest = self.findChild(QtWidgets.QCheckBox, 'chGuest')
+        self.chGuest.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.cmUI = self.findChild(QtWidgets.QComboBox, 'cmUI')
+        self.cmUI.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.cmLang = self.findChild(QtWidgets.QComboBox, 'cmLang')
+        self.cmLang.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.leFirstName = self.findChild(QtWidgets.QLineEdit, 'leFirstName')
+        self.leFirstName.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.leLastName = self.findChild(QtWidgets.QLineEdit, 'leLastName')
+        self.leLastName.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.leEmail = self.findChild(QtWidgets.QLineEdit, 'leEmail')
+        self.leEmail.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.lePhone = self.findChild(QtWidgets.QLineEdit, 'lePhone')
+        self.lePhone.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
 
         self.button(QtWidgets.QWizard.FinishButton).clicked.connect(self.Finish)
-        self.button(QtWidgets.QWizard.FinishButton).setText("Fast Install")
+        self.button(QtWidgets.QWizard.FinishButton).setStyleSheet ('''
+        QPushButton {
+            background-color: #ABCDEF;
+            color: white;
+            border-radius: 15% 15%;
+        }
+        QPushButton::hover {
+            background-color: #123456;
+            color: white;
+            border-radius: 15% 15%;
+        }
+        ''')
+        self.button(QtWidgets.QWizard.FinishButton).setMinimumSize(100,30)
+        self.button(QtWidgets.QWizard.NextButton).setStyleSheet ('''
+        QPushButton {
+            background-color: #ABCDEF;
+            color: white;
+            border-radius: 15% 15%;
+        }
+        QPushButton::hover {
+            background-color: #123456;
+            color: white;
+            border-radius: 15% 15%;
+        }
+        ''')
+        self.button(QtWidgets.QWizard.NextButton).setMinimumSize(100,30)
+
+
+        self.button(QtWidgets.QWizard.CancelButton).setStyleSheet ('''
+        QPushButton {
+            background-color: #ABCDEF;
+            color: white;
+            border-radius: 15% 15%;
+        }
+        QPushButton::hover {
+            background-color: #123456;
+            color: white;
+            border-radius: 15% 15%;
+        }
+        ''')
+        self.button(QtWidgets.QWizard.CancelButton).setMinimumSize(100,30)
+
+
+        self.button(QtWidgets.QWizard.BackButton).setStyleSheet ('''
+        QPushButton {
+            background-color: #ABCDEF;
+            color: white;
+            border-radius: 15% 15%;
+        }
+        QPushButton::hover {
+            background-color: #123456;
+            color: white;
+            border-radius: 15% 15%;
+        }
+        ''')
+        self.button(QtWidgets.QWizard.BackButton).setMinimumSize(100,30)
 
         ## Browse button click ##
         self.btnLocation.clicked.connect(self.BrowseClick)

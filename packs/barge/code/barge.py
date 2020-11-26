@@ -1,5 +1,5 @@
 from PyQt5 import QtWidgets, uic, QtGui,QtCore
-import sys, importlib
+import sys, importlib, random
 from libabr import System, App, Control, Files, Res, Commands
 
 res = Res();files = Files();app = App();control=Control();cmd = Commands()
@@ -64,10 +64,15 @@ class MainApp(QtWidgets.QMainWindow):
             files.remove(self.Widget.WindowTitle())
         elif self.Widget.WindowTitle().endswith ('.py'):
             # check graphical PyQt5 #
-            if files.readall(self.Widget.WindowTitle()).__contains__('from PyQt5'):
-                files.create('/usr/share/applications/debug.desk')
-                cmd.cc([self.Widget.WindowTitle(),'/usr/app/debug_app.pyc'])
-                self.Env.RunApp('debug',[None])
+            if files.readall(self.Widget.WindowTitle()).__contains__('from PyQt5') and files.readall(self.Widget.WindowTitle()).__contains__('MainApp'):
+                rand = str (random.randint(1000,9999))
+                files.create(f'/usr/share/applications/debug_{rand}.desk')
+                control.write_record('name[en]','Debug App',f'/usr/share/applications/debug_{rand}.desk')
+                control.write_record('name[fa]','برنامه تستی',f'/usr/share/applications/debug_{rand}.desk')
+                control.write_record('logo','@icon/app',f'/usr/share/applications/debug_{rand}.desk')
+                control.write_record('exec',f"debug_{rand}",f'/usr/share/applications/debug_{rand}.desk')
+                cmd.cc([self.Widget.WindowTitle(),f'/usr/app/debug_{rand}.pyc'])
+                self.Env.RunApp(f'debug_{rand}',[None])
             else:
                 self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.py',''),self.Widget.WindowTitle()])
         elif self.Widget.WindowTitle().endswith ('.sa'):

@@ -10,4 +10,4 @@ class MainApp (QMainWindow):
         self.AppName = ports[3]
         self.External = ports[4]
 
-        self.Widget.Resize (self,400,400)
+        self.Widget.Resize (self,500,300)

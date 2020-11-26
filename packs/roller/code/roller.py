@@ -215,6 +215,8 @@ class MainApp (QtWidgets.QMainWindow):
 
         ## Menubar ##
 
+        self.x = FileListView([self.Env])
+
         self.menubar = self.menuBar()
         self.file = self.menubar.addMenu(res.get('@string/file'))
 
