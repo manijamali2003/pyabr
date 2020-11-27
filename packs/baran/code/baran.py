@@ -139,6 +139,8 @@ class variables:
     app_menu_fgcolor = "#000000"
     app_menu_bgcolor_pressed = "#ABCDEF"
     app_menu_fgcolor_pressed = "#FFFFFF"
+    app_body_bgcolor = "white"
+    app_body_fgcolor = "black"
 
 ## ## ## ## ##
 
@@ -621,9 +623,10 @@ class LoginWidget (QMainWindow):
         else:
             loginw_unlock_fontsize = int(loginw_unlock_fontsize)
 
-        if loginw_unlock_hide == None: loginw_unlock_hide = variables.loginw_unlock_hide
+        if loginw_unlock_hide == None:
+            loginw_unlock_hide = variables.loginw_unlock_hide
 
-        self.setMaximumSize(int(loginw_width), int(loginw_height))  ## Set size of loginw
+        self.setMaximumSize(loginw_width,loginw_height)  ## Set size of loginw
 
         ## Locations ##
 
@@ -738,7 +741,7 @@ class LoginWidget (QMainWindow):
 
             ## Setting up font settings ##
         f = QFont()
-        f.setPointSize(int(loginw_input_fontsize))
+        f.setPointSize(loginw_input_fontsize)
         self.leInput.setFont(f)
 
             ## Connect to action ##
@@ -777,7 +780,7 @@ class LoginWidget (QMainWindow):
                     ''')
 
             f = QFont()
-            f.setPointSize(int(loginw_login_fontsize))
+            f.setPointSize(loginw_login_fontsize)
             self.btnLogin.setFont(f)
             if loginw_login_hide == 'Yes':
                 self.btnLogin.hide()
@@ -815,7 +818,7 @@ class LoginWidget (QMainWindow):
                     ''')
 
             f = QFont()
-            f.setPointSize(int(loginw_enter_fontsize))
+            f.setPointSize(loginw_enter_fontsize)
             self.btnEnter.setFont(f)
             if loginw_enter_hide == 'Yes':
                 self.btnEnter.hide()
@@ -853,7 +856,7 @@ class LoginWidget (QMainWindow):
                                 ''')
 
             f = QFont()
-            f.setPointSize(int(loginw_unlock_fontsize))
+            f.setPointSize(loginw_unlock_fontsize)
             self.btnUnlock.setFont(f)
             if loginw_enter_hide == 'Yes':
                 self.btnUnlock.hide()
@@ -1215,8 +1218,8 @@ class TaskBar (QToolBar):
         size = getdata('taskbar.size')
         if not self.Env.username == 'guest':
             value = control.read_record('taskbar.size', '/etc/users/' + self.username)
-            if not value == None: locked = int(value)
-        if size == None: size = variables.taskbar_size
+            if not value == None: size = int(value)
+        if size == None: size = int(variables.taskbar_size)
 
         # float #
         float = getdata('taskbar.float')
@@ -1260,7 +1263,7 @@ class TaskBar (QToolBar):
 
         # size #
         self.setMinimumSize(QSize(int(size),int(size)))
-        self.setIconSize(QSize(int(size), int(size))) # https://stackoverflow.com/questions/21133612/how-to-change-iconsize-of-qtoolbutton
+        self.setIconSize(QSize(int(size),int(size))) # https://stackoverflow.com/questions/21133612/how-to-change-iconsize-of-qtoolbutton
 
         self.btnMenu = QToolButton()
         self.btnMenu.setIcon(QIcon(res.get('@icon/menu')))
@@ -1399,6 +1402,9 @@ class AppWidget (QMainWindow):
             self.save_ww = self.mainWidget.width()
             self.save_wh = self.mainWidget.height()
 
+            size = int(size)
+            self.app_title_size = int(self.app_title_size)
+
             if location=='bottom':
                 self.setGeometry(0, 0, self.Env.width(), self.Env.height()-size-15)
                 self.mainWidget.resize (self.Env.width(),self.Env.height()-variables.app_title_size-size-15)
@@ -1527,17 +1533,31 @@ class AppWidget (QMainWindow):
             if not value == None: app_title_close_hover = value
         if app_title_close_hover == None: app_title_close_hover = variables.app_title_close_hover
 
+        # will create IGW
         app_menu_bgcolor_pressed = getdata('appw.menu.bgcolor-pressed')
         if not self.Env.username == 'guest':
             value = control.read_record('appw.menu.bgcolor-pressed', '/etc/users/' + self.username)
             if not value == None: app_menu_bgcolor_pressed = value
         if app_menu_bgcolor_pressed == None: app_menu_bgcolor_pressed = variables.app_menu_bgcolor_pressed
 
+        # will create IGW
         app_menu_fgcolor_pressed = getdata('appw.menu.fgcolor-pressed')
         if not self.Env.username == 'guest':
             value = control.read_record('appw.menu.fgcolor-pressed', '/etc/users/' + self.username)
             if not value == None: app_menu_fgcolor_pressed = value
         if app_menu_fgcolor_pressed == None: app_menu_fgcolor_pressed = variables.app_menu_fgcolor_pressed
+
+        app_body_bgcolor = getdata('appw.body.bgcolor')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.body.bgcolor', '/etc/users/' + self.username)
+            if not value == None: app_body_bgcolor = value
+        if app_body_bgcolor == None: app_body_bgcolor = variables.app_body_bgcolor
+
+        app_body_fgcolor = getdata('appw.body.fgcolor')
+        if not self.Env.username == 'guest':
+            value = control.read_record('appw.body.fgcolor', '/etc/users/' + self.username)
+            if not value == None: app_body_fgcolor = value
+        if app_body_fgcolor == None: app_body_fgcolor = variables.app_body_fgcolor
 
         self.app_title_bgcolor = app_title_bgcolor
         self.app_title_fgcolor = app_title_fgcolor
@@ -1562,16 +1582,16 @@ class AppWidget (QMainWindow):
         # icon widget #
         self.icon = QIcon(res.get(app_logo))
         self.iconwidget = QLabel()
-        self.iconwidget.setPixmap(self.icon.pixmap(app_title_size-5,app_title_size-5))
+        self.iconwidget.setPixmap(self.icon.pixmap(int(app_title_size)-5,int(app_title_size)-5))
         self.layouts.addWidget(self.iconwidget)
 
-        self.iconwidget.setGeometry(0,0,variables.app_title_size,variables.app_title_size)
+        self.iconwidget.setGeometry(0,0,int(variables.app_title_size),int(variables.app_title_size))
 
         # text title #
         self.titletext = QLabel()
         self.titletext.setStyleSheet(f'background-color:  {app_title_bgcolor};color: {app_title_fgcolor};')
         self.titletext.setMaximumWidth(self.titlebar.width())
-        self.titletext.setGeometry(0,0,self.titlebar.width(),app_title_size)
+        self.titletext.setGeometry(0,0,self.titlebar.width(),int(app_title_size))
         self.titletext.setAlignment(Qt.AlignLeft)
 
         f = QFont()
@@ -1583,29 +1603,29 @@ class AppWidget (QMainWindow):
         # float button #
         self.btnMax = QToolButton()
         self.btnMax.setIcon(QIcon(res.get(app_title_float)))
-        self.btnMax.setMinimumSize(app_title_size-15,app_title_size-15)
-        self.btnMax.setGeometry(self.titlebar.width()-100,0,app_title_size,app_title_size)
+        self.btnMax.setMinimumSize(int(app_title_size)-15,int(app_title_size)-15)
+        self.btnMax.setGeometry(self.titlebar.width()-100,0,int(app_title_size),int(app_title_size))
         self.btnMax.clicked.connect(self.ShowMaximize)
-        self.btnMax.setStyleSheet('QToolButton {border-radius: {0}% {0}%;} QToolButton::hover {border-radius: {0}% {0}%;background-color: {1}}'.replace("{1}",app_title_float_hover).replace("{0}",str(int((app_title_size-15)/2))))
+        self.btnMax.setStyleSheet('QToolButton {border-radius: {0}% {0}%;} QToolButton::hover {border-radius: {0}% {0}%;background-color: {1}}'.replace("{1}",app_title_float_hover).replace("{0}",str(int(app_title_size)-15/2)))
 
         self.layouts.addWidget(self.btnMax)
 
         self.btnEscape = QToolButton()
         self.btnEscape.setIcon(QIcon(res.get(app_title_close)))
-        self.btnEscape.setMinimumSize(app_title_size-15, app_title_size-15)
-        self.btnEscape.setGeometry(self.titlebar.width()-app_title_size,0,app_title_size,app_title_size)
+        self.btnEscape.setMinimumSize(int(app_title_size)-15, int(app_title_size)-15)
+        self.btnEscape.setGeometry(self.titlebar.width()-int(app_title_size),0,int(app_title_size),int(app_title_size))
         self.btnEscape.clicked.connect (self.Close)
-        self.btnEscape.setStyleSheet('QToolButton {border-radius: {0}% {0}%;} QToolButton::hover {border-radius: {0}% {0}%;background-color: {1}}'.replace("{1}",app_title_close_hover).replace("{0}",str(int((app_title_size-15)/2))))
+        self.btnEscape.setStyleSheet('QToolButton {border-radius: {0}% {0}%;} QToolButton::hover {border-radius: {0}% {0}%;background-color: {1}}'.replace("{1}",app_title_close_hover).replace("{0}",str(int(app_title_size)-15/2)))
         self.layouts.addWidget(self.btnEscape)
 
         self.whitewidget = QMainWindow()
-        self.whitewidget.setStyleSheet('background-color: white;')
+        self.whitewidget.setStyleSheet(f'background-color: {app_body_bgcolor};color: {app_body_fgcolor};')
         self.setCentralWidget(self.whitewidget)
 
         # center widget #
         self.mainWidget = exec.MainApp([self.Backend,self.Env,self,self.appname,self.external])
-        self.mainWidget.setGeometry(0,app_title_size,self.width(),self.height()-app_title_size)
-        self.titlebar.setGeometry(0, 0, self.width(), app_title_size)
+        self.mainWidget.setGeometry(0,int(app_title_size),self.width(),self.height()-int(app_title_size))
+        self.titlebar.setGeometry(0, 0, self.width(), int(app_title_size))
         self.setGeometry(int(self.Env.width()/2)-int(self.width()/2),int(self.Env.height()/2)-int(self.height()/2),self.width(),self.height())
 
         self.layout().addWidget(self.mainWidget)
@@ -1918,8 +1938,8 @@ class Desktop (QMainWindow):
         if not height == None and not autosize == 'Yes':
             variables.height = int(height)
 
-        self.lock.resize(variables.width, variables.height)
-        self.BtnUnlock.resize(variables.width, variables.height)
+        self.lock.resize(int(variables.width), int(variables.height))
+        self.BtnUnlock.resize(int(variables.width), int(variables.height))
 
         # lbl Clock #
         self.lblClock = QLabel()
@@ -2315,7 +2335,7 @@ class Desktop (QMainWindow):
         if not height == None and not autosize=='Yes':
             variables.height = int(height)
 
-        self.resize(variables.width, variables.height)
+        self.resize(int(variables.width), int(variables.height))
 
         ## Startup Applications ##
         self.StartupApplication()
