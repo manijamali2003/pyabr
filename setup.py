@@ -12,7 +12,7 @@
 from PyQt5 import QtGui, QtCore, QtWidgets, uic
 import platform
 import hashlib, shutil, os, sys
-from buildlibs import pack_archives as pack
+from buildlibs import pack_archives as pack, control
 from pathlib import Path
 
 from pathlib import  Path
@@ -112,9 +112,13 @@ class MainApp(QtWidgets.QWizard):
             file.write("phone: " + phone + "\n")
             file.close()
 
-            file = open("stor/etc/permtab", "a")
-            file.write("/desk/" + username + ": drwxr-x---/" + username + "\n")
-            file.close()
+            # permit #
+            control.write_record(f'/desk/{username}',f'drwxr-x---/{username}','stor/etc/permtab')
+
+            # sudoers #
+            f = open('stor/etc/sudoers','w')
+            f.write(f'{username}\n')
+            f.close()
 
             ## Setting up Guest user ##
             file = open("stor/etc/guest", "w")

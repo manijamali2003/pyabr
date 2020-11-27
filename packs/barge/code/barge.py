@@ -51,6 +51,30 @@ class MainApp(QtWidgets.QMainWindow):
         self.build = self.code.addAction('Build')
         self.build.setEnabled(False)
 
+        self.insert_c = self.code.addMenu('Insert Code')
+
+        # Codes #
+        self.lang_c = self.insert_c.addAction('C')
+        self.lang_c.triggered.connect (self.langc)
+        self.lang_cpp = self.insert_c.addAction('C++')
+        self.lang_cpp.triggered.connect(self.langcpp)
+        self.lang_cs = self.insert_c.addAction('C#')
+        self.lang_cs.triggered.connect(self.langcs)
+        self.lang_java = self.insert_c.addAction('Java')
+        self.lang_java.triggered.connect(self.langjava)
+        self.lang_python = self.insert_c.addAction('Python')
+        self.lang_python.triggered.connect(self.langpython)
+        self.lang_pythongui = self.insert_c.addAction('Python GUI')
+        self.lang_pythongui.triggered.connect(self.langpythonx)
+        self.lang_saye = self.insert_c.addAction('Saye')
+        self.lang_saye.triggered.connect(self.langsaye)
+        self.lang_html = self.insert_c.addAction('HTML')
+        self.lang_html.triggered.connect(self.langhtml)
+        self.lang_php = self.insert_c.addAction('PHP')
+        self.lang_php.triggered.connect(self.langphp)
+        self.lang_js = self.insert_c.addAction('Java Script')
+        self.lang_js.triggered.connect(self.langjs)
+
         # set font size
         f = QtGui.QFont()
         f.setPointSize(12)
@@ -58,6 +82,10 @@ class MainApp(QtWidgets.QMainWindow):
 
     def run_(self):
         control = Control()
+        if self.Widget.WindowTitle()==res.get('@string/untitled'):
+            self.save_('')
+
+        ## Run it ##
         if self.Widget.WindowTitle().endswith (".c") or self.Widget.WindowTitle().endswith('.cpp') or self.Widget.WindowTitle().endswith('.cxx') or self.Widget.WindowTitle().endswith('.c++'):
             cmd.cc([self.Widget.WindowTitle()])
             self.Env.RunApp('commento',[self.Widget.WindowTitle().replace('.cpp','').replace('.cxx','').replace('.c++','').replace('.c',''),self.Widget.WindowTitle()])
@@ -107,3 +135,171 @@ class MainApp(QtWidgets.QMainWindow):
 
     def save_as (self):
         self.Env.RunApp('select', [res.get('@string/saveasfile'), 'save-as', self.saveas_])
+
+    '''
+    self.lang_c = self.insert_c.addAction('C')
+        self.lang_cpp = self.insert_c.addAction('C++')
+        self.lang_cs = self.insert_c.addAction('C#')
+        self.lang_java = self.insert_c.addAction('Java')
+        self.lang_python = self.insert_c.addAction('Python')
+        self.lang_pythongui = self.insert_c.addAction('Python GUI')
+        self.lang_saye = self.insert_c.addAction('Saye')
+        self.lang_html = self.insert_c.addAction('HTML')
+        self.lang_php = self.insert_c.addAction('PHP')
+        self.lang_js = self.insert_c.addAction('Java Script')
+    '''
+
+    def langc (self):
+        self.teEdit.setText('''
+#include <stdio.h>
+
+int main ()
+{
+    printf ("Welcome to Barge!");
+    return 0;
+}
+        ''')
+
+    def langcpp (self):
+        self.teEdit.setText('''
+#include <iostream>
+
+using namespace std;
+
+int main ()
+{
+    cout << "Welcome to Barge!";
+    return 0;
+}
+        ''')
+
+    def langjava (self):
+        self.teEdit.setText('''
+class MainApp 
+{
+    pubic static void main (String[] args)
+    {
+        System.out.println ("Welcome to Barge!");
+    }
+}
+        ''')
+
+    def langpython (self):
+        self.teEdit.setText('''
+from libabr import System, Control, Files, Colors, Script, App, Res
+
+control = Control()
+files = Files()
+colors = Colors()
+app = App()
+res = Res()
+
+class MainApp:
+    def __init__ (self):
+        print ("Welcome to Barge!")
+        
+if __name__ == "__main__":
+    MainApp ()
+        ''')
+
+    def langpythonx (self):
+        self.teEdit.setText('''
+from libabr import System, Control, Files, Colors, Script, App, Res
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5 import uic
+
+control = Control()
+files = Files()
+colors = Colors()
+app = App()
+res = Res()
+
+class MainApp (QMainWindow):
+    def __init__ (self,ports):
+        super(MainApp,self).__init__()
+        
+        self.Backend = ports[0]
+        self.Env = ports[1]
+        self.Widget = ports[2]
+        self.AppName = ports[3]
+        self.External = ports[4]
+        
+        self.Widget.Resize (self,500,300)
+        self.Widget.SetWindowTitle ("Welcome to Barge!")
+        self.Widget.SetWindowIcon (QIcon(res.get ('@icon/barge')))
+        
+        self.click_me = QPushButton ()
+        self.click_me.setMaximumSize (300,300)
+        self.layout().addWidget (self.click_me)
+        
+        ''')
+
+    def langcs (self):
+        self.teEdit.setText('''
+using System;
+
+namespcae MyWelcomeApp
+{
+    public class MainApp
+    {
+        public static void Main (string[] args)
+        {
+            Console.WriteLine ("Welcome to Barge!");
+        }
+    }
+}
+        ''')
+
+    def langsaye (self):
+        self.teEdit.setText('''
+getv
+echo Welcome to Barge!
+        ''')
+
+    def langhtml (self):
+        self.teEdit.setText('''
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Barge Example</title>
+        <meta charset="utf-8"/>
+    </head>
+    <body>
+        <p>Welcome to Barge!</p>
+    </body>
+</html>
+        ''')
+
+    def langphp (self):
+        self.teEdit.setText('''
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Barge Example</title>
+        <meta charset="utf-8"/>
+    </head>
+    <body>
+        <?php
+            echo "<p>Welcome to Barge!</p>";
+        ?>
+    </body>
+</html>
+        ''')
+
+    def langjs (self):
+        self.teEdit.setText('''
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Barge Example</title>
+        <meta charset="utf-8"/>
+    </head>
+    <body>
+        <script>
+            window.alert ("Welcome to Barge!");
+        </script>
+    </body>
+</html>
+        ''')

@@ -30,8 +30,8 @@ October: October
 November: November
 December: December
 desktop.username_placeholder: Enter an username
-desktop.password_placeholder: Enter {0}'s password
-desktop.user_not_found: {0} user not found
+desktop.password_placeholder: Enter your password
+desktop.user_not_found: This user not exists
 desktop.wrong_password: Password is not correct. Try again
 desktop.next_text: Next
 desktop.enter_text: Login

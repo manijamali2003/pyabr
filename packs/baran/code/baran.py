@@ -669,10 +669,8 @@ class LoginWidget (QMainWindow):
             ##
 
             ## Set colors ##
-        self.setStyleSheet(f'color:{loginw_fgcolor};border-radius:{loginw_round};'
-        )  ## Set color white as default
-        self.btnColorButton.setStyleSheet(f'background-color:{loginw_bgcolor};'
-        )
+        self.setStyleSheet(f'color:{loginw_fgcolor};border-radius:{loginw_round};')  ## Set color white as default
+        self.btnColorButton.setStyleSheet(f'background-color:{loginw_bgcolor};')
 
         ## Userlogo ##
 
@@ -827,6 +825,7 @@ class LoginWidget (QMainWindow):
                                       self.height() - int(self.height() / 4) - int(self.btnEnter.height() / 4) + int(self.btnEnter.height()/2),
                                       self.btnEnter.width(), self.btnEnter.height())
             self.layout().addWidget(self.btnEnter)
+
         elif self.Env.objectName()=='Unlock':
             self.btnUnlock = QPushButton()
             ## Shadow ##
@@ -916,6 +915,8 @@ class LoginWidget (QMainWindow):
                 self.Env.setCentralWidget(Desktop([self.Backend,self],username,password))
 
         elif self.Env.objectName()=='Unlock':
+            print(self.Backend)
+            print(self.Env)
 
             username = self.Env.username
             password = self.leInput.text()
@@ -931,8 +932,11 @@ class LoginWidget (QMainWindow):
                 self.leInput.setPlaceholderText(message)
                 QTimer.singleShot(2500, self.clean)
             else:
-                self.hide()
-                self.Env.hide()
+                self.Backend.submenu.show()
+                self.Backend.taskbar.show()
+                self.Backend.backgroundButton.show()
+                self.Env.BtnUnlock.hide()
+                self.Env.lock.hide()
 
     def clean (self):
         self.leInput.setEnabled(True)
@@ -1149,126 +1153,6 @@ class Enter (QMainWindow):
         ## Login widget ##
 
         self.loginw = LoginWidget([self.Backend,self])
-        self.layout().addWidget (self.loginw)
-
-        ## Show ##
-        ## Get data ##
-        fullscreen = getdata('fullscreen')
-
-        if fullscreen == 'Yes':
-            variables.fullscreen = True
-        else:
-            variables.fullscreen = False
-
-        if variables.fullscreen == True:
-            self.showFullScreen()
-        else:
-            self.show()
-
-## Enter ##
-class Unlock (QMainWindow):
-    def __init__(self,ports,username):
-        super(Unlock, self).__init__()
-
-        ## username ##
-        self.username = username.lower()
-
-        ## Ports ##
-        self.Backend = ports[0]
-        self.Env = ports[1]
-
-        ## Set port name ##
-        self.setObjectName('Unlock')
-
-        ## Get informations ##
-        cs = files.readall('/proc/info/cs')
-        ver = files.readall('/proc/info/ver')
-        cd = files.readall('/proc/info/cd')
-
-        self.setWindowTitle(cs + ' ' + ver + ' (' + cd + ")")
-
-        ## Get app logo ##
-        applogo = getdata('logo')
-        if not applogo == None:
-            self.setWindowIcon(QIcon(res.get(applogo)))
-
-        bgcolor = getdata('unlock.bgcolor')
-        background = getdata('unlock.background')
-        fgcolor = getdata('unlock.fgcolor')
-
-        if not self.username=='guest':
-            value = control.read_record('unlock.bgcolor','/etc/users/'+self.username)
-            if not value==None: bgcolor = value
-
-        if not self.username=='guest':
-            value = control.read_record('unlock.background','/etc/users/'+self.username)
-            if not value==None: background = value
-
-        if not self.username=='guest':
-            value = control.read_record('unlock.fgcolor','/etc/users/'+self.username)
-            if not value==None: fgcolor = value
-
-        ## Widget for bgcolor or background ##
-        self.backgroundButton = QPushButton()
-        self.backgroundButton.setGeometry(0, 0, variables.width, variables.height)
-        self.layout().addWidget(self.backgroundButton)
-
-        ## Set bgcolor and background ##
-
-        if background == None and bgcolor == None and not fgcolor == None:
-            variables.unlock_fgcolor = fgcolor
-            ## Set colors ##
-            self.setStyleSheet(f'color: {variables.unlock_fgcolor};')
-            self.backgroundButton.setStyleSheet(
-                f'border:none;background-color: {variables.unlock_bgcolor};')
-
-        elif background == None and not fgcolor == None:
-
-            ## Set colors ##
-            variables.unlock_bgcolor = bgcolor
-            variables.unlock_fgcolor = fgcolor
-
-            self.setStyleSheet(f'color: {variables.unlock_fgcolor};')
-
-            self.backgroundButton.setStyleSheet(
-                f'border:none;background-color: {variables.unlock_bgcolor};')
-        elif not background == None and not fgcolor == None:
-            ## Set bgcolor ##
-
-            variables.unlock_background = res.get(background)
-            self.setStyleSheet(f'color: {variables.unlock_fgcolor};')
-            self.backgroundButton.setStyleSheet(
-                f'border:none;background-image: url({variables.unlock_background});')
-        else:
-            self.setStyleSheet(f'background-color:{variables.unlock_bgcolor};color: {variables.unlock_fgcolor};')
-
-        ## Set size ##
-        width = getdata('width')
-        height = getdata('height')
-        autosize =getdata('autosize')
-
-        if not width == None  and not autosize=='Yes':
-            variables.width = int(width)
-
-        if not height == None and not autosize=='Yes':
-            variables.height = int(height)
-
-        self.resize(variables.width, variables.height)
-
-        ## Set sides ##
-        ## Set sides ##
-        sides = getdata('sides')
-
-        if sides == 'Yes':
-            variables.sides = True
-        else:
-            variables.sides = False
-        if variables.sides == False:
-            self.setWindowFlag(Qt.FramelessWindowHint)
-
-        ## Login widget ##
-
-        self.loginw = LoginWidget([self.Env,self])
         self.layout().addWidget (self.loginw)
 
         ## Show ##
@@ -1809,64 +1693,18 @@ class Desktop (QMainWindow):
 
     def wakeup_act (self):
         self.submenu.show()
+        self.taskbar.show()
         self.BtnWakeUp.hide()
 
     def sleep_act (self):
         self.submenu.hide()
+        self.taskbar.hide()
         self.BtnWakeUp = QPushButton()
         self.BtnWakeUp.setStyleSheet('background: black;color: black;border: black;')
         self.BtnWakeUp.setText('')
-
-        ## Get informations ##
-        cs = files.readall('/proc/info/cs')
-        ver = files.readall('/proc/info/ver')
-        cd = files.readall('/proc/info/cd')
-
-        self.BtnWakeUp.setWindowTitle(cs + ' ' + ver + ' (' + cd + ")")
-
-        ## Get app logo ##
-        applogo = getdata('logo')
-        if not applogo == None:
-            self.BtnWakeUp.setWindowIcon(QIcon(res.get(applogo)))
-
-        ## Set size ##
-        width = getdata('width')
-        height = getdata('height')
-        autosize = getdata('autosize')
-
-        if not width == None and not autosize == 'Yes':
-            variables.width = int(width)
-
-        if not height == None and not autosize == 'Yes':
-            variables.height = int(height)
-
-        self.BtnWakeUp.resize(variables.width, variables.height)
-
-            ## Set sides ##
-            ## Set sides ##
-        sides = getdata('sides')
-
-        if sides == 'Yes':
-            variables.sides = True
-        else:
-            variables.sides = False
-        if variables.sides == False:
-             self.BtnWakeUp.setWindowFlag(Qt.FramelessWindowHint)
-
-        fullscreen = getdata('fullscreen')
-
-        if fullscreen == 'Yes':
-            variables.fullscreen = True
-        else:
-            variables.fullscreen = False
-
-        if variables.fullscreen == True:
-            self.BtnWakeUp.showFullScreen()
-        else:
-            self.BtnWakeUp.show()
-
         self.BtnWakeUp.setCursor(Qt.BlankCursor)
         self.BtnWakeUp.clicked.connect (self.wakeup_act)
+        self.setCentralWidget(self.BtnWakeUp)
 
     def signout_act (self):
         app.endall()
@@ -1879,19 +1717,71 @@ class Desktop (QMainWindow):
         subprocess.call([sys.executable, files.readall('/proc/info/boot'), "gui-login"]) # just run the login
 
     def unlock_act (self):
-        if self.username == 'guest':
-            self.submenu.show()
-            self.taskbar.show()
-            self.backgroundButton.show()
-            self.BtnUnlock.hide()
-            self.lock.hide()
+        self.submenu.show()
+        self.taskbar.show()
+        self.backgroundButton.show()
+        self.BtnUnlock.hide()
+        self.lock.hide()
+
+    def enterlock_act (self):
+        ## Set port name ##
+        self.unlock = QMainWindow()
+        self.unlock.setObjectName('Unlock')
+
+        bgcolor = getdata('unlock.bgcolor')
+        background = getdata('unlock.background')
+        fgcolor = getdata('unlock.fgcolor')
+
+        if not self.username == 'guest':
+            value = control.read_record('unlock.bgcolor', '/etc/users/' + self.username)
+            if not value == None: bgcolor = value
+
+        if not self.username == 'guest':
+            value = control.read_record('unlock.background', '/etc/users/' + self.username)
+            if not value == None: background = value
+
+        if not self.username == 'guest':
+            value = control.read_record('unlock.fgcolor', '/etc/users/' + self.username)
+            if not value == None: fgcolor = value
+
+        ## Widget for bgcolor or background ##
+        self.backgroundButton = QPushButton()
+        self.backgroundButton.setGeometry(0, 0, variables.width, variables.height)
+        self.unlock.layout().addWidget(self.backgroundButton)
+
+        ## Set bgcolor and background ##
+
+        if background == None and bgcolor == None and not fgcolor == None:
+            variables.unlock_fgcolor = fgcolor
+            ## Set colors ##
+            self.unlock.setStyleSheet(f'color: {variables.unlock_fgcolor};')
+            self.unlock.backgroundButton.setStyleSheet(
+                f'border:none;background-color: {variables.unlock_bgcolor};')
+
+        elif background == None and not fgcolor == None:
+
+            ## Set colors ##
+            variables.unlock_bgcolor = bgcolor
+            variables.unlock_fgcolor = fgcolor
+
+            self.unlock.setStyleSheet(f'color: {variables.unlock_fgcolor};')
+
+            self.unlock.backgroundButton.setStyleSheet(
+                f'border:none;background-color: {variables.unlock_bgcolor};')
+        elif not background == None and not fgcolor == None:
+            ## Set bgcolor ##
+
+            variables.unlock_background = res.get(background)
+            self.unlock.setStyleSheet(f'color: {variables.unlock_fgcolor};')
+            self.backgroundButton.setStyleSheet(
+                f'border:none;background-image: url({variables.unlock_background});')
         else:
-            self.BtnUnlock.hide()
-            self.lock.hide()
-            self.w = Unlock([self.Backend,self],self.username)
-            self.submenu.show()
-            self.taskbar.show()
-            self.backgroundButton.show()
+            self.unlock.setStyleSheet(f'background-color:{variables.unlock_bgcolor};color: {variables.unlock_fgcolor};')
+
+        self.loginw = LoginWidget([self.Backend, self])
+        self.unlock.layout().addWidget(self.loginw)
+
+        self.setCentralWidget(self.unlock)
 
     def showTime_lock (self):
         # getting current time
@@ -2031,29 +1921,6 @@ class Desktop (QMainWindow):
         self.lock.resize(variables.width, variables.height)
         self.BtnUnlock.resize(variables.width, variables.height)
 
-        ## Set sides ##
-        ## Set sides ##
-        sides = getdata('sides')
-
-        if sides == 'Yes':
-            variables.sides = True
-        else:
-            variables.sides = False
-        if variables.sides == False:
-            self.lock.setWindowFlag(Qt.FramelessWindowHint)
-
-        fullscreen = getdata('fullscreen')
-
-        if fullscreen == 'Yes':
-            variables.fullscreen = True
-        else:
-            variables.fullscreen = False
-
-        if variables.fullscreen == True:
-            self.lock.showFullScreen()
-        else:
-            self.lock.show()
-
         # lbl Clock #
         self.lblClock = QLabel()
         self.lock.layout().addWidget(self.lblClock)
@@ -2130,6 +1997,7 @@ class Desktop (QMainWindow):
                                       self.lblClock.height())
 
         self.BtnUnlock.clicked.connect(self.unlock_act)
+        self.setCentralWidget(self.lock)
 
     def __init__(self,ports,username,password):
         super(Desktop, self).__init__()

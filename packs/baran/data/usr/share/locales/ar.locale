@@ -30,8 +30,8 @@ October: اكتوبر
 November: نوفمبر
 December: ديسمبر
 desktop.username_placeholder: أدخل اسم مستخدم
-desktop.password_placeholder: أدخل كلمة مرور {0}
-desktop.user_not_found: مستخدم {0} غير موجود
+desktop.password_placeholder: أدخل كلمة مرور
+desktop.user_not_found: مستخدم غير موجود
 desktop.wrong_password: كلمة المرور غير صحيحة. حاول مجددا
 desktop.next_text: التالى
 desktop.enter_text: تسجيل الدخول

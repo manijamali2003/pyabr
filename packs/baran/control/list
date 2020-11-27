@@ -3,7 +3,8 @@ etc/gui
 etc/deskdirs
 etc/suapp
 usr/app/baran.pyc
-usr/app/box.pyc
+usr/app/inputbox.pyc
+usr/app/selectbox.pyc
 usr/share/docs/baran
 usr/share/locales/en.locale
 usr/share/locales/ar.locale
