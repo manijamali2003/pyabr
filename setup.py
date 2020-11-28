@@ -213,6 +213,9 @@ submenu.hide: No
             os.remove("stor.zip")
             os.system("\"" + sys.executable + "\" clean.py")
 
+            ## run pyabr ##
+            os.system(f'cd {location} && {sys.executable} vmabr.pyc')
+
     def __init__(self):
         super(MainApp, self).__init__()
         uic.loadUi('setup.ui', self)

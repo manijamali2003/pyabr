@@ -1,6 +1,8 @@
 
 Standard commands in internal Pyabr library ('/usr/app/libabr.pyc'):
 
+    bunzip     Extract bzip with tarball archive
+    bzip       Create bzip with tarball archive
     cat        Work with files
     cd         Jump to directories
     check      Check permissions about files or directories
@@ -13,6 +15,7 @@ Standard commands in internal Pyabr library ('/usr/app/libabr.pyc'):
     date       Show time and date
     echo       Output a message
     getv       Get all information in controller
+    gunzip     Extract gzip with tarball archive
     help       Help commands
     logout     Logout from the shell
     ls         Show list of files and directories
@@ -31,11 +34,17 @@ Standard commands in internal Pyabr library ('/usr/app/libabr.pyc'):
     sleep      Sleep in console
     su         Switch an user account
     sudo       Run commands as root user
+    tar        Create tarball archive
     uadd       Create an user account
     udel       Delete an user account
     uinfo      Show informations about an user account
     umount     Unmount a cloud partition
     unsel      Unselect a controller
     unset      Unset a variable in controller
+    untar      Extract tarball archive
+    unzip      Extract zip archive
     ver        Show important informations about system
     wget       Download files from the Internet
+    xunzip     Extract xzip with tarball archive
+    xzip       Create xzip with tarball archive
+    zip        Create zip archive

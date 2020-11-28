@@ -119,6 +119,340 @@ class Commands:
             else:
                 control.remove_record(name, select)
 
+    # zip #
+    def zip (self, args):
+        files = Files()
+        control = Control()
+        permissions = Permissions()
+        colors = Colors()
+
+        if args==[]:
+            colors.show ('zip','fail','no inputs.')
+            sys.exit(0)
+
+        src = args[0]
+
+        if args[1:]==[]:
+            dest = src
+        else:
+            dest = args[1]
+
+        if not files.isdir (src):
+            colors.show('zip', 'fail', f'{src}: source directory not found.')
+            sys.exit(0)
+
+        if files.isdir (dest+".zip"):
+            colors.show('zip', 'fail', f'{dest+".zip"}: dest is not a archive file.')
+            sys.exit(0)
+
+        if files.isfile (dest+".zip"):
+            colors.show('zip', 'warning', f'{dest+".zip"}: dest archives exists.')
+
+        if permissions.check(files.output(src), "r", files.readall("/proc/info/su")) and permissions.check(files.output(dest+'.zip'), "w", files.readall("/proc/info/su")):
+            shutil.make_archive(files.input(dest),'zip',files.input(src))
+        else:
+            colors.show('zip', 'perm', '')
+            sys.exit(0)
+
+    # zip #
+    def tar (self, args):
+        files = Files()
+        control = Control()
+        permissions = Permissions()
+        colors = Colors()
+
+        if args==[]:
+            colors.show ('tar','fail','no inputs.')
+            sys.exit(0)
+
+        src = args[0]
+
+        if args[1:]==[]:
+            dest = src
+        else:
+            dest = args[1]
+
+        if not files.isdir (src):
+            colors.show('tar', 'fail', f'{src}: source directory not found.')
+            sys.exit(0)
+
+        if files.isdir (dest+".tar"):
+            colors.show('tar', 'fail', f'{dest+".tar"}: dest is not a archive file.')
+            sys.exit(0)
+
+        if files.isfile (dest+".tar"):
+            colors.show('tar', 'warning', f'{dest+".tar"}: dest archives exists.')
+
+        if permissions.check(files.output(src), "r", files.readall("/proc/info/su")) and permissions.check(files.output(dest+'.tar'), "w", files.readall("/proc/info/su")):
+            shutil.make_archive(files.input(dest),'tar',files.input(src))
+        else:
+            colors.show('tar', 'perm', '')
+            sys.exit(0)
+    # zip #
+    def xzip (self, args):
+        files = Files()
+        control = Control()
+        permissions = Permissions()
+        colors = Colors()
+
+        if args==[]:
+            colors.show ('xzip','fail','no inputs.')
+            sys.exit(0)
+
+        src = args[0]
+
+        if args[1:]==[]:
+            dest = src
+        else:
+            dest = args[1]
+
+        if not files.isdir (src):
+            colors.show('xzip', 'fail', f'{src}: source directory not found.')
+            sys.exit(0)
+
+        if files.isdir (dest+".tar.xz"):
+            colors.show('xzip', 'fail', f'{dest+".tar.xz"}: dest is not a archive file.')
+            sys.exit(0)
+
+        if files.isfile (dest+".tar.xz"):
+            colors.show('xzip', 'warning', f'{dest+".tar.xz"}: dest archives exists.')
+
+        if permissions.check(files.output(src), "r", files.readall("/proc/info/su")) and permissions.check(files.output(dest+'.tar.xz'), "w", files.readall("/proc/info/su")):
+            shutil.make_archive(files.input(dest),'xztar',files.input(src))
+        else:
+            colors.show('xzip', 'perm', '')
+            sys.exit(0)
+
+    # zip #
+    def gzip (self, args):
+        files = Files()
+        control = Control()
+        permissions = Permissions()
+        colors = Colors()
+
+        if args==[]:
+            colors.show ('gzip','fail','no inputs.')
+            sys.exit(0)
+
+        src = args[0]
+
+        if args[1:]==[]:
+            dest = src
+        else:
+            dest = args[1]
+
+        if not files.isdir (src):
+            colors.show('gzip', 'fail', f'{src}: source directory not found.')
+            sys.exit(0)
+
+        if files.isdir (dest+".tar.gz"):
+            colors.show('gzip', 'fail', f'{dest+".tar.gz"}: dest is not a archive file.')
+            sys.exit(0)
+
+        if files.isfile (dest+".tar.gz"):
+            colors.show('gzip', 'warning', f'{dest+".tar.gz"}: dest archive exists.')
+
+        if permissions.check(files.output(src), "r", files.readall("/proc/info/su")) and permissions.check(files.output(dest+'.tar.gz'), "w", files.readall("/proc/info/su")):
+            shutil.make_archive(files.input(dest),'gztar',files.input(src))
+        else:
+            colors.show('gzip', 'perm', '')
+            sys.exit(0)
+
+    # zip #
+    def bzip (self, args):
+        files = Files()
+        control = Control()
+        permissions = Permissions()
+        colors = Colors()
+
+        if args==[]:
+            colors.show ('bzip','fail','no inputs.')
+            sys.exit(0)
+
+        src = args[0]
+
+        if args[1:]==[]:
+            dest = src
+        else:
+            dest = args[1]
+
+        if not files.isdir (src):
+            colors.show('bzip', 'fail', f'{src}: source directory not found.')
+            sys.exit(0)
+
+        if files.isdir (dest+".tar.bz2"):
+            colors.show('bzip', 'fail', f'{dest+".tar.bz2"}: dest is not a archive file.')
+            sys.exit(0)
+
+        if files.isfile (dest+".tar.bz"):
+            colors.show('bzip', 'warning', f'{dest+".tar.bz2"}: dest archive exists.')
+
+        if permissions.check(files.output(src), "r", files.readall("/proc/info/su")) and permissions.check(files.output(dest+'.tar.bz2'), "w", files.readall("/proc/info/su")):
+            shutil.make_archive(files.input(dest),'bztar',files.input(src))
+        else:
+            colors.show('bzip', 'perm', '')
+            sys.exit(0)
+
+
+    def unzip (self,args):
+        files = Files()
+        control = Control()
+        permissions = Permissions()
+        colors = Colors()
+
+        if args == []:
+            colors.show('unzip', 'fail', 'no inputs.')
+            sys.exit(0)
+
+        src = args[0]
+
+        if args[1:]==[]:
+            dest = src
+        else:
+            dest = args[1]
+
+        if not files.isfile (src):
+            colors.show('unzip', 'fail', f'{src}: source archive not found.')
+            sys.exit(0)
+
+        if files.isfile (dest):
+            colors.show('unzip', 'fail', f'{dest}: dest is a file.')
+            sys.exit(0)
+
+        if permissions.check(files.output(src), "r", files.readall("/proc/info/su")) and permissions.check(files.output(dest), "w", files.readall("/proc/info/su")):
+            shutil.unpack_archive(files.input(src),files.input(dest),'zip')
+        else:
+            colors.show('unzip', 'perm', '')
+            sys.exit(0)
+
+    def xunzip (self, args):
+        files = Files()
+        control = Control()
+        permissions = Permissions()
+        colors = Colors()
+
+        if args == []:
+            colors.show('xunzip', 'fail', 'no inputs.')
+            sys.exit(0)
+
+        src = args[0]
+
+        if args[1:] == []:
+            dest = src
+        else:
+            dest = args[1]
+
+        if not files.isfile(src):
+            colors.show('xunzip', 'fail', f'{src}: source archive not found.')
+            sys.exit(0)
+
+        if files.isfile(dest):
+            colors.show('xunzip', 'fail', f'{dest}: dest is a file.')
+            sys.exit(0)
+
+        if permissions.check(files.output(src), "r", files.readall("/proc/info/su")) and permissions.check(
+                files.output(dest), "w", files.readall("/proc/info/su")):
+            shutil.unpack_archive(files.input(src), files.input(dest), 'xztar')
+        else:
+            colors.show('xunzip', 'perm', '')
+            sys.exit(0)
+
+    def gunzip(self, args):
+        files = Files()
+        control = Control()
+        permissions = Permissions()
+        colors = Colors()
+
+        if args == []:
+            colors.show('gunzip', 'fail', 'no inputs.')
+            sys.exit(0)
+
+        src = args[0]
+
+        if args[1:] == []:
+            dest = src
+        else:
+            dest = args[1]
+
+        if not files.isfile(src):
+            colors.show('gunzip', 'fail', f'{src}: source archive not found.')
+            sys.exit(0)
+
+        if files.isfile(dest):
+            colors.show('gunzip', 'fail', f'{dest}: dest is a file.')
+            sys.exit(0)
+
+        if permissions.check(files.output(src), "r", files.readall("/proc/info/su")) and permissions.check(
+                files.output(dest), "w", files.readall("/proc/info/su")):
+            shutil.unpack_archive(files.input(src), files.input(dest), 'gztar')
+        else:
+            colors.show('gunzip', 'perm', '')
+            sys.exit(0)
+
+    def bunzip(self, args):
+        files = Files()
+        control = Control()
+        permissions = Permissions()
+        colors = Colors()
+
+        if args == []:
+            colors.show('bunzip', 'fail', 'no inputs.')
+            sys.exit(0)
+
+        src = args[0]
+
+        if args[1:] == []:
+            dest = src
+        else:
+            dest = args[1]
+
+        if not files.isfile(src):
+            colors.show('bunzip', 'fail', f'{src}: source archive not found.')
+            sys.exit(0)
+
+        if files.isfile(dest):
+            colors.show('bunzip', 'fail', f'{dest}: dest is a file.')
+            sys.exit(0)
+
+        if permissions.check(files.output(src), "r", files.readall("/proc/info/su")) and permissions.check(
+                files.output(dest), "w", files.readall("/proc/info/su")):
+            shutil.unpack_archive(files.input(src), files.input(dest), 'bztar')
+        else:
+            colors.show('bunzip', 'perm', '')
+            sys.exit(0)
+
+    def untar(self, args):
+        files = Files()
+        control = Control()
+        permissions = Permissions()
+        colors = Colors()
+
+        if args == []:
+            colors.show('untar', 'fail', 'no inputs.')
+            sys.exit(0)
+
+        src = args[0]
+
+        if args[1:] == []:
+            dest = src
+        else:
+            dest = args[1]
+
+        if not files.isfile(src):
+            colors.show('untar', 'fail', f'{src}: source archive not found.')
+            sys.exit(0)
+
+        if files.isfile(dest):
+            colors.show('untar', 'fail', f'{dest}: dest is a file.')
+            sys.exit(0)
+
+        if permissions.check(files.output(src), "r", files.readall("/proc/info/su")) and permissions.check(
+                files.output(dest), "w", files.readall("/proc/info/su")):
+            shutil.unpack_archive(files.input(src), files.input(dest), 'tar')
+        else:
+            colors.show('untar', 'perm', '')
+            sys.exit(0)
+
     # cc command #
     def cc (self,args):
         permissions = Permissions()
@@ -1710,23 +2044,15 @@ class Package:
             # check version #
             now_version = control.read_record('version','/etc/distro')
 
-            o0 = int(now_version.split('.')[0])
-            o1 = int(now_version.split('.')[1])
-            o2 = int(now_version.split('.')[2])
-
             ## unpack pyabr ##
             shutil.unpack_archive(files.input('/app/cache/gets/pyabr.pa'),files.input('/tmp'),'zip')
 
             ## Should be develop ... ##
             new_version = control.read_record('version','/tmp/pyabr-master/packs/pyabr/data/etc/distro')
 
-            n0 = int(new_version.split('.')[0])
-            n1 = int(new_version.split('.')[1])
-            n2 = int(new_version.split('.')[2])
-
             # list upgrades internal packages #
 
-            if o0<n0 or o1<n1 or o2<n2:
+            if not new_version==now_version:
                 listu = files.list('/app/packages')
                 for i in listu:
                     if i.endswith('.manifest'):
@@ -1738,18 +2064,18 @@ class Package:
                 colors.show ('paye','warning','all package was up to date.')
 
                 # backup #
-                shutil.unpack_archive(files.input('/app/cache/backups/users.bak.zip'),files.input('/etc/users'),'zip')
-                files.remove('/app/cache/backups/users.bak.zip')
-                files.cut('/app/cache/backups/color.bak','/etc/color')
-                files.cut('/app/cache/backups/compiler.bak','/etc/compiler')
-                files.cut('/app/cache/backups/exec.bak','/etc/exec')
-                files.cut('/app/cache/backups/guest.bak','/etc/guest')
-                files.cut('/app/cache/backups/gui.bak','/etc/gui')
-                files.cut('/app/cache/backups/hostname.bak','/etc/hostname')
-                files.cut('/app/cache/backups/interface.bak','/etc/interface')
-                files.cut('/app/cache/backups/modules.bak','/etc/modules')
-                files.cut('/app/cache/backups/permtab.bak','/etc/permtab')
-                files.cut('/app/cache/backups/time.bak','/etc/time')
+            shutil.unpack_archive(files.input('/app/cache/backups/users.bak.zip'), files.input('/etc/users'), 'zip')
+            files.remove('/app/cache/backups/users.bak.zip')
+            files.cut('/app/cache/backups/color.bak', '/etc/color')
+            files.cut('/app/cache/backups/compiler.bak', '/etc/compiler')
+            files.cut('/app/cache/backups/exec.bak', '/etc/exec')
+            files.cut('/app/cache/backups/guest.bak', '/etc/guest')
+            files.cut('/app/cache/backups/gui.bak', '/etc/gui')
+            files.cut('/app/cache/backups/hostname.bak', '/etc/hostname')
+            files.cut('/app/cache/backups/interface.bak', '/etc/interface')
+            files.cut('/app/cache/backups/modules.bak', '/etc/modules')
+            files.cut('/app/cache/backups/permtab.bak', '/etc/permtab')
+            files.cut('/app/cache/backups/time.bak', '/etc/time')
         else:
             colors.show("paye", "perm", "")
 
