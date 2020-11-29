@@ -7,10 +7,4 @@
 /usr/app: dr-xr-x--x/root
 /usr/games: dr-xr-x--x/root
 /dev: d---------/root
-ic0:/: dr--r-----/root
-ic0:/desk/guest: drw----rw-/guest
-ic0:/root: drwx------/root
-ic0:/tmp: drw-rw----/root
-ic0:/usr/app: dr-xr-x--x/root
-ic0:/usr/games: dr-xr-x--x/root
-ic0:/dev: d---------/root
+/tmp: drwxrwxrwx/root
