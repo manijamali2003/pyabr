@@ -21,6 +21,7 @@
 /proc/id
 /proc/info
 /root
+/srv
 /stor
 /tmp
 /usr

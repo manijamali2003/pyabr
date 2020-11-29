@@ -156,10 +156,10 @@ if argv[0]=='exec':
             else:
                 colors.show(argv[1], "perm", "")
 
-        elif files.isfile(argv[1]+".jar") and portable=='Yes' and not java_home==None:
+        elif files.isfile(argv[1]+".jar") and portable=='Yes':
             if permissions.check(files.output(argv[1]+".jar"), "x", user):
                 ## command ##
-                command = [java_home+"/java",'--jar',files.input(argv[1]+".jar")]
+                command = ["java",'--jar',files.input(argv[1]+".jar")]
 
                 for i in argv[2:]:
                     command.append(i)
