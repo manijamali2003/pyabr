@@ -146,7 +146,7 @@ class MainApp(QMainWindow):
         self.Widget.Resize(self, 700, 500)
 
         self.Widget.SetWindowTitle(res.get("@string/app_name"))
-        #self.Widget.SetWindowIcon (res.get('@icon/'))
+        self.Widget.SetWindowIcon (QIcon(res.get('@icon/mines')))
         #self.Widget.DisableFloat()
         self.b_size, self.n_mines = LEVELS[1]
 

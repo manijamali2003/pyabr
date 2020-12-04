@@ -1361,7 +1361,7 @@ class AppWidget (QMainWindow):
         return self.titletext.text()
 
     def SetWindowIcon (self,icon):
-        self.iconwidget.setPixmap(icon.pixmap(variables.app_title_size-5,variables.app_title_size-5))
+        self.iconwidget.setPixmap(icon.pixmap(32,32))
 
     def Close (self):
         app.end(self.appname)
@@ -1582,7 +1582,8 @@ class AppWidget (QMainWindow):
         # icon widget #
         self.icon = QIcon(res.get(app_logo))
         self.iconwidget = QLabel()
-        self.iconwidget.setPixmap(self.icon.pixmap(int(app_title_size)-5,int(app_title_size)-5))
+        self.iconwidget.setPixmap(self.icon.pixmap(32,32))
+        self.iconwidget.resize(int(variables.app_title_size),int(variables.app_title_size))
         self.layouts.addWidget(self.iconwidget)
 
         self.iconwidget.setGeometry(0,0,int(variables.app_title_size),int(variables.app_title_size))

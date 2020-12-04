@@ -29,7 +29,7 @@ class MainApp(PythonConsole):
         #self.Widget.Resize (700,500)
         self.Widget.Resize (self,700,500)
         self.Widget.SetWindowTitle (res.get("@string/app_name"))
-        self.Widget.SetWindowIcon (QIcon(res.get('@icon/python')))
+        self.Widget.SetWindowIcon (QIcon(res.get('@icon/pyshell')))
         self.setStyleSheet('background-color:white;')
 
         self.eval_in_thread()
