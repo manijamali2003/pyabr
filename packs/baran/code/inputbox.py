@@ -33,7 +33,7 @@ class MainApp (QMainWindow):
         self.External = ports[4]
 
         self.setStyleSheet('background-color: white;')
-        self.Widget.SetWindowIcon(QIcon(res.get('@icon/about')))
+        self.Widget.SetWindowIcon(QIcon(res.get('@icon/help-about')))
         ## Finds ##
 
         self.Widget.Resize(self,int(self.Env.width()/3),100)

@@ -33,15 +33,20 @@ class MainApp(QtWidgets.QMainWindow):
         # file menu #
         self.new = self.file.addAction(res.get('@string/new'))
         self.new.triggered.connect (self.new_act)
+        self.new.setIcon(QtGui.QIcon(res.get('@icon/application-text')))
         self.new_page = self.file.addAction(res.get('@string/new_page'))
         self.new_page.triggered.connect (self.new_page_act)
         self.open = self.file.addAction(res.get('@string/open'))
+        self.open.setIcon(QtGui.QIcon(res.get('@icon/blue-fileopen')))
         self.open.triggered.connect (self.open_act)
         self.save = self.file.addAction(res.get('@string/save'))
+        self.save.setIcon(QtGui.QIcon(res.get('@icon/document-save')))
         self.save.triggered.connect (self.save_)
         self.saveas = self.file.addAction(res.get('@string/save_as'))
+        self.saveas.setIcon(QtGui.QIcon(res.get('@icon/document-save-as')))
         self.saveas.triggered.connect (self.save_as)
         self.exit = self.file.addAction(res.get('@string/exit'))
+        self.exit.setIcon(QtGui.QIcon(res.get('@icon/system-shutdown')))
         self.exit.triggered.connect (self.Widget.Close)
 
         # code menu
@@ -55,24 +60,34 @@ class MainApp(QtWidgets.QMainWindow):
 
         # Codes #
         self.lang_c = self.insert_c.addAction('C')
+        self.lang_c.setIcon(QtGui.QIcon(res.get('@icon/text-x-c')))
         self.lang_c.triggered.connect (self.langc)
         self.lang_cpp = self.insert_c.addAction('C++')
+        self.lang_cpp.setIcon(QtGui.QIcon(res.get('@icon/text-x-c++')))
         self.lang_cpp.triggered.connect(self.langcpp)
         self.lang_cs = self.insert_c.addAction('C#')
+        self.lang_cs.setIcon(QtGui.QIcon(res.get('@icon/text-csharp')))
         self.lang_cs.triggered.connect(self.langcs)
         self.lang_java = self.insert_c.addAction('Java')
+        self.lang_java.setIcon(QtGui.QIcon(res.get('@icon/application-java')))
         self.lang_java.triggered.connect(self.langjava)
         self.lang_python = self.insert_c.addAction('Python')
         self.lang_python.triggered.connect(self.langpython)
+        self.lang_python.setIcon(QtGui.QIcon(res.get('@icon/text-x-python3')))
         self.lang_pythongui = self.insert_c.addAction('Python GUI')
         self.lang_pythongui.triggered.connect(self.langpythonx)
+        self.lang_pythongui.setIcon(QtGui.QIcon(res.get('@icon/text-x-python3')))
         self.lang_saye = self.insert_c.addAction('Saye')
+        self.lang_saye.setIcon(QtGui.QIcon(res.get('@icon/application-x-executable-script')))
         self.lang_saye.triggered.connect(self.langsaye)
         self.lang_html = self.insert_c.addAction('HTML')
+        self.lang_html.setIcon(QtGui.QIcon(res.get('@icon/html')))
         self.lang_html.triggered.connect(self.langhtml)
         self.lang_php = self.insert_c.addAction('PHP')
+        self.lang_php.setIcon(QtGui.QIcon(res.get('@icon/application-x-php')))
         self.lang_php.triggered.connect(self.langphp)
         self.lang_js = self.insert_c.addAction('Java Script')
+        self.lang_js.setIcon(QtGui.QIcon(res.get('@icon/application-javascript')))
         self.lang_js.triggered.connect(self.langjs)
 
         # set font size
@@ -150,7 +165,7 @@ class MainApp(QtWidgets.QMainWindow):
     '''
 
     def langc (self):
-        self.teEdit.setText('''
+        self.teEdit.setPlainText('''
 #include <stdio.h>
 
 int main ()
@@ -161,7 +176,7 @@ int main ()
         ''')
 
     def langcpp (self):
-        self.teEdit.setText('''
+        self.teEdit.setPlainText('''
 #include <iostream>
 
 using namespace std;
@@ -174,7 +189,7 @@ int main ()
         ''')
 
     def langjava (self):
-        self.teEdit.setText('''
+        self.teEdit.setPlainText('''
 class MainApp 
 {
     pubic static void main (String[] args)
@@ -185,7 +200,7 @@ class MainApp
         ''')
 
     def langpython (self):
-        self.teEdit.setText('''
+        self.teEdit.setPlainText('''
 from libabr import System, Control, Files, Colors, Script, App, Res
 
 control = Control()
@@ -198,12 +213,11 @@ class MainApp:
     def __init__ (self):
         print ("Welcome to Barge!")
         
-if __name__ == "__main__":
-    MainApp ()
+MainApp ()
         ''')
 
     def langpythonx (self):
-        self.teEdit.setText('''
+        self.teEdit.setPlainText('''
 from libabr import System, Control, Files, Colors, Script, App, Res
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -237,7 +251,7 @@ class MainApp (QMainWindow):
         ''')
 
     def langcs (self):
-        self.teEdit.setText('''
+        self.teEdit.setPlainText('''
 using System;
 
 namespcae MyWelcomeApp
@@ -253,13 +267,13 @@ namespcae MyWelcomeApp
         ''')
 
     def langsaye (self):
-        self.teEdit.setText('''
+        self.teEdit.setPlainText('''
 getv
 echo Welcome to Barge!
         ''')
 
     def langhtml (self):
-        self.teEdit.setText('''
+        self.teEdit.setPlainText('''
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -273,7 +287,7 @@ echo Welcome to Barge!
         ''')
 
     def langphp (self):
-        self.teEdit.setText('''
+        self.teEdit.setPlainText('''
 <!DOCTYPE HTML>
 <html>
     <head>
@@ -289,7 +303,7 @@ echo Welcome to Barge!
         ''')
 
     def langjs (self):
-        self.teEdit.setText('''
+        self.teEdit.setPlainText('''
 <!DOCTYPE HTML>
 <html>
     <head>

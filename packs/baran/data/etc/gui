@@ -1,16 +1,16 @@
 #!etcetra
 
 desktop: baran
-fullscreen: No
-sides: Yes
+fullscreen: Yes
+sides: No
 width: 1280
 height: 720
-autosize: No
+autosize: Yes
 logo: @icon/pyabr-logo
 locale: en
 backend.color: black
 backend.timeout: 1000
-taskbar.location: left
+taskbar.location: bottom
 taskbar.pins: roller,barge,calculator,calendar,commento,pysys,runapp
 splash.timeout: 3000
 splash.logo: @icon/pyabr-logo

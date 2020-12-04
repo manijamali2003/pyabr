@@ -224,12 +224,15 @@ class MainApp (QtWidgets.QMainWindow):
 
         self.new_file = self.file.addAction(res.get('@string/newfile'))
         self.new_file.triggered.connect(self.New_File)
+        self.new_file.setIcon(QIcon(res.get('@icon/gtk-file')))
 
         self.new_folder = self.file.addAction(res.get('@string/newfolder'))
         self.new_folder.triggered.connect(self.New_Folder)
+        self.new_folder.setIcon(QIcon(res.get('@icon/folder')))
 
         self.exit = self.file.addAction(res.get('@string/exit'))
         self.exit.triggered.connect(self.Widget.Close)
+        self.exit.setIcon(QIcon(res.get('@icon/system-shutdown')))
 
         ## end File menu
 
