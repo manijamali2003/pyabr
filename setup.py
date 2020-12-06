@@ -87,6 +87,10 @@ class MainApp(QtWidgets.QWizard):
             pack.install()
             pack.inst('baran')
 
+            if platform.system()=='Linux' and platform.node()=='localhost':
+                os.remove('stor/vmabr.pyc')
+                shutil.copyfile('packs/pyabr/code/vmabr.py', 'stor/vmabr.py')
+
             # clean #
             if os.path.isdir('app'): shutil.rmtree('app')
             if os.path.isdir('build-packs'): shutil.rmtree('build-packs')
@@ -214,7 +218,8 @@ submenu.hide: No
             os.system("\"" + sys.executable + "\" clean.py")
 
             ## run pyabr ##
-            os.system(f'cd {location} && {sys.executable} vmabr.pyc')
+            if not platform.node()=='localhost':
+                os.system(f'cd {location} && {sys.executable} vmabr.pyc')
 
     def __init__(self):
         super(MainApp, self).__init__()
