@@ -1356,12 +1356,13 @@ class AppWidget (QMainWindow):
 
     def SetWindowTitle (self,text):
         self.titletext.setText(text)
+        self.titletext.setAlignment(Qt.AlignVCenter)
 
     def WindowTitle (self):
         return self.titletext.text()
 
     def SetWindowIcon (self,icon):
-        self.iconwidget.setPixmap(icon.pixmap(32,32))
+        self.iconwidget.setPixmap(icon.pixmap(int(variables.app_title_size)-18,int(variables.app_title_size)-18))
 
     def Close (self):
         app.end(self.appname)
@@ -1409,22 +1410,29 @@ class AppWidget (QMainWindow):
                 self.setGeometry(0, 0, self.Env.width(), self.Env.height()-size-15)
                 self.mainWidget.resize (self.Env.width(),self.Env.height()-variables.app_title_size-size-15)
                 self.titlebar.setGeometry(0,0,self.Env.width(),self.app_title_size)
+                self.titletext.setGeometry(self.app_title_size, 0, self.Env.width(), self.app_title_size)
             elif location=='top':
                 self.setGeometry(0, size+15, self.Env.width(), self.Env.height() - size - 15)
                 self.mainWidget.resize(self.Env.width(), self.Env.height() - variables.app_title_size - size - 15)
                 self.titlebar.setGeometry(0, 0, self.Env.width(), self.app_title_size)
+                self.titletext.setGeometry(self.app_title_size, 0, self.Env.width(), self.app_title_size)
             elif location=="left":
                 self.setGeometry(size+15, 0, self.Env.width() - size - 15, self.Env.height())
                 self.mainWidget.resize(self.Env.width()-size-15, self.Env.height() - variables.app_title_size)
                 self.titlebar.setGeometry(0, 0, self.Env.width()-size-15, self.app_title_size)
+                self.titletext.setGeometry(self.app_title_size, 0, self.Env.width()-size-15, self.app_title_size)
             elif location=="right":
                 self.setGeometry(0, 0, self.Env.width() - size - 15, self.Env.height())
                 self.mainWidget.resize(self.Env.width()-size-15, self.Env.height() - variables.app_title_size)
                 self.titlebar.setGeometry(0, 0, self.Env.width()-size-15, self.app_title_size)
+                self.titletext.setGeometry(self.app_title_size, 0, self.Env.width()-size-15, self.app_title_size)
             else:
                 self.setGeometry(0, 0, self.Env.width(), self.Env.height())
                 self.mainWidget.resize(self.Env.width(), self.Env.height() - variables.app_title_size)
                 self.titlebar.setGeometry(0, 0, self.Env.width(), self.app_title_size)
+                self.titletext.setGeometry(self.app_title_size, 0, self.Env.width(), self.app_title_size)
+
+            self.titletext.setAlignment(Qt.AlignVCenter)
 
             self.mainWidget.update()
 
@@ -1582,7 +1590,7 @@ class AppWidget (QMainWindow):
         # icon widget #
         self.icon = QIcon(res.get(app_logo))
         self.iconwidget = QLabel()
-        self.iconwidget.setPixmap(self.icon.pixmap(32,32))
+        self.iconwidget.setPixmap(self.icon.pixmap(int(variables.app_title_size)-18,int(variables.app_title_size)-18))
         self.iconwidget.resize(int(variables.app_title_size),int(variables.app_title_size))
         self.layouts.addWidget(self.iconwidget)
 
@@ -1592,8 +1600,8 @@ class AppWidget (QMainWindow):
         self.titletext = QLabel()
         self.titletext.setStyleSheet(f'background-color:  {app_title_bgcolor};color: {app_title_fgcolor};')
         self.titletext.setMaximumWidth(self.titlebar.width())
-        self.titletext.setGeometry(0,0,self.titlebar.width(),int(app_title_size))
-        self.titletext.setAlignment(Qt.AlignLeft)
+        self.titletext.setGeometry(int(self.app_title_size),0,self.titlebar.width(),int(app_title_size))
+        self.titletext.setAlignment(Qt.AlignVCenter)
 
         f = QFont()
         f.setPointSize(12)
