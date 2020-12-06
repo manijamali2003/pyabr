@@ -32,6 +32,8 @@ width = int(files.readall('/tmp/width'))
 files.remove('/tmp/height')
 files.remove('/tmp/width')
 
+files.write('/proc/info/de','Baran Desktop Enviroment')
+
 ## variables ##
 
 class variables:

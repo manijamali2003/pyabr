@@ -57,5 +57,3 @@ class MainApp(QLineEdit):
         f = QFont()
         f.setPointSize(12)
         self.setFont(f)
-
-        self.Widget.DisableFloat()

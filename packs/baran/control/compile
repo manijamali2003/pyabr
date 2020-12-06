@@ -1,3 +1,4 @@
 baran.py:usr/app/baran.pyc
 inputbox.py:usr/app/inputbox.pyc
 selectbox.py:usr/app/selectbox.pyc
+about.py:usr/app/page_about.pyc
