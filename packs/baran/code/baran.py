@@ -1615,7 +1615,7 @@ class AppWidget (QMainWindow):
         self.btnMax.setMinimumSize(int(app_title_size)-15,int(app_title_size)-15)
         self.btnMax.setGeometry(self.titlebar.width()-100,0,int(app_title_size),int(app_title_size))
         self.btnMax.clicked.connect(self.ShowMaximize)
-        self.btnMax.setStyleSheet('QToolButton {border-radius: {0}% {0}%;} QToolButton::hover {border-radius: {0}% {0}%;background-color: {1}}'.replace("{1}",app_title_float_hover).replace("{0}",str(int(app_title_size)-15/2)))
+        self.btnMax.setStyleSheet('QToolButton {border-radius: {0}% {0}%;} QToolButton::hover {border-radius: {0}% {0}%;background-color: {1}}'.replace("{1}",app_title_float_hover).replace("{0}",str(int((int(app_title_size))-16)/2)))
 
         self.layouts.addWidget(self.btnMax)
 
@@ -1624,7 +1624,7 @@ class AppWidget (QMainWindow):
         self.btnEscape.setMinimumSize(int(app_title_size)-15, int(app_title_size)-15)
         self.btnEscape.setGeometry(self.titlebar.width()-int(app_title_size),0,int(app_title_size),int(app_title_size))
         self.btnEscape.clicked.connect (self.Close)
-        self.btnEscape.setStyleSheet('QToolButton {border-radius: {0}% {0}%;} QToolButton::hover {border-radius: {0}% {0}%;background-color: {1}}'.replace("{1}",app_title_close_hover).replace("{0}",str(int(app_title_size)-15/2)))
+        self.btnEscape.setStyleSheet('QToolButton {border-radius: {0}% {0}%;} QToolButton::hover {border-radius: {0}% {0}%;background-color: {1}}'.replace("{1}",app_title_close_hover).replace("{0}",str(int((int(app_title_size))-16)/2)))
         self.layouts.addWidget(self.btnEscape)
 
         self.whitewidget = QMainWindow()
