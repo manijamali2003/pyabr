@@ -28,7 +28,7 @@ class MainApp(QtWidgets.QMainWindow):
         # resize
         self.Widget.Resize (self,700,500)
         self.Widget.SetWindowTitle(res.get('@string/app_name'))
-        self.Widget.SetWindowIcon (QtGui.QIcon(res.get('@icon/piecasso')))
+        self.Widget.SetWindowIcon (QtGui.QIcon(res.get(res.etc(self.AppName,'app_icon'))))
 
         self.setCentralWidget(MainWindow(args))
 

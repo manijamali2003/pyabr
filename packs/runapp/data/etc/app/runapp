@@ -1,0 +1,6 @@
+bgcolor: white
+fgcolor: black
+wrong-bgcolor: red
+wrong-fgcolor: white
+fontsize: 12
+app_icon: @icon/runner

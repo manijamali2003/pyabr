@@ -9,20 +9,20 @@ res = Res()
 import random
 import time
 
-IMG_BOMB = QImage(res.get("@icon/bug"))
-IMG_FLAG = QImage(res.get("@icon/flag"))
-IMG_START = QImage(res.get("@icon/rocket"))
-IMG_CLOCK = QImage(res.get("@icon/clock-select"))
+IMG_BOMB = QImage(res.get(res.etc("mines",'bug')))
+IMG_FLAG = QImage(res.get(res.etc("mines",'flag')))
+IMG_START = QImage(res.get(res.etc("mines",'rocket')))
+IMG_CLOCK = QImage(res.get(res.etc("mines",'clock-select')))
 
 NUM_COLORS = {
-    1: QColor('#f44336'),
-    2: QColor('#9C27B0'),
-    3: QColor('#3F51B5'),
-    4: QColor('#03A9F4'),
-    5: QColor('#00BCD4'),
-    6: QColor('#4CAF50'),
-    7: QColor('#E91E63'),
-    8: QColor('#FF9800')
+    1: QColor(res.etc("mines",'color1')),
+    2: QColor(res.etc("mines",'color2')),
+    3: QColor(res.etc("mines",'color3')),
+    4: QColor(res.etc("mines",'color4')),
+    5: QColor(res.etc("mines",'color5')),
+    6: QColor(res.etc("mines",'color6')),
+    7: QColor(res.etc("mines",'color7')),
+    8: QColor(res.etc("mines",'color8'))
 }
 
 LEVELS = [
@@ -37,12 +37,11 @@ STATUS_FAILED = 2
 STATUS_SUCCESS = 3
 
 STATUS_ICONS = {
-    STATUS_READY: res.get("@icon/plus"),
-    STATUS_PLAYING: res.get("@icon/smiley"),
-    STATUS_FAILED: res.get("@icon/cross"),
-    STATUS_SUCCESS: res.get("@icon/smiley-lol"),
+    STATUS_READY: res.get(res.etc("mines",'plus')),
+    STATUS_PLAYING: res.get(res.etc("mines",'smiley')),
+    STATUS_FAILED: res.get(res.etc("mines",'cross')),
+    STATUS_SUCCESS: res.get(res.etc("mines",'smiley-lol')),
 }
-
 
 class Pos(QWidget):
     expandable = pyqtSignal(int, int)
@@ -146,7 +145,7 @@ class MainApp(QMainWindow):
         self.Widget.Resize(self, 700, 500)
 
         self.Widget.SetWindowTitle(res.get("@string/app_name"))
-        self.Widget.SetWindowIcon (QIcon(res.get('@icon/mines')))
+        self.Widget.SetWindowIcon (QIcon(res.etc("mines",'app_icon')))
         #self.Widget.DisableFloat()
         self.b_size, self.n_mines = LEVELS[1]
 
@@ -175,7 +174,7 @@ class MainApp(QMainWindow):
         self.button = QPushButton()
         self.button.setFixedSize(QSize(32, 32))
         self.button.setIconSize(QSize(32, 32))
-        self.button.setIcon(QIcon(res.get("@icon/smiley")))
+        self.button.setIcon(QIcon(res.get(res.etc("mines",'smiley'))))
         self.button.setFlat(True)
 
         self.button.pressed.connect(self.button_pressed)

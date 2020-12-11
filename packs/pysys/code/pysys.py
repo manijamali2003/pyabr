@@ -36,70 +36,71 @@ class MainApp (QWidget):
         self.AppName = ports[3]
         self.External = ports[4]
 
-        self.Widget.setStyleSheet('background-color:white;')
+        self.Widget.setStyleSheet(f'background-color:{res.etc(self.AppName,"bgcolor")};')
 
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
-        self.Widget.SetWindowIcon(QIcon(res.get('@icon/pysys')))
-        self.Widget.Resize (self,850,400)
+        self.Widget.SetWindowIcon(QIcon(res.get(res.etc(self.AppName,"app_icon"))))
+        self.Widget.Resize (self,int(res.etc(self.AppName,"width")),int(res.etc(self.AppName,"height")))
 
         self.layout = QHBoxLayout()
         self.setLayout(self.layout)
 
         styles = '''
         QToolButton {
-            background-color: #ABCDEF;
-            border-radius: 64% 64%;
+            background-color: {0};
+            border-radius: {2}% {2}%;
         }
         QToolButton:hover {
-            background-color: #123456;
-            border-radius: 64% 64%;
+            background-color: {1};
+            border-radius: {2}% {2}%;
         }
-        '''
+        '''.replace("{0}",res.etc(self.AppName,"btncolor")).replace("{1}",res.etc(self.AppName,"btnhovercolor")).replace("{2}",res.etc(self.AppName,"btnround"))
 
+        btnsize = int(res.etc(self.AppName,"btnsize"))
         self.btnEscape = QToolButton()
-        self.btnEscape.setIconSize(QSize(128,128))
-        self.btnEscape.setIcon(QIcon(res.get('@icon/pysys_escape')))
+        self.btnEscape.setIconSize(QSize(btnsize,btnsize))
+        self.btnEscape.setIcon(QIcon(res.get(res.etc(self.AppName,"escape-icon"))))
         self.btnEscape.setStyleSheet(styles)
-        self.btnEscape.setFixedSize(128,128)
+        self.btnEscape.setFixedSize(btnsize,btnsize)
         self.btnEscape.clicked.connect (self.Env.escape_act)
         self.layout.addWidget(self.btnEscape)
 
         self.btnLock = QToolButton()
-        self.btnLock.setFixedSize(128, 128)
-        self.btnLock.setIconSize(QSize(128,128))
-        self.btnLock.setIcon(QIcon(res.get('@icon/pysys_lock')))
+        self.btnLock.setFixedSize(btnsize, btnsize)
+        self.btnLock.setIconSize(QSize(btnsize,btnsize))
+        self.btnLock.setIcon(QIcon(res.get(res.etc(self.AppName,"lock-icon"))))
         self.btnLock.setStyleSheet(styles)
         self.btnLock.clicked.connect(self.Env.lock_act)
         self.layout.addWidget(self.btnLock)
 
         self.btnLogout = QToolButton()
-        self.btnLogout.setFixedSize(128, 128)
-        self.btnLogout.setIconSize(QSize(128,128))
-        self.btnLogout.setIcon(QIcon(res.get('@icon/pysys_logout')))
+        self.btnLogout.setFixedSize(btnsize, btnsize)
+        self.btnLogout.setIconSize(QSize(btnsize,btnsize))
+        self.btnLogout.setIcon(QIcon(res.get(res.etc(self.AppName,"logout-icon"))))
         self.btnLogout.setStyleSheet(styles)
         self.btnLogout.clicked.connect(self.Env.signout_act)
         self.layout.addWidget(self.btnLogout)
 
         self.btnRestart = QToolButton()
-        self.btnRestart.setFixedSize(128, 128)
-        self.btnRestart.setIconSize(QSize(128,128))
-        self.btnRestart.setIcon(QIcon(res.get('@icon/pysys_restart')))
+        self.btnRestart.setFixedSize(btnsize, btnsize)
+        self.btnRestart.setIconSize(QSize(btnsize,btnsize))
+        self.btnRestart.setIcon(QIcon(res.get(res.etc(self.AppName,"restart-icon"))))
         self.btnRestart.clicked.connect(self.Env.reboot_act)
         self.btnRestart.setStyleSheet(styles)
         self.layout.addWidget(self.btnRestart)
 
         self.btnSuspend = QToolButton()
-        self.btnSuspend.setFixedSize(128, 128)
-        self.btnSuspend.setIconSize(QSize(128,128))
-        self.btnSuspend.setIcon(QIcon(res.get('@icon/pysys_suspend')))
+        self.btnSuspend.setFixedSize(btnsize, btnsize)
+        self.btnSuspend.setIconSize(QSize(btnsize,btnsize))
+        self.btnSuspend.setIcon(QIcon(res.get(res.etc(self.AppName,"suspend-icon"))))
         self.btnSuspend.setStyleSheet(styles)
         self.btnSuspend.clicked.connect(self.Env.sleep_act)
         self.layout.addWidget(self.btnSuspend)
 
         self.btnSwitchuser = QToolButton()
-        self.btnSwitchuser.setFixedSize(128, 128)
-        self.btnSwitchuser.setIconSize(QSize(128,128))
-        self.btnSwitchuser.setIcon(QIcon(res.get('@icon/pysys_switchuser')))
+        self.btnSwitchuser.setFixedSize(btnsize, btnsize)
+        self.btnSwitchuser.setIconSize(QSize(btnsize,btnsize))
+        self.btnSwitchuser.setIcon(QIcon(res.get(res.etc(self.AppName,"switchuser-icon"))))
         self.btnSwitchuser.setStyleSheet(styles)
         self.btnSwitchuser.clicked.connect(self.Env.switchuser_act)
         self.layout.addWidget(self.btnSwitchuser)

@@ -22,10 +22,13 @@ control = Control()
 commands = Commands()
 permissions = Permissions()
 
+f = QtGui.QFont()
+f.setPointSize(int(res.etc("roller","fontsize")))
+
 class FileListView (QtWidgets.QListView):
     def format(self, it, text):
         if files.isdir(self.dir + '/' + text):
-            it.setIcon(QtGui.QIcon(res.get('@icon/folder')))
+            it.setIcon(QtGui.QIcon(res.get(res.etc("roller","folder-icon"))))
         else:
             format = it.whatsThis().split('.')
             format = max(format)
@@ -34,43 +37,45 @@ class FileListView (QtWidgets.QListView):
                 if not logo == None:
                     it.setIcon(QtGui.QIcon(res.get(logo)))
                 else:
-                    it.setIcon(QtGui.QIcon(res.get('@icon/gtk-file')))
+                    it.setIcon(QtGui.QIcon(res.get(res.etc("roller",'file-icon'))))
             else:
-                it.setIcon(QtGui.QIcon(res.get('@icon/gtk-file')))
+                it.setIcon(QtGui.QIcon(res.get(res.etc("roller",'file-icon'))))
 
 
     def mkdir (self,dirname):
         it = QtGui.QStandardItem(dirname)
         it.setWhatsThis(self.dir + "/" + dirname)
-        it.setIcon(QtGui.QIcon(res.get('@icon/folder')))
+        it.setIcon(QtGui.QIcon(res.get(res.etc("roller",'folder-icon'))))
         self.entry.appendRow(it)
-
         commands.mkdir([dirname])
+        it.setFont(f)
 
     def mkfile (self,filename):
         it = QtGui.QStandardItem(filename)
         it.setWhatsThis(self.dir + "/" + filename)
-        it.setIcon(QtGui.QIcon(res.get('@icon/gtk-file')))
+        it.setIcon(QtGui.QIcon(res.get(res.get('file-icon'))))
         self.entry.appendRow(it)
         self.format(it, filename)
         commands.cat (['-c',filename])
+        it.setFont(f)
 
     def __init__(self,ports):
         super().__init__()
         self.Env = ports[0]
         self.entry = QtGui.QStandardItemModel()
         self.parentdir = QtGui.QStandardItem()
-        self.parentdir.setIcon(QtGui.QIcon(res.get('@icon/folder')))
+        self.parentdir.setIcon(QtGui.QIcon(res.get(res.etc("roller",'folder-icon'))))
         self.entry.appendRow(self.parentdir)
         self.setModel(self.entry)
-        self.setIconSize(QtCore.QSize(64,64))
+        iconsize = int(res.etc("roller","icon-size"))
+        self.setIconSize(QtCore.QSize(iconsize,iconsize))
 
 
         self.clicked[QtCore.QModelIndex].connect(self.on_clicked)
         # When you receive the signal, you call QtGui.QStandardItemModel.itemFromIndex()
         # on the given model index to get a pointer to the item
 
-        self.setStyleSheet('background:white;')
+        self.setStyleSheet(f'background:{res.etc("roller","bgcolor")};')
 
         self.dir = files.readall('/proc/info/pwd')
         files.write('/proc/info/dsel', self.dir)
@@ -83,8 +88,6 @@ class FileListView (QtWidgets.QListView):
                 it.setWhatsThis(self.dir + "/" + text)
                 self.format(it, text)
                 self.entry.appendRow(it)
-                f = QtGui.QFont()
-                f.setPointSize(12)
                 it.setFont(f)
 
         for text in self.listdir:
@@ -93,8 +96,6 @@ class FileListView (QtWidgets.QListView):
                 it.setWhatsThis(self.dir + "/" + text)
                 self.format(it, text)
                 self.entry.appendRow(it)
-                f = QtGui.QFont()
-                f.setPointSize(12)
                 it.setFont(f)
 
         self.itemOld = QtGui.QStandardItem("text")
@@ -120,7 +121,7 @@ class FileListView (QtWidgets.QListView):
                 self.setIconSize(QtCore.QSize(64, 64))
                 self.clicked[QtCore.QModelIndex].connect(self.on_clicked)
                 self.parentdir = QtGui.QStandardItem()
-                self.parentdir.setIcon(QtGui.QIcon(res.get('@icon/folder')))
+                self.parentdir.setIcon(QtGui.QIcon(res.get(res.etc("roller","folder-icon"))))
                 self.parentdir.setWhatsThis('<parent>')
                 self.entry.appendRow(self.parentdir)
 
@@ -130,8 +131,6 @@ class FileListView (QtWidgets.QListView):
                         it.setWhatsThis(self.dir + "/" + text)
                         self.format(it, text)
                         self.entry.appendRow(it)
-                        f = QtGui.QFont()
-                        f.setPointSize(12)
                         it.setFont(f)
 
                 for text in self.listdir:
@@ -140,8 +139,6 @@ class FileListView (QtWidgets.QListView):
                         it.setWhatsThis(self.dir + "/" + text)
                         self.format(it, text)
                         self.entry.appendRow(it)
-                        f = QtGui.QFont()
-                        f.setPointSize(12)
                         it.setFont(f)
 
             elif files.isdir(self.item.whatsThis()):
@@ -156,7 +153,7 @@ class FileListView (QtWidgets.QListView):
                 self.setIconSize(QtCore.QSize(64, 64))
                 self.clicked[QtCore.QModelIndex].connect(self.on_clicked)
                 self.parentdir = QtGui.QStandardItem()
-                self.parentdir.setIcon(QtGui.QIcon(res.get('@icon/folder')))
+                self.parentdir.setIcon(QtGui.QIcon(res.get(res.etc("roller","folder-icon"))))
                 self.parentdir.setWhatsThis('<parent>')
                 self.entry.appendRow(self.parentdir)
 
@@ -166,8 +163,6 @@ class FileListView (QtWidgets.QListView):
                         it.setWhatsThis(self.dir + "/" + text)
                         self.format(it, text)
                         self.entry.appendRow(it)
-                        f = QtGui.QFont()
-                        f.setPointSize(12)
                         it.setFont(f)
                 for text in self.listdir:
                     if files.isfile(self.dir+"/"+text):
@@ -175,8 +170,6 @@ class FileListView (QtWidgets.QListView):
                         it.setWhatsThis(self.dir + "/" + text)
                         self.format(it, text)
                         self.entry.appendRow(it)
-                        f = QtGui.QFont()
-                        f.setPointSize(12)
                         it.setFont(f)
 
             elif files.isfile (self.item.whatsThis()):
@@ -185,7 +178,7 @@ class FileListView (QtWidgets.QListView):
 class MainApp (QtWidgets.QMainWindow):
     def format (self,it,text):
         if os.path.isdir(self.dir + '/' + text):
-            it.setIcon(QtGui.QIcon(res.get('@icon/folder')))
+            it.setIcon(QtGui.QIcon(res.get(res.etc("roller","folder-icon"))))
         else:
             format = it.whatsThis().split('.')
             format = max(format)
@@ -194,9 +187,9 @@ class MainApp (QtWidgets.QMainWindow):
                 if not logo==None:
                     it.setIcon(QtGui.QIcon(res.get(logo)))
                 else:
-                    it.setIcon(QtGui.QIcon(res.get('@icon/gtk-file')))
+                    it.setIcon(QtGui.QIcon(res.get(res.etc("roller","file-icon"))))
             else:
-                it.setIcon(QtGui.QIcon(res.get('@icon/gtk-file')))
+                it.setIcon(QtGui.QIcon(res.get(res.etc("roller","file-icon"))))
 
     def __init__(self,args):
         super().__init__()
@@ -224,22 +217,22 @@ class MainApp (QtWidgets.QMainWindow):
 
         self.new_file = self.file.addAction(res.get('@string/newfile'))
         self.new_file.triggered.connect(self.New_File)
-        self.new_file.setIcon(QIcon(res.get('@icon/gtk-file')))
+        self.new_file.setIcon(QIcon(res.get(res.etc("roller","file-icon"))))
 
         self.new_folder = self.file.addAction(res.get('@string/newfolder'))
         self.new_folder.triggered.connect(self.New_Folder)
-        self.new_folder.setIcon(QIcon(res.get('@icon/folder')))
+        self.new_folder.setIcon(QIcon(res.get(res.etc("roller","folder-icon"))))
 
         self.exit = self.file.addAction(res.get('@string/exit'))
         self.exit.triggered.connect(self.Widget.Close)
-        self.exit.setIcon(QIcon(res.get('@icon/system-shutdown')))
+        self.exit.setIcon(QIcon(res.get(res.etc("roller","exit-icon"))))
 
         ## end File menu
 
         ## end Menubar
 
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
-        self.Widget.SetWindowIcon (QtGui.QIcon(res.get('@icon/roller')))
+        self.Widget.SetWindowIcon (QtGui.QIcon(res.get(res.etc(self.AppName,"app_icon"))))
         self.Widget.Resize (self,1000,600)
 
         self.setCentralWidget(self.x)

@@ -20,7 +20,7 @@ app = App()
 
 class MainApp(QLineEdit):
     def correct (self):
-        self.setStyleSheet('background-color: white;color: black;')
+        self.setStyleSheet(f'background-color: {res.etc(self.AppName,"bgcolor")};color: {res.etc(self.AppName,"fgcolor")};')
         app.switch('runapp')
         self.Widget.SetWindowTitle(res.get('@string/app_name'))
         self.setEnabled(True)
@@ -34,7 +34,7 @@ class MainApp(QLineEdit):
             QTimer.singleShot(1000, self.correct)
         else:
             self.Widget.SetWindowTitle(res.get('@string/app_not_found').replace('{0}',self.text()))
-            self.setStyleSheet('background-color: red;color: white;')
+            self.setStyleSheet(f'background-color: {res.etc(self.AppName,"wrong-bgcolor")};color: {res.etc(self.AppName,"wrong-fgcolor")};')
             self.setEnabled(False)
             QTimer.singleShot(1000, self.correct)
 
@@ -49,11 +49,11 @@ class MainApp(QLineEdit):
 
         ## Widget configs ##
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
-        self.Widget.SetWindowIcon(QIcon(res.get('@icon/runner')))
-        self.setStyleSheet('background-color:white;color: black;')
+        self.Widget.SetWindowIcon(QIcon(res.get(res.etc(self.AppName,"app_icon"))))
+        self.setStyleSheet(f'background-color: {res.etc(self.AppName,"bgcolor")};color: {res.etc(self.AppName,"fgcolor")};')
         self.Widget.Resize (self,600,40)
         self.returnPressed.connect(self.RunApp)  # https://pythonbasics.org/pyqt/ learn it
 
         f = QFont()
-        f.setPointSize(12)
+        f.setPointSize(int(res.etc(self.AppName,"fontsize")))
         self.setFont(f)

@@ -188,6 +188,12 @@ class Commands:
         else:
             colors.show('tar', 'perm', '')
             sys.exit(0)
+
+    # pwd #
+    def pwd (self,args):
+        files = Files()
+        print (files.readall('/proc/info/pwd'))
+
     # zip #
     def xzip (self, args):
         files = Files()
@@ -2115,6 +2121,12 @@ class Package:
 class Res:
     def __init__(self):
         pass
+    # get app data #
+    def etc (self,app,name):
+        control = Control()
+        files = Files()
+        return control.read_record(name,f"/etc/app/{app}")
+
     # get translated number #
     def num (self,number):
         control = Control()

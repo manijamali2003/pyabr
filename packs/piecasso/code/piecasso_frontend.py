@@ -715,7 +715,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Piecasso"))
-        self.menuFIle.setTitle(_translate("MainWindow", "FIle"))
+        self.menuFIle.setTitle(_translate("MainWindow", "File"))
         self.menuEdit.setTitle(_translate("MainWindow", "Edit"))
         self.menuImage.setTitle(_translate("MainWindow", "Image"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
