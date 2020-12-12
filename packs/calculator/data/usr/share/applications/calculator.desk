@@ -4,3 +4,6 @@ name[ar]: آلة حاسبة
 logo: @icon/calculator
 exec: calculator
 shortcut: Ctrl+Q
+width: 480
+height: 480
+bgcolor: white

@@ -142,10 +142,10 @@ class MainApp(QMainWindow):
         self.AppName = ports[3]
         self.External = ports[4]
 
-        self.Widget.Resize(self, 700, 500)
+        self.Widget.Resize(self, int(res.etc("mines",'width')), int(res.etc("mines",'height')))
 
         self.Widget.SetWindowTitle(res.get("@string/app_name"))
-        self.Widget.SetWindowIcon (QIcon(res.etc("mines",'app_icon')))
+        self.Widget.SetWindowIcon (QIcon(res.get(res.etc("mines",'logo'))))
         #self.Widget.DisableFloat()
         self.b_size, self.n_mines = LEVELS[1]
 

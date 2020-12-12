@@ -37,13 +37,13 @@ class MainApp(QtWidgets.QMainWindow):
         self.AppName = ports[3]
         self.External = ports[4]
 
-        self.Widget.Resize(self,700, 500)
+        self.Widget.Resize(self,int(res.etc(self.AppName,"width")), int(res.etc(self.AppName,"height")))
 
         self.Widget.SetWindowTitle(res.get("@string/app_name"))
         self.Widget.DisableFloat()
 
         ## Set Icon ##
-        self.Widget.SetWindowIcon(QIcon(res.get('@icon/commento')))
+        self.Widget.SetWindowIcon(QIcon(res.get(res.etc(self.AppName,"logo"))))
 
         self.switch = process.processor()  # Switch the process
         process.check(self.switch)  # Check the switched process
@@ -55,11 +55,11 @@ class MainApp(QtWidgets.QMainWindow):
         self.select = files.readall("/proc/info/sel")
 
         self.textBrowser = QTextBrowser()
-        self.textBrowser.setStyleSheet(f'background-color:{control.read_record("bgcolor","/etc/app/commento")};color:{control.read_record("fgcolor","/etc/app/commento")};')
+        self.textBrowser.setStyleSheet(f'background-color:{res.etc(self.AppName,"bgcolor")};color:{res.etc(self.AppName,"fgcolor")};')
         self.textBrowser.setGeometry(0,0,self.width(),self.height()-40)
         f = QFont()
         f.setFamily('DejaVu Sans Mono')
-        f.setPointSize(11)
+        f.setPointSize(int(res.etc(self.AppName,"fontsize")))
         self.textBrowser.setFont(f)
         self.layout().addWidget(self.textBrowser)
         self.lineEdit = QLineEdit()
@@ -180,7 +180,7 @@ class MainApp(QtWidgets.QMainWindow):
             pass
         else:
             result = subprocess.check_output('"{0}" '.replace('{0}',sys.executable)+files.readall('/proc/info/boot')+' exec '+cmd,shell=True)
-            self.textBrowser.setText(self.textBrowser.toPlainText() + ""+ space_username + space1 + space_hostname + space2 + prompt_symbol + cmd +"\n\n"+ result.decode("utf-8")+'\n')
+            self.textBrowser.setText(self.textBrowser.toPlainText() + ""+prompt_symbol + cmd +"\n\n"+ result.decode("utf-8")+'\n')
             self.Widget.SetWindowTitle(space_username + space1 + space_hostname + space2 )
             self.textBrowser.verticalScrollBar().setValue(self.textBrowser.verticalScrollBar().maximum())
 

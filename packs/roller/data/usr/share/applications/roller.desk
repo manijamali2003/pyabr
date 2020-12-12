@@ -4,3 +4,11 @@ name[ar]: الملفات
 logo: @icon/roller
 exec: roller
 shortcut: Ctrl+F
+folder-icon: @icon/folder
+file-icon: @icon/gtk-file
+exit-icon: @icon/system-shutdown
+icon-size: 64
+bgcolor: white
+fontsize: 12
+width: 1000
+height: 600

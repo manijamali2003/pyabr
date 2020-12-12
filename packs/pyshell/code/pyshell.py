@@ -27,9 +27,9 @@ class MainApp(PythonConsole):
         self.External = args[4]
 
         #self.Widget.Resize (700,500)
-        self.Widget.Resize (self,700,500)
+        self.Widget.Resize (self,int(res.etc(self.AppName,"width")),int(res.etc(self.AppName,"height")))
         self.Widget.SetWindowTitle (res.get("@string/app_name"))
-        self.Widget.SetWindowIcon (QIcon(res.get(res.etc(self.AppName,'app_icon'))))
+        self.Widget.SetWindowIcon (QIcon(res.get(res.etc(self.AppName,'logo'))))
         self.setStyleSheet(f'background-color:{res.etc(self.AppName,"bgcolor")};')
 
         self.eval_in_thread()

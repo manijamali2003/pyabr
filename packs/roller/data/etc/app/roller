@@ -1,7 +1,0 @@
-folder-icon: @icon/folder
-file-icon: @icon/gtk-file
-exit-icon: @icon/system-shutdown
-icon-size: 64
-bgcolor: white
-fontsize: 12
-app_icon: @icon/roller

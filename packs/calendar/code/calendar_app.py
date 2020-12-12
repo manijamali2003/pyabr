@@ -32,10 +32,10 @@ class MainApp (QMainWindow):
         self.AppName = args[3]
         self.External = args[4]
 
-        self.Widget.Resize(self,500,400)
+        self.Widget.Resize(self,int(res.etc(self.AppName,"width")),int(res.etc(self.AppName,"height")))
 
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
-        self.Widget.SetWindowIcon (QIcon(res.get('@icon/calendar')))
+        self.Widget.SetWindowIcon (QIcon(res.get(res.etc(self.AppName,"logo"))))
 
         ## Data base ##
         sweek = files.readall("/proc/info/sweek")

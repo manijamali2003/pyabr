@@ -26,9 +26,9 @@ class MainApp(QtWidgets.QMainWindow):
         self.External = args[4]
 
         # resize
-        self.Widget.Resize (self,700,500)
+        self.Widget.Resize (self,int(res.etc(self.AppName,"width")),int(res.etc(self.AppName,"height")))
         self.Widget.SetWindowTitle(res.get('@string/app_name'))
-        self.Widget.SetWindowIcon (QtGui.QIcon(res.get(res.etc(self.AppName,'app_icon'))))
+        self.Widget.SetWindowIcon (QtGui.QIcon(res.get(res.etc(self.AppName,'logo'))))
 
         self.setCentralWidget(MainWindow(args))
 

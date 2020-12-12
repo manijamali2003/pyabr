@@ -92,6 +92,7 @@ class MainApp(QtWidgets.QMainWindow):
 
         # set font size
         f = QtGui.QFont()
+        f.setFamily('DejaVu Sans Mono')
         f.setPointSize(12)
         self.teEdit.setFont(f)
 

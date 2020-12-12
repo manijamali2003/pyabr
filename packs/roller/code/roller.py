@@ -26,6 +26,7 @@ f = QtGui.QFont()
 f.setPointSize(int(res.etc("roller","fontsize")))
 
 class FileListView (QtWidgets.QListView):
+    AppName = "roller"
     def format(self, it, text):
         if files.isdir(self.dir + '/' + text):
             it.setIcon(QtGui.QIcon(res.get(res.etc("roller","folder-icon"))))
@@ -118,7 +119,7 @@ class FileListView (QtWidgets.QListView):
 
                 self.entry = QtGui.QStandardItemModel()
                 self.setModel(self.entry)
-                self.setIconSize(QtCore.QSize(64, 64))
+                self.setIconSize(QtCore.QSize(int(res.etc(self.AppName,"icon-size")), int(res.etc(self.AppName,"icon-size"))))
                 self.clicked[QtCore.QModelIndex].connect(self.on_clicked)
                 self.parentdir = QtGui.QStandardItem()
                 self.parentdir.setIcon(QtGui.QIcon(res.get(res.etc("roller","folder-icon"))))
@@ -150,7 +151,7 @@ class FileListView (QtWidgets.QListView):
 
                 self.entry = QtGui.QStandardItemModel()
                 self.setModel(self.entry)
-                self.setIconSize(QtCore.QSize(64, 64))
+                self.setIconSize(QtCore.QSize(int(res.etc(self.AppName,"icon-size")), int(res.etc(self.AppName,"icon-size"))))
                 self.clicked[QtCore.QModelIndex].connect(self.on_clicked)
                 self.parentdir = QtGui.QStandardItem()
                 self.parentdir.setIcon(QtGui.QIcon(res.get(res.etc("roller","folder-icon"))))
@@ -232,8 +233,8 @@ class MainApp (QtWidgets.QMainWindow):
         ## end Menubar
 
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
-        self.Widget.SetWindowIcon (QtGui.QIcon(res.get(res.etc(self.AppName,"app_icon"))))
-        self.Widget.Resize (self,1000,600)
+        self.Widget.SetWindowIcon (QtGui.QIcon(res.get(res.etc(self.AppName,"logo"))))
+        self.Widget.Resize (self,int(res.etc(self.AppName,"width")),int(res.etc(self.AppName,"height")))
 
         self.setCentralWidget(self.x)
 

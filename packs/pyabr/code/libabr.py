@@ -95,8 +95,12 @@ class Script:
                     (cmd.startswith("\'\'\'") and cmd.endswith("\'\'\'")) or
                     cmd.startswith(";")
             ):
-                continue
+                pass
+            elif hasattr(Commands,cmdln[0]):
+                cmd = Commands()
+                getattr(cmd,cmdln[0])(cmdln[1:])
             else:
+
                 System(cmd)
 
 # commands #
@@ -498,8 +502,6 @@ class Commands:
             type = 'python'
         elif filename.endswith ('.java'):
             type = 'java'
-        elif filename.endswith ('.sa'):
-            type = 'saye'
 
         # compile types #
         if type=='python':
@@ -547,31 +549,12 @@ class Commands:
                 "{dest}", files.input(output)).split (" ")
 
             subprocess.call(strv)
-
-
         elif type=='java':
             if not permissions.check(files.output(filename.replace('.java','.class')), "w", files.readall("/proc/info/su")):
                 colors.show('cc', 'perm', '')
                 sys.exit(0)
-
-
             strv = (control.read_record('class.java', '/etc/compiler').replace("{src}", files.input(filename).replace('.//',''))).split (' ')
             subprocess.call(strv)
-
-        elif type=='saye':
-            if not permissions.check(files.output(filename.replace('.sa','.pyc')), "w", files.readall("/proc/info/su")):
-                colors.show('cc', 'perm', '')
-                sys.exit(0)
-
-            files.write(files.output(filename.replace('.sa','.py')),'from libabr import System\n')
-
-            listc = control.read_list(files.output(filename))
-            for i in listc:
-                files.append(filename.replace('.sa','.py'),f"System ('{i}');\n")
-
-            py_compile.compile(files.input(filename.replace('.sa','.py')),files.input(filename.replace('.sa','.pyc')))
-
-            files.remove (filename.replace('.sa','.py'))
         else:
             colors.show('cc','fail','not supported programing language.')
 
@@ -2124,8 +2107,7 @@ class Res:
     # get app data #
     def etc (self,app,name):
         control = Control()
-        files = Files()
-        return control.read_record(name,f"/etc/app/{app}")
+        return control.read_record(name,f"/usr/share/applications/{app}.desk")
 
     # get translated number #
     def num (self,number):

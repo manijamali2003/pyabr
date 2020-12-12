@@ -39,7 +39,7 @@ class MainApp (QWidget):
         self.Widget.setStyleSheet(f'background-color:{res.etc(self.AppName,"bgcolor")};')
 
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
-        self.Widget.SetWindowIcon(QIcon(res.get(res.etc(self.AppName,"app_icon"))))
+        self.Widget.SetWindowIcon(QIcon(res.get(res.etc(self.AppName,"logo"))))
         self.Widget.Resize (self,int(res.etc(self.AppName,"width")),int(res.etc(self.AppName,"height")))
 
         self.layout = QHBoxLayout()

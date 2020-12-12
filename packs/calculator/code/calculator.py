@@ -203,7 +203,7 @@ class Calc(QWidget):
         self.setLayout(mainLayout)
 
         self.Widget.SetWindowTitle(res.get("@string/app_name"))
-        self.Widget.SetWindowIcon (QIcon(res.get('@icon/calculator')))
+        self.Widget.SetWindowIcon (QIcon(res.get(res.etc(self.AppName,"logo"))))
 
     def digitClicked(self):
         clickedButton = self.sender()
@@ -405,8 +405,8 @@ class MainApp (QMainWindow):
         self.AppName = ports[3]
         self.External = ports[4]
 
-        self.setStyleSheet('background-color:white;')
-        self.Widget.Resize(self,420,400)
+        self.setStyleSheet(f'background-color:{res.etc(self.AppName,"bgcolor")};')
+        self.Widget.Resize(self,int(res.etc(self.AppName,"width")),int(res.etc(self.AppName,"height")))
         self.calc = Calc(ports)
         self.setCentralWidget(self.calc)
 
