@@ -64,44 +64,51 @@ class Script:
         for cmd in cmdall:
             k = k + 1
             ## Create cmdln with variables ##
+
             cmdln = cmd.split(" ")
 
-            strcmdln = ""
+            if files.readall('/proc/info/sap')=='':
 
-            for i in cmdln:
-                if str(i).startswith("$"):
-                    select = files.readall("/proc/info/sel")
-                    var = control.read_record(str(i).replace("$", ""), select)
-                    if var == None:
-                        strcmdln = strcmdln + " " + i
+                strcmdln = ""
+
+                for i in cmdln:
+                    if str(i).startswith("$"):
+                        select = files.readall("/proc/info/sel")
+                        var = control.read_record(str(i).replace("$", ""), select)
+                        if var == None:
+                            strcmdln = strcmdln + " " + i
+                        else:
+                            strcmdln = strcmdln + " " + var
                     else:
-                        strcmdln = strcmdln + " " + var
+                        strcmdln = strcmdln + " " + i
+
+                cmdln = strcmdln.split(" ")
+                cmdln.remove('')
+
+                cmd = ""
+                for j in cmdln:
+                    cmd = cmd + " " + j
+
+                if (cmdln == [] or
+                        cmdln[0] == "" or
+                        cmdln[0] == " " or
+                        cmd.startswith("#") or
+                        cmd.startswith("//") or
+                        (cmd.startswith("/*") and cmd.endswith("*/")) or
+                        (cmd.startswith("\'\'\'") and cmd.endswith("\'\'\'")) or
+                        cmd.startswith(";")
+                ):
+                    pass
+                elif hasattr(Commands, cmdln[0]):
+                    cmd = Commands()
+                    getattr(cmd, cmdln[0])(cmdln[1:])
                 else:
-                    strcmdln = strcmdln + " " + i
-
-            cmdln = strcmdln.split(" ")
-            cmdln.remove('')
-
-            cmd = ""
-            for j in cmdln:
-                cmd = cmd + " " + j
-
-            if (cmdln == [] or
-                    cmdln[0] == "" or
-                    cmdln[0] == " " or
-                    cmd.startswith("#") or
-                    cmd.startswith("//") or
-                    (cmd.startswith("/*") and cmd.endswith("*/")) or
-                    (cmd.startswith("\'\'\'") and cmd.endswith("\'\'\'")) or
-                    cmd.startswith(";")
-            ):
-                pass
-            elif hasattr(Commands,cmdln[0]):
-                cmd = Commands()
-                getattr(cmd,cmdln[0])(cmdln[1:])
+                    System(cmd)
             else:
-
-                System(cmd)
+                if cmd.startswith ('    '):
+                    files.append("/proc/space/"+files.readall('/proc/info/sap')+".sa",cmd.replace('    ','')+"\n")
+                else:
+                    files.write ('/proc/info/sap','')
 
 # commands #
 class Commands:
@@ -122,6 +129,55 @@ class Commands:
                     colors.show("unset", "perm", "")
             else:
                 control.remove_record(name, select)
+
+    def space (self,args):
+        files = Files()
+        control = Control()
+        permissions = Permissions()
+        colors = Colors()
+
+        if args==[]:
+            colors.show ("space",'fail','no inputs.')
+            sys.exit(0)
+
+        if not args[0].endswith (":"):
+            colors.show("space", 'fail', 'wrong syntax.')
+            sys.exit(0)
+
+        space_name = args[0].replace(":","")
+
+        ## save as space process
+
+        files.write('/proc/info/sap',space_name)
+
+        if files.isfile ('/proc/space/'+space_name+".sa"):
+            colors.show("space", 'fail', f"{space_name}: space already in use.")
+            sys.exit(0)
+        else:
+            files.create('/proc/space/'+space_name+".sa")
+
+
+    def esc (self,args):
+        files = Files()
+
+        for i in files.list('/proc/space/'):
+            files.remove ('/proc/space/'+i)
+
+    def use (self,args):
+        files = Files()
+        colors = Colors()
+
+        if args == []:
+            colors.show("use", 'fail', 'no inputs.')
+            sys.exit(0)
+
+        space_name = args[0]
+
+        if files.isfile ('/proc/space/'+space_name+".sa"):
+            Script('/proc/space/'+space_name)
+        else:
+            colors.show("use", 'fail', f"{space_name}: space not exists.")
+            sys.exit(0)
 
     # zip #
     def zip (self, args):
@@ -2379,6 +2435,7 @@ class Process:
             list = files.list("/proc")
             list.remove('id')
             list.remove('info')
+            list.remove('space')
 
             for i in list:
                 if files.isfile("/proc/" + i):
@@ -2428,6 +2485,7 @@ class Process:
         list = files.list("/proc")
         list.remove("id")
         list.remove("info")
+        list.remove("space")
         for i in list:
             files.remove("/proc/" + str(i))
 # permissions #

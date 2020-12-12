@@ -14,6 +14,7 @@ Standard commands in internal Pyabr library ('/usr/app/libabr.pyc'):
     cp         Copy files or directories
     date       Show time and date
     echo       Output a message
+    esc        Erase all backend spaces
     getv       Get all information in controller
     gunzip     Extract gzip with tarball archive
     help       Help commands
@@ -32,6 +33,7 @@ Standard commands in internal Pyabr library ('/usr/app/libabr.pyc'):
     shut       Shutdown a switched process
     shutdown   Shutdown the clouding system
     sleep      Sleep in console
+    space      Define a backend space
     su         Switch an user account
     sudo       Run commands as root user
     tar        Create tarball archive
@@ -43,6 +45,7 @@ Standard commands in internal Pyabr library ('/usr/app/libabr.pyc'):
     unset      Unset a variable in controller
     untar      Extract tarball archive
     unzip      Extract zip archive
+    use        Use and run a backend space
     ver        Show important informations about system
     wget       Download files from the Internet
     xunzip     Extract xzip with tarball archive
