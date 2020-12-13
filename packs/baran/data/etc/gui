@@ -53,7 +53,7 @@ desktop.background: @background/default
 lock.fgcolor: black
 lock.bgcolor: black
 lock.background: @background/default
-lock.clock.shadow: Yes
+lock.clock.shadow: No
 lock.clock.size: 100
 lock.clock.color: white
 lock.clock.location: center
@@ -89,9 +89,9 @@ loginw.unlock.fgcolor: #FFFFFF
 loginw.unlock.fontsize: 12
 loginw.unlock.hide: No
 loginw.unlock.width: 300
-loginw.enter.shadow: Yes
-loginw.unlock.shadow: Yes
-loginw.login.shadow: Yes
+loginw.enter.shadow: No
+loginw.unlock.shadow: No
+loginw.login.shadow: No
 loginw.login.height: 40
 loginw.enter.height: 40
 loginw.unlock.height: 40

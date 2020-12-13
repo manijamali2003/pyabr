@@ -689,24 +689,36 @@ def shell():
                 cmd.startswith(";")
         ):
             continue
+        elif cmd=='ret':
+            files.create('/proc/info/sap')
+        elif cmd=='done':
+            if files.readall('/proc/info/do') == 'started':
+                commands.use(['__do__'])
+                files.write('/proc/info/do', 'ended')
+            else:
+                colors.show('done', 'fail', 'loop has already ended.')
         else:
-            ## Run commands ##
-           # os.system('./'+kernel_file+" exec "+cmd)# Credit learned with https://pymotw.com/2/subprocess/
+            sap = files.readall('/proc/info/sap')
+            do = files.readall('/proc/info/do')
+            if sap=='':
+                if do=='started':
+                    files.append(f'/proc/space/__do__.sa', f'{cmd}\n')
+                else:
+                    ## Prompt ##
+                    prompt = [
+                        sys.executable, kernel_file,
+                        'exec',
+                        cmdln[0]
+                    ]
 
+                    ## Arguments ##
+                    for i in cmdln[1:]:
+                        prompt.append(i)
 
-            ## Prompt ##
-            prompt = [
-                sys.executable,kernel_file,
-                'exec',
-                cmdln[0]
-            ]
-
-            ## Arguments ##
-            for i in cmdln[1:]:
-                prompt.append(i)
-
-            ## Call the kernel ##
-            sub.call (prompt)
+                    ## Call the kernel ##
+                    sub.call(prompt)
+            else:
+                files.append(f'/proc/space/{sap}.sa',f'{cmd}\n')
 ## @core/user ##
 
 if argv[0]=="user":

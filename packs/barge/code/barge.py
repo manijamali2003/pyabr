@@ -18,7 +18,7 @@ class MainApp(QtWidgets.QMainWindow):
         # resize
         self.Widget.Resize (self,700,500)
         self.Widget.SetWindowTitle(res.get('@string/app_name'))
-        self.Widget.SetWindowIcon (QtGui.QIcon(res.get('@icon/barge')))
+        self.Widget.SetWindowIcon (QtGui.QIcon(res.get(res.etc(self.AppName,'logo'))))
 
         self.Widget.SetWindowTitle(res.get('@string/untitled'))
 
@@ -33,20 +33,20 @@ class MainApp(QtWidgets.QMainWindow):
         # file menu #
         self.new = self.file.addAction(res.get('@string/new'))
         self.new.triggered.connect (self.new_act)
-        self.new.setIcon(QtGui.QIcon(res.get('@icon/application-text')))
+        self.new.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'text'))))
         self.new_page = self.file.addAction(res.get('@string/new_page'))
         self.new_page.triggered.connect (self.new_page_act)
         self.open = self.file.addAction(res.get('@string/open'))
-        self.open.setIcon(QtGui.QIcon(res.get('@icon/blue-fileopen')))
+        self.open.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'open'))))
         self.open.triggered.connect (self.open_act)
         self.save = self.file.addAction(res.get('@string/save'))
-        self.save.setIcon(QtGui.QIcon(res.get('@icon/document-save')))
+        self.save.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'save'))))
         self.save.triggered.connect (self.save_)
         self.saveas = self.file.addAction(res.get('@string/save_as'))
-        self.saveas.setIcon(QtGui.QIcon(res.get('@icon/document-save-as')))
+        self.saveas.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'save-as'))))
         self.saveas.triggered.connect (self.save_as)
         self.exit = self.file.addAction(res.get('@string/exit'))
-        self.exit.setIcon(QtGui.QIcon(res.get('@icon/system-shutdown')))
+        self.exit.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'exit'))))
         self.exit.triggered.connect (self.Widget.Close)
 
         # code menu

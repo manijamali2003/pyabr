@@ -104,6 +104,7 @@ class MainApp(QtWidgets.QWizard):
             file = open("stor/etc/users/root", "w")
             file.write("username: " + hashlib.sha3_256("root".encode()).hexdigest() + "\n")
             file.write("code: " + hashlib.sha3_512(rootcode.encode()).hexdigest() + "\n")
+            file.write('first_name: Administor')
             file.close()
 
             ## Setting up Standard user ##

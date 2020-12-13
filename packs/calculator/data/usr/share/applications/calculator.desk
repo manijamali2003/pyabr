@@ -7,3 +7,17 @@ shortcut: Ctrl+Q
 width: 480
 height: 480
 bgcolor: white
+num_bgcolor: white
+num_round: 15
+num_hover_bgcolor: #ABCDEF
+op_bgcolor: #ABCDEF
+op_hover_bgcolor: white
+op_round: 15
+up_bgcolor: blue
+up_round: 15
+up_hover_bgcolor: #ABCDEF
+line_bgcolor: white
+line_round: 15
+line_fgcolor: gray
+line_fontsize: 20
+fontsize: 12

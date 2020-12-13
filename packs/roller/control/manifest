@@ -2,7 +2,7 @@ name: roller
 copyright: (c) 2020 Mani Jamali
 license: GNU General Public License v3.0
 unpack: /
-build: 1399-09-03
-version: 0.0.4
+build: 1399-09-22
+version: 0.0.5
 description: Roller File Manager
 compile: Yes

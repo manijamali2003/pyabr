@@ -40,10 +40,10 @@ class Button(QToolButton):
                    border-width: 1%;
                    color: white;
            }
-           '''
+           '''.replace('white',res.etc('calculator','num_bgcolor')).replace('15',res.etc('calculator','num_round')).replace('#ABCDEF',res.etc('calculator','num_hover_bgcolor'))
         self.setStyleSheet(style_numbtn)
         f = QFont()
-        f.setPointSize(12)
+        f.setPointSize(int(res.etc('calculator','fontsize')))
         self.setFont(f)
         self.setText(text)
 
@@ -71,9 +71,7 @@ class Calc(QWidget):
             border-style: solid;
              border-width: 1%;
         }
-    '''
-
-
+    '''.replace('#ABCDEF',res.etc('calculator','op_bgcolor')).replace('15',res.etc('calculator','op_round')).replace('white',res.etc('calculator','op_hover_bgcolor'))
 
     style_upbtn = '''
     QToolButton {
@@ -86,7 +84,7 @@ class Calc(QWidget):
             color: white;
             border-radius: 15% 15%;
         }
-    '''
+    '''.replace('blue',res.etc('calculator','up_bgcolor')).replace('15',res.etc('calculator','up_round')).replace('#ABCDEF',res.etc('calculator','up_hover_bgcolor'))
 
     def __init__(self,args):
         super(Calc, self).__init__()
@@ -110,13 +108,13 @@ class Calc(QWidget):
             color: gray;
             border-radius: 15% 15%;
         }
-        ''')
+        '''.replace('white',res.etc('calculator','line_bgcolor')).replace('15',res.etc('calculator','line_round')).replace('gray',res.etc('calculator','line_fgcolor')))
         self.display.setReadOnly(True)
         self.display.setAlignment(Qt.AlignRight)
         self.display.setMaxLength(15)
 
         font = self.display.font()
-        font.setPointSize(20)
+        font.setPointSize(int(res.etc('calculator','line_fontsize')))
         self.display.setFont(font)
 
         self.digitButtons = []
@@ -203,7 +201,7 @@ class Calc(QWidget):
         self.setLayout(mainLayout)
 
         self.Widget.SetWindowTitle(res.get("@string/app_name"))
-        self.Widget.SetWindowIcon (QIcon(res.get(res.etc(self.AppName,"logo"))))
+        self.Widget.SetWindowIcon (QIcon(res.get(res.etc('calculator',"logo"))))
 
     def digitClicked(self):
         clickedButton = self.sender()
@@ -404,10 +402,7 @@ class MainApp (QMainWindow):
         self.Widget = ports[2]
         self.AppName = ports[3]
         self.External = ports[4]
-
-        self.setStyleSheet(f'background-color:{res.etc(self.AppName,"bgcolor")};')
-        self.Widget.Resize(self,int(res.etc(self.AppName,"width")),int(res.etc(self.AppName,"height")))
         self.calc = Calc(ports)
+        self.setStyleSheet(f'background-color:{res.etc(self.AppName,"bgcolor")};')
         self.setCentralWidget(self.calc)
-
-        self.Widget.DisableFloat()
+        self.Widget.Resize(self,380,360)

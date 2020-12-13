@@ -67,6 +67,9 @@ class Script:
 
             cmdln = cmd.split(" ")
 
+            if cmdln[0] == 'ret':
+                files.create('/proc/info/sap')
+
             if files.readall('/proc/info/sap')=='':
 
                 strcmdln = ""
@@ -89,32 +92,24 @@ class Script:
                 for j in cmdln:
                     cmd = cmd + " " + j
 
-                if (cmdln == [] or
-                        cmdln[0] == "" or
-                        cmdln[0] == " " or
-                        cmd.startswith("#") or
-                        cmd.startswith("//") or
-                        (cmd.startswith("/*") and cmd.endswith("*/")) or
-                        (cmd.startswith("\'\'\'") and cmd.endswith("\'\'\'")) or
-                        cmd.startswith(";")
-                ):
-                    pass
+                if cmdln[0]=='#!saye':
+                    for i in files.list('/proc/space/'):
+                        files.remove('/proc/space/' + i)
+                elif (cmdln == [] or cmdln[0].startswith("#")):
+                    continue
                 elif hasattr(Commands, cmdln[0]):
                     cmd = Commands()
                     getattr(cmd, cmdln[0])(cmdln[1:])
                 else:
                     System(cmd)
             else:
-                if cmd.startswith ('    '):
-                    files.append("/proc/space/"+files.readall('/proc/info/sap')+".sa",cmd.replace('    ','')+"\n")
-                else:
-                    files.write ('/proc/info/sap','')
-
+                files.append("/proc/space/"+files.readall('/proc/info/sap')+".sa",cmd+"\n")
 # commands #
 class Commands:
     def __init__(self):
         pass
 
+    # un set a variable
     def unset(self,args):
         files = Files()
         control = Control()
@@ -130,6 +125,7 @@ class Commands:
             else:
                 control.remove_record(name, select)
 
+    # create a space
     def space (self,args):
         files = Files()
         control = Control()
@@ -156,13 +152,14 @@ class Commands:
         else:
             files.create('/proc/space/'+space_name+".sa")
 
-
-    def esc (self,args):
+    # do something
+    def do (self,args):
         files = Files()
 
-        for i in files.list('/proc/space/'):
-            files.remove ('/proc/space/'+i)
+        files.create('/proc/space/__do__.sa')
+        files.write('/proc/info/do','started')
 
+    # use spaces
     def use (self,args):
         files = Files()
         colors = Colors()
@@ -358,7 +355,6 @@ class Commands:
         else:
             colors.show('bzip', 'perm', '')
             sys.exit(0)
-
 
     def unzip (self,args):
         files = Files()
@@ -723,6 +719,7 @@ class Commands:
         code = control.read_record ("code","/tmp/su.tmp")
 
         if files.isfile("/proc/selected"): files.remove("/proc/selected")
+        files.create('/proc/info/sap')
         if user == "guest":
             subprocess.call([sys.executable,boot, 'user', 'guest'])
         else:
@@ -777,27 +774,6 @@ class Commands:
             files.mkdir("/tmp")
         if files.isfile("/proc/selected"): files.remove("/proc/selected")
         process.endall()
-
-    # ver command #
-    def ver (self,args):
-        colors = Colors()
-        control = Control()
-        files = Files()
-        process = Process()
-
-        bold = colors.color(1, colors.get_bgcolor(), colors.get_fgcolor())
-
-        print("        Static hostname: " + bold + files.readall("/proc/info/host") + colors.get_colors())
-        print("         cloud Software: " + bold + files.readall("/proc/info/cs") + " " + files.readall(
-            "/proc/info/ver") + " (" + files.readall("/proc/info/cd") + ")" + colors.get_colors())
-        print("             Build date: " + bold + files.readall("/proc/info/bl") + colors.get_colors())
-        print("       Operating System: " + bold + files.readall("/proc/info/os") + colors.get_colors())
-        print("                 Kernel: " + bold + files.readall("/proc/info/kname") + " " + files.readall(
-            "/proc/info/kver") + colors.get_colors())
-        print("          Switched User: " + bold + files.readall("/proc/info/su") + colors.get_colors())
-        print("       Switched Process: " + bold + files.readall("/proc/info/sp") + colors.get_colors())
-
-        print("           Architecture: " + bold + files.readall('/proc/info/arch') + colors.get_colors())
 
     # cat command #
     def cat (self,args):
@@ -907,7 +883,7 @@ class Commands:
                 if permissions.check(files.output(name), "w", files.readall("/proc/info/su")):
 
                     ## Set EOF
-                    if cmdln[3] == []:
+                    if cmdln[3:] == []:
                         EOF = 'EOF'
                     else:
                         EOF = cmdln[3]
@@ -2482,6 +2458,7 @@ class Process:
         colors = Colors()
 
         if files.isfile("/proc/info/sp"): files.remove("/proc/info/sp")
+        files.create('/proc/info/sap')
         list = files.list("/proc")
         list.remove("id")
         list.remove("info")

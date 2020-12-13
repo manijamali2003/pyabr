@@ -2,4 +2,3 @@ PyQt5
 requests
 pyqtconsole
 py-cpuinfo
-googlesearch-python
