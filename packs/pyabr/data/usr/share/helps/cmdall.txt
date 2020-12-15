@@ -21,7 +21,6 @@ Standard commands in internal Pyabr library ('/usr/app/libabr.pyc'):
     ls         Show list of files and directories
     mkdir      Make a directory or directories
     mv         Move or rename directories or files
-    mount      Mount a cloud partition
     new        Create a new switch process
     passwd     Change users password
     reboot     Reboot the clouding system
@@ -32,19 +31,16 @@ Standard commands in internal Pyabr library ('/usr/app/libabr.pyc'):
     shut       Shutdown a switched process
     shutdown   Shutdown the clouding system
     sleep      Sleep in console
-    space      Define a backend space
     su         Switch an user account
     sudo       Run commands as root user
     tar        Create tarball archive
     uadd       Create an user account
     udel       Delete an user account
     uinfo      Show informations about an user account
-    umount     Unmount a cloud partition
     unsel      Unselect a controller
     unset      Unset a variable in controller
     untar      Extract tarball archive
     unzip      Extract zip archive
-    use        Use and run a backend space
     ver        Show important informations about system
     wget       Download files from the Internet
     xunzip     Extract xzip with tarball archive

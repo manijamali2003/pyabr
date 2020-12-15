@@ -1,4 +1,0 @@
-
-esc
-
-Job: Erase all backend spaces

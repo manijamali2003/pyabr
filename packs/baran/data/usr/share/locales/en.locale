@@ -96,3 +96,14 @@ roller.filename: Enter your file name
 piecasso.app_name: Piecasso Paint
 about.app_name: About System
 mines.app_name: Mines
+barge.c: C
+barge.c++: C++
+barge.python: Python
+barge.pythongui: Python GUI
+barge.saye: Saye
+barge.java: Java
+barge.html: HTML
+barge.css: CSS
+barge.javascript: Java Script
+barge.csharp: C#
+barge.php: PHP

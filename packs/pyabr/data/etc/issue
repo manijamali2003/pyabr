@@ -9,8 +9,8 @@
 
   Working with packages:
   
-  * Install packages:       paye -i [package]
-  * Remove packages:        paye -r [package]
+  * Install packages:       paye in [package]
+  * Remove packages:        paye rm [package]
 
   Root enviroment:
 

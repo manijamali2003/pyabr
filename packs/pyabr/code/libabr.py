@@ -67,43 +67,33 @@ class Script:
 
             cmdln = cmd.split(" ")
 
-            if cmdln[0] == 'ret':
-                files.create('/proc/info/sap')
+            strcmdln = ""
 
-            if files.readall('/proc/info/sap')=='':
-
-                strcmdln = ""
-
-                for i in cmdln:
-                    if str(i).startswith("$"):
-                        select = files.readall("/proc/info/sel")
-                        var = control.read_record(str(i).replace("$", ""), select)
-                        if var == None:
-                            strcmdln = strcmdln + " " + i
-                        else:
-                            strcmdln = strcmdln + " " + var
-                    else:
+            for i in cmdln:
+                if str(i).startswith("$"):
+                    select = files.readall("/proc/info/sel")
+                    var = control.read_record(str(i).replace("$", ""), select)
+                    if var == None:
                         strcmdln = strcmdln + " " + i
-
-                cmdln = strcmdln.split(" ")
-                cmdln.remove('')
-
-                cmd = ""
-                for j in cmdln:
-                    cmd = cmd + " " + j
-
-                if cmdln[0]=='#!saye':
-                    for i in files.list('/proc/space/'):
-                        files.remove('/proc/space/' + i)
-                elif (cmdln == [] or cmdln[0].startswith("#")):
-                    continue
-                elif hasattr(Commands, cmdln[0]):
-                    cmd = Commands()
-                    getattr(cmd, cmdln[0])(cmdln[1:])
+                    else:
+                        strcmdln = strcmdln + " " + var
                 else:
-                    System(cmd)
+                    strcmdln = strcmdln + " " + i
+
+            cmdln = strcmdln.split(" ")
+            cmdln.remove('')
+
+            cmd = ""
+            for j in cmdln:
+                cmd = cmd + " " + j
+
+            if (cmdln == [] or cmdln[0].startswith("#")):
+                continue
+            elif hasattr(Commands, cmdln[0]):
+                cmd = Commands()
+                getattr(cmd, cmdln[0])(cmdln[1:])
             else:
-                files.append("/proc/space/"+files.readall('/proc/info/sap')+".sa",cmd+"\n")
+                System(cmd)
 # commands #
 class Commands:
     def __init__(self):
@@ -124,58 +114,6 @@ class Commands:
                     colors.show("unset", "perm", "")
             else:
                 control.remove_record(name, select)
-
-    # create a space
-    def space (self,args):
-        files = Files()
-        control = Control()
-        permissions = Permissions()
-        colors = Colors()
-
-        if args==[]:
-            colors.show ("space",'fail','no inputs.')
-            sys.exit(0)
-
-        if not args[0].endswith (":"):
-            colors.show("space", 'fail', 'wrong syntax.')
-            sys.exit(0)
-
-        space_name = args[0].replace(":","")
-
-        ## save as space process
-
-        files.write('/proc/info/sap',space_name)
-
-        if files.isfile ('/proc/space/'+space_name+".sa"):
-            colors.show("space", 'fail', f"{space_name}: space already in use.")
-            sys.exit(0)
-        else:
-            files.create('/proc/space/'+space_name+".sa")
-
-    # do something
-    def do (self,args):
-        files = Files()
-
-        files.create('/proc/space/__do__.sa')
-        files.write('/proc/info/do','started')
-
-    # use spaces
-    def use (self,args):
-        files = Files()
-        colors = Colors()
-
-        if args == []:
-            colors.show("use", 'fail', 'no inputs.')
-            sys.exit(0)
-
-        space_name = args[0]
-
-        if files.isfile ('/proc/space/'+space_name+".sa"):
-            Script('/proc/space/'+space_name)
-        else:
-            colors.show("use", 'fail', f"{space_name}: space not exists.")
-            sys.exit(0)
-
     # zip #
     def zip (self, args):
         files = Files()
@@ -719,7 +657,6 @@ class Commands:
         code = control.read_record ("code","/tmp/su.tmp")
 
         if files.isfile("/proc/selected"): files.remove("/proc/selected")
-        files.create('/proc/info/sap')
         if user == "guest":
             subprocess.call([sys.executable,boot, 'user', 'guest'])
         else:
@@ -2272,6 +2209,12 @@ class Res:
                 else:
                     return None
 
+            elif share.startswith('@temp'):
+                if files.isfile("/usr/share/" + share.replace("@temp", "templates") + "/" + name ):
+                    return "/usr/share/" + share.replace("@temp", "templates") + "/" + name
+                else:
+                    return None
+
             elif share.startswith("@string"):
                 locale = control.read_record("locale", "/etc/gui")
                 id = files.readall("/proc/info/id")
@@ -2411,7 +2354,6 @@ class Process:
             list = files.list("/proc")
             list.remove('id')
             list.remove('info')
-            list.remove('space')
 
             for i in list:
                 if files.isfile("/proc/" + i):
@@ -2458,11 +2400,9 @@ class Process:
         colors = Colors()
 
         if files.isfile("/proc/info/sp"): files.remove("/proc/info/sp")
-        files.create('/proc/info/sap')
         list = files.list("/proc")
         list.remove("id")
         list.remove("info")
-        list.remove("space")
         for i in list:
             files.remove("/proc/" + str(i))
 # permissions #

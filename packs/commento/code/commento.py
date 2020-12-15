@@ -121,11 +121,6 @@ class MainApp(QtWidgets.QMainWindow):
         else:
             space_hostname = ""
 
-        if show_path == "Yes":
-            space_path = files.readall("/proc/info/pwd")
-        else:
-            space_path = ""
-
         if show_hostname == "Yes" and show_username == "Yes":
             space1 = "@"
         else:
@@ -174,13 +169,13 @@ class MainApp(QtWidgets.QMainWindow):
             command = cmd.replace(' @','').split(' ')
             if app.exists(command[0]):
                 self.Env.RunApp(command[0], command[1:])
-        elif cmd.startswith(' #') or cmd.startswith(" ;") or cmd.startswith(" //") or (cmd.startswith(" /*")and cmd.endswith("*/")):
-            pass
-        elif cmd=='' or cmd==' ' or cmd=='  ':
-            pass
+        elif cmd.startswith(' #') or cmd.startswith(" ;") or cmd.startswith(" //") or (cmd.startswith(" /*")and cmd.endswith("*/")) or cmd=='' or cmd==' ' or cmd=='  ':
+            self.textBrowser.setText(self.textBrowser.toPlainText() + "" + prompt_symbol + cmd + "\n")
+            self.Widget.SetWindowTitle(space_username + space1 + space_hostname + space2)
+            self.textBrowser.verticalScrollBar().setValue(self.textBrowser.verticalScrollBar().maximum())
         else:
             result = subprocess.check_output('"{0}" '.replace('{0}',sys.executable)+files.readall('/proc/info/boot')+' exec '+cmd,shell=True)
-            self.textBrowser.setText(self.textBrowser.toPlainText() + ""+prompt_symbol + cmd +"\n\n"+ result.decode("utf-8")+'\n')
+            self.textBrowser.setText(self.textBrowser.toPlainText() + ""+prompt_symbol + cmd +"\n\n"+ result.decode("utf-8")+'\n\n')
             self.Widget.SetWindowTitle(space_username + space1 + space_hostname + space2 )
             self.textBrowser.verticalScrollBar().setValue(self.textBrowser.verticalScrollBar().maximum())
 

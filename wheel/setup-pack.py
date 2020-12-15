@@ -36,6 +36,7 @@ setuptools.setup(
         'pyqtconsole',
         'py-cpuinfo',
         'requests',
+        'getmac',
     ],
     include_package_data=True,
 )
