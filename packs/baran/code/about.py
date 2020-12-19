@@ -46,7 +46,7 @@ class MainApp(QWidget):
         self.text1.append('Desktop Enviroment:\n')
         self.text1.append('Kernel:\n')
         self.text1.append('Build date:\n')
-        self.text1.append('OS of Server:\n')
+        self.text1.append('Operating System:\n')
         self.text1.append('Switched user:\n')
         self.text1.append('Interface:\n')
         self.text1.setFont(f)
