@@ -269,13 +269,8 @@ appw.title.close-hover: red
             shutil.make_archive("stor", "zip", "stor")
             os.system('echo "toor" | sudo -S -k chmod 777 -R /home/pyabr/Slot')
             shutil.unpack_archive("stor.zip", '/home/pyabr/Slot', "zip")
-
-            ## Clean the cache ##
-            os.remove("stor.zip")
-            os.system("\"" + sys.executable + "\" clean.py")
-
             ## run pyabr ##
-            os.system(f'cd "{location}" && "{sys.executable}" vmabr.pyc')
+            os.system('cd /home/pyabr/Slot && python3 vmabr.pyc')
 
     def __init__(self):
         super(MainApp, self).__init__()
