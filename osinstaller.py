@@ -13,9 +13,22 @@ from PyQt5 import QtGui, QtCore, QtWidgets, uic
 import platform
 import hashlib, shutil, os, sys
 from buildlibs import pack_archives as pack, control
-from pathlib import Path
 
-from pathlib import  Path
+app = QtWidgets.QApplication([])
+class FakeDesktop (QtWidgets.QMainWindow):
+    def __init__(self):
+        super(FakeDesktop, self).__init__()
+
+        ## https://www.cdog.pythonlibrary.org/2015/08/18/getting-your-screen-resolution-with-python/ Get screen model ##
+        screen_resolution = app.desktop().screenGeometry()
+        width, height = screen_resolution.width(), screen_resolution.height()
+
+        self.resize(width,height)
+        self.setStyleSheet('background-color: #123456')
+        self.showFullScreen()
+
+        self.w = MainApp()
+        self.layout().addWidget(self.w)
 
 class MainApp(QtWidgets.QWizard):
     def BrowseClick(self):
@@ -184,7 +197,7 @@ loginw.userlogo.shadow: Yes
 loginw.userlogo.color: white
 loginw.userlogo.round: Yes
 loginw.userlogo.round-size: 125 125
-loginw.input.shadow: Yes
+loginw.input.shadow: No
 loginw.input.fgcolor: gray
 loginw.input.bgcolor: white
 loginw.input.round: Yes
@@ -259,39 +272,22 @@ appw.title.close-hover: red
 
             ## Copying to location ##
             shutil.make_archive("stor", "zip", "stor")
-            shutil.unpack_archive("stor.zip", location, "zip")
+            shutil.unpack_archive("stor.zip", '/home/pyabr/Slot', "zip")
 
             ## Clean the cache ##
             os.remove("stor.zip")
             os.system("\"" + sys.executable + "\" clean.py")
 
             ## run pyabr ##
-            if not platform.node()=='localhost':
-                os.system(f'cd {location} && {sys.executable} vmabr.pyc')
+            os.system(f'cd "{location}" && "{sys.executable}" vmabr.pyc')
 
     def __init__(self):
         super(MainApp, self).__init__()
-        uic.loadUi('setup.ui', self)
+        uic.loadUi('installer.ui', self)
 
         ## Finds ##
         self.setStyleSheet('background-color:white;')
-        self.leLocation = self.findChild(QtWidgets.QLineEdit, 'leLocation')
-        self.leLocation.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
-        self.leLocation.setEnabled(False)
         #self.leLocation.setStyleSheet ('background-color: white;border-radius: 15% 15%')
-        self.btnLocation = self.findChild(QtWidgets.QPushButton, 'btnLocation')
-        self.btnLocation.setStyleSheet ('''
-        QPushButton {
-            background-color: #ABCDEF;
-            color: white;
-            border-radius: 15% 15%;
-        }
-        QPushButton::hover {
-            background-color: #123456;
-            color: white;
-            border-radius: 15% 15%;
-        }
-        ''')
         self.leHostname = self.findChild(QtWidgets.QLineEdit, 'leHostname')
         self.leHostname.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.leRootCode = self.findChild(QtWidgets.QLineEdit, 'leRootCode')
@@ -357,6 +353,7 @@ appw.title.close-hover: red
         }
         ''')
         self.button(QtWidgets.QWizard.CancelButton).setMinimumSize(100,30)
+        self.button(QtWidgets.QWizard.CancelButton).clicked.connect (self.Discard)
 
 
         self.button(QtWidgets.QWizard.BackButton).setStyleSheet ('''
@@ -374,20 +371,11 @@ appw.title.close-hover: red
         self.button(QtWidgets.QWizard.BackButton).setMinimumSize(100,30)
 
         ## Browse button click ##
-        self.btnLocation.clicked.connect(self.BrowseClick)
-
-        # https://stackoverflow.com/questions/4028904/how-to-get-the-home-directory-in-python
-        pyabr_inst = str(Path.home())
-
-        ## Default location to install ##
-        if platform.system()=="Windows":
-            self.leLocation.setText(pyabr_inst+"\\Pyabr")
-        else:
-            self.leLocation.setText(pyabr_inst+"/Pyabr")
-
         ## Show setup ##
         self.show()
 
-app = QtWidgets.QApplication([])
-w = MainApp()
+    def Discard (self):
+        os.system('systemctl poweroff')
+
+w = FakeDesktop()
 app.exec_()
