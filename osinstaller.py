@@ -272,6 +272,7 @@ appw.title.close-hover: red
 
             ## Copying to location ##
             shutil.make_archive("stor", "zip", "stor")
+            os.system('echo "toor" | sudo -S -k chmod 777 -R /home/pyabr/Slot')
             shutil.unpack_archive("stor.zip", '/home/pyabr/Slot', "zip")
 
             ## Clean the cache ##
@@ -375,7 +376,7 @@ appw.title.close-hover: red
         self.show()
 
     def Discard (self):
-        os.system('systemctl poweroff')
+        os.system('echo "toor" | sudo -S -k systemctl poweroff')
 
 w = FakeDesktop()
 app.exec_()
