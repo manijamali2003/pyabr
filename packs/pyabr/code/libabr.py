@@ -676,7 +676,11 @@ class Commands:
             files.removedirs("/tmp")
             files.mkdir("/tmp")
         process.endall()
-        subprocess.call([sys.executable,files.readall("/proc/info/boot")])
+
+        if files.readall('/proc/info/os')=='Pyabr' and not files.isfile ('/.unlocked'):
+            subprocess.call(['systemctl','reboot'])
+        else:
+            subprocess.call([sys.executable,files.readall("/proc/info/boot")])
 
     # shut command #
     def shut (self,args):
@@ -697,6 +701,9 @@ class Commands:
             if files.isfile("/proc/selected"): files.remove("/proc/selected")
             process.endall()
 
+            if files.readall('/proc/info/os') == 'Pyabr' and not files.isfile('/.unlocked'):
+                subprocess.call(['systemctl','poweroff'])
+
     # shutdown command #
     def shutdown (self,args):
         colors = Colors()
@@ -711,6 +718,9 @@ class Commands:
             files.mkdir("/tmp")
         if files.isfile("/proc/selected"): files.remove("/proc/selected")
         process.endall()
+
+        if files.readall('/proc/info/os') == 'Pyabr' and not files.isfile('/.unlocked'):
+            subprocess.call(['systemctl','poweroff'])
 
     # cat command #
     def cat (self,args):
@@ -2405,6 +2415,7 @@ class Process:
         list.remove("info")
         for i in list:
             files.remove("/proc/" + str(i))
+
 # permissions #
 class Permissions:
     def __init__(self):
