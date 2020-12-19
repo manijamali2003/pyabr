@@ -2862,72 +2862,20 @@ class Files:
     root = "./"
 
     def input(self, filename):
-        h = open('etc/hostname', 'r')
-        hostname = h.read()
-        h.close()
-
         f = open ('proc/info/pwd','r')
         pwd = f.read()
         f.close()
-        # check fstab #
 
-        if filename.startswith ('/stor/'):
-            find_dev = filename.replace ('/stor/','').split('/')[0]
-            find_type = read_record('type', 'etc/drives/' + find_dev)
-            find_connect = read_record('connect', 'etc/drives/' + find_dev)
-            find_code = read_record('code', 'etc/drives/' + find_dev)
-
-            if os.path.isfile(find_connect+"/.disk"):
-                find_real_code = read_record('code', find_connect + "/.disk")
-                find_allows = read_record('allow',find_connect+"/.disk").split(',')
-
-                if find_type == 'icfs' and find_code == find_real_code and hostname in find_allows:
-                    strv = ''
-                    for i in filename.replace('/stor/', '').split('/')[1:]:
-                        strv += "/" + i
-                    return read_record('connect', 'etc/drives/' + find_dev) + "/" + strv
-                else:
-                    return self.root + "/" + filename
-            else:
-                return self.root + "/" + filename
-
-        elif filename.startswith("/"):
+        if filename.startswith("/"):
             return self.root +"/"+ filename
         else:
-            if pwd.startswith('/stor/'):
-                find_dev = pwd.replace('/stor/', '').split('/')[0]
-                find_type = read_record('type', 'etc/drives/' + find_dev)
-                find_connect = read_record('connect', 'etc/drives/' + find_dev)
-                find_code = read_record('code', 'etc/drives/' + find_dev)
-                if os.path.isfile(find_connect + "/.disk"):
-
-                    find_real_code = read_record('code', find_connect + "/.disk")
-                    find_allows = read_record('allow', find_connect + "/.disk").split(',')
-
-                    if find_type == 'icfs' and find_code == find_real_code and hostname in find_allows:
-                        strv = ''
-                        for i in pwd.replace('/stor/', '').split('/')[1:]:
-                            strv += "/" + i
-                        return read_record('connect', 'etc/drives/' + find_dev) + "/" + strv + "/" + filename
-                    else:
-                        return self.root + "/" + pwd + "/" + filename
-                else:
-                    return self.root + "/" + pwd + "/" + filename
-            else:
-                return self.root +"/"+ pwd + "/" + filename
+            return self.root +"/"+ pwd + "/" + filename
 
     def output_shell(self,filename):
         if filename.startswith ('/'):
             return filename
         else:
-            f = open ('proc/info/pwd','r')
-            pwd = f.read()
-            f.close()
-
-            if pwd.startswith('/stor/'):
-                return pwd+"/"+filename
-            else:
-                return self.input(filename).replace("//////", "/").replace("/////", "/").replace("////", "/").replace("///", "/").replace("//", "/").replace("./", "/")
+            return self.input(filename).replace("//////", "/").replace("/////", "/").replace("////", "/").replace("///", "/").replace("//", "/").replace("./", "/")
 
     def input_exec(self,filename):
         return self.input(filename.replace("./", "")).replace(".//", "").replace("/", ".")
@@ -2936,14 +2884,7 @@ class Files:
         if filename.startswith ('/'):
             return filename
         else:
-            f = open('proc/info/pwd', 'r')
-            pwd = f.read()
-            f.close()
-
-            if pwd.startswith('/stor/'):
-                return pwd + "/" + filename
-            else:
-                return self.input(filename).replace("///", "/").replace("//", "/").replace("./", "/").replace("//", "/")
+            return self.input(filename).replace("///", "/").replace("//", "/").replace("./", "/").replace("//", "/")
 
     def create(self,filename):
         file = open(self.input(filename), "w")
