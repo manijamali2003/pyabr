@@ -60,6 +60,46 @@ class FileListView (QtWidgets.QListView):
         commands.cat (['-c',filename])
         it.setFont(f)
 
+    def mkc (self,filename):
+        self.mkfile(filename)
+        files.write(self.dir + "/" + filename+'.c',files.readall(res.get('@temp/untitled.c')))
+
+    def mkcpp (self,filename):
+        self.mkfile(filename)
+        files.write(self.dir + "/" + filename+'.cpp',files.readall(res.get('@temp/untitled.cpp')))
+
+    def mkjava (self,filename):
+        self.mkfile(filename)
+        files.write(self.dir + "/" + filename+'.java',files.readall(res.get('@temp/untitled.java')).replace("MainApp",filename))
+
+    def mkjs (self,filename):
+        self.mkfile(filename)
+        files.write(self.dir + "/" + filename+'.js',files.readall(res.get('@temp/untitled.js')))
+
+    def mkphp (self,filename):
+        self.mkfile(filename)
+        files.write(self.dir + "/" + filename+".php",files.readall(res.get('@temp/untitled.php')))
+
+    def mkhtml (self,filename):
+        self.mkfile(filename)
+        files.write(self.dir + "/" + filename+".html",files.readall(res.get('@temp/untitled.html')))
+
+    def mkcs (self,filename):
+        self.mkfile(filename)
+        files.write(self.dir + "/" + filename+".cs",files.readall(res.get('@temp/untitled.cs')))
+
+    def mksa (self,filename):
+        self.mkfile(filename)
+        files.write(self.dir + "/" + filename+".sa",files.readall(res.get('@temp/untitled.sa')))
+
+    def mkpy (self,filename):
+        self.mkfile(filename)
+        files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled.py')))
+
+    def mkpygui (self,filename):
+        self.mkfile(filename)
+        files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled-gui.py')))
+
     def __init__(self,ports):
         super().__init__()
         self.Env = ports[0]
@@ -219,6 +259,8 @@ class MainApp (QtWidgets.QMainWindow):
         self.new_file = self.file.addAction(res.get('@string/newfile'))
         self.new_file.triggered.connect(self.New_File)
         self.new_file.setIcon(QIcon(res.get(res.etc("roller","file-icon"))))
+
+        self.new_code = self.file.addAction(res.get('@string/newcode'))
 
         self.new_folder = self.file.addAction(res.get('@string/newfolder'))
         self.new_folder.triggered.connect(self.New_Folder)

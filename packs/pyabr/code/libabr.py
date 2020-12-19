@@ -9,7 +9,7 @@
 #
 #######################################################################################
 
-import importlib, shutil, os, sys, hashlib, subprocess,time,datetime,getpass,py_compile, site
+import importlib, shutil, os, sys, hashlib, subprocess,time,datetime,getpass,py_compile
 
 def read_record (name,filename):
     file = open (filename,"r")

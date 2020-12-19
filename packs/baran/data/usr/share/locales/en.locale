@@ -107,3 +107,15 @@ barge.css: CSS
 barge.javascript: Java Script
 barge.csharp: C#
 barge.php: PHP
+roller.newcode: New Code
+roller.c: New C file
+roller.c++: New C++ file
+roller.python: New Python script
+roller.pythongui: New Python GUI script
+roller.saye: New Saye script
+roller.java: New Java file
+roller.html: New HTML document
+roller.css: New CSS file
+roller.javascript: New Java Script file
+roller.csharp: New C# file
+roller.php: New PHP file

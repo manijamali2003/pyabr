@@ -31,11 +31,16 @@ user = ""
 code = ""
 argv = sys.argv[1:] # kernel parameters
 
-if platform.system() == 'Linux' and platform.node() == 'localhost':
+if platform.node() == 'localhost':
     osname = 'Android'
     kernel_file = 'vmabr.py'
 else:
-    osname = ""
+    if os.path.isfile ('/etc/issue.net'):
+        f = open('/etc/issue.net','r')
+        osname = f.read()
+        f.close()
+    else:
+        osname = platform.system()
     kernel_file = 'vmabr.pyc'
 
 select = ""
@@ -339,8 +344,6 @@ if not (argv[0]=='user' or argv[0]=='login'):
 ## @core/system-info ##
 
     ip = socket.gethostbyname(socket.gethostname())
-    if kernel_file=='vmabr.pyc':
-        osname = platform.system()
     arch = platform.architecture()[0]
     os_user = getpass.getuser()
     os_host = platform.node()
