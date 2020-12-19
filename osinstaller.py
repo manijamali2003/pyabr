@@ -31,13 +31,10 @@ class FakeDesktop (QtWidgets.QMainWindow):
         self.layout().addWidget(self.w)
 
 class MainApp(QtWidgets.QWizard):
-    def BrowseClick(self):
-        self.leLocation.setText((QtWidgets.QFileDialog().getExistingDirectory()))
 
     def Finish(self):
         ## Get all configure information ##
         if not (
-                self.leLocation.text() == None and
                 self.leHostname.text() == None and
                 self.leRootCode.text() == None and
                 self.leConfirmRootCode.text() == None and
@@ -74,8 +71,6 @@ class MainApp(QtWidgets.QWizard):
                 locale = 'ar'
             else:
                 locale = 'en'
-
-            location = self.leLocation.text()
 
             ## Compile Pyabr ##
             if os.path.isdir("stor"): shutil.rmtree("stor")
@@ -288,7 +283,6 @@ appw.title.close-hover: red
 
         ## Finds ##
         self.setStyleSheet('background-color:white;')
-        #self.leLocation.setStyleSheet ('background-color: white;border-radius: 15% 15%')
         self.leHostname = self.findChild(QtWidgets.QLineEdit, 'leHostname')
         self.leHostname.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.leRootCode = self.findChild(QtWidgets.QLineEdit, 'leRootCode')
