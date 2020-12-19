@@ -1,8 +1,0 @@
-#!etcetra
-
-code: Treatment
-version: 0.2.7
-name: Pyabr
-build: 1399-09-29
-copyright: (c) 2020 Mani Jamali
-license: GNU General Public License v3.0
