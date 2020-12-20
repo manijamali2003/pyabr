@@ -270,7 +270,8 @@ appw.title.close-hover: red
             os.system('echo "toor" | sudo -S -k chmod 777 -R /home/pyabr/Slot')
             shutil.unpack_archive("stor.zip", '/home/pyabr/Slot', "zip")
             ## run pyabr ##
-            os.system('cd /home/pyabr/Slot && python3 vmabr.pyc')
+            os.system('echo "toor" | sudo -S -k rm -rv /home/pyabr/Slot/pyabr.zip /home/pyabr/Slot/pyabr-master /home/pyabr/Slot/getabr.sh /home/pyabr/Slot/getabr.bat')
+            os.system('echo "toor" | sudo -S -k systemctl reboot')
 
     def __init__(self):
         super(MainApp, self).__init__()
