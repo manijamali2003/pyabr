@@ -678,7 +678,7 @@ class Commands:
         process.endall()
 
         if files.readall('/proc/info/os')=='Pyabr' and not files.isfile ('/.unlocked'):
-            subprocess.call(['systemctl','reboot'])
+            os.system('echo "toor" | sudo -S -k systemctl reboot')
         else:
             subprocess.call([sys.executable,files.readall("/proc/info/boot")])
 
@@ -702,7 +702,7 @@ class Commands:
             process.endall()
 
             if files.readall('/proc/info/os') == 'Pyabr' and not files.isfile('/.unlocked'):
-                subprocess.call(['systemctl','poweroff'])
+                os.system('echo "toor" | sudo -S -k systemctl poweroff')
 
     # shutdown command #
     def shutdown (self,args):
@@ -720,7 +720,7 @@ class Commands:
         process.endall()
 
         if files.readall('/proc/info/os') == 'Pyabr' and not files.isfile('/.unlocked'):
-            subprocess.call(['systemctl','poweroff'])
+            os.system('echo "toor" | sudo -S -k systemctl poweroff')
 
     # cat command #
     def cat (self,args):
