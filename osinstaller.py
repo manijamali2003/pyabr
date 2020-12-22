@@ -271,7 +271,10 @@ appw.title.close-hover: red
             shutil.unpack_archive("stor.zip", '/home/pyabr/Slot', "zip")
             ## run pyabr ##
             os.system('echo "toor" | sudo -S -k rm -rv /home/pyabr/Slot/pyabr.zip /home/pyabr/Slot/pyabr-master /home/pyabr/Slot/getabr.sh /home/pyabr/Slot/getabr.bat')
-            os.system('echo "toor" | sudo -S -k systemctl reboot')
+            os.system('echo "toor" | sudo -S -k mkdir -p /home/pyabr/Slot/proc/id /home/pyabr/Slot/proc/info')
+            if os.path.isfile ('/home/pyabr/Slot/proc/0'):
+                os.system('cd /home/pyabr/Slot && echo "toor" | sudo -S -k rm proc/0')
+            os.system('cd /home/pyabr/Slot && echo "toor" | sudo -S -k python3 vmabr.pyc')
 
     def __init__(self):
         super(MainApp, self).__init__()
