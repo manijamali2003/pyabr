@@ -192,7 +192,7 @@ loginw.userlogo.shadow: Yes
 loginw.userlogo.color: white
 loginw.userlogo.round: Yes
 loginw.userlogo.round-size: 125 125
-loginw.input.shadow: No
+loginw.input.shadow: Yes
 loginw.input.fgcolor: gray
 loginw.input.bgcolor: white
 loginw.input.round: Yes
