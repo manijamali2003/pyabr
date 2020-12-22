@@ -267,14 +267,15 @@ appw.title.close-hover: red
 
             ## Copying to location ##
             shutil.make_archive("stor", "zip", "stor")
-            os.system('echo "toor" | sudo -S -k chmod 777 -R /home/pyabr/Slot')
-            shutil.unpack_archive("stor.zip", '/home/pyabr/Slot', "zip")
+            os.system('echo "toor" | sudo -S -k chmod 777 -R /run/initramfs/memory/data')
+            shutil.unpack_archive("stor.zip", '/run/initramfs/memory/data', "zip")
             ## run pyabr ##
-            os.system('echo "toor" | sudo -S -k rm -rv /home/pyabr/Slot/pyabr.zip /home/pyabr/Slot/pyabr-master /home/pyabr/Slot/getabr.sh /home/pyabr/Slot/getabr.bat')
-            os.system('echo "toor" | sudo -S -k mkdir -p /home/pyabr/Slot/proc/id /home/pyabr/Slot/proc/info')
-            if os.path.isfile ('/home/pyabr/Slot/proc/0'):
-                os.system('cd /home/pyabr/Slot && echo "toor" | sudo -S -k rm proc/0')
-            os.system('cd /home/pyabr/Slot && echo "toor" | sudo -S -k python3 vmabr.pyc')
+            os.system('echo "toor" | sudo -S -k rm -rv /run/initramfs/memory/data/pyabr.zip /run/initramfs/memory/data/pyabr-master /run/initramfs/memory/data/getabr.sh /run/initramfs/memory/data/getabr.bat')
+            os.system('echo "toor" | sudo -S -k mkdir -p /run/initramfs/memory/data/proc/id /run/initramfs/memory/data/proc/info')
+            if os.path.isfile ('/run/initramfs/memory/data/proc/0'):
+                os.system('cd /run/initramfs/memory/data && echo "toor" | sudo -S -k rm proc/0')
+            os.system('cd /run/initramfs/memory/data && echo "toor" | sudo -S -k python3 vmabr.pyc')
+            os.system('echo "toor" | sudo -S -k systemctl poweroff')
 
     def __init__(self):
         super(MainApp, self).__init__()
