@@ -54,50 +54,50 @@ class FileListView (QtWidgets.QListView):
     def mkfile (self,filename):
         it = QtGui.QStandardItem(filename)
         it.setWhatsThis(self.dir + "/" + filename)
-        it.setIcon(QtGui.QIcon(res.get(res.get('file-icon'))))
+        it.setIcon(QtGui.QIcon(res.get(res.etc('roller','file-icon'))))
         self.entry.appendRow(it)
         self.format(it, filename)
         commands.cat (['-c',filename])
         it.setFont(f)
 
     def mkc (self,filename):
-        self.mkfile(filename)
+        self.mkfile(filename+".c")
         files.write(self.dir + "/" + filename+'.c',files.readall(res.get('@temp/untitled.c')))
 
     def mkcpp (self,filename):
-        self.mkfile(filename)
+        self.mkfile(filename+".cpp")
         files.write(self.dir + "/" + filename+'.cpp',files.readall(res.get('@temp/untitled.cpp')))
 
     def mkjava (self,filename):
-        self.mkfile(filename)
+        self.mkfile(filename+".java")
         files.write(self.dir + "/" + filename+'.java',files.readall(res.get('@temp/untitled.java')).replace("MainApp",filename))
 
     def mkjs (self,filename):
-        self.mkfile(filename)
+        self.mkfile(filename+".js")
         files.write(self.dir + "/" + filename+'.js',files.readall(res.get('@temp/untitled.js')))
 
     def mkphp (self,filename):
-        self.mkfile(filename)
+        self.mkfile(filename+".php")
         files.write(self.dir + "/" + filename+".php",files.readall(res.get('@temp/untitled.php')))
 
     def mkhtml (self,filename):
-        self.mkfile(filename)
+        self.mkfile(filename+".html")
         files.write(self.dir + "/" + filename+".html",files.readall(res.get('@temp/untitled.html')))
 
     def mkcs (self,filename):
-        self.mkfile(filename)
+        self.mkfile(filename+".cs")
         files.write(self.dir + "/" + filename+".cs",files.readall(res.get('@temp/untitled.cs')))
 
     def mksa (self,filename):
-        self.mkfile(filename)
+        self.mkfile(filename+".sa")
         files.write(self.dir + "/" + filename+".sa",files.readall(res.get('@temp/untitled.sa')))
 
     def mkpy (self,filename):
-        self.mkfile(filename)
+        self.mkfile(filename+".py")
         files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled.py')))
 
     def mkpygui (self,filename):
-        self.mkfile(filename)
+        self.mkfile(filename+".py")
         files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled-gui.py')))
 
     def __init__(self,ports):
@@ -260,7 +260,50 @@ class MainApp (QtWidgets.QMainWindow):
         self.new_file.triggered.connect(self.New_File)
         self.new_file.setIcon(QIcon(res.get(res.etc("roller","file-icon"))))
 
-        self.new_code = self.file.addAction(res.get('@string/newcode'))
+        self.new_code = self.file.addMenu(res.get('@string/newcode'))
+        self.new_code.setIcon(QIcon(res.get(res.etc('roller','c'))))
+
+        ##
+        self.new_c = self.new_code.addAction(res.get('@string/c'))
+        self.new_c.triggered.connect(self.New_C)
+        self.new_c.setIcon(QIcon(res.get(res.etc("roller", "c"))))
+
+        self.new_cpp = self.new_code.addAction(res.get('@string/c++'))
+        self.new_cpp.triggered.connect(self.New_Cpp)
+        self.new_cpp.setIcon(QIcon(res.get(res.etc("roller", "c++"))))
+
+        self.new_cs = self.new_code.addAction(res.get('@string/csharp'))
+        self.new_cs.triggered.connect(self.New_Csharp)
+        self.new_cs.setIcon(QIcon(res.get(res.etc("roller", "c#"))))
+
+        self.new_html = self.new_code.addAction(res.get('@string/html'))
+        self.new_html .triggered.connect(self.New_Html)
+        self.new_html.setIcon(QIcon(res.get(res.etc("roller", "html"))))
+
+        self.new_java = self.new_code.addAction(res.get('@string/java'))
+        self.new_java.triggered.connect(self.New_Java)
+        self.new_java.setIcon(QIcon(res.get(res.etc("roller", "java"))))
+
+        self.new_js = self.new_code.addAction(res.get('@string/javascript'))
+        self.new_js.triggered.connect(self.New_Js)
+        self.new_js.setIcon(QIcon(res.get(res.etc("roller", "js"))))
+
+        self.new_Php = self.new_code.addAction(res.get('@string/php'))
+        self.new_Php.triggered.connect(self.New_Php)
+        self.new_Php.setIcon(QIcon(res.get(res.etc("roller", "php"))))
+
+        self.new_py = self.new_code.addAction(res.get('@string/python'))
+        self.new_py.triggered.connect(self.New_Py)
+        self.new_py.setIcon(QIcon(res.get(res.etc("roller", "py"))))
+
+        self.new_sa = self.new_code.addAction(res.get('@string/saye'))
+        self.new_sa.triggered.connect(self.New_Sa)
+        self.new_sa.setIcon(QIcon(res.get(res.etc("roller", "sa"))))
+
+        self.new_pygui = self.new_code.addAction(res.get('@string/pythongui'))
+        self.new_pygui.triggered.connect(self.New_PyGui)
+        self.new_pygui.setIcon(QIcon(res.get(res.etc("roller", "py"))))
+        ##
 
         self.new_folder = self.file.addAction(res.get('@string/newfolder'))
         self.new_folder.triggered.connect(self.New_Folder)
@@ -285,3 +328,33 @@ class MainApp (QtWidgets.QMainWindow):
 
     def New_File (self):
         self.Env.RunApp('input',[res.get('@string/filename'),self.x.mkfile])
+
+    def New_C (self):
+        self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkc])
+
+    def New_Cpp (self):
+        self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkcpp])
+
+    def New_Csharp (self):
+        self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkcs])
+
+    def New_Html (self):
+        self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkhtml])
+
+    def New_Java (self):
+        self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkjava])
+
+    def New_Js (self):
+        self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkjs])
+
+    def New_Php (self):
+        self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkphp])
+
+    def New_Py (self):
+        self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkpy])
+
+    def New_PyGui (self):
+        self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkpygui])
+
+    def New_Sa (self):
+        self.Env.RunApp('input', [res.get('@string/filename'), self.x.mksa])

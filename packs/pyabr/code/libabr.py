@@ -2875,16 +2875,29 @@ class Files:
         if filename.startswith ('/'):
             return filename
         else:
-            return self.input(filename).replace("//////", "/").replace("/////", "/").replace("////", "/").replace("///", "/").replace("//", "/").replace("./", "/")
+            x = self.input(filename).replace("//////", "/").replace("/////", "/").replace("////", "/").replace("///", "/").replace("//", "/").replace("./", "/")
+            if not x.startswith ('/'):
+                return '/'+x
+            else:
+                return x
 
     def input_exec(self,filename):
-        return self.input(filename.replace("./", "")).replace(".//", "").replace("/", ".")
+        x = self.input(filename.replace("./", "")).replace(".//", "").replace("/", ".")
+        if not x.startswith ('/'):
+            return '/'+x
+        else:
+            return x
 
     def output(self,filename):
         if filename.startswith ('/'):
             return filename
         else:
-            return self.input(filename).replace("///", "/").replace("//", "/").replace("./", "/").replace("//", "/")
+            x = self.input(filename).replace("///", "/").replace("//", "/").replace("./", "/").replace("//", "/")
+            if not x.startswith ('/'):
+                return '/'+x
+            else:
+                return x
+
 
     def create(self,filename):
         file = open(self.input(filename), "w")
