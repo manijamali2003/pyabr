@@ -119,3 +119,28 @@ roller.css: New CSS file
 roller.javascript: New Java Script file
 roller.csharp: New C# file
 roller.php: New PHP file
+persia.c: C
+persia.c++: C++
+persia.python: Python
+persia.pythongui: Python GUI
+persia.saye: Saye
+persia.java: Java
+persia.html: HTML
+persia.css: CSS
+persia.javascript: Java Script
+persia.csharp: C#
+persia.php: PHP
+persia.app_name: PyPersia IDE
+persia.file: File
+persia.open: Open
+persia.new: New File
+persia.new_page: New Project
+persia.empty: New Empty Project
+persia.gui: New GUI Project
+persia.save: Save
+persia.save_as: Save As
+persia.exit: Exit
+persia.untitled: Untitled - PyPersia
+persia.saveafile: Save a file
+persia.chooseafile: Choose a file
+persia.saveasfile: Save as file
