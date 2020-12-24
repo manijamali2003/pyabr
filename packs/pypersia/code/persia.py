@@ -371,7 +371,26 @@ class MainApp(QtWidgets.QMainWindow):
             self.Env.RunApp('commento', [file.replace('.sa',''), 'PyPersia Console'])
 
     def run_project_(self):
-        pass
+
+        # config files #
+        project = files.readall('/proc/info/psel')
+        user = files.readall('/proc/info/su')
+        if not user=='root':
+            path = f'/desk/{user}/Projects/{project}'
+        else:
+            path = f'/root/Projects/{project}'
+
+        config = path+"/.pypersia"
+
+        System(f'paye pak {path}/packs/{project}')
+        System(f'paye upak {path}/packs/{project}.pa')
+
+        if control.read_record('type',config)=='gui':
+            self.Env.RunApp(f'{project}', [None])
+        else:
+            self.Env.RunApp('commento', [project, 'PyPersia Console'])
+
+        System(f'paye rm {project}')
 
     def new_empty_act (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.project_create])
@@ -389,6 +408,9 @@ class MainApp(QtWidgets.QMainWindow):
             System(f"paye crt empty /root/Projects/{projectname}")
             commands.cd([f'/root/Projects/{projectname}'])
 
+        files.remove('clean.py')
+        files.remove('debug.py')
+        files.remove('install.sa')
         commands.mv(['packs/app', f'packs/{projectname}'])
         commands.mv([f'packs/{projectname}/data/usr/share/docs/hello',
                      f'packs/{projectname}/data/usr/share/docs/{projectname}'])
@@ -416,6 +438,9 @@ class MainApp(QtWidgets.QMainWindow):
         else:
             System(f"paye crt gui /root/Projects/{projectname}")
             commands.cd([f'/root/Projects/{projectname}'])
+
+        files.remove('clean.py')
+        files.remove('install.sa')
 
         commands.mv(['packs/app',f'packs/{projectname}'])
         commands.mv([f'packs/{projectname}/data/usr/share/docs/hello',f'packs/{projectname}/data/usr/share/docs/{projectname}'])
