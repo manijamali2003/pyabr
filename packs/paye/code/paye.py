@@ -11,7 +11,7 @@
 
 import sys, subprocess
 
-from libabr import Files, Control, Permissions, Colors, Process, Modules, Package
+from libabr import Files, Control, Permissions, Colors, Process, Modules, Package, Commands, Res
 
 modules = Modules()
 files = Files()
@@ -20,6 +20,8 @@ colors = Colors()
 process = Process()
 permissions = Permissions()
 pack = Package()
+cmd = Commands()
+res = Res()
 
 ## Check root ##
 if not permissions.check_root (files.readall("/proc/info/su")):
@@ -242,5 +244,24 @@ elif option=='pip':
     for i in sys.argv[2:]:
         argsv.append(i)
     subprocess.call(argsv)
+elif option=='crt':
+    if sys.argv[2:]==[]:
+        colors.show ('paye','fail','no inputs.')
+        sys.exit(0)
+
+    crtype = sys.argv[2]
+
+    if sys.argv[3:]==[]:
+        crname = 'untitled'
+    else:
+        crname = sys.argv[3]
+
+    if not files.isdir(crname):
+        files.mkdir(crname)
+
+    if crtype=='gui':
+        cmd.unzip ([res.get('@temp/simple-gui-project.zip'),crname])
+    else:
+        cmd.unzip([res.get('@temp/simple-project.zip'), crname])
 else:
     colors.show ("paye","fail",option+": option not found.")

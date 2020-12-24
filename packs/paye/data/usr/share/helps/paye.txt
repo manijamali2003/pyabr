@@ -15,3 +15,4 @@ paye [options] [package] ...
  ls                                                 List all installed packages
  up                                                 Update cloud software
  git                                                Use pip package manager
+ crt            app                                 Create 'app' project

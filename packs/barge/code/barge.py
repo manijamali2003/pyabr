@@ -36,6 +36,7 @@ class MainApp(QtWidgets.QMainWindow):
         self.new.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'text'))))
         self.new_page = self.file.addAction(res.get('@string/new_page'))
         self.new_page.triggered.connect (self.new_page_act)
+        self.new_page.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName, 'text'))))
         self.open = self.file.addAction(res.get('@string/open'))
         self.open.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'open'))))
         self.open.triggered.connect (self.open_act)
