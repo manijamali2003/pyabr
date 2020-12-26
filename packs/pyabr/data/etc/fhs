@@ -11,12 +11,6 @@
 /app/cache/gets
 /app/mirrors
 /app/packages
-/boot
-/boot/boot
-/boot/changes
-/boot/modules
-/EFI
-/EFI/Boot
 /desk
 /desk/guest
 /etc
