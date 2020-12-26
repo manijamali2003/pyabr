@@ -14,7 +14,7 @@
 # Virtual Memory Abr Kernel (vmabr)
 # (c) 2020 Mani Jamali All rights reserved.
 
-import sys, socket, platform, hashlib, os, getpass, subprocess as sub, cpuinfo, importlib
+import sys, socket, platform, hashlib, os, getpass, subprocess as sub, importlib
 ## @variables ##
 
 hostname = ""
@@ -349,8 +349,6 @@ if not (argv[0]=='user' or argv[0]=='login'):
     os_host = platform.node()
     tz = control.read_record("format", "/etc/time")
     sweek = control.read_record("start-week", "/etc/time")
-    cpu = str(cpuinfo.get_cpu_info()['brand_raw'])  # Create by darkwlf: https://github.com/darkwlf
-    cpuc = str(os.cpu_count())  # Create by darkwlf: https://github.com/darkwlf
     py = sys.executable
     #mac = getmac.getmac.get_mac_address()
 
@@ -368,10 +366,7 @@ if not (argv[0]=='user' or argv[0]=='login'):
     files.write("/proc/info/tz", tz)
     files.write("/proc/info/sweek", sweek)
     files.write("/proc/info/boot", kernel_file)
-    files.write("/proc/info/cpu", cpu)
-    files.write("/proc/info/cpuc", cpuc)
     files.write('/proc/info/py',py)
-    #files.write('/proc/info/mac',mac)
 
 ## @core/dirs ##
 
