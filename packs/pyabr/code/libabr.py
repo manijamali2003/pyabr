@@ -2113,9 +2113,9 @@ class Res:
         files = Files()
         control = Control()
 
-        # Check Android #
-        android = False
-        if files.readall('/proc/info/os')=='Android': android=True
+        # Check android_or_32bit #
+        android_or_32bit = False
+        if files.readall('/proc/info/os')=='Android' or files.readall('/proc/info/arch')=='32bit': android_or_32bit=True
 
         if not filename == None:
             filename = filename.split("/")  # @widget:barge
@@ -2138,7 +2138,7 @@ class Res:
 
             elif share.startswith("@background"):
                 if files.isfile("/usr/share/backgrounds/" + name + ".svg"):
-                    if android==False:
+                    if android_or_32bit==False:
                         return files.input(
                             "/usr/share/backgrounds/" + name + ".svg")
                     elif files.isfile("/usr/share/backgrounds/" + name + ".png"):
@@ -2164,7 +2164,7 @@ class Res:
 
             elif share.startswith("@image"):
                 if files.isfile("/usr/share/images/" + name + ".svg"):
-                    if android==False:
+                    if android_or_32bit==False:
                         return files.input(
                         "/usr/share/images/" + name + ".svg")
                     elif files.isfile("/usr/share/images/" + name + ".png"):
@@ -2208,7 +2208,7 @@ class Res:
 
             elif share.startswith("@icon"):
                 if files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg"):
-                    if android==False:
+                    if android_or_32bit==False:
                         return files.input("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".svg")
                     elif files.isfile("/usr/share/" + share.replace("@icon", "icons") + "/" + name + ".png"):
                         return files.input("/usr/share/icons/" + name + ".png")
