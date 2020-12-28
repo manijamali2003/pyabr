@@ -2,7 +2,7 @@ from PyQt5.QtGui import  *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5 import uic, QtGui, QtWidgets, QtCore
-import sys, importlib, random,py_compile
+import sys, importlib, random,py_compile,imp
 from libabr import System, App, Control, Files, Res, Commands
 
 res = Res();files = Files();app = App();control=Control();commands = Commands()
@@ -306,6 +306,14 @@ class MainApp(QtWidgets.QMainWindow):
         self.run = self.code.addAction('Run Project')
         self.run.triggered.connect (self.run_project_)
 
+        self.build = self.code.addMenu('Build')
+
+        self.generate_source = self.build.addAction('Pack Source code with Buildtools')
+        self.generate_pa = self.build.addAction('Generate .PA Package')
+        self.install = self.build.addAction('Build and Install Project')
+
+        self.publish = self.code.addAction('Publish Project')
+
         self.insert_c = self.code.addMenu('Insert Code')
 
         # Codes #
@@ -366,7 +374,9 @@ class MainApp(QtWidgets.QMainWindow):
                 files.remove(f'/usr/share/applications/debug_{rand}.desk')
                 files.remove(f'/usr/app/debug_{rand}.pyc')
             else:
-                self.Env.RunApp('commento', [file.replace('.py',''),'PyPersia Console'])
+                commands.cp ([file,'/usr/app/'+files.filename(file)])
+                self.Env.RunApp('commento', [files.filename(file.replace('.py','')),'PyPersia Console'])
+                commands.rm (['/usr/app/'+files.filename(file)])
         elif file.endswith ('.sa'):
             self.Env.RunApp('commento', [file.replace('.sa',''), 'PyPersia Console'])
 
@@ -390,6 +400,7 @@ class MainApp(QtWidgets.QMainWindow):
         else:
             self.Env.RunApp('commento', [project, 'PyPersia Console'])
 
+        if files.isfile(f'{path}/packs/{project}.pa'): files.remove(f'{path}/packs/{project}.pa')
         System(f'paye rm {project}')
 
     def new_empty_act (self):
@@ -408,9 +419,6 @@ class MainApp(QtWidgets.QMainWindow):
             System(f"paye crt empty /root/Projects/{projectname}")
             commands.cd([f'/root/Projects/{projectname}'])
 
-        files.remove('clean.py')
-        files.remove('debug.py')
-        files.remove('install.sa')
         commands.mv(['packs/app', f'packs/{projectname}'])
         commands.mv([f'packs/{projectname}/data/usr/share/docs/hello',
                      f'packs/{projectname}/data/usr/share/docs/{projectname}'])
@@ -438,9 +446,6 @@ class MainApp(QtWidgets.QMainWindow):
         else:
             System(f"paye crt gui /root/Projects/{projectname}")
             commands.cd([f'/root/Projects/{projectname}'])
-
-        files.remove('clean.py')
-        files.remove('install.sa')
 
         commands.mv(['packs/app',f'packs/{projectname}'])
         commands.mv([f'packs/{projectname}/data/usr/share/docs/hello',f'packs/{projectname}/data/usr/share/docs/{projectname}'])

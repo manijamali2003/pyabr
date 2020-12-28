@@ -47,7 +47,6 @@ try:
 except ImportError:
     pass
 
-
 BRUSH_MULT = 3
 SPRAY_PAINT_MULT = 5
 SPRAY_PAINT_N = 100
@@ -332,7 +331,7 @@ class Canvas(QLabel):
     def stamp_mousePressEvent(self, e):
         p = QPainter(self.pixmap())
         stamp = self.current_stamp
-        p.drawPixmap(e.x() - stamp.width() // 2, e.y() - stamp.height() // 2, stamp)
+        p.drawPixmap(e.x() - stamp.width() // 1, e.y() - stamp.height() // 1, stamp)
         self.update()
 
     # Pen events

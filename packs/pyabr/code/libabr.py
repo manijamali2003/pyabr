@@ -722,6 +722,13 @@ class Commands:
         if files.readall('/proc/info/os') == 'Pyabr' and not files.isfile('/.unlocked'):
             os.system('echo "toor" | sudo -S -k systemctl poweroff')
 
+
+    # touch #
+    def touch (self,args):
+        files = Files()
+        for i in args:
+            files.create(i)
+
     # cat command #
     def cat (self,args):
         colors = Colors()
@@ -731,9 +738,6 @@ class Commands:
         permissions = Permissions()
 
         ## args ##
-
-        name = None
-        option = None
 
         cmdln = ['']
         cmdln[1:] = args
@@ -753,13 +757,7 @@ class Commands:
         if option == '' or option == '-r':
             if files.isfile(name):
                 if permissions.check(files.output(name), "r", files.readall("/proc/info/su")):
-                    file = open(files.input(name), "rb")
-                    check_bin = str(file.read())
-                    file.close()
-                    if check_bin.__contains__("\00"):
-                        print(check_bin)
-                    else:
-                        print(files.readall(name))
+                    print(files.readall(name))
                 else:
                     colors.show("cat", "perm", "")
             elif files.isdir(name):
@@ -2904,10 +2902,17 @@ class Files:
         file.close()
 
     def readall(self,filename):
-        file = open(self.input(filename), "r",encoding='utf-8')
-        strv = file.read()
+        file = open(self.input(filename), "rb")
+        check_bin = file.read().decode('latin-1')
         file.close()
-        return strv
+        if check_bin.__contains__("\00"):
+            return check_bin
+        else:
+            file = open(self.input(filename), "r", encoding='utf-8')
+
+            strv = file.read()
+            file.close()
+            return strv
 
     def write(self,filename, text):
         file = open(self.input(filename), "w")

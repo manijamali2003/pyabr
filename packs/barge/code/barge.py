@@ -105,7 +105,7 @@ class MainApp(QtWidgets.QMainWindow):
         ## Run it ##
         if self.Widget.WindowTitle().endswith (".c") or self.Widget.WindowTitle().endswith('.cpp') or self.Widget.WindowTitle().endswith('.cxx') or self.Widget.WindowTitle().endswith('.c++'):
             cmd.cc([self.Widget.WindowTitle()])
-            self.Env.RunApp('commento',[self.Widget.WindowTitle().replace('.cpp','').replace('.cxx','').replace('.c++','').replace('.c',''),self.Widget.WindowTitle()])
+            self.Env.RunApp('commento',[self.Widget.WindowTitle().replace('.cpp','').replace('.cxx','').replace('.c++','').replace('.c',''),'Barge Console'])
             files.remove(self.Widget.WindowTitle())
         elif self.Widget.WindowTitle().endswith ('.py'):
             # check graphical PyQt5 #
@@ -121,9 +121,9 @@ class MainApp(QtWidgets.QMainWindow):
                 files.remove(f'/usr/share/applications/debug_{rand}.desk')
                 files.remove(f'/usr/app/debug_{rand}.pyc')
             else:
-                self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.py',''),self.Widget.WindowTitle()])
+                self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.py',''),'Barge Console'])
         elif self.Widget.WindowTitle().endswith ('.sa'):
-            self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.sa', ''), self.Widget.WindowTitle()])
+            self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.sa', ''), 'Barge Console'])
 
 
     def new_page_act (self):
