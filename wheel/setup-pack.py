@@ -16,7 +16,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyabr",  # Replace with your own username
-    version="0.2.7",
+    version="0.3.0",
     author="Mani Jamali",
     author_email="pyabrsystem@gmail.com",
     description="Pyabr cloud software",
@@ -34,7 +34,6 @@ setuptools.setup(
     install_requires=[
         'PyQt5',
         'pyqtconsole',
-        'py-cpuinfo',
         'requests',
     ],
     include_package_data=True,

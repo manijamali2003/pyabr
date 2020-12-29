@@ -154,6 +154,13 @@ class ShowPackageInformation (QMainWindow):
         self.layout().addWidget(self.lblName)
 
         self.btnUninstall = QPushButton()
+        self.btnUninstall.setStyleSheet('''
+        QPushButton {
+        background-color: red;color:white;border-radius: 25% 25%;
+        }
+        QPushButton::hover {
+        background-color: orange;color:white;border-radius: 25% 25%;
+        }''')
         self.btnUninstall.clicked.connect(self.xuni)
         self.btnUninstall.setText('Uninstall')
         self.btnUninstall.setGeometry(self.width()-260, 128-25, 100, 50)
@@ -162,8 +169,43 @@ class ShowPackageInformation (QMainWindow):
         self.btnUpdate = QPushButton()
         self.btnUpdate.clicked.connect(self.xup)
         self.btnUpdate.setText('Update')
+        self.btnUpdate.setStyleSheet('''
+        QPushButton {
+        background-color: green;color:white;border-radius: 25% 25%;
+        }
+        QPushButton::hover {
+        background-color: lime;color:white;border-radius: 25% 25%;
+        }''')
         self.btnUpdate.setGeometry(self.width()-150, 128 - 25, 100, 50)
         self.layout().addWidget(self.btnUpdate)
+
+        self.w = QWidget()
+        self.w.setGeometry(30,200,self.width()-60,275)
+        self.hbox = QHBoxLayout()
+        self.w.setLayout(self.hbox)
+        f.setPointSize(12)
+        self.text1 = QTextBrowser()
+        self.text1.setAlignment(Qt.AlignRight)
+        self.text1.append('\nPackage name:\n')
+        self.text1.append('Package version:\n')
+        self.text1.append('Release date:\n')
+        self.text1.append('Copyright:\n')
+        self.text1.append('License:\n')
+        self.text1.append('Installed in:\n')
+        self.text1.setFont(f)
+        self.hbox.addWidget(self.text1)
+
+        self.text2 = QTextBrowser()
+        self.text2.append("\n"+self.name+"\n")
+        self.text2.append(self.version+"\n")
+        self.text2.append(self.build+"\n")
+        self.text2.append(self.copyright+"\n")
+        self.text2.append(self.license+"\n")
+        self.text2.append(self.unpack+"\n")
+        self.text2.setAlignment(Qt.AlignLeft)
+        self.text2.setFont(f)
+        self.hbox.addWidget(self.text2)
+        self.layout().addWidget(self.w)
 
     def xhide (self):
         self.hide()
@@ -201,5 +243,37 @@ class MainApp (QMainWindow):
         self.Widget.SetWindowTitle ("Package Manager")
         self.Widget.Resize(self,720,640)
 
+        self.menubar = QMenuBar()
+        self.setMenuBar(self.menubar)
+
+        self.mirror = self.menubar.addMenu("Mirror")
+        self.package = self.menubar.addMenu("Package")
+
+        self.addm = self.mirror.addAction ("Add")
+        self.addm.triggered.connect (self.addm_)
+        self.delm = self.mirror.addAction ("Remove")
+        self.delm.triggered.connect (self.delm_)
+
+        self.instp = self.package.addAction("Install")
+        self.remp = self.package.addAction("Uninstall")
+        self.downp = self.package.addAction("Download")
+        self.clonep = self.package.addAction("Clone")
+
         self.x = PackageListView([self.Env,self.Widget,self,self.AppName,self.External])
         self.setCentralWidget(self.x)
+
+    def addm_ (self):
+        self.Env.RunApp('input', ['Enter your mirror name', self.addm_x])
+
+    def addm_x(self,name):
+        files.write('/proc/info/msel',f'/app/mirrors/{name}')
+        self.Env.RunApp('input', ['Enter your mirror link', self.addm_x_])
+
+    def addm_x_(self,link):
+        files.write(files.readall('/proc/info/msel'),link)
+
+    def delm_(self):
+        self.Env.RunApp('input', ['Enter your mirror name', self.del_x])
+
+    def del_x(self,name):
+        files.remove(f'/app/mirrors/{name}')
