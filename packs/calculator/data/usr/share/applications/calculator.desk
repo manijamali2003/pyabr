@@ -21,3 +21,4 @@ line_round: 15
 line_fgcolor: gray
 line_fontsize: 20
 fontsize: 12
+application: Yes

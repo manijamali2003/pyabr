@@ -17,3 +17,4 @@ logout-icon: @icon/pysys_logout
 restart-icon: @icon/pysys_restart
 suspend-icon: @icon/pysys_suspend
 switchuser-icon: @icon/pysys_switchuser
+application: Yes

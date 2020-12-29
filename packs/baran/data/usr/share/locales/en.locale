@@ -66,8 +66,8 @@ input.title: Enter a value
 input.cancel: Cancel
 input.ok: OK
 bool.title: Are you sure?
-bool.cancel: Cancel
-bool.ok: OK
+bool.cancel: No
+bool.ok: Yes
 bool.text: Do you want to do this action?
 select.dir: Choose a directory
 select.file: Choose a file

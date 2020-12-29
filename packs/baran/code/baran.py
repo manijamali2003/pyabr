@@ -1746,14 +1746,22 @@ class Desktop (QMainWindow):
         self.setCentralWidget(self.BtnWakeUp)
 
     def signout_act (self):
-        app.endall()
-        commands.shutdown([])
-        subprocess.call([sys.executable,files.readall('/proc/info/boot'),"gui-login"])
-        sys.exit(0)
+        self.RunApp('bool', ['Sign Out', 'Do you want to sign out this session?', self.signout_act_])
+
+    def signout_act_ (self,yes):
+        if yes:
+            app.endall()
+            commands.shutdown([])
+            subprocess.call([sys.executable, files.readall('/proc/info/boot'), "gui-login"])
+            sys.exit(0)
 
     def switchuser_act (self):
-        files.create('/tmp/switched-user')
-        subprocess.call([sys.executable, files.readall('/proc/info/boot'), "gui-login"]) # just run the login
+        self.RunApp('bool', ['Switch another user', 'Do you want to switch another user?', self.switchuser_act_])
+
+    def switchuser_act_(self,yes):
+        if yes:
+            files.create('/tmp/switched-user')
+            subprocess.call([sys.executable, files.readall('/proc/info/boot'), "gui-login"])  # just run the login
 
     def unlock_act (self):
         self.submenu.show()

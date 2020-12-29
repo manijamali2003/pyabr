@@ -1,5 +1,5 @@
 
-Standard commands in internal Pyabr library ('/usr/app/libabr.pyc'):
+Standard Cloud Commands:
 
     bunzip     Extract bzip with tarball archive
     bzip       Create bzip with tarball archive
@@ -13,6 +13,7 @@ Standard commands in internal Pyabr library ('/usr/app/libabr.pyc'):
     cc         Compiler Collection
     cp         Copy files or directories
     date       Show time and date
+    det        Remove item from list file
     echo       Output a message
     getv       Get all information in controller
     gunzip     Extract gzip with tarball archive
@@ -34,6 +35,7 @@ Standard commands in internal Pyabr library ('/usr/app/libabr.pyc'):
     su         Switch an user account
     sudo       Run commands as root user
     tar        Create tarball archive
+    touch      Create an empty file
     uadd       Create an user account
     udel       Delete an user account
     uinfo      Show informations about an user account

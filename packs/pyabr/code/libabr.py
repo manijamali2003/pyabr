@@ -662,6 +662,13 @@ class Commands:
         else:
             subprocess.call([sys.executable,boot, 'user', user, code])
 
+    # det Delete Text from a line
+    def det (self,args):
+        control = Control()
+        files = Files()
+        for i in args:
+            control.remove_item(i,files.readall('/proc/info/sel'))
+
     # reboot #
     def reboot (self,args):
         colors = Colors()

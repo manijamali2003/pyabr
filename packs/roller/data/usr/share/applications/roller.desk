@@ -21,3 +21,4 @@ sa: @icon/application-x-executable-script
 html: @icon/html
 php: @icon/application-x-php
 js: @icon/application-javascript
+application: Yes
