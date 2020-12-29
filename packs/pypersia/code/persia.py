@@ -44,6 +44,13 @@ class FileListView(QListView):
         commands.cat (['-c',filename])
         it.setFont(f)
 
+    def genpa (self,filename):
+        it = QtGui.QStandardItem(filename+".pa")
+        it.setWhatsThis(self.dir + "/" + filename+".pa")
+        self.entry.appendRow(it)
+        self.format(it, filename+".pa")
+        it.setFont(f)
+
     def mkc (self,filename):
         self.mkfile(filename+".c")
         files.write(self.dir + "/" + filename+'.c',files.readall(res.get('@temp/untitled.c')))
@@ -310,7 +317,9 @@ class MainApp(QtWidgets.QMainWindow):
 
         self.generate_source = self.build.addAction('Pack Source code with Buildtools')
         self.generate_pa = self.build.addAction('Generate .PA Package')
+        self.generate_pa.triggered.connect (self.generate_pa_)
         self.install = self.build.addAction('Build and Install Project')
+        self.install.triggered.connect (self.install_)
 
         self.publish = self.code.addAction('Publish Project')
 
@@ -464,6 +473,30 @@ class MainApp(QtWidgets.QMainWindow):
         control.write_record('lang','python','.pypersia')
 
         self.Env.RunApp ('persia',projectname)
+
+    def generate_pa_ (self):
+        self.project = files.readall('/proc/info/psel')
+        self.user = files.readall('/proc/info/su')
+        if not self.user == 'root':
+            self.path = f'/desk/{self.user}/Projects/{self.project}'
+        else:
+            self.path = f'/root/Projects/{self.project}'
+
+        self.config = self.path + "/.pypersia"
+
+        self.projectname = control.read_record('name',self.config)
+
+        System(f'paye pak {self.path}/packs/{self.projectname}')
+        commands.mv([f'{self.path}/packs/{self.projectname}.pa',f'{self.path}/{self.projectname}.pa'])
+
+        self.x.genpa(self.projectname)
+
+    def install_(self):
+        if not files.isfile(f"{self.path}/{self.projectname}.pa"):
+            self.generate_pa_()
+
+        if not files.isdir(f"{self.path}/{self.projectname}.pa"):
+            System(f'paye upak {self.path}/{self.projectname}.pa')
 
     def new_act (self):
         self.Widget.SetWindowTitle (res.get('@string/untitled'))

@@ -1711,16 +1711,24 @@ class Desktop (QMainWindow):
         self.RunApp (sender.replace('.desk',''),None)
 
     def escape_act (self):
-        app.endall()
-        app.switch('desktop')
-        commands.shutdown([])
-        sys.exit(0)
+        self.RunApp('bool',['Escape','Do you want to escape from Pyabr?',self.escape_act_])
+
+    def escape_act_(self,yes):
+        if yes:
+            app.endall()
+            app.switch('desktop')
+            commands.shutdown([])
+            sys.exit(0)
 
     def reboot_act (self):
-        app.endall()
-        self.Backend.hide()
-        commands.reboot([])
-        sys.exit(0)
+        self.RunApp('bool', ['Restart', 'Do you want to restart the Pyabr?', self.reboot_act_])
+
+    def reboot_act_(self,yes):
+        if yes:
+            app.endall()
+            self.Backend.hide()
+            commands.reboot([])
+            sys.exit(0)
 
     def wakeup_act (self):
         self.submenu.show()

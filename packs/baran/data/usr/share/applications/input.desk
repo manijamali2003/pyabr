@@ -1,4 +1,4 @@
 name[en]: Input Box
 exec: inputbox
 hidden: Yes
-logo: @icon/app
+logo: @icon/help-about

@@ -98,3 +98,7 @@ roller.filename: نام پرونده مورد نظر را وارد کنید
 piecasso.app_name: نقاشی
 about.app_name: درباره سیستم
 mines.app_name: مین ها
+bool.title: آیا شما مایلید؟
+bool.cancel: لغو
+bool.ok: تایید
+bool.text: آیا می خواهید این عمل را انجام دهید؟
