@@ -193,7 +193,7 @@ class MainApp(QtWidgets.QMainWindow):
             else:
                 self._user_del(split[1])
 
-        elif cmd.startswith(' in'):
+        elif cmd.startswith(' read'):
             split = cmd.split(' ')
             split.remove('')
 

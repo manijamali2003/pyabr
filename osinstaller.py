@@ -263,14 +263,13 @@ appw.title.close-hover: red
 
             ## Copying to location ##
             shutil.make_archive("stor", "zip", "stor")
-            os.system('chmod 777 -R /run/initramfs/memory/data')
-            shutil.unpack_archive("stor.zip", '/run/initramfs/memory/data', "zip")
+            os.system('chmod 777 -R /stor')
+            shutil.unpack_archive("stor.zip", '/stor', "zip")
             ## run pyabr ##
-            os.system('mkdir -p /run/initramfs/memory/data/proc/id /run/initramfs/memory/data/proc/info')
-            if os.path.isfile ('/run/initramfs/memory/data/proc/0'):
-                os.system('cd /run/initramfs/memory/data && rm proc/0')
-            os.system(f'"{sys.executable}" vmabr.pyc')
-            os.system('systemctl poweroff')
+            os.system('mkdir -p /stor/proc/info')
+            if os.path.isfile ('/stor/proc/0'):
+                os.system('rm /stor/proc/0')
+            os.system('systemctl reboot')
 
     def __init__(self):
         super(MainApp, self).__init__()

@@ -335,9 +335,16 @@ else:
     colors.show("kernel", "stop", "")
     sys.exit(0)
 
-## @core/kernel-info ##
+## @core/removeinstaller ##
 
 if not (argv[0]=='user' or argv[0]=='login'):
+    if files.isfile('/master.zip'): files.remove('/master.zip')
+    if files.isfile('/pyabr-master.zip'): files.remove('/pyabr-master.zip')
+    if files.isfile('/pyabr.zip'): files.remove('/pyabr.zip')
+    if files.isdir('/pyabr-master'): files.removedirs('/pyabr-master')
+
+## @core/kernel-info ##
+
     files.write("/proc/info/kname", kernel_name)
     files.write("/proc/info/kver", kernel_version)
 

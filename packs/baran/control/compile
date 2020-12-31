@@ -4,3 +4,4 @@ selectbox.py:usr/app/selectbox.pyc
 about.py:usr/app/page_about.pyc
 boolbox.py:usr/app/boolbox.pyc
 textbox.py:usr/app/textbox.pyc
+usermanager.py:usr/app/usermanager.pyc

@@ -6,6 +6,7 @@ usr/app/baran.pyc
 usr/app/inputbox.pyc
 usr/app/boolbox.pyc
 usr/app/textbox.pyc
+usr/app/usermanager.pyc
 usr/app/selectbox.pyc
 usr/share/docs/baran
 usr/share/locales/en.locale
