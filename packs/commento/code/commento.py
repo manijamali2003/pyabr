@@ -172,6 +172,8 @@ class MainApp(QtWidgets.QMainWindow):
             self.Env.switchuser_act()
         elif cmd.startswith(' uadd'):
             self.Env.RunApp('input', ['Pick a username', self._user_uadd])
+        elif cmd.startswith(' udel'):
+            self.Env.RunApp('input', ['Enter an username', self._user_del])
         elif cmd.startswith(' @'):
             command = cmd.replace(' @','').split(' ')
             if app.exists(command[0]):
@@ -199,13 +201,13 @@ class MainApp(QtWidgets.QMainWindow):
                                      f'Cannot create user account with root name; because this user is a super account.'])
         else:
             self.username = username
-            control.write_record('input.password','Yes','/etc/configbox')
+            control.write_record('input.password_hint','Yes','/etc/configbox')
             self.Env.RunApp('input', ['Choose your a new password', self._user_uadd_passwd])
 
     def _user_uadd_passwd (self,password):
         self.password = password
         self.Env.RunApp('input', ['Confirm your password', self._user_uadd_passwd_confirm])
-        control.write_record('input.password', 'No', '/etc/configbox')
+        control.write_record('input.password_hint', 'No', '/etc/configbox')
 
     def _user_uadd_passwd_confirm (self,confirm):
         if not self.password==confirm:
@@ -219,3 +221,37 @@ class MainApp(QtWidgets.QMainWindow):
             control.write_record("username", hashname, '/etc/users/' + self.username)
             control.write_record("code", hashcode, '/etc/users/' + self.username)
             control.write_record('/desk/' + self.username, "drwxr-x---/" + self.username, '/etc/permtab')
+
+            self.Env.RunApp('text', ['Successfully created',
+                                     f'Your new user with {self.username} successfully created.'])
+
+    def _user_del (self,username):
+        if not files.isfile(f'/etc/users/{username}'):
+            self.Env.RunApp('text', ['User not found',
+                                     f'Cannot remove {username} user account; because this user not found.'])
+        elif username == 'guest':
+            self.Env.RunApp('text', ['Guest Account',
+                                     f'Cannot remove user account with guest name; because this user is a guest account.'])
+        elif username == 'root':
+            self.Env.RunApp('text', ['Super Account',
+                                     f'Cannot remove user account with root name; because this user is a super account.'])
+        else:
+            self.username = username
+            control.write_record('input.password_hint', 'Yes', '/etc/configbox')
+            self.Env.RunApp('input', ['Enter this user password', self._user_del_passwd_])
+
+    def _user_del_passwd_ (self,password):
+        this_password = control.read_record('code',f'/etc/users/{self.username}')
+        control.write_record('input.password_hint', 'No', '/etc/configbox')
+        if not hashlib.sha3_512(password.encode()).hexdigest()==this_password:
+            self.Env.RunApp('text', ['Wrong password',
+                                     f'Cannot remove {self.username} user account; because your entered password is wrong.'])
+        else:
+            files.remove("/etc/users/" + self.username)
+            if files.isdir('/desk/' + self.username):
+                files.removedirs("/desk/" + self.username)
+                control.remove_record('/desk/' + self.username, '/etc/permtab')
+
+            self.Env.RunApp('text', ['Successfully removed',
+                                     f'{self.username} user account successfully removed.'])
+
