@@ -75,10 +75,6 @@ def unpack (name):
     ## Unpack data again ##
     shutil.unpack_archive("app/cache/archives/build/data.zip","stor/"+unpack,"zip")
 
-    ## Save source code ##
-    shutil.unpack_archive('app/cache/archives/build/code.zip','stor/usr/src/'+name,'zip')
-    clean()
-
 def install ():
     list = os.listdir('packs')
     list.remove('baran')
