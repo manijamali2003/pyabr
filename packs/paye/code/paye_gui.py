@@ -255,6 +255,7 @@ class MainApp (QMainWindow):
         self.delm.triggered.connect (self.delm_)
 
         self.instp = self.package.addAction("Install")
+        self.instp.triggered.connect (self.inst_)
         self.remp = self.package.addAction("Uninstall")
         self.downp = self.package.addAction("Download")
         self.clonep = self.package.addAction("Clone")
@@ -286,3 +287,20 @@ class MainApp (QMainWindow):
             files.remove(f'/app/mirrors/{name}')
         else:
             self.Env.RunApp('text', ['Mirror not found','You entered mirror cannot be found.'])
+
+    def inst_(self):
+        self.Env.RunApp('input', ['Enter a package name', self.inst_x])
+
+    def inst_x (self,name):
+        if not files.isfile(f'/app/mirrors/{name}'):
+            self.Env.RunApp('text', ['Mirror not found', f'Cannot install package with {name} name; because mirror of this package not found.'])
+        else:
+            try:
+                System(f'paye in {name}')
+                self.Env.RunApp('text', ['Successfully installed',
+                                         f'{name} package successfully installed.'])
+                self.hide()
+                self.Env.RunApp('paye',[None])
+            except:
+                self.Env.RunApp('text', ['Connot install',
+                                         f'Cannot install package with {name} name; there are some errors in connection or etc.'])

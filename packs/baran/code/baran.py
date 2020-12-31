@@ -1696,7 +1696,10 @@ class Desktop (QMainWindow):
     locale = control.read_record("locale", "/etc/gui")
 
     def RunApp (self,appname,external):
-        self.layout().addWidget(AppWidget([self.Backend, self, appname,external]))
+        try:
+            self.layout().addWidget(AppWidget([self.Backend, self, appname,external]))
+        except:
+            self.layout().addWidget(AppWidget([self.Backend, self, 'text', ['Application not found', f'Cannot run {appname} application; because this application not found.']]))
 
     def StartupApplication (self):
 
