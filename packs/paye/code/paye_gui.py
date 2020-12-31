@@ -261,9 +261,6 @@ class MainApp (QMainWindow):
         self.downp = self.package.addAction("Download")
         self.downp.triggered.connect (self.down_)
 
-        self.upg = self.menubar.addAction('Update')
-        self.upg.triggered.connect (self.want_to_update_)
-
         self.x = PackageListView([self.Env,self.Widget,self,self.AppName,self.External])
         self.setCentralWidget(self.x)
 
@@ -345,62 +342,3 @@ class MainApp (QMainWindow):
             except:
                 self.Env.RunApp('text', ['Connot download',
                                          f'Cannot download package with {name} name; there are some errors in connection or etc.'])
-
-    def want_to_update_(self):
-        # download the current version
-        System('paye add https://github.com/manijamali2003/pyabr/archive/master.zip pyabr')
-        System('paye get pyabr')
-
-        # check version #
-        now_version = control.read_record('version', '/etc/distro')
-
-        ## unpack pyabr ##
-        shutil.unpack_archive(files.input('/app/cache/gets/pyabr.pa'), files.input('/tmp'), 'zip')
-
-        ## Should be develop ... ##
-        new_version = control.read_record('version', '/tmp/pyabr-master/packs/pyabr/data/etc/distro')
-
-        # list upgrades internal packages #
-
-        if not new_version == now_version:
-            self.Env.RunApp('bool', ['New version of Pyabr is available','Do you want to update your Pyabr to the latest version?', self._want_check])
-        else:
-            self.Env.RunApp('text', ['Up to date',
-                                     f'All internal Pyabr packages is up to date.'])
-
-    def _want_check (self,yes):
-        if yes:
-            # backup #
-            shutil.make_archive(files.input('/app/cache/backups/users.bak'), 'zip', files.input('/etc/users'))
-            files.copy('/etc/color', '/app/cache/backups/color.bak')
-            files.copy('/etc/compiler', '/app/cache/backups/compiler.bak')
-            files.copy('/etc/exec', '/app/cache/backups/exec.bak')
-            files.copy('/etc/guest', '/app/cache/backups/guest.bak')
-            files.copy('/etc/gui', '/app/cache/backups/gui.bak')
-            files.copy('/etc/hostname', '/app/cache/backups/hostname.bak')
-            files.copy('/etc/interface', '/app/cache/backups/interface.bak')
-            files.copy('/etc/modules', '/app/cache/backups/modules.bak')
-            files.copy('/etc/permtab', '/app/cache/backups/permtab.bak')
-            files.copy('/etc/time', '/app/cache/backups/time.bak')
-
-            self.listu = files.list('/app/packages')
-            for i in self.listu:
-                if i.endswith('.manifest'):
-                    if files.isdir('/tmp/pyabr-master/packs/' + i.replace('.manifest', '')):
-                        System(f'paye pak /tmp/pyabr-master/packs/{i.replace(".manifest","")}')
-                        System(f'paye upak /tmp/pyabr-master/packs/{i.replace(".manifest", "")}')
-
-            files.removedirs('/tmp/pyabr-master')
-
-            shutil.unpack_archive(files.input('/app/cache/backups/users.bak.zip'), files.input('/etc/users'), 'zip')
-            files.remove('/app/cache/backups/users.bak.zip')
-            files.cut('/app/cache/backups/color.bak', '/etc/color')
-            files.cut('/app/cache/backups/compiler.bak', '/etc/compiler')
-            files.cut('/app/cache/backups/exec.bak', '/etc/exec')
-            files.cut('/app/cache/backups/guest.bak', '/etc/guest')
-            files.cut('/app/cache/backups/gui.bak', '/etc/gui')
-            files.cut('/app/cache/backups/hostname.bak', '/etc/hostname')
-            files.cut('/app/cache/backups/interface.bak', '/etc/interface')
-            files.cut('/app/cache/backups/modules.bak', '/etc/modules')
-            files.cut('/app/cache/backups/permtab.bak', '/etc/permtab')
-            files.cut('/app/cache/backups/time.bak', '/etc/time')
