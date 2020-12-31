@@ -101,4 +101,7 @@ mines.app_name: مین ها
 bool.title: آیا شما مایلید؟
 bool.cancel: لغو
 bool.ok: تایید
+text.text: نوشته باکش متن
+text.title: باکس متن
+text.ok: تایید
 bool.text: آیا می خواهید این عمل را انجام دهید؟

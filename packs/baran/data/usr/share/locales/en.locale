@@ -148,3 +148,6 @@ persia.untitled: Untitled - PyPersia
 persia.saveafile: Save a file
 persia.chooseafile: Choose a file
 persia.saveasfile: Save as file
+text.title: Text box
+text.text: This is a simple text box
+text.ok: OK

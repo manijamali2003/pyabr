@@ -266,14 +266,23 @@ class MainApp (QMainWindow):
         self.Env.RunApp('input', ['Enter your mirror name', self.addm_x])
 
     def addm_x(self,name):
-        files.write('/proc/info/msel',f'/app/mirrors/{name}')
-        self.Env.RunApp('input', ['Enter your mirror link', self.addm_x_])
+        if files.isfile (f'/app/mirrors/{name}'):
+            self.Env.RunApp('text', ['Mirror exists', 'You entered mirror has already exists.'])
+        else:
+            files.write('/proc/info/msel',f'/app/mirrors/{name}')
+            self.Env.RunApp('input', ['Enter your mirror link', self.addm_x_])
 
     def addm_x_(self,link):
-        files.write(files.readall('/proc/info/msel'),link)
+        if link.startswith('http://') or link.startswith('https://') and link.endswith ('.pa'):
+            files.write(files.readall('/proc/info/msel'),link)
+        else:
+            self.Env.RunApp('text', ['Not a download link', 'You entered link is not a download link.'])
 
     def delm_(self):
         self.Env.RunApp('input', ['Enter your mirror name', self.del_x])
 
     def del_x(self,name):
-        files.remove(f'/app/mirrors/{name}')
+        if files.isfile (f'/app/mirrors/{name}'):
+            files.remove(f'/app/mirrors/{name}')
+        else:
+            self.Env.RunApp('text', ['Mirror not found','You entered mirror cannot be found.'])

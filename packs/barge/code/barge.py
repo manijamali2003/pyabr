@@ -104,9 +104,14 @@ class MainApp(QtWidgets.QMainWindow):
 
         ## Run it ##
         if self.Widget.WindowTitle().endswith (".c") or self.Widget.WindowTitle().endswith('.cpp') or self.Widget.WindowTitle().endswith('.cxx') or self.Widget.WindowTitle().endswith('.c++'):
-            cmd.cc([self.Widget.WindowTitle()])
+            try:
+                cmd.cc([self.Widget.WindowTitle()])
+            except:
+                self.Env.RunApp('text', ['Compile error', 'There is some problem with C/++ Compiler.'])
+
             self.Env.RunApp('commento',[self.Widget.WindowTitle().replace('.cpp','').replace('.cxx','').replace('.c++','').replace('.c',''),'Barge Console'])
             files.remove(self.Widget.WindowTitle())
+
         elif self.Widget.WindowTitle().endswith ('.py'):
             # check graphical PyQt5 #
             if files.readall(self.Widget.WindowTitle()).__contains__('from PyQt5') and files.readall(self.Widget.WindowTitle()).__contains__('MainApp'):
@@ -124,6 +129,9 @@ class MainApp(QtWidgets.QMainWindow):
                 self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.py',''),'Barge Console'])
         elif self.Widget.WindowTitle().endswith ('.sa'):
             self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.sa', ''), 'Barge Console'])
+        else:
+            if not self.Widget.WindowTitle()==res.get('@string/untitled'):
+                self.Env.RunApp('text', ['Cannot support', 'Barge cannot support this syntax or language.'])
 
 
     def new_page_act (self):
