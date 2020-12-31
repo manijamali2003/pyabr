@@ -18,13 +18,14 @@ from PyQt5.QtGui import *
 import sys
 import os, hashlib
 import subprocess
-from libabr import Res, System, Files, Control, Process, App
+from libabr import Res, System, Files, Control, Process, App, Commands
 
 res = Res()
 files = Files()
 process = Process()
 control = Control()
 app = App()
+commands = Commands()
 
 class MainApp(QtWidgets.QMainWindow):
     username = ''
@@ -169,11 +170,38 @@ class MainApp(QtWidgets.QMainWindow):
         elif cmd==" logout":
             self.Env.signout_act()
         elif cmd.startswith(' su'):
+            split = cmd.split(' ')
+            split.remove('')
+
             self.Env.switchuser_act()
+
         elif cmd.startswith(' uadd'):
-            self.Env.RunApp('input', ['Pick a username', self._user_uadd])
+            split = cmd.split(' ')
+            split.remove('')
+
+            if split == []:
+                self.Env.RunApp('input', ['Pick a username', self._user_uadd])
+            else:
+                self._user_uadd(split[1])
+
         elif cmd.startswith(' udel'):
-            self.Env.RunApp('input', ['Enter an username', self._user_del])
+            split = cmd.split(' ')
+            split.remove('')
+
+            if split == []:
+                self.Env.RunApp('input', ['Enter an username', self._user_del])
+            else:
+                self._user_del(split[1])
+
+        elif cmd.startswith(' in'):
+            split = cmd.split(' ')
+            split.remove('')
+
+            if split==[]:
+                self.Env.RunApp('input', ['Enter a variable name', self._in])
+            else:
+                self._in(split[1])
+
         elif cmd.startswith(' @'):
             command = cmd.replace(' @','').split(' ')
             if app.exists(command[0]):
@@ -255,3 +283,9 @@ class MainApp(QtWidgets.QMainWindow):
             self.Env.RunApp('text', ['Successfully removed',
                                      f'{self.username} user account successfully removed.'])
 
+    def _in (self,name):
+        self.name = name
+        self.Env.RunApp('input', [f'Enter {name} value', self._in_value])
+
+    def _in_value (self,value):
+        commands.set([self.name+":",value])
