@@ -16,7 +16,7 @@ from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 import sys
-import os
+import os, hashlib
 import subprocess
 from libabr import Res, System, Files, Control, Process, App
 
@@ -27,6 +27,9 @@ control = Control()
 app = App()
 
 class MainApp(QtWidgets.QMainWindow):
+    username = ''
+    password = ''
+    confirm = ''
     def __init__(self,ports):
         super(MainApp, self).__init__()
         #uic.loadUi(res.get('@layout/commento'), self)
@@ -165,6 +168,10 @@ class MainApp(QtWidgets.QMainWindow):
             self.Env.reboot_act()
         elif cmd==" logout":
             self.Env.signout_act()
+        elif cmd.startswith(' su'):
+            self.Env.switchuser_act()
+        elif cmd.startswith(' uadd'):
+            self.Env.RunApp('input', ['Pick a username', self._user_uadd])
         elif cmd.startswith(' @'):
             command = cmd.replace(' @','').split(' ')
             if app.exists(command[0]):
@@ -180,3 +187,35 @@ class MainApp(QtWidgets.QMainWindow):
             self.textBrowser.verticalScrollBar().setValue(self.textBrowser.verticalScrollBar().maximum())
 
         self.Widget.DisableFloat()
+
+    def _user_uadd (self,username):
+        if files.isfile(f'/etc/users/{username}'):
+            self.Env.RunApp('text',['User exists', f'Cannot create {username} user account; because this user has already exists.'])
+        elif username=='guest':
+            self.Env.RunApp('text', ['Guest Account',
+                                     f'Cannot create user account with guest name; because this user is a guest account.'])
+        elif username=='root':
+            self.Env.RunApp('text', ['Super Account',
+                                     f'Cannot create user account with root name; because this user is a super account.'])
+        else:
+            self.username = username
+            control.write_record('input.password','Yes','/etc/configbox')
+            self.Env.RunApp('input', ['Choose your a new password', self._user_uadd_passwd])
+
+    def _user_uadd_passwd (self,password):
+        self.password = password
+        self.Env.RunApp('input', ['Confirm your password', self._user_uadd_passwd_confirm])
+        control.write_record('input.password', 'No', '/etc/configbox')
+
+    def _user_uadd_passwd_confirm (self,confirm):
+        if not self.password==confirm:
+            self.Env.RunApp('text', ['Not match',
+                                     f'Your new password and your confirm password are not match.'])
+        else:
+            hashname = hashlib.sha3_256(str(self.username).encode()).hexdigest()
+            hashcode = hashlib.sha3_512(str(self.password).encode()).hexdigest()
+
+            files.create("/etc/users/" + self.username)
+            control.write_record("username", hashname, '/etc/users/' + self.username)
+            control.write_record("code", hashcode, '/etc/users/' + self.username)
+            control.write_record('/desk/' + self.username, "drwxr-x---/" + self.username, '/etc/permtab')

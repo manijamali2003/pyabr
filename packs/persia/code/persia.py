@@ -402,7 +402,11 @@ class MainApp(QtWidgets.QMainWindow):
 
         ## Run it ##
         if file.endswith (".c") or file.endswith('.cpp') or file.endswith('.cxx') or file.endswith('.c++'):
-            commands.cc([file])
+            try:
+                commands.cc([file])
+            except:
+                self.Env.RunApp('text', ['Compile error', 'There is some problem with C/++ Compiler.'])
+
             self.Env.RunApp('commento',[file.replace('.cpp','').replace('.cxx','').replace('.c++','').replace('.c',''),'PyPersia Console'])
             files.remove(file.replace('.c','').replace('.cpp','').replace('.cxx','').replace('.c++',''))
         elif file.endswith ('.py'):
@@ -424,6 +428,8 @@ class MainApp(QtWidgets.QMainWindow):
                 commands.rm (['/usr/app/'+files.filename(file)])
         elif file.endswith ('.sa'):
             self.Env.RunApp('commento', [file.replace('.sa',''), 'PyPersia Console'])
+        else:
+            self.Env.RunApp('text', ['Cannot Support', 'PyPersia cannot support this language or syntax.'])
 
     def run_project_(self):
 
@@ -437,16 +443,31 @@ class MainApp(QtWidgets.QMainWindow):
 
         config = path+"/.pypersia"
 
+        rand = str(random.randint(1000,9999))
+
+        control.write_record('exec',f'{project}_{rand}',f'{path}/packs/{project}/data/usr/share/applications/{project}.desk')
+
+        compile = files.readall(f'{path}/packs/{project}/control/compile')
+        compile = compile.replace (f'{project}.pyc',f'{project}_{rand}.pyc')
+        files.write(f'{path}/packs/{project}/control/compile',compile)
+        files.cut(f'{path}/packs/{project}/data/usr/share/applications/{project}.desk',f'{path}/packs/{project}/data/usr/share/applications/{project}_{rand}.desk')
+
         System(f'paye pak {path}/packs/{project}')
         System(f'paye upak {path}/packs/{project}.pa')
 
         if control.read_record('type',config)=='gui':
-            self.Env.RunApp(f'{project}', [None])
+            self.Env.RunApp(f'{project}_{rand}', [None])
         else:
             self.Env.RunApp('commento', [project, 'PyPersia Console'])
 
         if files.isfile(f'{path}/packs/{project}.pa'): files.remove(f'{path}/packs/{project}.pa')
         System(f'paye rm {project}')
+
+        compile = files.readall(f'{path}/packs/{project}/control/compile')
+        compile = compile.replace(f'{project}_{rand}.pyc', f'{project}.pyc')
+        files.write(f'{path}/packs/{project}/control/compile', compile)
+        files.cut(f'{path}/packs/{project}/data/usr/share/applications/{project}_{rand}.desk',
+                  f'{path}/packs/{project}/data/usr/share/applications/{project}.desk')
 
     def new_empty_act (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.project_create])

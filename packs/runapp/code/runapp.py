@@ -33,9 +33,7 @@ class MainApp(QLineEdit):
             self.setEnabled(False)
             QTimer.singleShot(1000, self.correct)
         else:
-            self.Widget.SetWindowTitle(res.get('@string/app_not_found').replace('{0}',self.text()))
-            self.setStyleSheet(f'background-color: {res.etc(self.AppName,"wrong-bgcolor")};color: {res.etc(self.AppName,"wrong-fgcolor")};')
-            self.setEnabled(False)
+            self.Env.RunApp('text', ['Application not found', f'{command[0]} application not found.'])
             QTimer.singleShot(1000, self.correct)
 
     def __init__(self,args):
