@@ -1435,7 +1435,7 @@ class Commands:
                 sudoers = files.readall('/etc/sudoers')
 
                 if not sudoers.__contains__(thisuser):
-                    colors.show('sudo', 'fail', thisuser + ": user is'nt sudoers account.")
+                    colors.show('sudo', 'fail', thisuser + ": user isn't sudoers account.")
                     sys.exit()
 
             ## Send /etc/users/root to /proc/info/su username ##

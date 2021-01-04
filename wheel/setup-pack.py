@@ -15,11 +15,11 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="pyabr",  # Replace with your own username
+    name="pyabr",
     version="0.3.0",
     author="Mani Jamali",
     author_email="pyabrsystem@gmail.com",
-    description="Pyabr cloud software",
+    description="Python Cloud & OS",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/manijamali2003/pyabr",

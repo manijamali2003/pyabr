@@ -2,3 +2,4 @@ name[en]: Select Box
 exec: selectbox
 hidden: Yes
 logo: @icon/help-about
+application: No

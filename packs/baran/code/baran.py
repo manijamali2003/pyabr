@@ -1174,6 +1174,50 @@ class Enter (QMainWindow):
         else:
             self.show()
 
+class AppListView(QListView):
+    def format(self, it):
+        if files.isfile (it.whatsThis()):
+            name = it.text().replace('.desk','')
+            locale = control.read_record('locale','/etc/gui')
+            subname = res.etc(name,f'name[{locale}]')
+            icon = res.etc(name,'logo')
+            it.setText(subname)
+            it.setIcon(QIcon(res.get(icon)))
+
+    def __init__(self,ports):
+        super().__init__()
+        self.Env = ports[0]
+        self.Widget = ports[1]
+
+        self.entry = QStandardItemModel()
+        self.setModel(self.entry)
+        self.setIconSize(QSize(64, 64))
+        self.clicked[QModelIndex].connect(self.on_clicked)
+        # When you receive the signal, you call QtGui.QStandardItemModel.itemFromIndex()
+        # on the given model index to get a pointer to the item
+
+        self.listdir = files.list('/usr/share/applications')
+        self.listdir.sort()
+
+        for text in self.listdir:
+
+            if res.etc(text.replace('.desk',''),'application')=='Yes':
+                it = QStandardItem(text.replace('.desk',''))
+                it.setWhatsThis(f'/usr/share/applications/{text}')
+                self.format(it)
+                self.entry.appendRow(it)
+
+        self.itemOld = QStandardItem("text")
+
+    def on_clicked(self, index):
+        self.item = self.entry.itemFromIndex(index)
+
+        x = hasattr(self.item, 'whatsThis')  # W3CSHCOOL.COM LEARN IT
+
+        if x == True:
+            self.Widget.hide()
+            self.Env.RunApp(self.item.whatsThis().replace('.desk','').replace('/usr/share/applications/',''),[None])
+
 ## Taskbar ##
 class TaskBar (QToolBar):
     def __init__(self,ports):
@@ -1298,10 +1342,7 @@ class TaskBar (QToolBar):
             self.Env.layout().addWidget(self.w)
             self.menu_click = True
         else:
-            self.Env.backgroundButton.raise_()
-            self.Env.backgroundButton.activateWindow()
-            self.activateWindow()
-            self.raise_()
+            self.w.hide()
             self.menu_click = False
 
     def RunApplication (self):
@@ -1334,15 +1375,18 @@ class MenuApplications (QMainWindow):
         if size == None: size = int(variables.taskbar_size)
 
         if location == 'bottom':
-            self.setGeometry(0, 0, self.Env.width(), self.Env.height() - size - 15)
+            self.setGeometry(0, int(self.Env.height()/3) , int(self.Env.width()/3), int(self.Env.height()/1.5) - size - 15)
         elif location == 'top':
-            self.setGeometry(0, size + 15, self.Env.width(), self.Env.height() - size - 15)
+            self.setGeometry(0, size + 15, int(self.Env.width()/3), (self.Env.height()/1.5) - size - 15)
         elif location == "left":
-            self.setGeometry(size + 15, 0, self.Env.width() - size - 15, self.Env.height())
+            self.setGeometry(size + 15, 0, int(self.Env.width()/3) - size - 15, int(self.Env.height()/1.5))
         elif location == "right":
-            self.setGeometry(0, 0, self.Env.width() - size - 15, self.Env.height())
+            self.setGeometry(self.Env.width()-(self.Env.width()/3) , 0, (self.Env.width()/3) - size - 15, int(self.Env.height()/1.5))
         else:
             self.setGeometry(0, 0, self.Env.width(), self.Env.height())
+
+        self.x = AppListView([self.Env,self])
+        self.setCentralWidget(self.x)
 
 class AppWidget (QMainWindow):
     def Resize(self,mainw,w,h):

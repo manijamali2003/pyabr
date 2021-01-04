@@ -1,4 +1,5 @@
 name[en]: Bool Box
 exec: boolbox
-hidden: Yes
 logo: @icon/help-about
+application: No
+hidden: Yes

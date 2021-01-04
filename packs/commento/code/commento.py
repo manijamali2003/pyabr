@@ -18,7 +18,7 @@ from PyQt5.QtGui import *
 import sys
 import os, hashlib
 import subprocess
-from libabr import Res, System, Files, Control, Process, App, Commands
+from libabr import Res, System, Files, Control, Process, App, Commands, Permissions
 
 res = Res()
 files = Files()
@@ -26,6 +26,7 @@ process = Process()
 control = Control()
 app = App()
 commands = Commands()
+permissions = Permissions()
 
 class MainApp(QtWidgets.QMainWindow):
     username = ''
@@ -169,31 +170,37 @@ class MainApp(QtWidgets.QMainWindow):
             self.Env.reboot_act()
         elif cmd==" logout":
             self.Env.signout_act()
-        elif cmd.startswith(' su'):
+        elif cmd.startswith(' su '):
             split = cmd.split(' ')
             split.remove('')
 
             self.Env.switchuser_act()
 
-        elif cmd.startswith(' uadd'):
-            split = cmd.split(' ')
-            split.remove('')
+        elif cmd.startswith(' uadd '):
+            if permissions.check_root(files.readall("/proc/info/su")):
+                split = cmd.split(' ')
+                split.remove('')
 
-            if split == []:
-                self.Env.RunApp('input', ['Pick a username', self._user_uadd])
+                if split == []:
+                    self.Env.RunApp('input', ['Pick a username', self._user_uadd])
+                else:
+                    self._user_uadd(split[1])
             else:
-                self._user_uadd(split[1])
+                self.show('udel: error: Permission denied.')
 
-        elif cmd.startswith(' udel'):
-            split = cmd.split(' ')
-            split.remove('')
+        elif cmd.startswith(' udel '):
+            if permissions.check_root(files.readall("/proc/info/su")):
+                split = cmd.split(' ')
+                split.remove('')
 
-            if split == []:
-                self.Env.RunApp('input', ['Enter an username', self._user_del])
+                if split == []:
+                    self.Env.RunApp('input', ['Enter an username', self._user_del])
+                else:
+                    self._user_del(split[1])
             else:
-                self._user_del(split[1])
+                self.show('udel: error: Permission denied.')
 
-        elif cmd.startswith(' read'):
+        elif cmd.startswith(' read '):
             split = cmd.split(' ')
             split.remove('')
 
@@ -206,13 +213,126 @@ class MainApp(QtWidgets.QMainWindow):
             command = cmd.replace(' @','').split(' ')
             if app.exists(command[0]):
                 self.Env.RunApp(command[0], command[1:])
+
+        elif cmd.startswith (' sudo '):
+            split = cmd.split(' ')
+            split.remove('')
+            split.remove('sudo')
+
+            if split == []:
+                self.show('sudo: error: no inputs.')
+            else:
+                if not split[0].startswith('-'):
+
+                    ## Get user name ##
+
+                    thisuser = files.readall("/proc/info/su")
+                    sudoers = files.readall('/etc/sudoers')
+
+                    ## Check guest account ##
+                    if thisuser == "guest":
+                        self.show('sudo: error: cannot use sudo command in guest user.')
+                    elif not thisuser == "root" and not sudoers.__contains__(thisuser):
+                        self.show(f'sudo: error: {thisuser}: user isn\'t sudoers account.')
+                    else:
+                        files.write("/proc/info/su", 'root')
+
+                        strv = ''
+                        for i in split:
+                            strv+= ' '+i
+
+                        if strv == " shut":
+                            files.remove('/proc/' + str(self.switch))
+                            self.Widget.close()
+                        elif strv == " new":
+                            self.Env.RunApp('commento', None)
+                        elif strv == " clear":
+                            self.textBrowser.clear()
+                        elif strv == " shutdown":
+                            self.Env.escape_act()
+                        elif strv == " reboot":
+                            self.Env.reboot_act()
+                        elif strv == " logout":
+                            self.Env.signout_act()
+                        elif strv.startswith(' su '):
+                            split = cmd.split(' ')
+                            split.remove('')
+
+                            self.Env.switchuser_act()
+                        elif strv.startswith(' sudo'):
+                            self.show('sudo: error: connot use sudo in sudo command.')
+                        elif strv.startswith(' uadd '):
+                            if permissions.check_root(files.readall("/proc/info/su")):
+                                split = cmd.split(' ')
+                                split.remove('')
+
+                                if split == []:
+                                    self.Env.RunApp('input', ['Pick a username', self._user_uadd])
+                                else:
+                                    self._user_uadd(split[1])
+                            else:
+                                self.show('udel: error: Permission denied.')
+
+                        elif strv.startswith(' udel '):
+                            if permissions.check_root(files.readall("/proc/info/su")):
+                                split = cmd.split(' ')
+                                split.remove('')
+
+                                if split == []:
+                                    self.Env.RunApp('input', ['Enter an username', self._user_del])
+                                else:
+                                    self._user_del(split[1])
+                            else:
+                                self.show('udel: error: Permission denied.')
+
+                        elif strv.startswith(' read '):
+                            split = cmd.split(' ')
+                            split.remove('')
+
+                            if split == []:
+                                self.Env.RunApp('input', ['Enter a variable name', self._in])
+                            else:
+                                self._in(split[1])
+                        else:
+                            result = subprocess.check_output(
+                                '"{0}" '.replace('{0}', sys.executable) + files.readall(
+                                    '/proc/info/boot') + ' exec ' + cmd,
+                                shell=True)
+                            self.textBrowser.setText(
+                                self.textBrowser.toPlainText() + "" + prompt_symbol + cmd + "\n" + result.decode(
+                                    "utf-8") + '')
+                            self.Widget.SetWindowTitle(space_username + space1 + space_hostname + space2)
+                            self.textBrowser.verticalScrollBar().setValue(
+                                self.textBrowser.verticalScrollBar().maximum())
+
+                            files.write("/proc/info/su", thisuser)
+
+                elif split[0] == '-a':
+                    ## Check root ##
+                    if not permissions.check_root(files.readall("/proc/info/su")):
+                        self.show('sudo: error: Permission denied.')
+                        sys.exit(0)
+                    ## Check user exists or no ##
+                    elif files.isfile('/etc/users/' + split[1]):
+                        hashname = hashlib.sha3_256(split[1].encode()).hexdigest()
+                        username = control.read_record('username', '/etc/users/' + split[1])
+
+                        if hashname == username:
+                            files.append('/etc/sudoers', split[1] + "\n")
+                        else:
+                            self.show(f'sudo: error: {split[1]}: user not found.')
+                    else:
+                        self.show(f'sudo: error: {split[1]}: user not found.')
+                else:
+                    self.show(f'sudo: error: {split[1]}: option not found.')
+
         elif cmd.startswith(' #') or cmd.startswith(" ;") or cmd.startswith(" //") or (cmd.startswith(" /*")and cmd.endswith("*/")) or cmd=='' or cmd==' ' or cmd=='  ':
             self.textBrowser.setText(self.textBrowser.toPlainText() + "" + prompt_symbol + cmd + "\n")
             self.Widget.SetWindowTitle(space_username + space1 + space_hostname + space2)
             self.textBrowser.verticalScrollBar().setValue(self.textBrowser.verticalScrollBar().maximum())
         else:
             result = subprocess.check_output('"{0}" '.replace('{0}',sys.executable)+files.readall('/proc/info/boot')+' exec '+cmd,shell=True)
-            self.textBrowser.setText(self.textBrowser.toPlainText() + ""+prompt_symbol + cmd +"\n\n"+ result.decode("utf-8")+'\n\n')
+            self.textBrowser.setText(self.textBrowser.toPlainText() + ""+prompt_symbol + cmd +"\n"+ result.decode("utf-8")+'')
             self.Widget.SetWindowTitle(space_username + space1 + space_hostname + space2 )
             self.textBrowser.verticalScrollBar().setValue(self.textBrowser.verticalScrollBar().maximum())
 
@@ -266,22 +386,18 @@ class MainApp(QtWidgets.QMainWindow):
         else:
             self.username = username
             control.write_record('input.password_hint', 'Yes', '/etc/configbox')
-            self.Env.RunApp('input', ['Enter this user password', self._user_del_passwd_])
+            if not permissions.check_root (files.readall("/proc/info/su")):
+                self.Env.RunApp('input', ['Enter this user password', self._user_del_passwd_])
+            else:
+                self._user_del_passwd_('*')
 
     def _user_del_passwd_ (self,password):
-        this_password = control.read_record('code',f'/etc/users/{self.username}')
-        control.write_record('input.password_hint', 'No', '/etc/configbox')
-        if not hashlib.sha3_512(password.encode()).hexdigest()==this_password:
-            self.Env.RunApp('text', ['Wrong password',
-                                     f'Cannot remove {self.username} user account; because your entered password is wrong.'])
-        else:
-            files.remove("/etc/users/" + self.username)
-            if files.isdir('/desk/' + self.username):
-                files.removedirs("/desk/" + self.username)
-                control.remove_record('/desk/' + self.username, '/etc/permtab')
+        files.remove("/etc/users/" + self.username)
+        if files.isdir('/desk/' + self.username):
+            files.removedirs("/desk/" + self.username)
+            control.remove_record('/desk/' + self.username, '/etc/permtab')
 
-            self.Env.RunApp('text', ['Successfully removed',
-                                     f'{self.username} user account successfully removed.'])
+        self.Env.RunApp('text', ['Successfully removed',f'{self.username} user account successfully removed.'])
 
     def _in (self,name):
         self.name = name
@@ -289,3 +405,7 @@ class MainApp(QtWidgets.QMainWindow):
 
     def _in_value (self,value):
         commands.set([self.name+":",value])
+
+    def show (self,text):
+        self.textBrowser.setText(self.textBrowser.toPlainText() + text + "\n")
+        self.textBrowser.verticalScrollBar().setValue(self.textBrowser.verticalScrollBar().maximum())

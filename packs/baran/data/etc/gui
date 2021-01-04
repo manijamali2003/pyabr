@@ -11,7 +11,7 @@ locale: en
 backend.color: black
 backend.timeout: 1000
 taskbar.location: bottom
-taskbar.pins: roller,barge,calculator,calendar,commento,pysys,runapp
+taskbar.pins: roller,barge,calculator,calendar,commento,pysys,runapp,about
 splash.timeout: 3000
 splash.logo: @icon/pyabr-logo
 splash.logo-size: 300

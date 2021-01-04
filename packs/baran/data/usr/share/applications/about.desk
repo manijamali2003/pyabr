@@ -3,4 +3,4 @@ name[fa]: درباره فضای ابری
 name[ar]: حول النظام
 logo: @icon/help-about
 exec: page_about
-#shortcut: Ctrl+Q
+application: Yes

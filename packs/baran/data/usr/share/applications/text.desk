@@ -2,3 +2,4 @@ name[en]: Text Box
 exec: textbox
 hidden: Yes
 logo: @icon/help-about
+application: No
