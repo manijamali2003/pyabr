@@ -1,6 +1,6 @@
 using System;
 
-namespcae MyWelcomeApp
+namespace MyWelcomeApp
 {
     public class MainApp
     {

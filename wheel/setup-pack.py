@@ -16,7 +16,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyabr",
-    version="0.3.0",
+    version="0.4.0",
     author="Mani Jamali",
     author_email="pyabrsystem@gmail.com",
     description="Python Cloud & OS",

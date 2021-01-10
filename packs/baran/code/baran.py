@@ -683,6 +683,8 @@ class LoginWidget (QMainWindow):
 
             ## Set size & location ##
         self.userlogo.setMaximumSize(250,250)
+        self.userlogo.setIconSize(QSize(250,250))
+        self.userlogo.setIcon(QIcon(res.get(loginw_userlogo)))
         self.userlogo.setGeometry(int(self.width()/2)-int(self.userlogo.width()/2),int(self.height()/4)-int(self.userlogo.height()/4),self.userlogo.width(),self.userlogo.height())
 
         if loginw_userlogo_color == None: loginw_userlogo_color = variables.userlogo_color
@@ -693,7 +695,7 @@ class LoginWidget (QMainWindow):
             if not logo == None: loginw_userlogo = logo
 
         self.userlogo.setStyleSheet(
-            f'background-color: {loginw_userlogo_color};border-radius: {loginw_userlogo_round};background-image: url({res.get(loginw_userlogo)});')
+            f'background-color: {loginw_userlogo_color};border-radius: {loginw_userlogo_round};')
 
             ## Shadow for userlogo ##
         ## Shadow ##

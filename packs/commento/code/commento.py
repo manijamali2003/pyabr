@@ -269,7 +269,7 @@ class MainApp(QtWidgets.QMainWindow):
                                 if split == []:
                                     self.Env.RunApp('input', ['Pick a username', self._user_uadd])
                                 else:
-                                    self._user_uadd(split[1])
+                                    self._user_uadd(split[2])
                             else:
                                 self.show('udel: error: Permission denied.')
 
@@ -281,7 +281,7 @@ class MainApp(QtWidgets.QMainWindow):
                                 if split == []:
                                     self.Env.RunApp('input', ['Enter an username', self._user_del])
                                 else:
-                                    self._user_del(split[1])
+                                    self._user_del(split[2])
                             else:
                                 self.show('udel: error: Permission denied.')
 
@@ -292,7 +292,7 @@ class MainApp(QtWidgets.QMainWindow):
                             if split == []:
                                 self.Env.RunApp('input', ['Enter a variable name', self._in])
                             else:
-                                self._in(split[1])
+                                self._in(split[2])
                         else:
                             result = subprocess.check_output(
                                 '"{0}" '.replace('{0}', sys.executable) + files.readall(

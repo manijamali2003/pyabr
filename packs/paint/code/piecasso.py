@@ -47,8 +47,8 @@ try:
 except ImportError:
     pass
 
-BRUSH_MULT = 3
-SPRAY_PAINT_MULT = 5
+BRUSH_MULT = 3 # 3
+SPRAY_PAINT_MULT = 5 # 5
 SPRAY_PAINT_N = 100
 
 COLORS = [
@@ -72,7 +72,7 @@ MODES = [
     'ellipse', 'roundrect'
 ]
 
-CANVAS_DIMENSIONS = 600, 400
+CANVAS_DIMENSIONS = 1900, 600
 
 STAMPS = [
     ':/stamps/pie-apple.png',
@@ -137,7 +137,7 @@ class Canvas(QLabel):
     def initialize(self):
         self.background_color = QColor(self.secondary_color) if self.secondary_color else QColor(Qt.white)
         self.eraser_color = QColor(self.secondary_color) if self.secondary_color else QColor(Qt.white)
-        self.eraser_color.setAlpha(100)
+        self.eraser_color.setAlpha(100) # 100
         self.reset()
 
     def reset(self):

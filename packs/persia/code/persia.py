@@ -591,10 +591,12 @@ class MainApp(QtWidgets.QMainWindow):
         self.teEdit.setPlainText(files.readall(res.get('@temp/untitled.java')))
 
     def langpython (self):
-        self.teEdit.setPlainText(files.readall(res.get('@temp/untitled.py')))
+        x = files.readall(res.get('@temp/untitled.py'))
+        self.teEdit.setPlainText(x)
 
     def langpythonx (self):
-        self.teEdit.setPlainText(files.readall(res.get('@temp/untitled-gui.py')))
+        x = files.readall(res.get('@temp/untitled-gui.py'))
+        self.teEdit.setPlainText(x)
 
     def langcs (self):
         self.teEdit.setPlainText(files.readall(res.get('@temp/untitled.cs')))
@@ -646,3 +648,4 @@ class MainApp(QtWidgets.QMainWindow):
 
     def New_Sa (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mksa])
+
