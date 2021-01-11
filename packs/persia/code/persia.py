@@ -242,7 +242,7 @@ class MainApp(QtWidgets.QMainWindow):
         if self.External==[] or self.External=='' or self.External==None:
             self.Widget.SetWindowTitle(res.get('@string/untitled'))
         else:
-            self.Widget.SetWindowTitle(self.External)
+            self.Widget.SetWindowTitle(self.External[0])
 
         # text box
         self.teEdit = QtWidgets.QTextEdit()

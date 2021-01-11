@@ -124,7 +124,7 @@ class ShowUserInformation (QMainWindow):
         elif not last_name == None:
             namex = first_name
         else:
-            namex = self.External[0]
+            namex = 'Not set'
 
         self.Env.SetWindowTitle(namex)
 
@@ -137,43 +137,112 @@ class ShowUserInformation (QMainWindow):
         self.website = control.read_record('website', self.path)
         self.birthday = control.read_record('birthday', self.path)
 
+        self.btnImage = QToolButton()
+        self.btnImage.setIconSize(QSize(128, 128))
+
+        if files.isfile (f'/etc/users/{self.External[0]}'):
+            self.logo = control.read_record('loginw.userlogo',f'/etc/users/{self.External[0]}')
+            if not self.logo==None:
+                self.btnImage.setIcon(QIcon(res.get(self.logo)))
+            else:
+                self.btnImage.setIcon(QIcon(res.get('@icon/account')))
+            self.Env.SetWindowTitle(namex + " account")
+        else:
+            self.btnImage.setIcon(QIcon(res.get('@icon/account')))
+
+        self.btnImage.setStyleSheet('border-radius: 64% 64%;')
+        self.btnImage.setGeometry(30, 70, 128, 128)
+        self.layout().addWidget (self.btnImage)
+
+        self.lblName = QLabel()
+        self.lblName.setText(namex)
+        self.lblName.setGeometry(40 + 128, 128 - 25, self.width(), 50)
+        f = QFont()
+        f.setPointSize(20)
+        self.lblName.setFont(f)
+        self.layout().addWidget(self.lblName)
+
+        self.btnRemove = QPushButton()
+        self.btnRemove.setStyleSheet('''
+                QPushButton {
+                background-color: red;color:white;border-radius: 25% 25%;
+                }
+                QPushButton::hover {
+                background-color: orange;color:white;border-radius: 25% 25%;
+                }''')
+        self.btnRemove.clicked.connect(self.xuni)
+        self.btnRemove.setText('Remove user')
+        self.btnRemove.setGeometry(self.width() - 260, 128 - 25, 150, 50)
+        self.layout().addWidget(self.btnRemove)
+
+        self.btnEdit = QPushButton()
+        self.btnEdit.setStyleSheet('''
+                        QPushButton {
+                        background-color: lime;color:green;border-radius: 25% 25%;
+                        }
+                        QPushButton::hover {
+                        background-color: green;color:lime;border-radius: 25% 25%;
+                        }''')
+        self.btnEdit.clicked.connect(self.xedit)
+        self.btnEdit.setText('Edit')
+        self.btnEdit.setGeometry(self.width() - 260+160, 128 - 25, 150, 50)
+        self.layout().addWidget(self.btnEdit)
+
         self.w = QWidget()
-        self.w.setGeometry(30, 200, self.width() - 60, 275)
+        self.w.setGeometry(60,200,self.width()-60,400)
         self.hbox = QHBoxLayout()
         self.w.setLayout(self.hbox)
         f.setPointSize(12)
         self.text1 = QTextBrowser()
         self.text1.setAlignment(Qt.AlignRight)
-        self.text1.append('\nFull name:\n')
-        if not self.company==None:
-            self.text1.append('Company name:\n')
-        if not self.email == None :
-            self.text1.append('Email address:\n')
-        if not self.phone == None:
-            self.text1.append('Phone number:\n')
-        if not self.gender == None:
-            self.text1.append('Gender:\n')
-        if not self.birthday == None :
-            self.text1.append('Birthday:\n')
-        if not self.blood_type == None:
-            self.text1.append('Blood type:\n')
+        self.text1.append('\nUsername:\n')
+        self.text1.append('Full name:\n')
+        self.text1.append('Company name:\n')
+        self.text1.append('Email address:\n')
+        self.text1.append('Phone number:\n')
+        self.text1.append('Gender:\n')
+        self.text1.append('Birthday:\n')
+        self.text1.append('Blood type:\n')
         self.text1.setFont(f)
         self.hbox.addWidget(self.text1)
 
         self.text2 = QTextBrowser()
-        self.text2.append("\n" + self.fullname + "\n")
+        self.text2.append(f'\n{self.External[0]}\n')
+        if not self.fullname=='Not set':
+            self.text2.append(self.fullname + "\n")
+        else:
+            self.text2.append('<font color="gray">Not set</font><br/><br/>')
+
         if not self.company == None:
             self.text2.append(self.company + "\n")
+        else:
+            self.text2.append('<font color="gray">Not set</font><br/><br/>')
+
         if not self.email == None:
             self.text2.append(self.email + "\n")
+        else:
+            self.text2.append('<font color="gray">Not set</font><br/><br/>')
+
         if not self.phone == None:
             self.text2.append(self.phone + "\n")
+        else:
+            self.text2.append('<font color="gray">Not set</font><br/><br/>')
+
         if not self.gender == None:
             self.text2.append(self.gender + "\n")
+        else:
+            self.text2.append('<font color="gray">Not set</font><br/><br/>')
+
         if not self.birthday == None:
             self.text2.append(self.birthday + "\n")
+        else:
+            self.text2.append('<font color="gray">Not set</font><br/><br/>')
+
         if not self.blood_type == None:
             self.text2.append(self.blood_type + "\n")
+        else:
+            self.text2.append('<font color="gray">Not set</font><br/><br/>')
+
         self.text2.setAlignment(Qt.AlignLeft)
         self.text2.setFont(f)
         self.hbox.addWidget(self.text2)
@@ -183,6 +252,22 @@ class ShowUserInformation (QMainWindow):
         self.hide()
         self.XShowpackages.show()
         self.Env.SetWindowTitle("Account Manager")
+
+    # un install pack #
+    def xuni (self):
+        self.Backend.RunApp('bool', [f'Removing {self.External[0]} user', f'Do you want to remove {self.External[0]} user?', self.xuni_])
+
+    def xuni_(self,yes):
+        if yes:
+            if files.isdir (f'/desk/{self.External[0]}'):
+                files.removedirs(f'/desk/{self.External[0]}')
+            if files.isfile(f'/etc/users/{self.External[0]}'):
+                files.remove(f'/etc/users/{self.External[0]}')
+            self.Env.Close()
+            self.Backend.RunApp ('usermanager',[None])
+
+    def xedit (self):
+        self.Backend.RunApp('edituser',['edit',self.External[0]])
 
 class MainApp (QMainWindow):
     def __init__(self,ports):

@@ -1,0 +1,6 @@
+name[en]: Edit user
+name[fa]: ویرایش حساب کاربری
+exec: edituser
+hidden: Yes
+logo: @icon/help-about
+application: No

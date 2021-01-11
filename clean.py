@@ -23,7 +23,5 @@ def clean():
     if os.path.isdir('wheel/src'):                                      shutil.rmtree('wheel/src')
     if os.path.isdir('wheel/setup'):                                    shutil.rmtree('wheel/setup')
     if os.path.isfile('pyabr.zip'):                                     os.remove    ('pyabr.zip')
-    if os.path.isfile('pyabr-for-pydroid.zip'):                         os.remove    ('pyabr-for-pydroid.zip')
-    if os.path.isfile('pyabr-for-termux.zip'):                          os.remove    ('pyabr-for-termux.zip')
     if os.path.isfile('Pyabr-'+version+'-'+build+'.zip'):               os.remove    ('Pyabr-'+version+'-'+build+'.zip')
 clean()

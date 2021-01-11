@@ -1218,7 +1218,7 @@ class AppListView(QListView):
 
         if x == True:
             self.Widget.hide()
-            self.Env.RunApp(self.item.whatsThis().replace('.desk','').replace('/usr/share/applications/',''),[None])
+            self.Env.RunApp(self.item.whatsThis().replace('.desk','').replace('/usr/share/applications/',''),None)
 
 ## Taskbar ##
 class TaskBar (QToolBar):
@@ -1742,9 +1742,9 @@ class Desktop (QMainWindow):
     locale = control.read_record("locale", "/etc/gui")
 
     def RunApp (self,appname,external):
-        try:
+        if files.isfile(f'/usr/share/applications/{appname}.desk'):
             self.layout().addWidget(AppWidget([self.Backend, self, appname,external]))
-        except:
+        else:
             self.layout().addWidget(AppWidget([self.Backend, self, 'text', ['Application not found', f'Cannot run {appname} application; because this application not found.']]))
 
     def StartupApplication (self):
