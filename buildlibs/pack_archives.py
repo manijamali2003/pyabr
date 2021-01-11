@@ -30,6 +30,13 @@ def build(name):
     os.rename (name+".zip","build-packs/"+name+".pa")
     clean()
 
+def manifest(name):
+    if not ("packs/"+name + "/code") and ("packs/"+name + "/data") and (
+            "packs/"+name + "/control") and ("packs/"+name + "/control/manifest"):
+        exit(0)
+
+    shutil.copyfile('packs/'+name+'/control/manifest',f'packs/latest/data/{name}.manifest')
+
 ## Clean the cache ##
 def clean():
     shutil.rmtree("app/cache")

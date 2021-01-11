@@ -1992,7 +1992,7 @@ class Package:
             colors.show("paye", "perm", "")
 
     # update cloud software #
-    def upcloud (self, mirror):
+    def upcloud (self):
         permissions = Permissions()
         files = Files()
         colors = Colors()
@@ -2000,8 +2000,6 @@ class Package:
         commands = Commands()
 
         if permissions.check_root(files.readall("/proc/info/su")):
-            self.add('https://github.com/manijamali2003/pyabr/archive/master.zip','pyabr')
-            self.download('pyabr')
 
             # backup #
             shutil.make_archive(files.input('/app/cache/backups/users.bak'),'zip',files.input('/etc/users'))
@@ -2016,29 +2014,22 @@ class Package:
             files.copy('/etc/permtab','/app/cache/backups/permtab.bak')
             files.copy('/etc/time', '/app/cache/backups/time.bak')
 
-            # check version #
-            now_version = control.read_record('version','/etc/distro')
+            for i in files.list ('/app/packages'):
+                if i.endswith ('.manifest') and files.isfile(f'/app/mirrors/{i.replace(".manifest","")}'):
+                    i = i.replace('.manifest','')
 
-            ## unpack pyabr ##
-            shutil.unpack_archive(files.input('/app/cache/gets/pyabr.pa'),files.input('/tmp'),'zip')
+                    # check version
+                    old = control.read_record('version',f'/app/packages/{i}.manifest')
+                    new = control.read_record('version',f'/app/mirrors/{i}.manifest')
+                    if i=='latest' or not old==new:
+                        print(f'Downloading {i} archive package ... ', end='')
+                        self.download(i)
+                        print('done')
+                        print(f'Upgrading {i} package ... ', end='')
+                        self.unpack(f'/app/cache/gets/{i}.pa')
+                        print('done')
 
-            ## Should be develop ... ##
-            new_version = control.read_record('version','/tmp/pyabr-master/packs/pyabr/data/etc/distro')
-
-            # list upgrades internal packages #
-
-            if not new_version==now_version:
-                listu = files.list('/app/packages')
-                for i in listu:
-                    if i.endswith('.manifest'):
-                        if files.isdir('/tmp/pyabr-master/packs/' + i.replace('.manifest', '')):
-                            self.build('/tmp/pyabr-master/packs/' + i.replace('.manifest', ''))
-                            self.unpack('/tmp/pyabr-master/packs/' + i.replace('.manifest', '.pa'))
-                files.removedirs('/tmp/pyabr-master')
-            else:
-                colors.show ('paye','warning','all package was up to date.')
-
-                # backup #
+            # backup #
             shutil.unpack_archive(files.input('/app/cache/backups/users.bak.zip'), files.input('/etc/users'), 'zip')
             files.remove('/app/cache/backups/users.bak.zip')
             files.cut('/app/cache/backups/color.bak', '/etc/color')

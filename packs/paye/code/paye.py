@@ -146,16 +146,30 @@ elif option=="in":
             strv+=','+i
 
     for i in package:
-        print(f'Downloading {i} archive package ... ', end='')
-        pack.download(i.lower())
-        print ('done')
+        if files.isfile(f'/app/packages/{i.lower()}.manifest'):
+            old = control.read_record('version', f'/app/packages/{i}.manifest')
+            new = control.read_record('version', f'/app/mirrors/{i}.manifest')
+            if not i=='latest' and old == new:
+                colors.show('paye','warning',f'{i}: package is up to date.')
+            else:
+                print(f'Downloading {i} archive package ... ', end='')
+                pack.download(i.lower())
+                print('done')
+        else:
+            print(f'Downloading {i} archive package ... ', end='')
+            pack.download(i.lower())
+            print('done')
 
     for j in package:
-        checkgit = files.readall('/app/mirrors/'+j.lower())
-        if checkgit.__contains__('git'):
-            print(f'Cloning and Installing {j} archive package ... ', end='')
-            pack.gitinstall(j)
-            print ('done')
+        if files.isfile(f'/app/packages/{j.lower()}.manifest'):
+            old = control.read_record('version', f'/app/packages/{j}.manifest')
+            new = control.read_record('version', f'/app/mirrors/{j}.manifest')
+            if not i=='latest' and old == new:
+                pass
+            else:
+                print(f'Installing {i} archive package ... ', end='')
+                pack.unpack("/app/cache/gets/" + j.lower() + ".pa")
+                print('done')
         else:
             print(f'Installing {i} archive package ... ', end='')
             pack.unpack("/app/cache/gets/" + j.lower() + ".pa")
@@ -234,16 +248,20 @@ elif option=='git':
     print('done')
 
 elif option=='up':
-    update_mirror = 'https://github.com/manijamali2003/pyabr'
-    print(f'Updating the cloud software ...', end='')
-    pack.upcloud (update_mirror)
-    print ('done')
+    pack.upcloud ()
 
 elif option=='pip':
     argsv = [files.readall('/proc/info/py'),'-m','pip']
     for i in sys.argv[2:]:
         argsv.append(i)
     subprocess.call(argsv)
+
+elif option=='ul':
+    print('Downloading the latest repo ... ',end='')
+    pack.download('latest')
+    pack.unpack('/app/cache/gets/latest.pa')
+    print('done')
+
 elif option=='crt':
     if sys.argv[2:]==[]:
         colors.show ('paye','fail','no inputs.')

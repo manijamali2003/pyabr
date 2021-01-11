@@ -2,7 +2,7 @@ name: paint
 copyright: (c) 2020 Martin Fitzpatrick
 license: MIT
 unpack: /
-build: 1399-09-22
-version: 0.0.2
+build: 1399-10-22
+version: 0.0.3
 description: Piecasso paint application
 compile: Yes
