@@ -260,18 +260,29 @@ class MainApp (QMainWindow):
         self.Widget.SetWindowIcon (QIcon(res.get('@icon/help-about')))
         self.btnCancel = QPushButton()
         self.btnCancel.setText(res.get('@string/cancel'))
-        self.btnCancel.setGeometry(0, int(self.Env.height() / 2) - 50, int(self.Env.width() / 4), 50)
+        if self.Env.width() > 1000 and self.Env.height() > 720:
+            self.btnCancel.setGeometry(0, int(self.Env.height() / 2) - 50, int(self.Env.width() / 4), 50)
+        else:
+            self.btnCancel.setGeometry(0,int(self.Env.height()/1.5)-50,int(self.Env.width()/3),50)
         self.btnCancel.clicked.connect(self.Widget.Close)
         self.layout().addWidget(self.btnCancel)
 
         self.btnSelect = QPushButton()
         self.btnSelect.clicked.connect(self.inp)
-        self.btnSelect.setGeometry(int(self.Env.width() / 4), int(self.Env.height() / 2) - 50,
+        if self.Env.width() > 1000 and self.Env.height() > 720:
+            self.btnSelect.setGeometry(int(self.Env.width() / 4), int(self.Env.height() / 2) - 50,
                                    int(self.Env.width() / 4), 50)
+        else:
+            self.btnSelect.setGeometry(int(self.Env.width()/3),int(self.Env.height()/1.5)-50,int(self.Env.width()/3),50)
+
         self.layout().addWidget(self.btnSelect)
 
         self.leSave = QLineEdit()
-        self.leSave.setGeometry(0, int(self.Env.height() / 2)-90, int(self.Env.width() / 2), 40)
+        if self.Env.width() > 1000 and self.Env.height() > 720:
+            self.leSave.setGeometry(0, int(self.Env.height() / 2)-90, int(self.Env.width() / 2), 40)
+        else:
+            self.leSave.setGeometry(0,int(self.Env.height()/1.5)-90,int(self.Env.width()/1.5),40)
+
         self.layout().addWidget(self.leSave)
 
         if self.External[1]==None:
@@ -322,13 +333,24 @@ class MainApp (QMainWindow):
 
         self.ywid = QMainWindow()
         if self.External[1].startswith('save'):
-            self.ywid.resize(int(self.Env.width()/2),int(self.Env.height()/2)-90)
+            if self.Env.width() > 1000 and self.Env.height() > 720:
+                self.ywid.resize(int(self.Env.width()/2),int(self.Env.height()/2)-90)
+            else:
+                self.ywid.resize(int(self.Env.width()/1.5),int(self.Env.height()/1.5)-90)
         else:
-            self.ywid.resize(int(self.Env.width() / 2), int(self.Env.height() / 2) - 50)
+            if self.Env.width() > 1000 and self.Env.height() > 720:
+                self.ywid.resize(int(self.Env.width() / 2), int(self.Env.height() / 2) - 50)
+            else:
+                self.ywid.resize(int(self.Env.width()/1.5),int(self.Env.height()/1.5)-50)
+
         self.ywid.setCentralWidget(self.xwid)
         self.layout().addWidget(self.ywid)
 
-        self.Widget.Resize(self,int(self.Env.width()/2),int(self.Env.height()/2))
+        if self.Env.width() > 1000 and self.Env.height() > 720:
+            self.Widget.Resize(self,int(self.Env.width()/2),int(self.Env.height()/2))
+        else:
+            self.Widget.Resize(self,int(self.Env.width()/1.5),int(self.Env.height()/1.5))
+
         self.Widget.DisableFloat()
 
     def inp(self):

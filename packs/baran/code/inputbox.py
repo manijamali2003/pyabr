@@ -35,10 +35,15 @@ class MainApp (QMainWindow):
         self.setStyleSheet('background-color: white;')
         self.Widget.SetWindowIcon(QIcon(res.get('@icon/help-about')))
         ## Finds ##
-
-        self.Widget.Resize(self,int(self.Env.width()/3),100)
         self.leInput = QLineEdit()
-        self.leInput.resize(int(self.Env.width()/3),50)
+
+        if self.Env.width() > 1000 and self.Env.height() > 720:
+            self.Widget.Resize(self,int(self.Env.width()/3),100)
+            self.leInput.resize(int(self.Env.width()/3),50)
+        else:
+            self.Widget.Resize(self, int(self.Env.width() / 1.5), 100)
+            self.leInput.resize(int(self.Env.width() / 1.5), 50)
+
         f = QFont()
         f.setPointSize(12)
         self.leInput.setFont(f)
@@ -55,14 +60,18 @@ class MainApp (QMainWindow):
 
         self.btnCancel = QPushButton()
         self.btnCancel.setText(res.get('@string/cancel'))
-        self.btnCancel.setGeometry(0,50,int(self.Env.width()/6),50)
         self.btnCancel.clicked.connect(self.Widget.Close)
         self.layout().addWidget(self.btnCancel)
 
         self.btnOK = QPushButton()
         self.btnOK.clicked.connect (self.inp)
         self.btnOK.setText(res.get('@string/ok'))
-        self.btnOK.setGeometry(int(self.Env.width() / 6), 50, int(self.Env.width() / 6), 50)
+        if self.Env.width() > 1000 and self.Env.height() > 720:
+            self.btnOK.setGeometry(int(self.Env.width() / 6), 50, int(self.Env.width() / 6), 50)
+            self.btnCancel.setGeometry(0, 50, int(self.Env.width() / 6), 50)
+        else:
+            self.btnOK.setGeometry(int(self.Env.width() / 3), 50, int(self.Env.width() / 3), 50)
+            self.btnCancel.setGeometry(0, 50, int(self.Env.width() / 3), 50)
         self.layout().addWidget(self.btnOK)
 
         self.Widget.DisableFloat()

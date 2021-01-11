@@ -38,11 +38,17 @@ class MainApp (QMainWindow):
         self.Widget.SetWindowIcon(QIcon(res.get('@icon/help-about')))
         ## Finds ##
 
-        self.Widget.Resize(self, int(self.Env.width() / 3), 100)
+        if self.Env.width()>1000 and self.Env.height()>720:
+            self.Widget.Resize(self, int(self.Env.width() / 3), 100)
+        else:
+            self.Widget.Resize(self, int(self.Env.width()/1.5 ), 100)
 
         self.lblText = QLabel()
         self.lblText.setStyleSheet('padding-left: 10%;padding-right: 10%;')
-        self.lblText.resize(int(self.Env.width() / 3), 50)
+        if self.Env.width() > 1000 and self.Env.height() > 720:
+            self.lblText.resize(int(self.Env.width() / 3), 50)
+        else:
+            self.lblText.resize(int(self.Env.width()/1.5),50)
 
         self.lblText.setFont(f)
         self.layout().addWidget(self.lblText)
@@ -61,7 +67,10 @@ class MainApp (QMainWindow):
         self.btnOK = QPushButton()
         self.btnOK.clicked.connect (self.ok_)
         self.btnOK.setText(res.get('@string/ok'))
-        self.btnOK.setGeometry(0, 50, int(self.Env.width())/3, 50)
+        if self.Env.width() > 1000 and self.Env.height() > 720:
+            self.btnOK.setGeometry(0, 50, int(self.Env.width())/3, 50)
+        else:
+            self.btnOK.setGeometry(0,50,int(self.Env.width()/1.5),50)
         self.layout().addWidget(self.btnOK)
 
     def ok_ (self):

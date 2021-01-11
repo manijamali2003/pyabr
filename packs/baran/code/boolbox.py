@@ -38,12 +38,17 @@ class MainApp (QMainWindow):
         self.Widget.SetWindowIcon(QIcon(res.get('@icon/help-about')))
         ## Finds ##
 
-        self.Widget.Resize(self, int(self.Env.width() / 3), 100)
+
+
 
         self.lblText = QLabel()
         self.lblText.setStyleSheet('padding-left: 10%;padding-right: 10%;')
-        self.lblText.resize(int(self.Env.width() / 3), 50)
-
+        if self.Env.width() > 1000 and self.Env.height() > 720:
+            self.lblText.resize(int(self.Env.width() / 3), 50)
+            self.Widget.Resize(self, int(self.Env.width() / 3), 100)
+        else:
+            self.lblText.resize(int(self.Env.width() / 1.5), 50)
+            self.Widget.Resize(self, int(self.Env.width() / 1.5), 100)
         self.lblText.setFont(f)
         self.layout().addWidget(self.lblText)
 
@@ -60,14 +65,19 @@ class MainApp (QMainWindow):
 
         self.btnCancel = QPushButton()
         self.btnCancel.setText(res.get('@string/cancel'))
-        self.btnCancel.setGeometry(0,50,int(self.Env.width()/6),50)
         self.btnCancel.clicked.connect(self.cancel_)
         self.layout().addWidget(self.btnCancel)
 
         self.btnOK = QPushButton()
         self.btnOK.clicked.connect (self.ok_)
         self.btnOK.setText(res.get('@string/ok'))
-        self.btnOK.setGeometry(int(self.Env.width() / 6), 50, int(self.Env.width() / 6), 50)
+        if self.Env.width() > 1000 and self.Env.height() > 720:
+            self.btnCancel.setGeometry(0, 50, int(self.Env.width() / 6), 50)
+            self.btnOK.setGeometry(int(self.Env.width() / 6), 50, int(self.Env.width() / 6), 50)
+        else:
+            self.btnCancel.setGeometry(0, 50, int(self.Env.width() / 3), 50)
+            self.btnOK.setGeometry(int(self.Env.width() / 3), 50, int(self.Env.width() / 3), 50)
+
         self.layout().addWidget(self.btnOK)
 
     def ok_ (self):

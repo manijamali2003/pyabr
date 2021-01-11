@@ -1376,18 +1376,23 @@ class MenuApplications (QMainWindow):
             if not value == None: size = int(value)
         if size == None: size = int(variables.taskbar_size)
 
-        if location == 'bottom':
-            self.setGeometry(0, int(self.Env.height()/3) , int(self.Env.width()/3), int(self.Env.height()/1.5) - size - 15)
-        elif location == 'top':
-            self.setGeometry(0, size + 15, int(self.Env.width()/3), (self.Env.height()/1.5) - size - 15)
-        elif location == "left":
-            self.setGeometry(size + 15, 0, int(self.Env.width()/3) - size - 15, int(self.Env.height()/1.5))
-        elif location == "right":
-            self.setGeometry(self.Env.width()-(self.Env.width()/3) , 0, (self.Env.width()/3) - size - 15, int(self.Env.height()/1.5))
-        else:
-            self.setGeometry(0, 0, self.Env.width(), self.Env.height())
+        if self.Env.width()>1000 and self.Env.height()>720:
+            if location == 'bottom':
+                self.setGeometry(0, int(self.Env.height() / 3), int(self.Env.width() / 3),
+                                 int(self.Env.height() / 1.5) - size - 15)
+            elif location == 'top':
+                self.setGeometry(0, size + 15, int(self.Env.width() / 3), (self.Env.height() / 1.5) - size - 15)
+            elif location == "left":
+                self.setGeometry(size + 15, 0, int(self.Env.width() / 3) - size - 15, int(self.Env.height() / 1.5))
+            elif location == "right":
+                self.setGeometry(self.Env.width() - (self.Env.width() / 3), 0, (self.Env.width() / 3) - size - 15,
+                                 int(self.Env.height() / 1.5))
+            else:
+                self.setGeometry(0, 0, self.Env.width(), self.Env.height())
 
-        self.x = AppListView([self.Env,self])
+        else:
+            self.setGeometry(0, 0, self.Env.width(), self.Env.height()-size-15)
+        self.x = AppListView([self.Env, self])
         self.setCentralWidget(self.x)
 
 class AppWidget (QMainWindow):
