@@ -2100,6 +2100,9 @@ class Desktop (QMainWindow):
         self.BtnUnlock.clicked.connect(self.unlock_act)
         self.setCentralWidget(self.lock)
 
+    def accoutsetting (self):
+        self.RunApp('usermanager',None)
+
     def __init__(self,ports,username,password):
         super(Desktop, self).__init__()
 
@@ -2325,6 +2328,7 @@ class Desktop (QMainWindow):
         # all actions in menus #
 
         self.accoutsettings = QAction(res.get('@string/accountsettings'))
+        self.accoutsettings.triggered.connect (self.accoutsetting)
         self.usermenu.addAction(self.accoutsettings)
 
         self.signout = QAction(res.get('@string/signout'))
