@@ -36,3 +36,9 @@ if not os.path.isdir ("build-packs"): os.mkdir ("build-packs")
 
 for i in os.listdir('packs'):pack.manifest(i)
 for i in os.listdir('packs'):pack.build(i)
+
+shutil.rmtree('latest')
+shutil.copytree('build-packs','latest')
+
+import clean
+clean.clean()
