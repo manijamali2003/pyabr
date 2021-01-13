@@ -142,14 +142,14 @@ class MainApp(QtWidgets.QMainWindow):
         self.teEdit.clear()
 
     def gettext (self,filename):
-        self.teEdit.setText(files.readall(filename))
-        self.Widget.SetWindowTitle(files.output(filename).replace('//',''))
+        self.teEdit.setPlainText(files.readall(filename))
+        self.Widget.SetWindowTitle(files.output(filename))
 
         if self.Widget.WindowTitle()=='': self.Widget.SetWindowTitle (res.get('@string/untitled'))
 
     def saveas_ (self,filename):
         files.write(filename,self.teEdit.toPlainText())
-        self.Widget.SetWindowTitle(files.output(filename).replace('//',''))
+        self.Widget.SetWindowTitle(files.output(filename))
 
     def save_ (self,filename):
         if not self.Widget.WindowTitle()==res.get('@string/untitled'):

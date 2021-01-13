@@ -1,0 +1,8 @@
+name: calculator
+copyright: (c) 2020 Amirhosin Mohammadi
+license: GNU GPL v3.0
+unpack: /
+build: 1399-10-22
+version: 0.0.5
+description: Simple Calculator
+compile: Yes

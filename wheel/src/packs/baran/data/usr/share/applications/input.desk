@@ -1,0 +1,5 @@
+name[en]: Input Box
+exec: inputbox
+logo: @icon/help-about
+application: No
+hidden: Yes

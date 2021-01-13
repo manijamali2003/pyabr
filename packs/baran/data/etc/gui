@@ -1,11 +1,11 @@
 #!etcetra
 
 desktop: baran
-fullscreen: No
+fullscreen: Yes
 sides: Yes
 width: 1000
 height: 720
-autosize: No
+autosize: Yes
 logo: @icon/pyabr-logo
 locale: en
 backend.color: black

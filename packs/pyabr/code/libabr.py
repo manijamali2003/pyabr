@@ -2889,6 +2889,7 @@ class Files:
             return filename
         else:
             x = self.input(filename).replace("///", "/").replace("//", "/").replace("./", "/").replace("//", "/")
+
             if not x.startswith ('/'):
                 return '/'+x
             else:

@@ -1,0 +1,5 @@
+set getdata: /etc/gui
+
+sel $getdata
+
+unsel
