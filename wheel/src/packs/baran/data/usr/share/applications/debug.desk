@@ -1,7 +1,0 @@
-name[en]: Debug Application
-name[fa]: برنامه آزمایشی
-logo: @icon/runner
-exec: debug_app
-shortcut: Ctrl+Q
-application: No
-hidden: Yes
