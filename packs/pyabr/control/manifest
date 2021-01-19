@@ -2,7 +2,7 @@ name: pyabr
 copyright: (c) 2020 Mani Jamali
 license: GNU GPL v3.0
 unpack: /
-build: 1399-10-22
-version: 0.4.0
+build: 1399-10-28
+version: 0.5.0
 description: Pyabr internal package
 compile: Yes

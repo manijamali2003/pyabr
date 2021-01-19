@@ -885,10 +885,18 @@ class Commands:
                 for i in pwd:
                     strv += "/" + i
 
-                pwd = files.output_shell(strv)
+                if strv.startswith('////'):
+                    strv = strv.replace('////','/')
+                elif strv.startswith('///'):
+                    strv = strv.replace('///','/')
+                elif strv.startswith('//'):
+                    strv = strv.replace('//','/')
+
+                pwd = files.output(strv)
                 files.write("/proc/info/pwd", pwd)
+
             elif files.isdir(path):
-                files.write("/proc/info/pwd", files.output_shell(path))
+                files.write("/proc/info/pwd", files.output(path))
             else:
                 colors.show("cd", "fail", path + ": directory not found.")
         else:
@@ -2867,33 +2875,33 @@ class Files:
         else:
             return self.root +"/"+ pwd + "/" + filename
 
-    def output_shell(self,filename):
-        if filename.startswith ('/'):
-            return filename
-        else:
-            x = self.input(filename).replace("//////", "/").replace("/////", "/").replace("////", "/").replace("///", "/").replace("//", "/").replace("./", "/")
-            if not x.startswith ('/'):
-                return '/'+x
-            else:
-                return x
-
     def input_exec(self,filename):
         x = self.input(filename.replace("./", "")).replace(".//", "").replace("/", ".")
-        if not x.startswith ('/'):
-            return '/'+x
-        else:
-            return x
+
+        if x.startswith('.////'):
+            x = x.replace('.////', '/')
+
+        return x
 
     def output(self,filename):
         if filename.startswith ('/'):
             return filename
         else:
-            x = self.input(filename).replace("///", "/").replace("//", "/").replace("./", "/").replace("//", "/")
+            x = self.input(filename)
 
-            if not x.startswith ('/'):
-                return '/'+x
-            else:
-                return x
+            if x.startswith ('./'):
+                x = x.replace ('./','/')
+
+            if x.startswith ('////'):
+                x = x.replace ('////','/')
+            elif x.startswith ('///'):
+                x = x.replace ('///','/')
+            elif x.startswith ('//'):
+                x = x.replace ('//','/')
+            elif x.startswith ('/'):
+                x = x.replace ('/','/')
+                
+            return x
 
 
     def create(self,filename):
