@@ -114,6 +114,264 @@ class Commands:
                     colors.show("unset", "perm", "")
             else:
                 control.remove_record(name, select)
+
+    # add controller data base
+    def add (self,args):
+        files = Files()
+        control = Control()
+        colors = Colors()
+
+        for i in args:
+            x = files.readall(i)
+            x = x.split('\n')
+            for j in x:
+                if j.__contains__(': '):
+                    s = j.split(': ')
+                    self.set([s[0]+":",s[1]])
+
+    # enc is a encriptor #
+    def uenc (self,args):
+        files = Files()
+        colors = Colors()
+        for i in args:
+            src = files.readall (i)
+            #header = f'{magic},{version},{type},{security},{password},{filename},'
+            split = src.split(',')
+            if not split[0]=='BA':
+                colors.show ('enc','fail',f'{i}: is not a binary application file.')
+                sys.exit(0)
+
+            if not split[5]==hashlib.sha3_512(files.output(i).encode()).hexdigest():
+                colors.show('enc', 'fail', f'{i}: is not a real file name.')
+                sys.exit(0)
+
+            if split[3]=='\x01':
+                password = getpass.getpass('Enter a password: ')
+                hashcode = hashlib.sha3_512(password.encode()).hexdigest()
+                if not hashcode==split[4]:
+                    colors.show('enc', 'fail', f'{i}: wrong password.')
+                    sys.exit(0)
+
+            text = split[6]
+            files.write(i,text.replace('\xF0','a')
+                  .replace('\xF1','b')
+                  .replace('\xF2','c')
+                  .replace('\xF3','d')
+                  .replace( '\xF4','e')
+                  .replace( '\xF5','f')
+                  .replace( '\xF6','g')
+                  .replace( '\xF7','h')
+                  .replace( '\xF8','i')
+                  .replace( '\xF9','j')
+                  .replace( '\xFA','k')
+                  .replace( '\xFB','l')
+                  .replace( '\xFC','m')
+                  .replace( '\xFD','o')
+                  .replace( '\xFE','p')
+                  .replace( '\xFF','q')
+                  .replace( '\xE0','r')
+                  .replace( '\xE1','s')
+                  .replace( '\xE2','t')
+                  .replace( '\xE3','u')
+                  .replace( '\xE4','v')
+                  .replace( '\xE5','w')
+                  .replace( '\xE6','x')
+                  .replace( '\xE7','y')
+                  .replace( '\xE8','z')
+                  .replace( '\xE9','A')
+                  .replace( '\xEA','B')
+                  .replace( '\xEB','C')
+                        .replace( '\xEC','D')
+                        .replace( '\xED','E')
+                        .replace( '\xEE','F')
+                        .replace( '\xEF','G')
+                        .replace( '\xD0','H')
+                        .replace( '\xD1','I')
+                        .replace( '\xD2','J')
+                        .replace( '\xD3','K')
+                        .replace( '\xD4','L')
+                        .replace( '\xD5','M')
+                        .replace( '\xD6','O')
+                        .replace( '\xD7','P')
+                        .replace( '\xD8','Q')
+                        .replace( '\xD9','R')
+                        .replace( '\xDA','S')
+                        .replace( '\xDB','T')
+                        .replace( '\xDC','U')
+                        .replace( '\xDD','V')
+                        .replace( '\xDE','W')
+                        .replace( '\xDF','X')
+                        .replace( '\xC0','Y')
+                        .replace( '\xC1','Z')
+                        .replace( '\xC2','0')
+                        .replace( '\xC3','1')
+                        .replace('\xC4','2')
+                        .replace( '\xC5','3')
+                        .replace( '\xC6','4')
+                        .replace( '\xC7','5')
+                        .replace( '\xC8','6')
+                        .replace( '\xC9','7')
+                        .replace( '\xCA','8')
+                        .replace( '\xCB','9')
+                        .replace('\xCC','\n')
+                        .replace( '\xCD',':')
+                        .replace( '\xCE','=')
+                        .replace( '\xCF','{')
+                        .replace( '\xBA','}')
+                        .replace( '\xBB','[')
+                        .replace( '\xBC',']')
+                        .replace( '\xBD',';')
+                        .replace( '\xBE','!')
+                        .replace( '\xBF','#')
+                        .replace( '\xB9','$')
+                        .replace( '\xB8','%')
+                        .replace( '\xB7','&')
+                        .replace('\xB6','+')
+                        .replace( '\xB5','-')
+                        .replace( '\xB4','*')
+                        .replace( '\xB3','/')
+                        .replace('\xB2','^')
+                        .replace( '\xB1','(')
+                        .replace( '\xB0',')')
+                        .replace( '\xAF','\t')
+                        .replace( '\xAF','    ')
+                        .replace( '\xAF','        ')
+                        .replace( '\xAE','"')
+                        .replace( '\xAD',"'")
+                        .replace( '\xAC',',')
+                        .replace( '\xAB','<')
+                        .replace( '\x9F','>')
+                        .replace( '\x9E','.')
+            )
+
+    def enc (self,args):
+        files = Files()
+        control = Control()
+
+        for i in args:
+            src = files.readall (i)
+            magic = 'BA'
+            version = control.read_record('version',files.readall('/proc/info/sel'))
+            if version==None: version='1'
+
+            type = control.read_record('type', files.readall('/proc/info/sel'))
+
+            if type == None: type = '\x05'
+            else:
+                if type=='code': type = '\x01'
+                elif type=='message': type = '\x02'
+                elif type == 'database': type = '\x03'
+                elif type == 'variable': type = '\x04'
+                else: type = '\x05'
+
+            security = control.read_record('security', files.readall('/proc/info/sel'))
+            if security=='Yes':
+                security = '\x01'
+            else:
+                security = '\x02'
+
+            password = control.read_record('password', files.readall('/proc/info/sel'))
+
+            if not password == None:
+                password = hashlib.sha3_512(password.encode()).hexdigest()
+            else:
+                password = hashlib.sha3_512(''.encode()).hexdigest()
+
+            filename = hashlib.sha3_512(files.output(i).encode()).hexdigest()
+
+            header = f'{magic},{version},{type},{security},{password},{filename},'
+
+            files.write(i,header+src
+                  .replace('a','\xF0')
+                  .replace('b', '\xF1')
+                  .replace('c', '\xF2')
+                  .replace('d', '\xF3')
+                  .replace('e', '\xF4')
+                  .replace('f', '\xF5')
+                  .replace('g', '\xF6')
+                  .replace('h', '\xF7')
+                  .replace('i', '\xF8')
+                  .replace('j', '\xF9')
+                  .replace('k', '\xFA')
+                  .replace('l', '\xFB')
+                  .replace('m', '\xFC')
+                  .replace('o', '\xFD')
+                  .replace('p', '\xFE')
+                  .replace('q', '\xFF')
+                  .replace('r', '\xE0')
+                  .replace('s', '\xE1')
+                  .replace('t', '\xE2')
+                  .replace('u', '\xE3')
+                  .replace('v', '\xE4')
+                  .replace('w', '\xE5')
+                  .replace('x', '\xE6')
+                  .replace('y', '\xE7')
+                  .replace('z', '\xE8')
+                  .replace('A', '\xE9')
+                  .replace('B', '\xEA')
+                  .replace('C', '\xEB')
+                        .replace('D', '\xEC')
+                        .replace('E', '\xED')
+                        .replace('F', '\xEE')
+                        .replace('G', '\xEF')
+                        .replace('H', '\xD0')
+                        .replace('I', '\xD1')
+                        .replace('J', '\xD2')
+                        .replace('K', '\xD3')
+                        .replace('L', '\xD4')
+                        .replace('M', '\xD5')
+                        .replace('O', '\xD6')
+                        .replace('P', '\xD7')
+                        .replace('Q', '\xD8')
+                        .replace('R', '\xD9')
+                        .replace('S', '\xDA')
+                        .replace('T', '\xDB')
+                        .replace('U', '\xDC')
+                        .replace('V', '\xDD')
+                        .replace('W', '\xDE')
+                        .replace('X', '\xDF')
+                        .replace('Y', '\xC0')
+                        .replace('Z', '\xC1')
+                        .replace('0', '\xC2')
+                        .replace('1', '\xC3')
+                        .replace('2', '\xC4')
+                        .replace('3', '\xC5')
+                        .replace('4', '\xC6')
+                        .replace('5', '\xC7')
+                        .replace('6', '\xC8')
+                        .replace('7', '\xC9')
+                        .replace('8', '\xCA')
+                        .replace('9', '\xCB')
+                        .replace('\n','\xCC')
+                        .replace(':','\xCD')
+                        .replace('=','\xCE')
+                        .replace('{','\xCF')
+                        .replace('}','\xBA')
+                        .replace('[','\xBB')
+                        .replace(']', '\xBC')
+                        .replace(';', '\xBD')
+                        .replace('!', '\xBE')
+                        .replace('#', '\xBF')
+                        .replace('$', '\xB9')
+                        .replace('%', '\xB8')
+                        .replace('&', '\xB7')
+                        .replace('+', '\xB6')
+                        .replace('-', '\xB5')
+                        .replace('*', '\xB4')
+                        .replace('/', '\xB3')
+                        .replace('^', '\xB2')
+                        .replace('(', '\xB1')
+                        .replace(')', '\xB0')
+                        .replace('\t','\xAF')
+                        .replace('    ','\xAF')
+                        .replace('        ','\xAF')
+                        .replace('"','\xAE')
+                        .replace("'",'\xAD')
+                        .replace(',','\xAC')
+                        .replace('<','\xAB')
+                        .replace('>','\x9F')
+                        .replace('.','\x9E')
+            )
     # zip #
     def zip (self, args):
         files = Files()
@@ -1319,6 +1577,7 @@ class Commands:
 
         database_name = args[0]
 
+
         if files.isfile(database_name):
             if permissions.check(files.output(database_name), "r", files.readall("/proc/info/su")):
                 files.write("/proc/info/sel", database_name)
@@ -1650,6 +1909,7 @@ class Commands:
         permissions = Permissions()
 
         select = files.readall("/proc/info/sel")
+
         if select == "/proc/" + files.readall("/proc/info/sp"):
             colors.show("unsel", "warning", "controller has already selected.")
         else:
@@ -1739,6 +1999,7 @@ class Package:
         permissions = Permissions()
         files = Files()
         colors = Colors()
+        commands = Commands()
 
         if permissions.check_root(files.readall("/proc/info/su")):
             if not files.isfile(name + "/control/manifest"):
@@ -1758,6 +2019,38 @@ class Package:
             files.copydir(name + '/data', '/app/cache/archives/data')
             files.copydir(name + '/control', '/app/cache/archives/control')
             files.copydir(name + '/code', '/app/cache/archives/code')
+
+            ## Encript codes and control files ##
+            for i in files.list('/app/cache/archives/code'):
+                commands.enc ([f'/app/cache/archives/code/{i}'])
+
+            for i in files.list('/app/cache/archives/control'):
+                commands.enc ([f'/app/cache/archives/control/{i}'])
+
+            if files.isdir ('/app/cache/archives/data/usr/share/applications'):
+                for i in files.list('/app/cache/archives/data/usr/share/applications/'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/applications/{i}'):
+                        commands.enc ([f'/app/cache/archives/data/usr/share/applications/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/docs'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/docs'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/docs/{i}'):
+                        commands.enc ([f'/app/cache/archives/data/usr/share/docs/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/helps'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/helps'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/helps/{i}'):
+                        commands.enc ([f'/app/cache/archives/data/usr/share/helps/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/categories'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/categories/'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/categories/{i}'):
+                        commands.enc ([f'/app/cache/archives/data/usr/share/categories/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/shells'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/shells/'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/shells/{i}'):
+                        commands.enc ([f'/app/cache/archives/data/usr/share/shells/{i}'])
 
             ## Pack archives ##
             shutil.make_archive(files.input("/app/cache/archives/build/data"), "zip",
@@ -1785,6 +2078,7 @@ class Package:
 
         if permissions.check_root(files.readall("/proc/info/su")):
 
+
             ## unpack package ##
             shutil.unpack_archive(files.input(name), files.input("/app/cache/archives/build"), "zip")
 
@@ -1794,6 +2088,40 @@ class Package:
                                   files.input("/app/cache/archives/control"), "zip")
             shutil.unpack_archive(files.input("/app/cache/archives/build/code.zip"),
                                   files.input("/app/cache/archives/code"), "zip")
+
+            # Disenc codes #
+
+            ## Encript codes ##
+            for i in files.list('/app/cache/archives/code'):
+                commands.uenc([f'/app/cache/archives/code/{i}'])
+
+            for i in files.list('/app/cache/archives/control'):
+                commands.uenc([f'/app/cache/archives/control/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/applications'):
+                for i in files.list('/app/cache/archives/data/usr/share/applications/'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/applications/{i}'):
+                        commands.uenc([f'/app/cache/archives/data/usr/share/applications/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/docs'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/docs'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/docs/{i}'):
+                        commands.uenc([f'/app/cache/archives/data/usr/share/docs/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/helps'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/helps'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/helps/{i}'):
+                        commands.uenc([f'/app/cache/archives/data/usr/share/helps/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/categories'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/categories/'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/categories/{i}'):
+                        commands.uenc([f'/app/cache/archives/data/usr/share/categories/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/shells'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/shells/'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/shells/{i}'):
+                        commands.uenc([f'/app/cache/archives/data/usr/share/shells/{i}'])
 
             ## Get database of this package ##
             name = control.read_record("name", "/app/cache/archives/control/manifest").lower()

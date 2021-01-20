@@ -1,6 +1,7 @@
 
 Standard Cloud Commands:
 
+    add        Add all records in selected database
     bunzip     Extract bzip with tarball archive
     bzip       Create bzip with tarball archive
     cat        Work with files

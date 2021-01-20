@@ -15,7 +15,6 @@ from buildlibs import control
 def compile (src,dest):
     py_compile.compile(src,dest)
 
-
 ## Build ##
 def build(name):
     if not ("packs/"+name + "/code") and ("packs/"+name + "/data") and (
@@ -25,7 +24,6 @@ def build(name):
     shutil.make_archive("app/cache/archives/build/data", "zip",    "packs/"+name + "/data")
     shutil.make_archive("app/cache/archives/build/code", "zip",    "packs/"+name + "/code")
     shutil.make_archive("app/cache/archives/build/control", "zip", "packs/"+ name + "/control")
-
     shutil.make_archive(name, "zip", "app/cache/archives/build")
     os.rename (name+".zip","build-packs/"+name+".pa")
     clean()
@@ -55,8 +53,6 @@ def unpack (name):
     shutil.unpack_archive("app/cache/archives/build/data.zip","app/cache/archives/data","zip")
     shutil.unpack_archive("app/cache/archives/build/code.zip","app/cache/archives/code", "zip")
     shutil.unpack_archive("app/cache/archives/build/control.zip","app/cache/archives/control", "zip")
-
-    ## Unpack database only ##
 
     name = control.read_record ("name","app/cache/archives/control/manifest")
     unpack = control.read_record ("unpack","app/cache/archives/control/manifest")
