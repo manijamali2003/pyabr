@@ -7,6 +7,36 @@ In the name of God, the Compassionate, the Merciful
 
 Pyabr &copy; 2021 Mani Jamali. Free Software GNU General Public License v3.0
 
-### What is Pyabr?
-- Pyabr is a cloud computing software for managing the cloud hosts, It was written in Python and compiled by CPython
-- You can develop your program in Pyabr with Standard Cloud Software Library (libabr) or native Python, C/C++, C#, Java, etc
+# What is Pyabr?
+
+Pyabr is a small and lightweight software use as:
+
+- an operating system
+- a small theme for android
+- a small software for runing PyQt5 and Python applications in moblie phones
+- a small cloud software in client
+- a small cloud software on servers
+
+# How to install it?
+
+- Stable release:
+
+```shell script
+python3 -m pip install pyabr
+python3 -m pyabr
+```
+
+In Windows use `python` instead of `python3`
+
+- Latest or unstable release:
+
+```shell script
+git clone https://github.com/manijamali2003/pyabr.git
+cd pyabr
+python3 setup.py
+```
+
+# Pyabr NEWS and tutorials
+
+- See t.me/pyabr
+- See gap.im/pyabr
