@@ -1,5 +1,5 @@
-<img src="https://img.shields.io/github/license/BlackIQ/Ashley?style=flat-square" alt="License"/>
-<img src="https://img.shields.io/github/languages/code-size/BlackIQ/Ashley?style=flat-square" alt="Code Size"/>
+<img src="https://img.shields.io/github/license/manijamali2003/pyabr?style=flat-square" alt="License"/>
+<img src="https://img.shields.io/github/languages/code-size/manijamali2003/pyabr?style=flat-square" alt="Code Size"/>
 
 # Pyabr cloud computing software
 
