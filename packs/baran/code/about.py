@@ -10,7 +10,6 @@ colors = Colors()
 app = App()
 res = Res()
 
-
 class MainApp(QWidget):
     def __init__(self, ports):
         super(MainApp, self).__init__()

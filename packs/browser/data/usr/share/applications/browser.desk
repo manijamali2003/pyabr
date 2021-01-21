@@ -1,0 +1,4 @@
+name[en]: Browser
+exec: browser
+logo: @icon/web-browser
+application: Yes

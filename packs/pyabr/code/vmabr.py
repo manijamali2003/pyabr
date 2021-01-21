@@ -26,7 +26,7 @@ ip = ""
 arch = ""
 os_user = ""
 kernel_name = "vmabr"
-kernel_version = "0.2.1"
+kernel_version = "0.2.2"
 user = ""
 code = ""
 argv = sys.argv[1:] # kernel parameters
@@ -69,6 +69,62 @@ commands = Commands()
 
 modules.get_modules()
 ## Find extra packages ##
+
+## @lib/enc ##
+def uencall ():
+    for i in files.list('/app/packages'):
+        if files.isfile(f'/app/packages/{i}'):
+            commands.uenc([f'/app/packages/{i}'])
+
+    for i in files.list('/app/mirrors'):
+        if files.isfile(f'/app/mirrors/{i}'):
+            commands.uenc([f'/app/mirrors/{i}'])
+
+    for i in files.list('/app/packages'):
+        if files.isfile(f'/app/packages/{i}'):
+            commands.uenc([f'/app/packages/{i}'])
+
+    for i in files.list('/etc'):
+        if files.isfile(f'/etc/{i}'):
+            commands.uenc([f'/etc/{i}'])
+
+    for i in files.list('/etc/users'):
+        if files.isfile(f'/etc/users/{i}'):
+            commands.uenc([f'/etc/users/{i}'])
+
+    for i in files.list('/etc/users'):
+        if files.isfile(f'/etc/users/{i}'):
+            commands.uenc([f'/etc/users/{i}'])
+
+    for i in files.list('/usr/share/applications'):
+        if files.isfile(f'/usr/share/applications/{i}'):
+            commands.uenc([f'/usr/share/applications/{i}'])
+
+    for i in files.list('/usr/share/categories'):
+        if files.isfile(f'/usr/share/categories/{i}'):
+            commands.uenc([f'/usr/share/categories/{i}'])
+
+    for i in files.list('/usr/share/shells'):
+        if files.isfile(f'/usr/share/shells/{i}'):
+            commands.uenc([f'/usr/share/shells/{i}'])
+
+    for i in files.list('/usr/share/layouts'):
+        if files.isfile(f'/usr/share/layouts/{i}'):
+            commands.uenc([f'/usr/share/layouts/{i}'])
+
+    for i in files.list('/usr/share/helps'):
+        if files.isfile(f'/usr/share/helps/{i}'):
+            commands.uenc([f'/usr/share/helps/{i}'])
+
+    for i in files.list('/usr/share/themes'):
+        if files.isfile(f'/usr/share/themes/{i}'):
+            commands.uenc([f'/usr/share/themes/{i}'])
+
+    for i in files.list('/usr/share/widgets'):
+        if files.isfile(f'/usr/share/widgets/{i}'):
+            commands.uenc([f'/usr/share/widgets/{i}'])
+
+if files.isfile('/proc/info/enc'): uencall()
 
 ## @core/interface ##
 
@@ -403,6 +459,7 @@ if argv[0]=="gui":
 
     from PyQt5.QtCore import *
     from PyQt5.QtWidgets import *
+    from PyQt5.QtWebEngineWidgets import *
 
     ## Main entry ##
     application = QApplication(sys.argv)
@@ -430,6 +487,7 @@ if argv[0]=="gui-splash":
 
     from PyQt5.QtCore import *
     from PyQt5.QtWidgets import *
+    from PyQt5.QtWebEngineWidgets import *
 
     ## Main entry ##
     application = QApplication(sys.argv)
@@ -456,6 +514,7 @@ if argv[0]=="gui-login":
 
     from PyQt5.QtCore import *
     from PyQt5.QtWidgets import *
+    from PyQt5.QtWebEngineWidgets import *
 
     ## Main entry ##
     application = QApplication(sys.argv)
@@ -495,6 +554,7 @@ if argv[0]=="gui-enter":
 
     from PyQt5.QtCore import *
     from PyQt5.QtWidgets import *
+    from PyQt5.QtWebEngineWidgets import *
 
     ## Main entry ##
     application = QApplication(sys.argv)
@@ -542,6 +602,7 @@ if argv[0]=="gui-desktop":
 
     from PyQt5.QtCore import *
     from PyQt5.QtWidgets import *
+    from PyQt5.QtWebEngineWidgets import *
 
     ## Main entry ##
     application = QApplication(sys.argv)
