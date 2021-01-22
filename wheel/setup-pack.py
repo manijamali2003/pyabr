@@ -16,7 +16,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyabr",
-    version="0.4.0",
+    version="0.5.0",
     author="Mani Jamali",
     author_email="pyabrsystem@gmail.com",
     description="Python Cloud & OS",
@@ -35,6 +35,7 @@ setuptools.setup(
         'PyQt5',
         'pyqtconsole',
         'requests',
+        'pyqt5.qtwebengine',
     ],
     include_package_data=True,
 )
