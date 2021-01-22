@@ -279,6 +279,8 @@ elif option=='crt':
 
     if crtype=='gui':
         cmd.unzip ([res.get('@temp/simple-gui-project.zip'),crname])
+    elif crtype=='web':
+        cmd.unzip([res.get('@temp/simple-web-project.zip'), crname])
     else:
         cmd.unzip([res.get('@temp/simple-project.zip'), crname])
 else:

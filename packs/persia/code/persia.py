@@ -327,6 +327,10 @@ class MainApp(QtWidgets.QMainWindow):
         self.new_gui.triggered.connect(self.new_gui_act)
         self.new_gui.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName, 'py'))))
 
+        self.new_web = self.new_project.addAction('New WebView Project')
+        self.new_web.triggered.connect(self.new_web_act)
+        self.new_web.setIcon(QtGui.QIcon(res.get('@icon/web-browser')))
+
         self.open = self.file.addAction(res.get('@string/open'))
         self.open.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'open'))))
         self.open.triggered.connect (self.open_act)
@@ -445,20 +449,27 @@ class MainApp(QtWidgets.QMainWindow):
 
         rand = str(random.randint(1000,9999))
 
-        control.write_record('exec',f'{project}_{rand}',f'{path}/packs/{project}/data/usr/share/applications/{project}.desk')
-
         compile = files.readall(f'{path}/packs/{project}/control/compile')
-        compile = compile.replace (f'{project}.pyc',f'{project}_{rand}.pyc')
-        files.write(f'{path}/packs/{project}/control/compile',compile)
-        files.cut(f'{path}/packs/{project}/data/usr/share/applications/{project}.desk',f'{path}/packs/{project}/data/usr/share/applications/{project}_{rand}.desk')
+        compile = compile.replace(f'{project}.pyc', f'{project}_{rand}.pyc')
+        files.write(f'{path}/packs/{project}/control/compile', compile)
 
-        System(f'paye pak {path}/packs/{project}')
-        System(f'paye upak {path}/packs/{project}.pa')
+        if control.read_record('type',config)=='gui' or control.read_record('type',config)=='web':
+            control.write_record('exec', f'{project}_{rand}',f'{path}/packs/{project}/data/usr/share/applications/{project}.desk')
+            files.cut(f'{path}/packs/{project}/data/usr/share/applications/{project}.desk',
+                      f'{path}/packs/{project}/data/usr/share/applications/{project}_{rand}.desk')
 
-        if control.read_record('type',config)=='gui':
+            System(f'paye pak {path}/packs/{project}')
+            System(f'paye upak {path}/packs/{project}.pa')
+
             self.Env.RunApp(f'{project}_{rand}', [None])
+
+            files.cut(f'{path}/packs/{project}/data/usr/share/applications/{project}_{rand}.desk',
+                      f'{path}/packs/{project}/data/usr/share/applications/{project}.desk')
         else:
-            self.Env.RunApp('commento', [project, 'PyPersia Console'])
+            System(f'paye pak {path}/packs/{project}')
+            System(f'paye upak {path}/packs/{project}.pa')
+
+            self.Env.RunApp('commento', [f"{project}_{rand}", 'PyPersia Console'])
 
         if files.isfile(f'{path}/packs/{project}.pa'): files.remove(f'{path}/packs/{project}.pa')
         System(f'paye rm {project}')
@@ -466,14 +477,15 @@ class MainApp(QtWidgets.QMainWindow):
         compile = files.readall(f'{path}/packs/{project}/control/compile')
         compile = compile.replace(f'{project}_{rand}.pyc', f'{project}.pyc')
         files.write(f'{path}/packs/{project}/control/compile', compile)
-        files.cut(f'{path}/packs/{project}/data/usr/share/applications/{project}_{rand}.desk',
-                  f'{path}/packs/{project}/data/usr/share/applications/{project}.desk')
 
     def new_empty_act (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.project_create])
 
     def new_gui_act (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.project_create_gui])
+
+    def new_web_act (self):
+        self.Env.RunApp('input', [res.get('@string/filename'), self.project_create_web])
 
     def project_create (self,projectname):
         su = files.readall('/proc/info/su')
@@ -501,7 +513,7 @@ class MainApp(QtWidgets.QMainWindow):
         control.write_record('type', 'empty', ".pypersia")
         control.write_record('lang', 'python', '.pypersia')
 
-        self.Env.RunApp ('persia',projectname)
+        self.Env.RunApp ('persia',[projectname])
 
     def project_create_gui (self,projectname):
         su = files.readall('/proc/info/su')
@@ -529,7 +541,35 @@ class MainApp(QtWidgets.QMainWindow):
         control.write_record('type', 'gui', ".pypersia")
         control.write_record('lang','python','.pypersia')
 
-        self.Env.RunApp ('persia',projectname)
+        self.Env.RunApp ('persia',[projectname])
+
+    def project_create_web (self,projectname):
+        su = files.readall('/proc/info/su')
+
+        if not su=='root':
+            System (f"paye crt web /desk/{su}/Projects/{projectname}")
+            commands.cd([f'/desk/{su}/Projects/{projectname}'])
+        else:
+            System(f"paye crt web /root/Projects/{projectname}")
+            commands.cd([f'/root/Projects/{projectname}'])
+
+        commands.mv(['packs/app',f'packs/{projectname}'])
+        commands.mv([f'packs/{projectname}/data/usr/share/docs/hello',f'packs/{projectname}/data/usr/share/docs/{projectname}'])
+        commands.mv([f'packs/{projectname}/code/hello.py',f'packs/{projectname}/code/{projectname}.py'])
+        commands.mv([f'packs/{projectname}/data/usr/share/applications/hello.desk',f'packs/{projectname}/data/usr/share/applications/{projectname}.desk'])
+        files.write (f'packs/{projectname}/control/manifest',f'name: {projectname}\ncopyright: (c) 2020 Your name\nlicense: Your license\nunpack: /\nbuild: year-month-day\nversion: 0.0.1\ndescription: Your application description\ncompile: Yes')
+        files.write(f'packs/{projectname}/control/compile', f'{projectname}.py:usr/app/{projectname}.pyc')
+        files.write(f'packs/{projectname}/control/list',f'/usr/app/{projectname}.pyc\n/usr/share/docs/{projectname}')
+        files.write(f'packs/{projectname}/data/usr/share/applications/{projectname}.desk',f'name[en]: {projectname}\nlogo: @icon/runner\nexec: {projectname}')
+
+        files.write('/proc/info/psel', projectname)
+        files.create(".pypersia")
+
+        control.write_record('name', projectname, ".pypersia")
+        control.write_record('type', 'web', ".pypersia")
+        control.write_record('lang','python','.pypersia')
+
+        self.Env.RunApp ('persia',[projectname])
 
     def generate_pa_ (self):
         self.project = files.readall('/proc/info/psel')
