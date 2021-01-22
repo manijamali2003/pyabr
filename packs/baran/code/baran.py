@@ -2103,6 +2103,10 @@ class Desktop (QMainWindow):
     def accoutsetting (self):
         self.RunApp('usermanager',None)
 
+    def Loop(self):
+        self.update()
+        QTimer.singleShot(300,self.update)
+
     def __init__(self,ports,username,password):
         super(Desktop, self).__init__()
 
@@ -2451,3 +2455,5 @@ class Desktop (QMainWindow):
             self.showFullScreen()
         else:
             self.show()
+
+        self.Loop()
