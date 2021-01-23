@@ -39,7 +39,28 @@ class MainApp(QMainWindow):
 
                 elif self.External[0].startswith ('abr://'):
                     protocol = self.External[0].replace('abr://','/srv/')
-                    html = files.readall(protocol)
+                    prspl = protocol.split('/')
+                    prspl.remove('')
+
+                    proto = prspl[0]
+                    try:
+                        domain = prspl[1]
+                    except:
+                        domain = control.read_record('abr.default','/etc/webconfig')
+
+                    try:
+                        filename = prspl[2]
+                    except:
+                        filename = control.read_record('abr.index','/etc/webconfig')
+
+                    revspl = domain.split('.')
+                    revspl.reverse()
+
+                    package = ''
+                    for i in revspl:
+                        package+='/'+i
+
+                    html = files.readall("/"+proto+"/"+package+"/"+filename)
                     self.abr(html)
 
     def add_new_tab(self, qurl=None, label="Blank"):

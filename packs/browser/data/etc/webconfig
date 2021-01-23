@@ -1,0 +1,3 @@
+default: https://www.google.com
+abr.index: index.html
+abr.default: pyabr.com
