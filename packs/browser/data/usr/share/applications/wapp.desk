@@ -1,0 +1,5 @@
+name[en]: Web Application Runner
+exec: wapp
+logo: @icon/web-browser
+application: No
+hidden: Yes

@@ -12,6 +12,9 @@ res = Res()
 control = Control()
 files = Files()
 
+# Your URL for your webview project
+URL = "https://google.com"
+
 class MainApp(QMainWindow):
     def __init__(self,ports, *args, **kwargs):
         super(MainApp, self).__init__(*args, **kwargs)
@@ -21,19 +24,36 @@ class MainApp(QMainWindow):
         self.AppName = ports[3]
         self.External = ports[4]
 
-        self.Widget.SetWindowTitle ("Gap Massenger")
-        self.Widget.SetWindowIcon (QIcon(res.get('@icon/gap')))
+        self.Widget.SetWindowTitle ("Hello World!")
+        self.Widget.SetWindowIcon (QIcon(res.get('@icon/web-browser')))
         self.Widget.Resize(self,int(self.Env.width())/1.5,int(self.Env.height())/1.5)
 
-        self.add_new_tab(QUrl('https://web.gap.im'), 'Homepage')
+        if self.External==[]:
+            self.add_new_tab(QUrl(URL), 'Homepage')
+        else:
+            if self.External[0]==None:
+                self.add_new_tab(QUrl(URL), 'Homepage')
+            else:
+                if self.External[0].startswith ('http://') or self.External[0].startswith ('https://'):
+                    self.add_new_tab(QUrl(self.External[0]), 'Homepage')
+
+                elif self.External[0].startswith ('abr://'):
+                    protocol = self.External[0].replace('abr://','/srv/')
+                    html = files.readall(protocol)
+                    self.abr(html)
 
     def add_new_tab(self, qurl=None, label="Blank"):
 
         self.browser = QWebEngineView()
         self.browser.setUrl(qurl)
 
-        # More difficult! We only want to update the url when it's from the
-        # correct tab
+        self.setCentralWidget(self.browser)
+        self.Loop()
+
+    def abr (self, data):
+
+        self.browser = QWebEngineView()
+        self.browser.setHtml(data)
 
         self.setCentralWidget(self.browser)
         self.Loop()

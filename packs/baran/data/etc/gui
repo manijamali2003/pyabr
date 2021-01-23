@@ -1,9 +1,9 @@
 desktop: baran
-fullscreen: Yes
+fullscreen: No
 sides: Yes
 width: 1000
 height: 720
-autosize: Yes
+autosize: No
 logo: @icon/pyabr-logo
 locale: en
 backend.color: black

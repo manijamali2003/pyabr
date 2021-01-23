@@ -126,6 +126,12 @@ class FileListView (QtWidgets.QListView):
             self.mkfile(filename+".py")
             files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled-gui.py')))
 
+    def mkpyweb (self,filename):
+        if files.isdir(filename + ".py"): self.Env.RunApp('text', ['Is a directory',f'Cannot create {filename + ".py"} beacause it is a directory.'])
+        else:
+            self.mkfile(filename+".py")
+            files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled-web.py')))
+
     def __init__(self,ports):
         super().__init__()
         self.Env = ports[0]
@@ -332,6 +338,10 @@ class MainApp (QtWidgets.QMainWindow):
         self.new_pygui = self.new_code.addAction(res.get('@string/pythongui'))
         self.new_pygui.triggered.connect(self.New_PyGui)
         self.new_pygui.setIcon(QIcon(res.get(res.etc("roller", "py"))))
+
+        self.new_pyweb = self.new_code.addAction('New Python WebView file')
+        self.new_pyweb.triggered.connect(self.New_PyWeb)
+        self.new_pyweb.setIcon(QIcon(res.get('@icon/web-browser')))
         ##
 
         self.new_folder = self.file.addAction(res.get('@string/newfolder'))
@@ -384,6 +394,9 @@ class MainApp (QtWidgets.QMainWindow):
 
     def New_PyGui (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkpygui])
+
+    def New_PyWeb (self):
+        self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkpyweb])
 
     def New_Sa (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mksa])

@@ -76,6 +76,9 @@ class MainApp(QtWidgets.QMainWindow):
         self.lang_pythongui = self.insert_c.addAction(res.get('@string/pythongui'))
         self.lang_pythongui.triggered.connect(self.langpythonx)
         self.lang_pythongui.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'py'))))
+        self.lang_pythonweb = self.insert_c.addAction('Python WebView')
+        self.lang_pythonweb.triggered.connect(self.langpythonweb)
+        self.lang_pythonweb.setIcon(QtGui.QIcon(res.get('@icon/web-browser')))
         self.lang_saye = self.insert_c.addAction(res.get('@string/saye'))
         self.lang_saye.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'sa'))))
         self.lang_saye.triggered.connect(self.langsaye)
@@ -177,6 +180,9 @@ class MainApp(QtWidgets.QMainWindow):
 
     def langpythonx (self):
         self.teEdit.setPlainText(files.readall(res.get('@temp/untitled-gui.py')))
+
+    def langpythonweb (self):
+        self.teEdit.setPlainText(files.readall(res.get('@temp/untitled-web.py')))
 
     def langcs (self):
         self.teEdit.setPlainText(files.readall(res.get('@temp/untitled.cs')))
