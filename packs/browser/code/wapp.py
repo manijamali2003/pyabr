@@ -60,7 +60,18 @@ class MainApp(QMainWindow):
                     for i in revspl:
                         package+='/'+i
 
-                    html = files.readall("/"+proto+"/"+package+"/"+filename)
+                    if not files.isdir(f'/srv/{package}'):
+                        html = files.readall('/srv/com/pyabr/error/DomainNotExists.html')
+                        self.abr(html)
+                    else:
+                        if files.isfile(f'/srv/{package}/{filename}'):
+                            html = files.readall("/"+proto+"/"+package+"/"+filename)
+                            self.abr(html)
+                        else:
+                            html = files.readall('/srv/com/pyabr/error/PageNotFound.html')
+                            self.abr(html)
+                else:
+                    html = files.readall('/srv/com/pyabr/error/InvalidURL.html')
                     self.abr(html)
 
     def add_new_tab(self, qurl=None, label="Blank"):
@@ -75,7 +86,7 @@ class MainApp(QMainWindow):
 
         self.browser = QWebEngineView()
         self.browser.setHtml(data)
-
+        self.Widget.SetWindowTitle(self.browser.title())
         self.setCentralWidget(self.browser)
         self.Loop()
 
