@@ -3,8 +3,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 
-import os
-import sys
+import os,subprocess
+import sys,markdown
 
 from libabr import Res, Control, Files
 
@@ -61,17 +61,31 @@ class MainApp(QMainWindow):
                         package+='/'+i
 
                     if not files.isdir(f'/srv/{package}'):
-                        html = files.readall('/srv/com/pyabr/error/DomainNotExists.html')
+                        result = subprocess.check_output(f'"{sys.executable}" {files.readall("/proc/info/boot")} exec /srv/com/pyabr/error/DomainNotExists', shell=True)
+                        html = result.decode('utf-8')
                         self.abr(html)
                     else:
-                        if files.isfile(f'/srv/{package}/{filename}'):
-                            html = files.readall("/"+proto+"/"+package+"/"+filename)
+                        if files.isfile(f'/srv/{package}/{filename}.py') or files.isfile(f'/srv/{package}/{filename}.sa') or files.isfile(f'/srv/{package}/{filename}') or files.isfile(f'/srv/{package}/{filename}.exe') or files.isfile(f'/srv/{package}/{filename}.jar'):
+                            result = subprocess.check_output(f'"{sys.executable}" {files.readall("/proc/info/boot")} exec /srv/{package}/{filename}',shell=True)
+                            html = result.decode('utf-8')
+                            self.abr(html)
+                        elif files.isfile(f'/srv/{package}/{filename}.html'):
+                            html = files.readall(f'/srv/{package}/{filename}.html')
+                            self.abr(html)
+                        elif files.isfile(f'/srv/{package}/{filename}.md'):
+                            html = markdown.markdown(files.readall(f'/srv/{package}/{filename}.md'))
                             self.abr(html)
                         else:
-                            html = files.readall('/srv/com/pyabr/error/PageNotFound.html')
+                            result = subprocess.check_output(
+                                f'"{sys.executable}" {files.readall("/proc/info/boot")} exec /srv/com/pyabr/error/PageNotFound',
+                                shell=True)
+                            html = result.decode('utf-8')
                             self.abr(html)
                 else:
-                    html = files.readall('/srv/com/pyabr/error/InvalidURL.html')
+                    result = subprocess.check_output(
+                        f'"{sys.executable}" {files.readall("/proc/info/boot")} exec /srv/com/pyabr/error/InvalidURL',
+                        shell=True)
+                    html = result.decode('utf-8')
                     self.abr(html)
 
     def add_new_tab(self, qurl=None, label="Blank"):

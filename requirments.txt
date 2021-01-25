@@ -2,3 +2,4 @@ PyQt5
 requests
 pyqtconsole
 pyqt5.qtwebengine
+markdown

@@ -36,6 +36,7 @@ setuptools.setup(
         'pyqtconsole',
         'requests',
         'pyqt5.qtwebengine',
+        'markdown',
     ],
     include_package_data=True,
 )

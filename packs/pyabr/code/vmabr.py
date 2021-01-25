@@ -208,7 +208,6 @@ if argv[0]=='exec':
                 appname = argv[1]
 
                 parent = files.parentdir(files.output(appname))[1:]
-
                 sys.path.append(parent)
                 __import__(files.filename(appname))
                 sys.path.remove (parent)

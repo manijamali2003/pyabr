@@ -8,3 +8,4 @@
 /usr/games: dr-xr-x--x/root
 /dev: d---------/root
 /tmp: drwxrwxrwx/root
+/srv: drwxr-xr-x/root

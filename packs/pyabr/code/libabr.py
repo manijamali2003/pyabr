@@ -3360,7 +3360,7 @@ class Files:
 
         strv = ''
         for i in file:
-            strv += i
+            strv += '/'+ i
 
         return strv
 

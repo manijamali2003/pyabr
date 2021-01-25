@@ -30,7 +30,7 @@
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-image: url(setup.png);</string>
+     <string notr="true">background-image: url(setup.svg);</string>
     </property>
    </widget>
   </widget>
