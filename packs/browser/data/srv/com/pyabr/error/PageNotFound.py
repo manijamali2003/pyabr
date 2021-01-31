@@ -1,16 +1,37 @@
-print('''
-<html>
+from libabr import Control, Files, Protocol
+
+files = Files()
+control = Control()
+locale = control.read_record("locale", "/etc/gui")
+url = Protocol()
+
+
+def get_string(name):
+    return control.read_record(name, f'/srv/com/pyabr/data/{locale}.locale')
+
+
+if locale == 'fa' or locale == 'ar':
+    alignment = 'rtl'
+else:
+    alignment = 'ltr'
+
+style = '''
+p {
+    font: menu;
+    font-size: 120%;
+}
+'''
+
+print(f'''
+<html dir='{alignment}'>
     <head>
-        <title>Page Not Found</title>
+        <title>{get_string('page_not_found')}</title>
         <style>
-        p {
-            font: menu;
-            font-size: 120%;
-        }
+        {style}
         </style>
     </head>
     <body>
-        <p>Page Not Found</p>
+        <p>{get_string('page_not_found')}</p>
     </body>
 </html>
 ''')

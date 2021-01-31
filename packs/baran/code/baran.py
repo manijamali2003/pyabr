@@ -1758,7 +1758,15 @@ class Desktop (QMainWindow):
 
         if not files.readall('/etc/suapp')=='':
             for i in self.suapp:
-                self.RunApp(i,None)
+                x = i.split(' ')
+                strv = ''
+                for j in x[1:]:
+                    if strv=='':
+                        strv+=j
+                    else:
+                        strv+=' '+j
+                print(strv)
+                self.RunApp(x[0],[strv])
 
     def RunApplication (self):
         sender = self.sender().objectName()

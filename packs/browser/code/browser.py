@@ -155,16 +155,15 @@ class MainApp(QMainWindow):
         # More difficult! We only want to update the url when it's from the
         # correct tab
         self.browser.urlChanged.connect(lambda qurl, browser=self.browser:
-                                   self.update_urlbar(qurl, self.browser))
+                                        self.update_urlbar(qurl, self.browser))
 
-        self.browser.loadFinished.connect(lambda _, i=i, browser=self.browser:
-                                     self.tabs.setTabText(i, self.browser.page().title()))
+        self.browser.loadFinished.connect(lambda _, i=i, browser=self.browser:self.tabs.setTabText(i, self.browser.page().title()))
 
         self.Loop()
 
     def Loop(self):
         self.browser.update()
-        QTimer.singleShot(200,self.Loop)
+        QTimer.singleShot(50,self.Loop)
 
     def tab_open_doubleclick(self, i):
         if i == -1:  # No tab under the click
@@ -225,7 +224,6 @@ class MainApp(QMainWindow):
             # Secure padlock icon
             img = res.get('@icon/lock-ssl')
             self.httpsicon.setPixmap(QPixmap(img))
-
         else:
             # Insecure padlock icon
             img = res.get('@icon/lock-nossl')

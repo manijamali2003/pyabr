@@ -40,7 +40,7 @@ class MainApp(QMainWindow):
 
     def Loop(self):
         self.browser.update()
-        QTimer.singleShot(200,self.Loop)
+        QTimer.singleShot(50,self.Loop)
 
     def navigate_to_url(self):  # Does not receive the Url
         q = QUrl(self.urlbar.text())

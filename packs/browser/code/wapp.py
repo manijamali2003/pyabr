@@ -16,6 +16,7 @@ files = Files()
 URL = "https://google.com"
 
 class MainApp(QMainWindow):
+
     def __init__(self,ports, *args, **kwargs):
         super(MainApp, self).__init__(*args, **kwargs)
         self.Backend = ports[0]
@@ -24,7 +25,6 @@ class MainApp(QMainWindow):
         self.AppName = ports[3]
         self.External = ports[4]
 
-        self.Widget.SetWindowTitle ("Hello World!")
         self.Widget.SetWindowIcon (QIcon(res.get('@icon/web-browser')))
         self.Widget.Resize(self,int(self.Env.width())/1.5,int(self.Env.height())/1.5)
 
@@ -72,8 +72,11 @@ class MainApp(QMainWindow):
                         elif files.isfile(f'/srv/{package}/{filename}.html'):
                             html = files.readall(f'/srv/{package}/{filename}.html')
                             self.abr(html)
-                        elif files.isfile(f'/srv/{package}/{filename}.md'):
-                            html = markdown.markdown(files.readall(f'/srv/{package}/{filename}.md'))
+                        elif files.isfile(f'/srv/{package}/{filename}.xhtml'):
+                            html = files.readall(f'/srv/{package}/{filename}.xhtml')
+                            self.abr(html)
+                        elif files.isfile(f'/srv/{package}/{filename}.xml'):
+                            html = files.readall(f'/srv/{package}/{filename}.xml')
                             self.abr(html)
                         else:
                             result = subprocess.check_output(
@@ -92,21 +95,38 @@ class MainApp(QMainWindow):
 
         self.browser = QWebEngineView()
         self.browser.setUrl(qurl)
-
         self.setCentralWidget(self.browser)
         self.Loop()
 
-    def abr (self, data):
+    finder = control.read_record('abr.finder', '/etc/webconfig')
 
+    def abr (self, data):
+        ## Connect to ABR Finder location AFL
+        data = data.replace('abr://',self.finder)
         self.browser = QWebEngineView()
         self.browser.setHtml(data)
-        self.Widget.SetWindowTitle(self.browser.title())
         self.setCentralWidget(self.browser)
         self.Loop()
 
     def Loop(self):
         self.browser.update()
-        QTimer.singleShot(200,self.Loop)
+
+        isabr = self.browser.page().url().toString().replace('data:text/html;charset=UTF-8,', '').replace('%0A', '')
+        isabrweb = self.browser.page().url().toString()
+
+        if isabr.startswith('abr%3A%2F%2F'):
+            self.close()
+            self.Widget.Close()
+            self.Env.RunApp ('wapp',[f'abr://{isabr.replace("abr%3A%2F%2F","")}'])
+        elif isabrweb.startswith(self.finder):
+            self.close()
+            self.Widget.Close()
+            self.Env.RunApp('wapp', [f'{isabrweb.replace(self.finder,"abr://")}'])
+        else:
+            self.Widget.SetWindowTitle (self.browser.page().title())
+            self.Widget.SetWindowIcon (QIcon(self.browser.page().icon()))
+
+            QTimer.singleShot(50,self.Loop)
 
     def navigate_to_url(self):  # Does not receive the Url
         q = QUrl(self.urlbar.text())

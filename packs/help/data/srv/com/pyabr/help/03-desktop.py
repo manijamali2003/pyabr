@@ -1,12 +1,11 @@
-from libabr import Control, Files, Protocol
+from libabr import Control, Files
 
 files = Files()
 control = Control()
 locale = control.read_record("locale","/etc/gui")
-url = Protocol()
 
 def get_string (name):
-    return control.read_record(name,f'/srv/com/pyabr/data/{locale}.locale')
+    return control.read_record(name,f'/srv/com/pyabr/help/data/{locale}.locale')
 
 if locale=='fa' or locale=='ar':
     alignment = 'rtl'
@@ -14,8 +13,7 @@ else:
     alignment = 'ltr'
 
 style = '''
-p {
-    font: menu;
+.lists {
     font-size: 120%;
 }
 '''
@@ -23,13 +21,17 @@ p {
 print(f'''
 <html dir='{alignment}'>
     <head>
-        <title>{get_string('welcome')}</title>
+        <title>{get_string('03-desktop')}</title>
+        <meta charset='utf-8'/>
         <style>
         {style}
         </style>
     </head>
     <body>
-        <p>{get_string('welcome')}</p>
+    <a href="abr://help.pyabr.com">
+            <font color='blue' class='lists'>{get_string('back')}</font>
+            <hr/>
+        </a>
     </body>
 </html>
 ''')

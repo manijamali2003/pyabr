@@ -1,16 +1,35 @@
-print('''
-<html>
+from libabr import Control, Files, Protocol
+
+files = Files()
+control = Control()
+locale = control.read_record("locale","/etc/gui")
+url = Protocol()
+
+def get_string (name):
+    return control.read_record(name,f'/srv/com/pyabr/data/{locale}.locale')
+
+if locale=='fa' or locale=='ar':
+    alignment = 'rtl'
+else:
+    alignment = 'ltr'
+
+style = '''
+p {
+    font: menu;
+    font-size: 120%;
+}
+'''
+
+print(f'''
+<html dir='{alignment}'>
     <head>
-        <title>Domain Not Exists</title>
+        <title>{get_string('domain_not_exists')}</title>
         <style>
-        p {
-            font: menu;
-            font-size: 120%;
-        }
+        {style}
         </style>
     </head>
     <body>
-        <p>Domain Not Exists</p>
+        <p>{get_string('domain_not_exists')}</p>
     </body>
 </html>
 ''')
