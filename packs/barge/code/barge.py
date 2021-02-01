@@ -51,11 +51,11 @@ class MainApp(QtWidgets.QMainWindow):
         self.exit.triggered.connect (self.Widget.Close)
 
         # code menu
-        self.code = self.menubar.addMenu('Code')
-        self.run = self.code.addAction('Run')
+        self.code = self.menubar.addMenu(res.get('@string/code'))
+        self.run = self.code.addAction(res.get('@string/run'))
         self.run.triggered.connect (self.run_)
 
-        self.insert_c = self.code.addMenu('Insert Code')
+        self.insert_c = self.code.addMenu(res.get('@string/icode'))
 
         # Codes #
         self.lang_c = self.insert_c.addAction(res.get('@string/c'))
@@ -76,7 +76,7 @@ class MainApp(QtWidgets.QMainWindow):
         self.lang_pythongui = self.insert_c.addAction(res.get('@string/pythongui'))
         self.lang_pythongui.triggered.connect(self.langpythonx)
         self.lang_pythongui.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'py'))))
-        self.lang_pythonweb = self.insert_c.addAction('Python WebView')
+        self.lang_pythonweb = self.insert_c.addAction(res.get('@string/pyweb'))
         self.lang_pythonweb.triggered.connect(self.langpythonweb)
         self.lang_pythonweb.setIcon(QtGui.QIcon(res.get('@icon/web-browser')))
         self.lang_saye = self.insert_c.addAction(res.get('@string/saye'))

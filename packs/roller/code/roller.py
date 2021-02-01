@@ -43,7 +43,7 @@ class FileListView (QtWidgets.QListView):
                 it.setIcon(QtGui.QIcon(res.get(res.etc("roller",'file-icon'))))
 
     def mkdir (self,dirname):
-        if files.isfile(dirname): self.Env.RunApp('text', ['Is a file',f'Cannot create {dirname} beacause it is a file.'])
+        if files.isfile(dirname): self.Env.RunApp('text', [res.get('@string/isfile'),res.get('@string/isfile_msg').replace('{0}',dirname)])
         else:
             it = QtGui.QStandardItem(dirname)
             it.setWhatsThis(self.dir + "/" + dirname)
@@ -53,8 +53,8 @@ class FileListView (QtWidgets.QListView):
             it.setFont(f)
 
     def mkfile (self,filename):
-        if files.isdir(filename ): self.Env.RunApp('text', ['Is a directory',
-                                                                         f'Cannot create {filename} beacause it is a directory.'])
+        if files.isdir(filename ): self.Env.RunApp('text', [res.get('@string/isdir'),
+                                                                         res.get('@string/isdir_msg').replace("{0}",filename)])
         else:
             it = QtGui.QStandardItem(filename)
             it.setWhatsThis(self.dir + "/" + filename)
@@ -65,69 +65,88 @@ class FileListView (QtWidgets.QListView):
             it.setFont(f)
 
     def mkc (self,filename):
-        if files.isdir(filename + ".c"): self.Env.RunApp('text', ['Is a directory',
-                                                                         f'Cannot create {filename + ".c"} beacause it is a directory.'])
+        if files.isdir(filename +".c"): self.Env.RunApp('text', [res.get('@string/isdir'),
+                                                                         res.get('@string/isdir_msg').replace("{0}",filename+".c")])
         else:
             self.mkfile(filename+".c")
             files.write(self.dir + "/" + filename+'.c',files.readall(res.get('@temp/untitled.c')))
 
     def mkcpp (self,filename):
-        if files.isdir(filename + ".cpp"): self.Env.RunApp('text', ['Is a directory',
-                                                                         f'Cannot create {filename + ".cpp"} beacause it is a directory.'])
+        if files.isdir(filename+".cpp"):
+            self.Env.RunApp('text', [res.get('@string/isdir'),
+                                     res.get('@string/isdir_msg').replace("{0}", filename + ".cpp")])
         else:
             self.mkfile(filename+".cpp")
             files.write(self.dir + "/" + filename+'.cpp',files.readall(res.get('@temp/untitled.cpp')))
 
     def mkjava (self,filename):
-        if files.isdir(filename + ".java"): self.Env.RunApp('text', ['Is a directory',f'Cannot create {filename + ".java"} beacause it is a directory.'])
+        if files.isdir(filename+".java"):
+            self.Env.RunApp('text', [res.get('@string/isdir'),
+                                     res.get('@string/isdir_msg').replace("{0}", filename + ".java")])
         else:
             self.mkfile(filename+".java")
             files.write(self.dir + "/" + filename+'.java',files.readall(res.get('@temp/untitled.java')).replace("MainApp",filename))
 
     def mkjs (self,filename):
-        if files.isdir(filename + ".js"): self.Env.RunApp('text', ['Is a directory',f'Cannot create {filename + ".js"} beacause it is a directory.'])
+        if files.isdir(filename+".js"):
+            self.Env.RunApp('text', [res.get('@string/isdir'),
+                                     res.get('@string/isdir_msg').replace("{0}", filename + ".js")])
         else:
             self.mkfile(filename+".js")
             files.write(self.dir + "/" + filename+'.js',files.readall(res.get('@temp/untitled.js')))
 
     def mkphp (self,filename):
-        if files.isdir(filename + ".php"): self.Env.RunApp('text', ['Is a directory',f'Cannot create {filename + ".php"} beacause it is a directory.'])
+        if files.isdir(filename+".php"):
+            self.Env.RunApp('text', [res.get('@string/isdir'),
+                                     res.get('@string/isdir_msg').replace("{0}", filename + ".php")])
         else:
             self.mkfile(filename+".php")
             files.write(self.dir + "/" + filename+".php",files.readall(res.get('@temp/untitled.php')))
 
     def mkhtml (self,filename):
-        if files.isdir(filename + ".html"): self.Env.RunApp('text', ['Is a directory',f'Cannot create {filename + ".html"} beacause it is a directory.'])
+        if files.isdir(filename+".html"):
+            self.Env.RunApp('text', [res.get('@string/isdir'),
+                                     res.get('@string/isdir_msg').replace("{0}", filename + ".html")])
         else:
             self.mkfile(filename+".html")
             files.write(self.dir + "/" + filename+".html",files.readall(res.get('@temp/untitled.html')))
 
     def mkcs (self,filename):
-        if files.isdir(filename + ".cs"): self.Env.RunApp('text', ['Is a directory',f'Cannot create {filename + ".cs"} beacause it is a directory.'])
+        if files.isdir(filename+".cs"):
+            self.Env.RunApp('text', [res.get('@string/isdir'),
+                                     res.get('@string/isdir_msg').replace("{0}", filename + ".cs")])
         else:
             self.mkfile(filename+".cs")
             files.write(self.dir + "/" + filename+".cs",files.readall(res.get('@temp/untitled.cs')))
 
     def mksa (self,filename):
-        if files.isdir(filename + ".sa"): self.Env.RunApp('text', ['Is a directory',f'Cannot create {filename + ".sa"} beacause it is a directory.'])
+        if files.isdir(filename+".sa"):
+            self.Env.RunApp('text', [res.get('@string/isdir'),
+                                     res.get('@string/isdir_msg').replace("{0}", filename + ".sa")])
         else:
             self.mkfile(filename+".sa")
             files.write(self.dir + "/" + filename+".sa",files.readall(res.get('@temp/untitled.sa')))
 
     def mkpy (self,filename):
-        if files.isdir(filename + ".py"): self.Env.RunApp('text', ['Is a directory',f'Cannot create {filename + ".py"} beacause it is a directory.'])
+        if files.isdir(filename+".py"):
+            self.Env.RunApp('text', [res.get('@string/isdir'),
+                                     res.get('@string/isdir_msg').replace("{0}", filename + ".py")])
         else:
             self.mkfile(filename+".py")
             files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled.py')))
 
     def mkpygui (self,filename):
-        if files.isdir(filename + ".py"): self.Env.RunApp('text', ['Is a directory',f'Cannot create {filename + ".py"} beacause it is a directory.'])
+        if files.isdir(filename+".py"):
+            self.Env.RunApp('text', [res.get('@string/isdir'),
+                                     res.get('@string/isdir_msg').replace("{0}", filename + ".py")])
         else:
             self.mkfile(filename+".py")
             files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled-gui.py')))
 
     def mkpyweb (self,filename):
-        if files.isdir(filename + ".py"): self.Env.RunApp('text', ['Is a directory',f'Cannot create {filename + ".py"} beacause it is a directory.'])
+        if files.isdir(filename+".py"):
+            self.Env.RunApp('text', [res.get('@string/isdir'),
+                                     res.get('@string/isdir_msg').replace("{0}", filename + ".py")])
         else:
             self.mkfile(filename+".py")
             files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled-web.py')))
@@ -339,7 +358,7 @@ class MainApp (QtWidgets.QMainWindow):
         self.new_pygui.triggered.connect(self.New_PyGui)
         self.new_pygui.setIcon(QIcon(res.get(res.etc("roller", "py"))))
 
-        self.new_pyweb = self.new_code.addAction('New Python WebView file')
+        self.new_pyweb = self.new_code.addAction(res.get('@string/newpyweb'))
         self.new_pyweb.triggered.connect(self.New_PyWeb)
         self.new_pyweb.setIcon(QIcon(res.get('@icon/web-browser')))
         ##

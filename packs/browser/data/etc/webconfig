@@ -2,3 +2,4 @@ default: https://www.google.com
 abr.index: index
 abr.default: pyabr.com
 abr.finder: http://pyabr.rf.gd/domain.php?url=
+abr.server: http://pyabr.rf.gd/

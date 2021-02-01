@@ -182,7 +182,9 @@ class MainApp(QtWidgets.QMainWindow):
                 split.remove('')
 
                 if split == []:
-                    self.Env.RunApp('input', ['Pick a username', self._user_uadd])
+                    x = res.get('@string/uname')
+                    self.Env.RunApp('input', [x, self._user_uadd])
+                    app.switch('commento')
                 else:
                     self._user_uadd(split[1])
             else:
@@ -194,7 +196,9 @@ class MainApp(QtWidgets.QMainWindow):
                 split.remove('')
 
                 if split == []:
-                    self.Env.RunApp('input', ['Enter an username', self._user_del])
+                    x = res.get('@string/ename')
+                    self.Env.RunApp('input', [x, self._user_del])
+                    app.switch('commento')
                 else:
                     self._user_del(split[1])
             else:
@@ -205,7 +209,9 @@ class MainApp(QtWidgets.QMainWindow):
             split.remove('')
 
             if split==[]:
-                self.Env.RunApp('input', ['Enter a variable name', self._in])
+                x = res.get('@string/vname')
+                self.Env.RunApp('input', [x, self._in])
+                app.switch('commento')
             else:
                 self._in(split[1])
 
@@ -213,6 +219,7 @@ class MainApp(QtWidgets.QMainWindow):
             command = cmd.replace(' @','').split(' ')
             if app.exists(command[0]):
                 self.Env.RunApp(command[0], command[1:])
+                app.switch('commento')
 
         elif cmd.startswith (' sudo '):
             split = cmd.split(' ')
@@ -267,7 +274,9 @@ class MainApp(QtWidgets.QMainWindow):
                                 split.remove('')
 
                                 if split == []:
-                                    self.Env.RunApp('input', ['Pick a username', self._user_uadd])
+                                    x = res.get('@string/uname')
+                                    self.Env.RunApp('input', [x, self._user_uadd])
+                                    app.switch('commento')
                                 else:
                                     self._user_uadd(split[2])
                             else:
@@ -279,7 +288,9 @@ class MainApp(QtWidgets.QMainWindow):
                                 split.remove('')
 
                                 if split == []:
-                                    self.Env.RunApp('input', ['Enter an username', self._user_del])
+                                    x = res.get('@string/ename')
+                                    self.Env.RunApp('input', [x, self._user_del])
+                                    app.switch('commento')
                                 else:
                                     self._user_del(split[2])
                             else:
@@ -290,7 +301,9 @@ class MainApp(QtWidgets.QMainWindow):
                             split.remove('')
 
                             if split == []:
-                                self.Env.RunApp('input', ['Enter a variable name', self._in])
+                                x = res.get('@string/vname')
+                                self.Env.RunApp('input', [x, self._in])
+                                app.switch('commento')
                             else:
                                 self._in(split[2])
                         else:
@@ -340,27 +353,36 @@ class MainApp(QtWidgets.QMainWindow):
 
     def _user_uadd (self,username):
         if files.isfile(f'/etc/users/{username}'):
-            self.Env.RunApp('text',['User exists', f'Cannot create {username} user account; because this user has already exists.'])
+            x = res.get('@string/ue')
+            self.Env.RunApp('text',[x,res.get('@string/uem')])
+            app.switch('commento')
         elif username=='guest':
-            self.Env.RunApp('text', ['Guest Account',
-                                     f'Cannot create user account with guest name; because this user is a guest account.'])
+            x = res.get('@string/ga')
+            self.Env.RunApp('text', [x,res.get('@string/uem')])
+            app.switch('commento')
         elif username=='root':
-            self.Env.RunApp('text', ['Super Account',
-                                     f'Cannot create user account with root name; because this user is a super account.'])
+            x = res.get('@string/sa')
+            self.Env.RunApp('text', [x,res.get('@string/uem')])
+            app.switch('commento')
         else:
             self.username = username
+            x = res.get('@string/passx')
             control.write_record('input.password_hint','Yes','/etc/configbox')
-            self.Env.RunApp('input', ['Choose your a new password', self._user_uadd_passwd])
+            self.Env.RunApp('input', [x, self._user_uadd_passwd])
+            app.switch('commento')
 
     def _user_uadd_passwd (self,password):
         self.password = password
-        self.Env.RunApp('input', ['Confirm your password', self._user_uadd_passwd_confirm])
+        x = res.get('@string/confx')
+        self.Env.RunApp('input', [x, self._user_uadd_passwd_confirm])
+        app.switch('commento')
         control.write_record('input.password_hint', 'No', '/etc/configbox')
 
     def _user_uadd_passwd_confirm (self,confirm):
         if not self.password==confirm:
-            self.Env.RunApp('text', ['Not match',
-                                     f'Your new password and your confirm password are not match.'])
+            x = res.get('@string/nmat')
+            self.Env.RunApp('text', [x,res.get('@string/nmatm')])
+            app.switch('commento')
         else:
             hashname = hashlib.sha3_256(str(self.username).encode()).hexdigest()
             hashcode = hashlib.sha3_512(str(self.password).encode()).hexdigest()
@@ -370,24 +392,31 @@ class MainApp(QtWidgets.QMainWindow):
             control.write_record("code", hashcode, '/etc/users/' + self.username)
             control.write_record('/desk/' + self.username, "drwxr-x---/" + self.username, '/etc/permtab')
 
-            self.Env.RunApp('text', ['Successfully created',
-                                     f'Your new user with {self.username} successfully created.'])
+            x = res.get('@string/sc')
+            self.Env.RunApp('text', [x,res.get('@string/scm')])
+            app.switch('commento')
 
     def _user_del (self,username):
         if not files.isfile(f'/etc/users/{username}'):
-            self.Env.RunApp('text', ['User not found',
+            x = res.get('@string/unf')
+            self.Env.RunApp('text', [x,
                                      f'Cannot remove {username} user account; because this user not found.'])
+            app.switch('commento')
         elif username == 'guest':
-            self.Env.RunApp('text', ['Guest Account',
-                                     f'Cannot remove user account with guest name; because this user is a guest account.'])
+            x = res.get('@string/ga')
+            self.Env.RunApp('text', [x,res.get('@string/gam')])
+            app.switch('commento')
         elif username == 'root':
-            self.Env.RunApp('text', ['Super Account',
-                                     f'Cannot remove user account with root name; because this user is a super account.'])
+            x = res.get('@string/sa')
+            self.Env.RunApp('text', [x,res.get('@string/sam')])
+            app.switch('commento')
         else:
             self.username = username
             control.write_record('input.password_hint', 'Yes', '/etc/configbox')
             if not permissions.check_root (files.readall("/proc/info/su")):
-                self.Env.RunApp('input', ['Enter this user password', self._user_del_passwd_])
+                x = res.get('epass')
+                self.Env.RunApp('input', [x, self._user_del_passwd_])
+                app.switch('commento')
             else:
                 self._user_del_passwd_('*')
 
@@ -397,11 +426,15 @@ class MainApp(QtWidgets.QMainWindow):
             files.removedirs("/desk/" + self.username)
             control.remove_record('/desk/' + self.username, '/etc/permtab')
 
-        self.Env.RunApp('text', ['Successfully removed',f'{self.username} user account successfully removed.'])
+        x = res.get('@string/sr')
+        self.Env.RunApp('text', [x,res.get('@string/srm')])
+        app.switch('commento')
 
     def _in (self,name):
         self.name = name
-        self.Env.RunApp('input', [f'Enter {name} value', self._in_value])
+        x = res.get('@string/vl')
+        self.Env.RunApp('input', [x, self._in_value])
+        app.switch('commento')
 
     def _in_value (self,value):
         commands.set([self.name+":",value])

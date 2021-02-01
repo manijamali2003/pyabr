@@ -47,7 +47,7 @@ class MainApp(QMainWindow):
         self.AppName = ports[3]
         self.External = ports[4]
 
-        self.Widget.SetWindowTitle ("Mozzarella Browser")
+        self.Widget.SetWindowTitle (res.get('@string/app_name'))
         self.Widget.SetWindowIcon (QIcon(res.get('@icon/web-browser')))
         self.Widget.Resize(self,self.Env.width(),self.Env.height())
 
@@ -63,27 +63,27 @@ class MainApp(QMainWindow):
         self.status = QStatusBar()
         self.setStatusBar(self.status)
 
-        navtb = QToolBar("Navigation")
+        navtb = QToolBar(res.get('@string/nav'))
         navtb.setIconSize(QSize(16, 16))
         self.addToolBar(navtb)
 
-        back_btn = QAction(QIcon(res.get('@icon/arrow-180')), "Back", self)
-        back_btn.setStatusTip("Back to previous page")
+        back_btn = QAction(QIcon(res.get('@icon/arrow-180')), res.get('@string/ba'), self)
+        back_btn.setStatusTip(res.get('@string/ba'))
         back_btn.triggered.connect(lambda: self.tabs.currentWidget().back())
         navtb.addAction(back_btn)
 
-        next_btn = QAction(QIcon(res.get('@icon/arrow-000')), "Forward", self)
-        next_btn.setStatusTip("Forward to next page")
+        next_btn = QAction(QIcon(res.get('@icon/arrow-000')), res.get('@string/fw'), self)
+        next_btn.setStatusTip(res.get('@string/fw'))
         next_btn.triggered.connect(lambda: self.tabs.currentWidget().forward())
         navtb.addAction(next_btn)
 
-        reload_btn = QAction(QIcon(res.get('@icon/arrow-circle-315')), "Reload", self)
-        reload_btn.setStatusTip("Reload page")
+        reload_btn = QAction(QIcon(res.get('@icon/arrow-circle-315')), res.get('@string/rl'), self)
+        reload_btn.setStatusTip(res.get('@string/rl'))
         reload_btn.triggered.connect(lambda: self.tabs.currentWidget().reload())
         navtb.addAction(reload_btn)
 
-        home_btn = QAction(QIcon(res.get('@icon/home')), "Home", self)
-        home_btn.setStatusTip("Go home")
+        home_btn = QAction(QIcon(res.get('@icon/home')), res.get('@string/hm'), self)
+        home_btn.setStatusTip(res.get('@string/hm'))
         home_btn.triggered.connect(self.navigate_home)
         navtb.addAction(home_btn)
 
@@ -97,40 +97,39 @@ class MainApp(QMainWindow):
         self.urlbar.returnPressed.connect(self.navigate_to_url)
         navtb.addWidget(self.urlbar)
 
-        stop_btn = QAction(QIcon(res.get('@icon/cross-circle')), "Stop", self)
-        stop_btn.setStatusTip("Stop loading current page")
+        stop_btn = QAction(QIcon(res.get('@icon/cross-circle')), res.get('@string/st'), self)
+        stop_btn.setStatusTip(res.get('@string/st'))
         stop_btn.triggered.connect(lambda: self.tabs.currentWidget().stop())
         navtb.addAction(stop_btn)
 
         # Uncomment to disable native menubar on Mac
         # self.menuBar().setNativeMenuBar(False)
 
-        file_menu = self.menuBar().addMenu("&File")
+        file_menu = self.menuBar().addMenu(res.get('@string/file'))
 
         img = res.get('@icon/ui-tab--plus')
-        new_tab_action = QAction(QIcon(img), "New Tab", self)
-        new_tab_action.setStatusTip("Open a new tab")
+        new_tab_action = QAction(QIcon(img), res.get('@string/ntab'), self)
+        new_tab_action.setStatusTip(res.get('@string/ntab'))
         new_tab_action.triggered.connect(lambda _: self.add_new_tab())
         file_menu.addAction(new_tab_action)
 
         img = res.get('@icon/disk--arrow')
-        open_file_action = QAction(QIcon(img), "Open file...", self)
-        open_file_action.setStatusTip("Open from file")
+        open_file_action = QAction(QIcon(img), res.get('@string/of'), self)
+        open_file_action.setStatusTip(res.get('@string/of'))
         open_file_action.triggered.connect(self.open_file)
         file_menu.addAction(open_file_action)
 
-        help_menu = self.menuBar().addMenu("&Help")
+        help_menu = self.menuBar().addMenu(res.get('@string/hl'))
 
         img = res.get('@icon/question')
-        about_action = QAction(QIcon(img), "About Mozarella Browser", self)
-        about_action.setStatusTip("Find out more about Mozarella Ashbadger")  # Hungry!
+        about_action = QAction(QIcon(img), res.get('@string/ab'), self)
+        about_action.setStatusTip(res.get('@string/ab'))  # Hungry!
         about_action.triggered.connect(self.about)
         help_menu.addAction(about_action)
 
         img = res.get('@icon/lifebuoy')
-        navigate_mozarella_action = QAction(QIcon(img),
-                                            "Mozarella Ashbadger Homepage", self)
-        navigate_mozarella_action.setStatusTip("Go to Pyabr Channel")
+        navigate_mozarella_action = QAction(QIcon(img),res.get('@string/pg'), self)
+        navigate_mozarella_action.setStatusTip(res.get('@string/pc'))
         navigate_mozarella_action.triggered.connect(self.navigate_mozarella)
         help_menu.addAction(navigate_mozarella_action)
 
@@ -186,7 +185,7 @@ class MainApp(QMainWindow):
             return
 
         title = self.tabs.currentWidget().page().title()
-        self.Widget.setWindowTitle("%s - Mozarella Browser" % title)
+        self.Widget.setWindowTitle(f"%s - {res.get('app_name')}" % title)
 
     def navigate_mozarella(self):
         self.tabs.currentWidget().setUrl(QUrl("https://gap.im/pyabr"))
@@ -196,7 +195,7 @@ class MainApp(QMainWindow):
         dlg.exec_()
 
     def open_file(self):
-        self.Env.RunApp('select',['Open a web page','open',self.open_file_])
+        self.Env.RunApp('select',[res.get('@string/owp'),'open',self.open_file_])
 
     def open_file_(self,filename):
         html = files.readall(filename)

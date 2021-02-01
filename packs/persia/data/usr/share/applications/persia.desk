@@ -1,4 +1,5 @@
 name[en]: PyPersia IDE
+name[fa]: پای پرشیا
 exec: persia
 logo: @icon/python
 text: @icon/application-text

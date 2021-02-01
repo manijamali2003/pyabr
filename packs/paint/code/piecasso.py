@@ -868,7 +868,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             clipboard.setPixmap(self.canvas.pixmap())
 
     def open_file (self):
-        self.Env.RunApp('select', ['Open File', 'open', self.open_file_])
+        self.Env.RunApp('select', [res.get('@string/of'), 'open', self.open_file_])
 
     def open_file_(self,path):
         """
@@ -904,7 +904,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.canvas.setPixmap(pixmap)
 
     def save_file (self):
-        self.Env.RunApp('select', ['Save File', 'save', self.save_file_])
+        self.Env.RunApp('select', [res.get('@string/sf'), 'save', self.save_file_])
 
     def save_file_(self,path):
         if path:

@@ -8,7 +8,9 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from libabr import Res
 
+res = Res()
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -714,27 +716,27 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Piecasso"))
-        self.menuFIle.setTitle(_translate("MainWindow", "File"))
-        self.menuEdit.setTitle(_translate("MainWindow", "Edit"))
-        self.menuImage.setTitle(_translate("MainWindow", "Image"))
-        self.menuHelp.setTitle(_translate("MainWindow", "Help"))
-        self.fileToolbar.setWindowTitle(_translate("MainWindow", "toolBar"))
-        self.drawingToolbar.setWindowTitle(_translate("MainWindow", "toolBar"))
-        self.fontToolbar.setWindowTitle(_translate("MainWindow", "toolBar"))
-        self.actionCopy.setText(_translate("MainWindow", "Copy"))
+        MainWindow.setWindowTitle(_translate("MainWindow", res.get('@string/app_name')))
+        self.menuFIle.setTitle(_translate("MainWindow", res.get('@string/file')))
+        self.menuEdit.setTitle(_translate("MainWindow", res.get('@string/edit')))
+        self.menuImage.setTitle(_translate("MainWindow", res.get('@string/image')))
+        self.menuHelp.setTitle(_translate("MainWindow", res.get('@string/help')))
+        self.fileToolbar.setWindowTitle(_translate("MainWindow", res.get('@string/toolbar')))
+        self.drawingToolbar.setWindowTitle(_translate("MainWindow", res.get('@string/toolbar')))
+        self.fontToolbar.setWindowTitle(_translate("MainWindow", res.get('@string/toolbar')))
+        self.actionCopy.setText(_translate("MainWindow", res.get('@string/copy')))
         self.actionCopy.setShortcut(_translate("MainWindow", "Ctrl+C"))
-        self.actionClearImage.setText(_translate("MainWindow", "Clear Image"))
-        self.actionOpenImage.setText(_translate("MainWindow", "Open Image..."))
-        self.actionSaveImage.setText(_translate("MainWindow", "Save Image As..."))
-        self.actionInvertColors.setText(_translate("MainWindow", "Invert Colors"))
-        self.actionFlipHorizontal.setText(_translate("MainWindow", "Flip Horizontal"))
-        self.actionFlipVertical.setText(_translate("MainWindow", "Flip Vertical"))
-        self.actionNewImage.setText(_translate("MainWindow", "New Image"))
-        self.actionBold.setText(_translate("MainWindow", "Bold"))
+        self.actionClearImage.setText(_translate("MainWindow", res.get('@string/ci')))
+        self.actionOpenImage.setText(_translate("MainWindow", res.get('@string/oi')))
+        self.actionSaveImage.setText(_translate("MainWindow",res.get('@string/sia')))
+        self.actionInvertColors.setText(_translate("MainWindow", res.get('@string/ivc')))
+        self.actionFlipHorizontal.setText(_translate("MainWindow", res.get('@string/fh')))
+        self.actionFlipVertical.setText(_translate("MainWindow", res.get('@string/fv')))
+        self.actionNewImage.setText(_translate("MainWindow", res.get('@string/nim')))
+        self.actionBold.setText(_translate("MainWindow", res.get('@string/bl')))
         self.actionBold.setShortcut(_translate("MainWindow", "Ctrl+B"))
-        self.actionItalic.setText(_translate("MainWindow", "Italic"))
+        self.actionItalic.setText(_translate("MainWindow", res.get('@string/il')))
         self.actionItalic.setShortcut(_translate("MainWindow", "Ctrl+I"))
-        self.actionUnderline.setText(_translate("MainWindow", "Underline"))
-        self.actionFillShapes.setText(_translate("MainWindow", "Fill Shapes?"))
+        self.actionUnderline.setText(_translate("MainWindow", res.get('@string/ul')))
+        self.actionFillShapes.setText(_translate("MainWindow", res.get('@string/fs')))
 import resources_rc

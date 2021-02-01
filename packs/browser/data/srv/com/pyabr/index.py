@@ -1,9 +1,8 @@
-from libabr import Control, Files, Protocol
+from libabr import Control, Files
 
 files = Files()
 control = Control()
 locale = control.read_record("locale","/etc/gui")
-url = Protocol()
 
 def get_string (name):
     return control.read_record(name,f'/srv/com/pyabr/data/{locale}.locale')

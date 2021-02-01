@@ -21,11 +21,11 @@ class MainApp(QMainWindow):
         self.AppName = ports[3]
         self.External = ports[4]
 
-        self.Widget.SetWindowTitle ("Gap Massenger")
+        self.Widget.SetWindowTitle (res.get('@string/app_name'))
         self.Widget.SetWindowIcon (QIcon(res.get('@icon/gap')))
         self.Widget.Resize(self,int(self.Env.width())/1.5,int(self.Env.height())/1.5)
 
-        self.add_new_tab(QUrl('https://web.gap.im'), 'Homepage')
+        self.add_new_tab(QUrl('https://web.gap.im'), res.get('@string/app_name'))
 
     def add_new_tab(self, qurl=None, label="Blank"):
 

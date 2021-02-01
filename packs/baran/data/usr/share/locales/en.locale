@@ -52,7 +52,7 @@ pyshell.app_name: PyShell
 calendar.app_name: Calendar
 calculator.app_name: Calculator
 runapp.app_name: App Runner
-runapp.app_not_found: {0} application not found
+runapp.app_not_found: Application not found
 pysys.signout: Sign out
 pysys.switchuser: Switch user
 pysys.lock: Lock
@@ -97,7 +97,7 @@ roller.newfolder: New Folder
 roller.exit: Exit
 roller.foldername: Enter your folder name
 roller.filename: Enter your file name
-paint.app_name: Piecasso Paint
+paint.app_name: Paint
 about.app_name: About System
 mines.app_name: Mines
 barge.c: C
@@ -151,3 +151,158 @@ persia.saveasfile: Save as file
 text.title: Text box
 text.text: This is a simple text box
 text.ok: OK
+runapp.not_found: Application not found
+runapp.not_found_msg: Application not found.
+roller.isfile: Is a file
+roller.isdir: Is a directory
+roller.isfile_msg: Cannot create directory; because it is a file.
+roller.isdir_msg: Cannot create file; because it is a directory.
+roller.newpyweb: New Python Web Application file
+persia.isfile: Is a file
+persia.isfile_msg: Cannot create directory; because it is a file.
+persia.isdir: Is a directory
+persia.isdir_msg: Cannot create file; because it is a directory.
+persia.nwebp: New Web Application Project
+persia.code: Code
+persia.run: Run
+persia.runp: Run Project
+persia.build: Build
+persia.pack: Pack Source code
+persia.pa: Generate .PA Package
+persia.buildi: Build and Install Project
+persia.publish: Publish Project
+persia.insert: Insert Code
+persia.ce: Compile error
+persia.cem: There is some problem with C/C++ Compiler.
+persia.pycon: PyPersia Console
+persia.spc: Cannot Support
+persia.spcm: PyPersia cannot support this language or syntax.
+persia.pythonwebi: Python Web Application
+paye.name: Package Name
+paye.version: Package Version
+paye.date: Release date
+paye.copy: Copyright
+paye.license: License
+paye.unpack: Installed in
+paye.app_name: Package Manager
+paye.rm: Uninstall
+paye.rmm: Do you want to uninstall this package?
+paye.up: Update
+paye.upm: Do you want to update this package?
+paye.rmx: Successfully Uninstalled
+paye.rmxm: This package successfully uninstalled.
+paye.upx: Successfully Updated
+paye.upxm: This package successfully updated.
+paye.mirror: Mirror
+paye.package: Package
+paye.add: Add
+paye.remove: Remove
+paye.install: Install
+paye.uninstall: Uninstall
+paye.download: Dowload
+paye.mname: Enter your mirror name
+paye.mex: Mirror exists
+paye.mexm: Your entered mirror has already exists.
+paye.ml: Enter your mirror link
+paye.ndl: Not a download link
+paye.ndlm: Your entered link is not a download link.
+paye.mdf: Mirror not found
+paye.mdfm: Your entered mirror cannot be found.
+paye.pname: Enter a package name
+paye.mdfmx: Cannot install package with this name; because mirror of this package not found.
+paye.si: Successfully installed
+paye.sim: This package successfully installed.
+paye.ci: Cannot install
+paye.cim: Cannot install package with this name; there are some errors in connection or etc.
+paye.pwi: Package was not installed
+paye.pwim: Cannot remove this package; because this package was not installed.
+paye.dname: Enter a package name for downloading
+paye.dd: Successfully downloaded
+paye.ddm: This package successfully downloaded in current path.
+paye.cdx: Cannot download
+paye.cdxm: Cannot download package with this name; there are some errors in connection or etc.
+paint.of: Open File
+paint.sf: Save File
+paint.file: File
+paint.edit: Edit
+paint.image: Image
+paint.help: Help
+paint.toolbar: toolBar
+paint.copy: Copy
+paint.ci: Clear Image
+paint.oi: Open Image...
+paint.sia: Save Image As...
+paint.ivc: Invert Colors
+paint.fh: Flip Horizontal
+paint.fv: Flip Vertical
+paint.nim: New Image
+paint.bl: Bold
+paint.il: Italic
+paint.ul: Underline
+paint.fs: Fill Shapes?
+lightword.untitled: Untitled - Lightword
+lightword.file: File
+lightword.of: Open File...
+lightword.sv: Save
+lightword.sa: Save As...
+lightword.ed: Edit
+lightword.un: Undo
+lightword.rd: Redo
+lightword.ct: Cut
+lightword.cp: Copy
+lightword.pa: Paste
+lightword.sll: Select All
+lightword.wtw: Wrap text to window
+lightword.ttw: Toggle wrap text to window
+lightword.fm: Format
+lightword.bl: Bold
+lightword.it: Italtic
+lightword.un: Underline
+lightword.al: Align Left
+lightword.ac: Align Center
+lightword.ar: Align Right
+lightword.jf: Justify
+lightword.od: Open Document
+lightword.sd: Save Document
+lightword.sad: Save Document As
+gap.app_name: Gap Massenger
+commento.uname: Pick a username
+commento.ename: Enter an username
+commento.vname: Enter a variable name
+commento.ue: User exists
+commento.uem: Cannot create user account; because this user has already exists.
+commento.ga: Guest Account
+commento.sa: Super Account
+commento.gam: Cannot remove Guest account at all; because it is a permanetly user.
+commento.sam: Cannot remove Super account at all; because it is a permanetly user.
+commento.passx: Choose your password
+commento.confx: Confirm your password
+commento.nmat: Not match
+commento.nmatm: Your new password and your confirm password are not match.
+commento.sc: Successfully created
+commento.scm: Your new user successfully created.
+commento.unf: User not found
+commento.epass: Enter a password
+commento.sr: Successfully removed
+commento.srm: This user account successfully removed.
+commento.vl: Enter a value
+browser.app_name: Browser
+browser.nav: Navigation
+browser.ba: Back
+browser.fw: Forward
+browser.rl: Rload
+browser.hm: Home
+browser.st: Stop
+browser.file: File
+browser.ntab: New Tab
+browser.of: Open file...
+browser.hl: Help
+browser.ab: About Browser
+browser.pc: Go to Pyabr channel
+browser.pg: Pyabr Support
+browser.owp: Open a web page
+wapp.app_name: Abr Service
+barge.code: Code
+barge.run: Run
+barge.icode: Insert Code
+barge.pyweb: Python Web Application

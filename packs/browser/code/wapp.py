@@ -4,7 +4,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 
 import os,subprocess
-import sys,markdown
+import sys,requests
 
 from libabr import Res, Control, Files
 
@@ -29,13 +29,13 @@ class MainApp(QMainWindow):
         self.Widget.Resize(self,int(self.Env.width())/1.5,int(self.Env.height())/1.5)
 
         if self.External==[]:
-            self.add_new_tab(QUrl(URL), 'Homepage')
+            self.add_new_tab(QUrl(URL), res.get('@string/app_name'))
         else:
             if self.External[0]==None:
-                self.add_new_tab(QUrl(URL), 'Homepage')
+                self.add_new_tab(QUrl(URL), res.get('@string/app_name'))
             else:
                 if self.External[0].startswith ('http://') or self.External[0].startswith ('https://'):
-                    self.add_new_tab(QUrl(self.External[0]), 'Homepage')
+                    self.add_new_tab(QUrl(self.External[0]), res.get('@string/app_name'))
 
                 elif self.External[0].startswith ('abr://'):
                     protocol = self.External[0].replace('abr://','/srv/')
@@ -56,11 +56,13 @@ class MainApp(QMainWindow):
                     revspl = domain.split('.')
                     revspl.reverse()
 
+                    self.domain = revspl[1]+"."+revspl[0]
+
                     package = ''
                     for i in revspl:
                         package+='/'+i
 
-                    if not files.isdir(f'/srv/{package}'):
+                    if not files.isdir(f'/srv/{revspl[0]}/{revspl[1]}'):
                         result = subprocess.check_output(f'"{sys.executable}" {files.readall("/proc/info/boot")} exec /srv/com/pyabr/error/DomainNotExists', shell=True)
                         html = result.decode('utf-8')
                         self.abr(html)
@@ -107,6 +109,7 @@ class MainApp(QMainWindow):
         self.browser.setHtml(data)
         self.setCentralWidget(self.browser)
         self.Loop()
+
 
     def Loop(self):
         self.browser.update()

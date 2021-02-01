@@ -186,12 +186,12 @@ class ShowPackageInformation (QMainWindow):
         f.setPointSize(12)
         self.text1 = QTextBrowser()
         self.text1.setAlignment(Qt.AlignRight)
-        self.text1.append('\nPackage name:\n')
-        self.text1.append('Package version:\n')
-        self.text1.append('Release date:\n')
-        self.text1.append('Copyright:\n')
-        self.text1.append('License:\n')
-        self.text1.append('Installed in:\n')
+        self.text1.append(f'\n{res.get("@string/name")}:\n')
+        self.text1.append(f'{res.get("@string/version")}:\n')
+        self.text1.append(f'{res.get("@string/date")}:\n')
+        self.text1.append(f'{res.get("@string/copy")}:\n')
+        self.text1.append(f'{res.get("@string/license")}:\n')
+        self.text1.append(f'{res.get("@string/unpack")}:\n')
         self.text1.setFont(f)
         self.hbox.addWidget(self.text1)
 
@@ -210,24 +210,28 @@ class ShowPackageInformation (QMainWindow):
     def xhide (self):
         self.hide()
         self.XShowpackages.show()
-        self.Env.SetWindowTitle("Package Manager")
+        self.Env.SetWindowTitle(res.get("@string/app_name"))
 
     # un install pack #
     def xuni (self):
-        self.Backend.RunApp('bool', [f'Uninstall {self.External[0]}', f'Do you want to uninstall {self.External[0]} package?', self.xuni_])
+        self.Backend.RunApp('bool', [res.get("@string/rm").replace("{0}",self.External[0]), res.get("@string/rmm").replace("{0}",self.External[0]), self.xuni_])
 
     def xup (self):
-        self.Backend.RunApp('bool', [f'Uninstall {self.External[0]}', f'Do you want to uninstall {self.External[0]} package?', self.xuni_])
+        self.Backend.RunApp('bool', [res.get("@string/up").replace("{0}",self.External[0]), res.get("@string/upm").replace("{0}",self.External[0]), self.xup_])
 
     def xuni_(self,yes):
         if yes:
             System(f"paye rm {self.External[0]}")
             self.Env.Close()
             self.Backend.RunApp ('paye',[None])
+            self.Backend.RunApp('text', [res.get("@string/rmx"), res.get('@string/rmxm').replace("{0}",self.External[0])])
 
     def xup_(self,yes):
         if yes:
-            pass
+            self.btnUpdate.setEnabled(False)
+            System(f"paye up {self.External[0]}")
+            self.btnUpdate.setEnabled(True)
+            self.Backend.RunApp('text', [res.get("@string/upx"), res.get('@string/upxm').replace("{0}",self.External[0])])
 
 class MainApp (QMainWindow):
     def __init__(self,ports):
@@ -240,105 +244,98 @@ class MainApp (QMainWindow):
         self.External = ports[4]
 
         self.Widget.SetWindowIcon (QIcon(res.get('@icon/paye')))
-        self.Widget.SetWindowTitle ("Package Manager")
+        self.Widget.SetWindowTitle (res.get('@string/app_name'))
         self.Widget.Resize(self,720,640)
 
         self.menubar = QMenuBar()
         self.setMenuBar(self.menubar)
 
-        self.mirror = self.menubar.addMenu("Mirror")
-        self.package = self.menubar.addMenu("Package")
+        self.mirror = self.menubar.addMenu(res.get('@string/mirror'))
+        self.package = self.menubar.addMenu(res.get('@string/package'))
 
-        self.addm = self.mirror.addAction ("Add")
+        self.addm = self.mirror.addAction (res.get('@string/add'))
         self.addm.triggered.connect (self.addm_)
-        self.delm = self.mirror.addAction ("Remove")
+        self.delm = self.mirror.addAction (res.get('@string/remove'))
         self.delm.triggered.connect (self.delm_)
 
-        self.instp = self.package.addAction("Install")
+        self.instp = self.package.addAction(res.get('@string/install'))
         self.instp.triggered.connect (self.inst_)
-        self.remp = self.package.addAction("Uninstall")
+        self.remp = self.package.addAction(res.get('@string/uninstall'))
         self.remp.triggered.connect (self.rem_)
-        self.downp = self.package.addAction("Download")
+        self.downp = self.package.addAction(res.get('@string/download'))
         self.downp.triggered.connect (self.down_)
 
         self.x = PackageListView([self.Env,self.Widget,self,self.AppName,self.External])
         self.setCentralWidget(self.x)
 
     def addm_ (self):
-        self.Env.RunApp('input', ['Enter your mirror name', self.addm_x])
+        self.Env.RunApp('input', [res.get('@string/mname'), self.addm_x])
 
     def addm_x(self,name):
         if files.isfile (f'/app/mirrors/{name}'):
-            self.Env.RunApp('text', ['Mirror exists', 'You entered mirror has already exists.'])
+            self.Env.RunApp('text', [res.get('@string/mex'), res.get('@string/mexm')])
         else:
             files.write('/proc/info/msel',f'/app/mirrors/{name}')
-            self.Env.RunApp('input', ['Enter your mirror link', self.addm_x_])
+            self.Env.RunApp('input', [res.get('@string/ml'), self.addm_x_])
 
     def addm_x_(self,link):
         if link.startswith('http://') or link.startswith('https://') and link.endswith ('.pa'):
             files.write(files.readall('/proc/info/msel'),link)
         else:
-            self.Env.RunApp('text', ['Not a download link', 'You entered link is not a download link.'])
+            self.Env.RunApp('text', [res.get('@string/ndl'), res.get('@string/ndlm')])
 
     def delm_(self):
-        self.Env.RunApp('input', ['Enter your mirror name', self.del_x])
+        self.Env.RunApp('input', [res.get('@string/mname'), self.del_x])
 
     def del_x(self,name):
         if files.isfile (f'/app/mirrors/{name}'):
             files.remove(f'/app/mirrors/{name}')
         else:
-            self.Env.RunApp('text', ['Mirror not found','You entered mirror cannot be found.'])
+            self.Env.RunApp('text', [res.get('@string/mdf'),res.get('@string/mdfm')])
 
     def inst_(self):
-        self.Env.RunApp('input', ['Enter a package name', self.inst_x])
+        self.Env.RunApp('input', [res.get('@string/pname'), self.inst_x])
 
     def inst_x (self,name):
         if not files.isfile(f'/app/mirrors/{name}'):
-            self.Env.RunApp('text', ['Mirror not found', f'Cannot install package with {name} name; because mirror of this package not found.'])
+            self.Env.RunApp('text', [res.get('@string/mdf'), res.get('@string/mdfmx').replace("{0}",name)])
         else:
             try:
                 System(f'paye in {name}')
 
                 self.Widget.Close()
                 self.Env.RunApp('paye',[None])
-                self.Env.RunApp('text', ['Successfully installed',
-                                         f'{name} package successfully installed.'])
+                self.Env.RunApp('text', [res.get('@string/si'),res.get('@string/sim').replace("{0}",name)])
             except:
-                self.Env.RunApp('text', ['Connot install',
-                                         f'Cannot install package with {name} name; there are some errors in connection or etc.'])
+                self.Env.RunApp('text', [res.get('@string/ci'),res.get('@string/cim').replace("{0}",name)])
 
 
     def rem_(self):
-        self.Env.RunApp('input', ['Enter a package name', self.rem_x])
+        self.Env.RunApp('input', [res.get('@string/pname'), self.rem_x])
 
     def rem_x (self,name):
         if not files.isfile (f'/app/packages/{name}.manifest'):
-            self.Env.RunApp('text', ['Package was not installed',
-                                     f'Cannot remove {name} package; beacause this package was not installed.'])
-
+            self.Env.RunApp('text', [res.get('@string/pwi'),res.get('@string/pwim').replace("{0}",name)])
         else:
             System(f'paye rm {name}')
 
             self.Widget.close()
             self.Env.RunApp('paye', [None])
 
-            self.Env.RunApp('text', ['Successfully removed',
-                                     f'{name} package successfully removed.'])
+            self.Env.RunApp('text', [res.get('@string/rmx'),res.get('@string/rmxp').replace("{0}",name)])
 
     def down_(self):
-        self.Env.RunApp('input', ['Enter a package name for downloading', self.down_x])
+        self.Env.RunApp('input', [res.get('@string/dname'), self.down_x])
 
     def down_x (self,name):
         if not files.isfile(f'/app/mirrors/{name}'):
-            self.Env.RunApp('text', ['Mirror not found', f'Cannot download package with {name} name; because mirror of this package not found.'])
+            self.Env.RunApp('text', [res.get('@string/mdf'), res.get('@string/mdfmx').replace("{0}",name)])
         else:
             try:
                 System(f'paye get {name}')
 
                 self.Widget.Close()
                 self.Env.RunApp('paye',[None])
-                self.Env.RunApp('text', ['Successfully downloaded',
-                                         f'{name} package successfully downloaded in current path.'])
+                self.Env.RunApp('text', [res.get('@string/dd'),res.get('@string/ddm').replace("{0}",name)])
             except:
-                self.Env.RunApp('text', ['Connot download',
-                                         f'Cannot download package with {name} name; there are some errors in connection or etc.'])
+                self.Env.RunApp('text', [res.get('@string/cdx'),res.get('@string/cdxm').replace("{0}",name)])

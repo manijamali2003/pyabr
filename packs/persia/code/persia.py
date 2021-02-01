@@ -28,8 +28,7 @@ class FileListView(QListView):
                 it.setIcon(QIcon(res.get('@icon/gtk-file')))
 
     def mkdir(self, dirname):
-        if files.isfile(dirname): self.editor.Env.RunApp('text', ['Is a file',
-                                                                         f'Cannot create {dirname} beacause it is a file.'])
+        if files.isfile(dirname): self.editor.Env.RunApp('text', [res.get('@string/isfile'),res.get('@string/isfile_msg').replace('{0}',dirname)])
         else:
             it = QStandardItem(dirname)
             it.setWhatsThis(self.dir + "/" + dirname)
@@ -38,8 +37,7 @@ class FileListView(QListView):
             commands.mkdir([dirname])
 
     def mkfile (self,filename):
-        if files.isdir(filename + ".c"): self.editor.Env.RunApp('text', ['Is a directory',
-                                                                         f'Cannot create {filename} beacause it is a directory.'])
+        if files.isdir(filename + ".c"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename)])
         else:
             it = QtGui.QStandardItem(filename)
             it.setWhatsThis(self.dir + "/" + filename)
@@ -57,64 +55,70 @@ class FileListView(QListView):
         it.setFont(f)
 
     def mkc (self,filename):
-        if files.isdir(filename+".c"): self.editor.Env.RunApp('text', ['Is a directory',f'Cannot create {filename+".c"} beacause it is a directory.'])
+        if files.isdir(filename + ".c"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".c")])
         else:
             self.mkfile(filename+".c")
             files.write(self.dir + "/" + filename+'.c',files.readall(res.get('@temp/untitled.c')))
 
     def mkcpp (self,filename):
-        if files.isdir(filename+".cpp"): self.editor.Env.RunApp('text', ['Is a directory',f'Cannot create {filename+".cpp"} beacause it is a directory.'])
+        if files.isdir(filename + ".cpp"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".cpp")])
         else:
             self.mkfile(filename+".cpp")
             files.write(self.dir + "/" + filename+'.cpp',files.readall(res.get('@temp/untitled.cpp')))
 
     def mkjava (self,filename):
-        if files.isdir(filename+".java"): self.editor.Env.RunApp('text', ['Is a directory',f'Cannot create {filename+".java"} beacause it is a directory.'])
+        if files.isdir(filename + ".java"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".java")])
         else:
             self.mkfile(filename+".java")
             files.write(self.dir + "/" + filename+'.java',files.readall(res.get('@temp/untitled.java')).replace("MainApp",filename))
 
     def mkjs (self,filename):
-        if files.isdir(filename+".js"): self.editor.Env.RunApp('text', ['Is a directory',f'Cannot create {filename+".js"} beacause it is a directory.'])
+        if files.isdir(filename + ".js"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".js")])
         else:
             self.mkfile(filename+".js")
             files.write(self.dir + "/" + filename+'.js',files.readall(res.get('@temp/untitled.js')))
 
     def mkphp (self,filename):
-        if files.isdir(filename+".php"): self.editor.Env.RunApp('text', ['Is a directory',f'Cannot create {filename+".php"} beacause it is a directory.'])
+        if files.isdir(filename + ".php"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".php")])
         else:
             self.mkfile(filename+".php")
             files.write(self.dir + "/" + filename+".php",files.readall(res.get('@temp/untitled.php')))
 
     def mkhtml (self,filename):
-        if files.isdir(filename+".html"): self.editor.Env.RunApp('text', ['Is a directory',f'Cannot create {filename+".html"} beacause it is a directory.'])
+        if files.isdir(filename + ".html"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".html")])
         else:
             self.mkfile(filename+".html")
             files.write(self.dir + "/" + filename+".html",files.readall(res.get('@temp/untitled.html')))
 
     def mkcs (self,filename):
-        if files.isdir(filename+".cs"): self.editor.Env.RunApp('text', ['Is a directory',f'Cannot create {filename+".cs"} beacause it is a directory.'])
+        if files.isdir(filename + ".cs"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".cs")])
         else:
             self.mkfile(filename+".cs")
             files.write(self.dir + "/" + filename+".cs",files.readall(res.get('@temp/untitled.cs')))
 
     def mksa (self,filename):
-        if files.isdir(filename+".sa"): self.editor.Env.RunApp('text', ['Is a directory',f'Cannot create {filename+".sa"} beacause it is a directory.'])
+        if files.isdir(filename + ".sa"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".sa")])
         else:
             self.mkfile(filename+".sa")
             files.write(self.dir + "/" + filename+".sa",files.readall(res.get('@temp/untitled.sa')))
 
     def mkpy (self,filename):
-        if files.isdir(filename+".py"): self.editor.Env.RunApp('text', ['Is a directory',f'Cannot create {filename+".py"} beacause it is a directory.'])
+        if files.isdir(filename + ".py"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".py")])
         else:
             self.mkfile(filename+".py")
             files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled.py')))
 
     def mkpygui (self,filename):
-        if files.isdir(filename+".py"): self.editor.Env.RunApp('text', ['Is a directory',f'Cannot create {filename+".py"} beacause it is a directory.'])
+        if files.isdir(filename + ".py"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".py")])
         else:
             self.mkfile(filename+".py")
             files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled-gui.py')))
+
+    def mkpyweb (self,filename):
+        if files.isdir(filename + ".py"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".py")])
+        else:
+            self.mkfile(filename+".py")
+            files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled-web.py')))
 
     def __init__(self,editor):
         super().__init__()
@@ -327,7 +331,7 @@ class MainApp(QtWidgets.QMainWindow):
         self.new_gui.triggered.connect(self.new_gui_act)
         self.new_gui.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName, 'py'))))
 
-        self.new_web = self.new_project.addAction('New WebView Project')
+        self.new_web = self.new_project.addAction(res.get('@string/nwebp'))
         self.new_web.triggered.connect(self.new_web_act)
         self.new_web.setIcon(QtGui.QIcon(res.get('@icon/web-browser')))
 
@@ -345,24 +349,24 @@ class MainApp(QtWidgets.QMainWindow):
         self.exit.triggered.connect (self.Widget.Close)
 
         # code menu
-        self.code = self.menubar.addMenu('Code')
-        self.run = self.code.addAction('Run')
+        self.code = self.menubar.addMenu(res.get('@string/code'))
+        self.run = self.code.addAction(res.get('@string/run'))
         self.run.triggered.connect (self.run_)
 
-        self.run = self.code.addAction('Run Project')
+        self.run = self.code.addAction(res.get('@string/runp'))
         self.run.triggered.connect (self.run_project_)
 
-        self.build = self.code.addMenu('Build')
+        self.build = self.code.addMenu(res.get('@string/build'))
 
-        self.generate_source = self.build.addAction('Pack Source code with Buildtools')
-        self.generate_pa = self.build.addAction('Generate .PA Package')
+        self.generate_source = self.build.addAction(res.get('@string/pack'))
+        self.generate_pa = self.build.addAction(res.get('@string/pa'))
         self.generate_pa.triggered.connect (self.generate_pa_)
-        self.install = self.build.addAction('Build and Install Project')
+        self.install = self.build.addAction(res.get('@string/buildi'))
         self.install.triggered.connect (self.install_)
 
-        self.publish = self.code.addAction('Publish Project')
+        self.publish = self.code.addAction(res.get('@string/publish'))
 
-        self.insert_c = self.code.addMenu('Insert Code')
+        self.insert_c = self.code.addMenu(res.get('@string/insert'))
 
         # Codes #
 
@@ -384,6 +388,9 @@ class MainApp(QtWidgets.QMainWindow):
         self.lang_pythongui = self.insert_c.addAction(res.get('@string/pythongui'))
         self.lang_pythongui.triggered.connect(self.langpythonx)
         self.lang_pythongui.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'py'))))
+        self.lang_pythonweb = self.insert_c.addAction(res.get('@string/pythonwebi'))
+        self.lang_pythonweb.triggered.connect(self.langpyweb)
+        self.lang_pythonweb.setIcon(QIcon(res.get('@icon/web-browser')))
         self.lang_saye = self.insert_c.addAction(res.get('@string/saye'))
         self.lang_saye.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'sa'))))
         self.lang_saye.triggered.connect(self.langsaye)
@@ -409,9 +416,9 @@ class MainApp(QtWidgets.QMainWindow):
             try:
                 commands.cc([file])
             except:
-                self.Env.RunApp('text', ['Compile error', 'There is some problem with C/++ Compiler.'])
+                self.Env.RunApp('text', [res.get('@string/ce'), res.get('@string/cem')])
 
-            self.Env.RunApp('commento',[file.replace('.cpp','').replace('.cxx','').replace('.c++','').replace('.c',''),'PyPersia Console'])
+            self.Env.RunApp('commento',[file.replace('.cpp','').replace('.cxx','').replace('.c++','').replace('.c',''),res.get('@string/pycon')])
             files.remove(file.replace('.c','').replace('.cpp','').replace('.cxx','').replace('.c++',''))
         elif file.endswith ('.py'):
             # check graphical PyQt5 #
@@ -428,12 +435,12 @@ class MainApp(QtWidgets.QMainWindow):
                 files.remove(f'/usr/app/debug_{rand}.pyc')
             else:
                 commands.cp ([file,'/usr/app/'+files.filename(file)])
-                self.Env.RunApp('commento', [files.filename(file.replace('.py','')),'PyPersia Console'])
+                self.Env.RunApp('commento', [files.filename(file.replace('.py','')),res.get('@string/pycon')])
                 commands.rm (['/usr/app/'+files.filename(file)])
         elif file.endswith ('.sa'):
-            self.Env.RunApp('commento', [file.replace('.sa',''), 'PyPersia Console'])
+            self.Env.RunApp('commento', [file.replace('.sa',''), res.get('@string/pycon')])
         else:
-            self.Env.RunApp('text', ['Cannot Support', 'PyPersia cannot support this language or syntax.'])
+            self.Env.RunApp('text', [res.get('@string/spc'), res.get('@string/spcm')])
 
     def run_project_(self):
 
@@ -469,7 +476,7 @@ class MainApp(QtWidgets.QMainWindow):
             System(f'paye pak {path}/packs/{project}')
             System(f'paye upak {path}/packs/{project}.pa')
 
-            self.Env.RunApp('commento', [f"{project}_{rand}", 'PyPersia Console'])
+            self.Env.RunApp('commento', [f"{project}_{rand}", res.get('@string/pycon')])
 
         if files.isfile(f'{path}/packs/{project}.pa'): files.remove(f'{path}/packs/{project}.pa')
         System(f'paye rm {project}')
@@ -638,6 +645,10 @@ class MainApp(QtWidgets.QMainWindow):
         x = files.readall(res.get('@temp/untitled-gui.py'))
         self.teEdit.setPlainText(x)
 
+    def langpyweb (self):
+        x = files.readall(res.get('@temp/untitled-web.py'))
+        self.teEdit.setPlainText(x)
+
     def langcs (self):
         self.teEdit.setPlainText(files.readall(res.get('@temp/untitled.cs')))
 
@@ -685,6 +696,9 @@ class MainApp(QtWidgets.QMainWindow):
 
     def New_PyGui (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkpygui])
+
+    def New_PyWeb (self):
+        self.Env.RunApp('input',[res.get('@string/filename'),self.x.mkpyweb])
 
     def New_Sa (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mksa])
