@@ -13,6 +13,10 @@ control = Control()
 files = Files()
 
 class MainApp(QMainWindow):
+    def RunGap (self):
+        self.Widget.close()
+        self.Env.RunApp('wapp', ['https://web.gap.im'])
+
     def __init__(self,ports, *args, **kwargs):
         super(MainApp, self).__init__(*args, **kwargs)
         self.Backend = ports[0]
@@ -23,28 +27,8 @@ class MainApp(QMainWindow):
 
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
         self.Widget.SetWindowIcon (QIcon(res.get('@icon/gap')))
-        self.Widget.Resize(self,int(self.Env.width())/1.5,int(self.Env.height())/1.5)
+        self.Widget.Resize(self,560,390)
+        self.setStyleSheet(f'background-image: url({res.get("@image/about_bg")});')
 
-        self.add_new_tab(QUrl('https://web.gap.im'), res.get('@string/app_name'))
+        QTimer.singleShot(3000,self.RunGap)
 
-    def add_new_tab(self, qurl=None, label="Blank"):
-
-        self.browser = QWebEngineView()
-        self.browser.setUrl(qurl)
-
-        # More difficult! We only want to update the url when it's from the
-        # correct tab
-
-        self.setCentralWidget(self.browser)
-        self.Loop()
-
-    def Loop(self):
-        self.browser.update()
-        QTimer.singleShot(200,self.Loop)
-
-    def navigate_to_url(self):  # Does not receive the Url
-        q = QUrl(self.urlbar.text())
-        if q.scheme() == "":
-            q.setScheme("http")
-
-        self.tabs.currentWidget().setUrl(q)

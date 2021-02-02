@@ -14,13 +14,14 @@ from PyQt5 import QtWidgets, QtGui, QtCore
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
-from libabr import Files, Control, System, Res, Commands, Permissions
+from libabr import Files, Control, System, Res, Commands, Permissions, App
 
 res = Res()
 files = Files()
 control = Control()
 commands = Commands()
 permissions = Permissions()
+app = App()
 
 f = QtGui.QFont()
 f.setPointSize(int(res.etc("roller","fontsize")))
@@ -43,7 +44,9 @@ class FileListView (QtWidgets.QListView):
                 it.setIcon(QtGui.QIcon(res.get(res.etc("roller",'file-icon'))))
 
     def mkdir (self,dirname):
-        if files.isfile(dirname): self.Env.RunApp('text', [res.get('@string/isfile'),res.get('@string/isfile_msg').replace('{0}',dirname)])
+        if files.isfile(dirname):
+            self.Env.RunApp('text', [res.get('@string/isfile'),res.get('@string/isfile_msg').replace('{0}',dirname)])
+            app.switch('roller')
         else:
             it = QtGui.QStandardItem(dirname)
             it.setWhatsThis(self.dir + "/" + dirname)
@@ -53,8 +56,10 @@ class FileListView (QtWidgets.QListView):
             it.setFont(f)
 
     def mkfile (self,filename):
-        if files.isdir(filename ): self.Env.RunApp('text', [res.get('@string/isdir'),
+        if files.isdir(filename ):
+            self.Env.RunApp('text', [res.get('@string/isdir'),
                                                                          res.get('@string/isdir_msg').replace("{0}",filename)])
+            app.switch('roller')
         else:
             it = QtGui.QStandardItem(filename)
             it.setWhatsThis(self.dir + "/" + filename)
@@ -65,8 +70,10 @@ class FileListView (QtWidgets.QListView):
             it.setFont(f)
 
     def mkc (self,filename):
-        if files.isdir(filename +".c"): self.Env.RunApp('text', [res.get('@string/isdir'),
+        if files.isdir(filename +".c"):
+            self.Env.RunApp('text', [res.get('@string/isdir'),
                                                                          res.get('@string/isdir_msg').replace("{0}",filename+".c")])
+            app.switch('roller')
         else:
             self.mkfile(filename+".c")
             files.write(self.dir + "/" + filename+'.c',files.readall(res.get('@temp/untitled.c')))
@@ -75,6 +82,7 @@ class FileListView (QtWidgets.QListView):
         if files.isdir(filename+".cpp"):
             self.Env.RunApp('text', [res.get('@string/isdir'),
                                      res.get('@string/isdir_msg').replace("{0}", filename + ".cpp")])
+            app.switch('roller')
         else:
             self.mkfile(filename+".cpp")
             files.write(self.dir + "/" + filename+'.cpp',files.readall(res.get('@temp/untitled.cpp')))
@@ -83,6 +91,7 @@ class FileListView (QtWidgets.QListView):
         if files.isdir(filename+".java"):
             self.Env.RunApp('text', [res.get('@string/isdir'),
                                      res.get('@string/isdir_msg').replace("{0}", filename + ".java")])
+            app.switch('roller')
         else:
             self.mkfile(filename+".java")
             files.write(self.dir + "/" + filename+'.java',files.readall(res.get('@temp/untitled.java')).replace("MainApp",filename))
@@ -91,6 +100,7 @@ class FileListView (QtWidgets.QListView):
         if files.isdir(filename+".js"):
             self.Env.RunApp('text', [res.get('@string/isdir'),
                                      res.get('@string/isdir_msg').replace("{0}", filename + ".js")])
+            app.switch('roller')
         else:
             self.mkfile(filename+".js")
             files.write(self.dir + "/" + filename+'.js',files.readall(res.get('@temp/untitled.js')))
@@ -99,6 +109,7 @@ class FileListView (QtWidgets.QListView):
         if files.isdir(filename+".php"):
             self.Env.RunApp('text', [res.get('@string/isdir'),
                                      res.get('@string/isdir_msg').replace("{0}", filename + ".php")])
+            app.switch('roller')
         else:
             self.mkfile(filename+".php")
             files.write(self.dir + "/" + filename+".php",files.readall(res.get('@temp/untitled.php')))
@@ -107,6 +118,7 @@ class FileListView (QtWidgets.QListView):
         if files.isdir(filename+".html"):
             self.Env.RunApp('text', [res.get('@string/isdir'),
                                      res.get('@string/isdir_msg').replace("{0}", filename + ".html")])
+            app.switch('roller')
         else:
             self.mkfile(filename+".html")
             files.write(self.dir + "/" + filename+".html",files.readall(res.get('@temp/untitled.html')))
@@ -115,6 +127,7 @@ class FileListView (QtWidgets.QListView):
         if files.isdir(filename+".cs"):
             self.Env.RunApp('text', [res.get('@string/isdir'),
                                      res.get('@string/isdir_msg').replace("{0}", filename + ".cs")])
+            app.switch('roller')
         else:
             self.mkfile(filename+".cs")
             files.write(self.dir + "/" + filename+".cs",files.readall(res.get('@temp/untitled.cs')))
@@ -123,6 +136,7 @@ class FileListView (QtWidgets.QListView):
         if files.isdir(filename+".sa"):
             self.Env.RunApp('text', [res.get('@string/isdir'),
                                      res.get('@string/isdir_msg').replace("{0}", filename + ".sa")])
+            app.switch('roller')
         else:
             self.mkfile(filename+".sa")
             files.write(self.dir + "/" + filename+".sa",files.readall(res.get('@temp/untitled.sa')))
@@ -131,6 +145,7 @@ class FileListView (QtWidgets.QListView):
         if files.isdir(filename+".py"):
             self.Env.RunApp('text', [res.get('@string/isdir'),
                                      res.get('@string/isdir_msg').replace("{0}", filename + ".py")])
+            app.switch('roller')
         else:
             self.mkfile(filename+".py")
             files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled.py')))
@@ -139,6 +154,7 @@ class FileListView (QtWidgets.QListView):
         if files.isdir(filename+".py"):
             self.Env.RunApp('text', [res.get('@string/isdir'),
                                      res.get('@string/isdir_msg').replace("{0}", filename + ".py")])
+            app.switch('roller')
         else:
             self.mkfile(filename+".py")
             files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled-gui.py')))
@@ -147,6 +163,7 @@ class FileListView (QtWidgets.QListView):
         if files.isdir(filename+".py"):
             self.Env.RunApp('text', [res.get('@string/isdir'),
                                      res.get('@string/isdir_msg').replace("{0}", filename + ".py")])
+            app.switch('roller')
         else:
             self.mkfile(filename+".py")
             files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled-web.py')))
@@ -383,39 +400,52 @@ class MainApp (QtWidgets.QMainWindow):
 
     def New_Folder (self):
         self.Env.RunApp('input',[res.get('@string/foldername'),self.x.mkdir])
+        app.switch('roller')
 
     def New_File (self):
         self.Env.RunApp('input',[res.get('@string/filename'),self.x.mkfile])
+        app.switch('roller')
 
     def New_C (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkc])
+        app.switch('roller')
 
     def New_Cpp (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkcpp])
+        app.switch('roller')
 
     def New_Csharp (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkcs])
+        app.switch('roller')
 
     def New_Html (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkhtml])
+        app.switch('roller')
 
     def New_Java (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkjava])
+        app.switch('roller')
 
     def New_Js (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkjs])
+        app.switch('roller')
 
     def New_Php (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkphp])
+        app.switch('roller')
 
     def New_Py (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkpy])
+        app.switch('roller')
 
     def New_PyGui (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkpygui])
+        app.switch('roller')
 
     def New_PyWeb (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkpyweb])
+        app.switch('roller')
 
     def New_Sa (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mksa])
+        app.switch('roller')

@@ -869,6 +869,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def open_file (self):
         self.Env.RunApp('select', [res.get('@string/of'), 'open', self.open_file_])
+        app.switch('paint')
 
     def open_file_(self,path):
         """
@@ -905,6 +906,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def save_file (self):
         self.Env.RunApp('select', [res.get('@string/sf'), 'save', self.save_file_])
+        app.switch('paint')
 
     def save_file_(self,path):
         if path:

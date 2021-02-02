@@ -9,7 +9,7 @@ locale: en
 backend.color: black
 backend.timeout: 1000
 taskbar.location: bottom
-taskbar.pins: roller,barge,calculator,calendar,commento,pysys,runapp,about
+taskbar.pins: browser,roller,barge,calculator,calendar,commento,pysys,runapp,about
 splash.timeout: 3000
 splash.logo: @icon/pyabr-logo
 splash.logo-size: 300
@@ -55,6 +55,7 @@ lock.clock.shadow: No
 lock.clock.size: 100
 lock.clock.color: white
 lock.clock.location: center
+lock.clock.format: hh:mm:ss
 loginw.login.round: Yes
 loginw.login.round-size: 20
 loginw.enter.round: Yes

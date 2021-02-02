@@ -110,9 +110,11 @@ class MainApp(QtWidgets.QMainWindow):
             try:
                 cmd.cc([self.Widget.WindowTitle()])
             except:
-                self.Env.RunApp('text', ['Compile error', 'There is some problem with C/++ Compiler.'])
+                self.Env.RunApp('text', [res.get('@string/ce'), res.get('@string/cem')])
+                app.switch('barge')
 
-            self.Env.RunApp('commento',[self.Widget.WindowTitle().replace('.cpp','').replace('.cxx','').replace('.c++','').replace('.c',''),'Barge Console'])
+            self.Env.RunApp('commento',[self.Widget.WindowTitle().replace('.cpp','').replace('.cxx','').replace('.c++','').replace('.c',''),res.get('@string/con')])
+            app.switch('barge')
             files.remove(self.Widget.WindowTitle())
 
         elif self.Widget.WindowTitle().endswith ('.py'):
@@ -126,19 +128,24 @@ class MainApp(QtWidgets.QMainWindow):
                 control.write_record('exec',f"debug_{rand}",f'/usr/share/applications/debug_{rand}.desk')
                 py_compile.compile(files.input(self.Widget.WindowTitle()),files.input(f'/usr/app/debug_{rand}.pyc'))
                 self.Env.RunApp(f'debug_{rand}',[None])
+                app.switch('barge')
                 files.remove(f'/usr/share/applications/debug_{rand}.desk')
                 files.remove(f'/usr/app/debug_{rand}.pyc')
             else:
-                self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.py',''),'Barge Console'])
+                self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.py',''),res.get('@string/con')])
+                app.switch('barge')
         elif self.Widget.WindowTitle().endswith ('.sa'):
-            self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.sa', ''), 'Barge Console'])
+            self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.sa', ''), res.get('@string/con')])
+            app.switch('barge')
         else:
             if not self.Widget.WindowTitle()==res.get('@string/untitled'):
-                self.Env.RunApp('text', ['Cannot support', 'Barge cannot support this syntax or language.'])
+                self.Env.RunApp('text', [res.get('@string/cs'), res.get('@string/csm')])
+                app.switch('barge')
 
 
     def new_page_act (self):
         self.Env.RunApp ('barge',None)
+        app.switch('barge')
 
     def new_act (self):
         self.Widget.SetWindowTitle (res.get('@string/untitled'))
@@ -159,12 +166,15 @@ class MainApp(QtWidgets.QMainWindow):
             files.write(files.output(self.Widget.WindowTitle()),self.teEdit.toPlainText())
         else:
             self.Env.RunApp('select', [res.get('@string/saveafile'), 'save', self.saveas_])
+            app.switch('barge')
 
     def open_act (self):
         self.Env.RunApp('select',[res.get('@string/chooseafile'),'open',self.gettext])
+        app.switch('barge')
 
     def save_as (self):
         self.Env.RunApp('select', [res.get('@string/saveasfile'), 'save-as', self.saveas_])
+        app.switch('barge')
 
     def langc (self):
         self.teEdit.setPlainText(files.readall(res.get('@temp/untitled.c')))

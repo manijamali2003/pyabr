@@ -30,10 +30,12 @@ class MainApp(QLineEdit):
         command = self.text().split(' ')
         if app.exists(command[0]):
             self.Env.RunApp(command[0],command[1:])
+            app.switch('runapp')
             self.setEnabled(False)
             QTimer.singleShot(1000, self.correct)
         else:
             self.Env.RunApp('text', [res.get('@string/not_found'), res.get('@string/not_found_msg').replace('{0}',command[0])])
+            app.switch('runapp')
             QTimer.singleShot(1000, self.correct)
 
     def __init__(self,args):

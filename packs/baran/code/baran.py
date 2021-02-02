@@ -1219,6 +1219,7 @@ class AppListView(QListView):
         if x == True:
             self.Widget.hide()
             self.Env.RunApp(self.item.whatsThis().replace('.desk','').replace('/usr/share/applications/',''),None)
+            app.switch('desktop')
 
 ## Taskbar ##
 class TaskBar (QToolBar):
@@ -1350,6 +1351,7 @@ class TaskBar (QToolBar):
     def RunApplication (self):
         sender = self.sender().objectName()
         self.Env.RunApp (sender,None)
+        app.switch('desktop')
 
 class MenuApplications (QMainWindow):
     def __init__(self,ports):
@@ -1750,7 +1752,8 @@ class Desktop (QMainWindow):
         if files.isfile(f'/usr/share/applications/{appname}.desk'):
             self.layout().addWidget(AppWidget([self.Backend, self, appname,external]))
         else:
-            self.layout().addWidget(AppWidget([self.Backend, self, 'text', ['Application not found', f'Cannot run {appname} application; because this application not found.']]))
+            self.layout().addWidget(AppWidget([self.Backend, self, 'text', [res.get('@string/notf'), res.get('@string/notfm')]]))
+            app.switch('desktop')
 
     def StartupApplication (self):
 
@@ -1767,13 +1770,16 @@ class Desktop (QMainWindow):
                         strv+=' '+j
                 print(strv)
                 self.RunApp(x[0],[strv])
+                app.switch('desktop')
 
     def RunApplication (self):
         sender = self.sender().objectName()
         self.RunApp (sender.replace('.desk',''),None)
+        app.switch('desktop')
 
     def escape_act (self):
-        self.RunApp('bool',['Escape','Do you want to escape from Pyabr?',self.escape_act_])
+        self.RunApp('bool',[res.get('@string/esc'),res.get('@string/escm'),self.escape_act_])
+        app.switch('desktop')
 
     def escape_act_(self,yes):
         if yes:
@@ -1783,7 +1789,8 @@ class Desktop (QMainWindow):
             sys.exit(0)
 
     def reboot_act (self):
-        self.RunApp('bool', ['Restart', 'Do you want to restart the Pyabr?', self.reboot_act_])
+        self.RunApp('bool', [res.get('@string/rb'), res.get('@string/rbm'), self.reboot_act_])
+        app.switch('desktop')
 
     def reboot_act_(self,yes):
         if yes:
@@ -1808,7 +1815,8 @@ class Desktop (QMainWindow):
         self.setCentralWidget(self.BtnWakeUp)
 
     def signout_act (self):
-        self.RunApp('bool', ['Sign Out', 'Do you want to sign out this session?', self.signout_act_])
+        self.RunApp('bool', [res.get('@string/sg'), res.get('@string/sgm'), self.signout_act_])
+        app.switch('desktop')
 
     def signout_act_ (self,yes):
         if yes:
@@ -1818,7 +1826,8 @@ class Desktop (QMainWindow):
             sys.exit(0)
 
     def switchuser_act (self):
-        self.RunApp('bool', ['Switch another user', 'Do you want to switch another user?', self.switchuser_act_])
+        self.RunApp('bool', [res.get('@string/sau'), res.get('@string/saum'), self.switchuser_act_])
+        app.switch('desktop')
 
     def switchuser_act_(self,yes):
         if yes:
@@ -1897,7 +1906,7 @@ class Desktop (QMainWindow):
         current_time = QTime.currentTime()
 
         # converting QTime object to string
-        label_time = current_time.toString('hh:mm:ss')
+        label_time = current_time.toString(control.read_record('lock.clock.format','/etc/gui'))
 
         # showing it to the label
         self.lblClock.setText(res.num(label_time))
@@ -2110,6 +2119,7 @@ class Desktop (QMainWindow):
 
     def accoutsetting (self):
         self.RunApp('usermanager',None)
+        app.switch('desktop')
 
     def Loop(self):
         self.update()

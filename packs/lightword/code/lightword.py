@@ -315,6 +315,7 @@ class MainApp(QMainWindow):
 
     def file_open(self):
         self.Env.RunApp('select', [res.get('@string/od'), 'open', self.file_open_])
+        app.switch('lightword')
 
     def file_open_(self,filename):
         self.editor.setText(files.readall(filename))
@@ -323,10 +324,11 @@ class MainApp(QMainWindow):
         if self.Widget.WindowTitle() == '': self.Widget.SetWindowTitle(res.get('@string/untitled'))
 
     def file_save(self):
-        if not self.Widget.WindowTitle() == 'Untitled - Lightword':
+        if not self.Widget.WindowTitle() == res.get('@string/untitled'):
             files.write(files.output(self.Widget.WindowTitle()), self.editor.toHtml())
         else:
             self.Env.RunApp('select', [res.get('@string/sd'), 'save', self.file_saveas_])
+            app.switch('lightword')
 
     def file_save_(self,filename):
         text = self.editor.toHtml()
@@ -335,6 +337,7 @@ class MainApp(QMainWindow):
 
     def file_saveas(self):
         self.Env.RunApp('select', [res.get('@string/sad'), 'save-as', self.file_saveas_])
+        app.switch('lightword')
 
     def file_saveas_(self,filename):
         files.write(filename, self.editor.toHtml())

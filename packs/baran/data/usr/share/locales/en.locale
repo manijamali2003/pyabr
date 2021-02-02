@@ -306,3 +306,26 @@ barge.code: Code
 barge.run: Run
 barge.icode: Insert Code
 barge.pyweb: Python Web Application
+barge.ce: Compile error
+barge.cem: There is some problem with C/++ Compiler.
+barge.con: Barge Console
+barge.cs: Cannot support
+barge.csm: Barge cannot support this syntax or language.
+desktop.esc: Escape
+desktop.rb: Restart
+desktop.escm: Do you want to escape from Pyabr?
+desktop.rbm: Do you want to restart the Pyabr?
+desktop.sg: Sign Out
+desktop.sgm: Do you want to sign out from this session?
+desktop.sau: Switch another user
+desktop.saum: Do you want to switch another user?
+desktop.notf: Application not found
+desktop.notfm: Cannot run this application; because it was not found.
+about.st: Static hostname
+about.cs: Cloud software
+about.de: Desktop Enviroment
+about.krnl: Kernel
+about.bd: Build date
+about.os: Operating System
+about.su: Switched user
+about.intr: Interface

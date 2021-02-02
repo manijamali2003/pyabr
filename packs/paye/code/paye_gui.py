@@ -11,7 +11,7 @@
 
 import sys, subprocess,os,shutil
 
-from libabr import Files, Control, Permissions, Colors, Process, Modules, Package, Commands, Res, System
+from libabr import Files, Control, Permissions, Colors, Process, Modules, Package, Commands, Res, System,App
 
 modules = Modules()
 files = Files()
@@ -22,6 +22,7 @@ permissions = Permissions()
 pack = Package()
 commands = Commands()
 res = Res()
+app = App()
 
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -215,16 +216,20 @@ class ShowPackageInformation (QMainWindow):
     # un install pack #
     def xuni (self):
         self.Backend.RunApp('bool', [res.get("@string/rm").replace("{0}",self.External[0]), res.get("@string/rmm").replace("{0}",self.External[0]), self.xuni_])
+        app.switch('paye')
 
     def xup (self):
         self.Backend.RunApp('bool', [res.get("@string/up").replace("{0}",self.External[0]), res.get("@string/upm").replace("{0}",self.External[0]), self.xup_])
+        app.switch('paye')
 
     def xuni_(self,yes):
         if yes:
             System(f"paye rm {self.External[0]}")
             self.Env.Close()
             self.Backend.RunApp ('paye',[None])
+            app.switch('paye')
             self.Backend.RunApp('text', [res.get("@string/rmx"), res.get('@string/rmxm').replace("{0}",self.External[0])])
+            app.switch('paye')
 
     def xup_(self,yes):
         if yes:
@@ -232,6 +237,7 @@ class ShowPackageInformation (QMainWindow):
             System(f"paye up {self.External[0]}")
             self.btnUpdate.setEnabled(True)
             self.Backend.RunApp('text', [res.get("@string/upx"), res.get('@string/upxm').replace("{0}",self.External[0])])
+            app.switch('paye')
 
 class MainApp (QMainWindow):
     def __init__(self,ports):
@@ -270,72 +276,91 @@ class MainApp (QMainWindow):
 
     def addm_ (self):
         self.Env.RunApp('input', [res.get('@string/mname'), self.addm_x])
+        app.switch('paye')
 
     def addm_x(self,name):
         if files.isfile (f'/app/mirrors/{name}'):
             self.Env.RunApp('text', [res.get('@string/mex'), res.get('@string/mexm')])
+            app.switch('paye')
         else:
             files.write('/proc/info/msel',f'/app/mirrors/{name}')
             self.Env.RunApp('input', [res.get('@string/ml'), self.addm_x_])
+            app.switch('paye')
 
     def addm_x_(self,link):
         if link.startswith('http://') or link.startswith('https://') and link.endswith ('.pa'):
             files.write(files.readall('/proc/info/msel'),link)
         else:
             self.Env.RunApp('text', [res.get('@string/ndl'), res.get('@string/ndlm')])
+            app.switch('paye')
 
     def delm_(self):
         self.Env.RunApp('input', [res.get('@string/mname'), self.del_x])
+        app.switch('paye')
 
     def del_x(self,name):
         if files.isfile (f'/app/mirrors/{name}'):
             files.remove(f'/app/mirrors/{name}')
         else:
             self.Env.RunApp('text', [res.get('@string/mdf'),res.get('@string/mdfm')])
+            app.switch('paye')
 
     def inst_(self):
         self.Env.RunApp('input', [res.get('@string/pname'), self.inst_x])
+        app.switch('paye')
 
     def inst_x (self,name):
         if not files.isfile(f'/app/mirrors/{name}'):
             self.Env.RunApp('text', [res.get('@string/mdf'), res.get('@string/mdfmx').replace("{0}",name)])
+            app.switch('paye')
         else:
             try:
                 System(f'paye in {name}')
 
                 self.Widget.Close()
                 self.Env.RunApp('paye',[None])
+                app.switch('paye')
                 self.Env.RunApp('text', [res.get('@string/si'),res.get('@string/sim').replace("{0}",name)])
+                app.switch('paye')
             except:
                 self.Env.RunApp('text', [res.get('@string/ci'),res.get('@string/cim').replace("{0}",name)])
+                app.switch('paye')
 
 
     def rem_(self):
         self.Env.RunApp('input', [res.get('@string/pname'), self.rem_x])
+        app.switch('paye')
 
     def rem_x (self,name):
         if not files.isfile (f'/app/packages/{name}.manifest'):
             self.Env.RunApp('text', [res.get('@string/pwi'),res.get('@string/pwim').replace("{0}",name)])
+            app.switch('paye')
         else:
             System(f'paye rm {name}')
 
             self.Widget.close()
             self.Env.RunApp('paye', [None])
-
+            app.switch('paye')
             self.Env.RunApp('text', [res.get('@string/rmx'),res.get('@string/rmxp').replace("{0}",name)])
+            app.switch('paye')
 
     def down_(self):
         self.Env.RunApp('input', [res.get('@string/dname'), self.down_x])
+        app.switch('paye')
 
     def down_x (self,name):
         if not files.isfile(f'/app/mirrors/{name}'):
             self.Env.RunApp('text', [res.get('@string/mdf'), res.get('@string/mdfmx').replace("{0}",name)])
+            app.switch('paye')
         else:
             try:
                 System(f'paye get {name}')
 
                 self.Widget.Close()
                 self.Env.RunApp('paye',[None])
+                app.switch('paye')
                 self.Env.RunApp('text', [res.get('@string/dd'),res.get('@string/ddm').replace("{0}",name)])
+                app.switch('paye')
             except:
                 self.Env.RunApp('text', [res.get('@string/cdx'),res.get('@string/cdxm').replace("{0}",name)])
+                app.switch('paye')

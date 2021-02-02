@@ -6,11 +6,12 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView
 import os
 import sys
 
-from libabr import Res, Control, Files
+from libabr import Res, Control, Files, App
 
 res = Res()
 control = Control()
 files = Files()
+app = App()
 
 class AboutDialog(QDialog):
     def __init__(self, *args, **kwargs):
@@ -196,6 +197,7 @@ class MainApp(QMainWindow):
 
     def open_file(self):
         self.Env.RunApp('select',[res.get('@string/owp'),'open',self.open_file_])
+        app.switch('browser')
 
     def open_file_(self,filename):
         html = files.readall(filename)

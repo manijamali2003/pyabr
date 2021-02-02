@@ -28,7 +28,9 @@ class FileListView(QListView):
                 it.setIcon(QIcon(res.get('@icon/gtk-file')))
 
     def mkdir(self, dirname):
-        if files.isfile(dirname): self.editor.Env.RunApp('text', [res.get('@string/isfile'),res.get('@string/isfile_msg').replace('{0}',dirname)])
+        if files.isfile(dirname):
+            self.editor.Env.RunApp('text', [res.get('@string/isfile'),res.get('@string/isfile_msg').replace('{0}',dirname)])
+            app.switch('persia')
         else:
             it = QStandardItem(dirname)
             it.setWhatsThis(self.dir + "/" + dirname)
@@ -37,7 +39,9 @@ class FileListView(QListView):
             commands.mkdir([dirname])
 
     def mkfile (self,filename):
-        if files.isdir(filename + ".c"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename)])
+        if files.isdir(filename + ".c"):
+            self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename)])
+            app.switch('persia')
         else:
             it = QtGui.QStandardItem(filename)
             it.setWhatsThis(self.dir + "/" + filename)
@@ -55,67 +59,89 @@ class FileListView(QListView):
         it.setFont(f)
 
     def mkc (self,filename):
-        if files.isdir(filename + ".c"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".c")])
+        if files.isdir(filename + ".c"):
+            self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".c")])
+            app.switch('persia')
         else:
             self.mkfile(filename+".c")
             files.write(self.dir + "/" + filename+'.c',files.readall(res.get('@temp/untitled.c')))
 
     def mkcpp (self,filename):
-        if files.isdir(filename + ".cpp"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".cpp")])
+        if files.isdir(filename + ".cpp"):
+            self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".cpp")])
+            app.switch('persia')
         else:
             self.mkfile(filename+".cpp")
             files.write(self.dir + "/" + filename+'.cpp',files.readall(res.get('@temp/untitled.cpp')))
 
     def mkjava (self,filename):
-        if files.isdir(filename + ".java"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".java")])
+        if files.isdir(filename + ".java"):
+            self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".java")])
+            app.switch('persia')
         else:
             self.mkfile(filename+".java")
             files.write(self.dir + "/" + filename+'.java',files.readall(res.get('@temp/untitled.java')).replace("MainApp",filename))
 
     def mkjs (self,filename):
-        if files.isdir(filename + ".js"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".js")])
+        if files.isdir(filename + ".js"):
+            self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".js")])
+            app.switch('persia')
         else:
             self.mkfile(filename+".js")
             files.write(self.dir + "/" + filename+'.js',files.readall(res.get('@temp/untitled.js')))
 
     def mkphp (self,filename):
-        if files.isdir(filename + ".php"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".php")])
+        if files.isdir(filename + ".php"):
+            self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".php")])
+            app.switch('persia')
         else:
             self.mkfile(filename+".php")
             files.write(self.dir + "/" + filename+".php",files.readall(res.get('@temp/untitled.php')))
 
     def mkhtml (self,filename):
-        if files.isdir(filename + ".html"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".html")])
+        if files.isdir(filename + ".html"):
+            self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".html")])
+            app.switch('persia')
         else:
             self.mkfile(filename+".html")
             files.write(self.dir + "/" + filename+".html",files.readall(res.get('@temp/untitled.html')))
 
     def mkcs (self,filename):
-        if files.isdir(filename + ".cs"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".cs")])
+        if files.isdir(filename + ".cs"):
+            self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".cs")])
+            app.switch('persia')
         else:
             self.mkfile(filename+".cs")
             files.write(self.dir + "/" + filename+".cs",files.readall(res.get('@temp/untitled.cs')))
 
     def mksa (self,filename):
-        if files.isdir(filename + ".sa"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".sa")])
+        if files.isdir(filename + ".sa"):
+            self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".sa")])
+            app.switch('persia')
         else:
             self.mkfile(filename+".sa")
             files.write(self.dir + "/" + filename+".sa",files.readall(res.get('@temp/untitled.sa')))
 
     def mkpy (self,filename):
-        if files.isdir(filename + ".py"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".py")])
+        if files.isdir(filename + ".py"):
+            self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".py")])
+            app.switch('persia')
         else:
             self.mkfile(filename+".py")
             files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled.py')))
 
     def mkpygui (self,filename):
-        if files.isdir(filename + ".py"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".py")])
+        if files.isdir(filename + ".py"):
+            self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".py")])
+            app.switch('persia')
         else:
             self.mkfile(filename+".py")
             files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled-gui.py')))
 
     def mkpyweb (self,filename):
-        if files.isdir(filename + ".py"): self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".py")])
+        if files.isdir(filename + ".py"):
+            self.editor.Env.RunApp('text', [res.get('@string/isdir'),res.get('@string/isdir_msg').replace('{0}',filename+".py")])
+            app.switch('persia')
         else:
             self.mkfile(filename+".py")
             files.write(self.dir + "/" + filename+".py",files.readall(res.get('@temp/untitled-web.py')))
@@ -417,8 +443,10 @@ class MainApp(QtWidgets.QMainWindow):
                 commands.cc([file])
             except:
                 self.Env.RunApp('text', [res.get('@string/ce'), res.get('@string/cem')])
+                app.switch('persia')
 
             self.Env.RunApp('commento',[file.replace('.cpp','').replace('.cxx','').replace('.c++','').replace('.c',''),res.get('@string/pycon')])
+            app.switch('persia')
             files.remove(file.replace('.c','').replace('.cpp','').replace('.cxx','').replace('.c++',''))
         elif file.endswith ('.py'):
             # check graphical PyQt5 #
@@ -431,16 +459,20 @@ class MainApp(QtWidgets.QMainWindow):
                 control.write_record('exec',f"debug_{rand}",f'/usr/share/applications/debug_{rand}.desk')
                 py_compile.compile(files.input(file),files.input(f'/usr/app/debug_{rand}.pyc'))
                 self.Env.RunApp(f'debug_{rand}',[None])
+                app.switch('persia')
                 files.remove(f'/usr/share/applications/debug_{rand}.desk')
                 files.remove(f'/usr/app/debug_{rand}.pyc')
             else:
                 commands.cp ([file,'/usr/app/'+files.filename(file)])
                 self.Env.RunApp('commento', [files.filename(file.replace('.py','')),res.get('@string/pycon')])
+                app.switch('persia')
                 commands.rm (['/usr/app/'+files.filename(file)])
         elif file.endswith ('.sa'):
             self.Env.RunApp('commento', [file.replace('.sa',''), res.get('@string/pycon')])
+            app.switch('persia')
         else:
             self.Env.RunApp('text', [res.get('@string/spc'), res.get('@string/spcm')])
+            app.switch('persia')
 
     def run_project_(self):
 
@@ -469,6 +501,7 @@ class MainApp(QtWidgets.QMainWindow):
             System(f'paye upak {path}/packs/{project}.pa')
 
             self.Env.RunApp(f'{project}_{rand}', [None])
+            app.switch('persia')
 
             files.cut(f'{path}/packs/{project}/data/usr/share/applications/{project}_{rand}.desk',
                       f'{path}/packs/{project}/data/usr/share/applications/{project}.desk')
@@ -477,6 +510,7 @@ class MainApp(QtWidgets.QMainWindow):
             System(f'paye upak {path}/packs/{project}.pa')
 
             self.Env.RunApp('commento', [f"{project}_{rand}", res.get('@string/pycon')])
+            app.switch('persia')
 
         if files.isfile(f'{path}/packs/{project}.pa'): files.remove(f'{path}/packs/{project}.pa')
         System(f'paye rm {project}')
@@ -487,12 +521,15 @@ class MainApp(QtWidgets.QMainWindow):
 
     def new_empty_act (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.project_create])
+        app.switch('persia')
 
     def new_gui_act (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.project_create_gui])
+        app.switch('persia')
 
     def new_web_act (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.project_create_web])
+        app.switch('persia')
 
     def project_create (self,projectname):
         su = files.readall('/proc/info/su')
@@ -521,6 +558,7 @@ class MainApp(QtWidgets.QMainWindow):
         control.write_record('lang', 'python', '.pypersia')
 
         self.Env.RunApp ('persia',[projectname])
+        app.switch('persia')
 
     def project_create_gui (self,projectname):
         su = files.readall('/proc/info/su')
@@ -549,6 +587,7 @@ class MainApp(QtWidgets.QMainWindow):
         control.write_record('lang','python','.pypersia')
 
         self.Env.RunApp ('persia',[projectname])
+        app.switch('persia')
 
     def project_create_web (self,projectname):
         su = files.readall('/proc/info/su')
@@ -577,6 +616,7 @@ class MainApp(QtWidgets.QMainWindow):
         control.write_record('lang','python','.pypersia')
 
         self.Env.RunApp ('persia',[projectname])
+        app.switch('persia')
 
     def generate_pa_ (self):
         self.project = files.readall('/proc/info/psel')
@@ -621,12 +661,15 @@ class MainApp(QtWidgets.QMainWindow):
             files.write(files.readall('/proc/info/fsel'),self.teEdit.toPlainText())
         else:
             self.Env.RunApp('select', [res.get('@string/saveafile'), 'save', self.saveas_])
+            app.switch('persia')
 
     def open_act (self):
         self.Env.RunApp('select',[res.get('@string/chooseafile'),'open',self.gettext])
+        app.switch('persia')
 
     def save_as (self):
         self.Env.RunApp('select', [res.get('@string/saveasfile'), 'save-as', self.saveas_])
+        app.switch('persia')
 
     def langc (self):
         self.teEdit.setPlainText(files.readall(res.get('@temp/untitled.c')))
@@ -666,40 +709,53 @@ class MainApp(QtWidgets.QMainWindow):
 
     def New_Folder (self):
         self.Env.RunApp('input',[res.get('@string/foldername'),self.x.mkdir])
+        app.switch('persia')
 
     def New_File (self):
         self.Env.RunApp('input',[res.get('@string/filename'),self.x.mkfile])
+        app.switch('persia')
 
     def New_C (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkc])
+        app.switch('persia')
 
     def New_Cpp (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkcpp])
+        app.switch('persia')
 
     def New_Csharp (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkcs])
+        app.switch('persia')
 
     def New_Html (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkhtml])
+        app.switch('persia')
 
     def New_Java (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkjava])
+        app.switch('persia')
 
     def New_Js (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkjs])
+        app.switch('persia')
 
     def New_Php (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkphp])
+        app.switch('persia')
 
     def New_Py (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkpy])
+        app.switch('persia')
 
     def New_PyGui (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkpygui])
+        app.switch('persia')
 
     def New_PyWeb (self):
         self.Env.RunApp('input',[res.get('@string/filename'),self.x.mkpyweb])
+        app.switch('persia')
 
     def New_Sa (self):
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mksa])
+        app.switch('persia')
 
