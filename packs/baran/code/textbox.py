@@ -25,9 +25,6 @@ class MainApp (QMainWindow):
     def __init__(self,ports):
         super(MainApp, self).__init__()
 
-        f = QFont()
-        f.setPointSize(12)
-
         self.Backend = ports[0]
         self.Env = ports[1]
         self.Widget = ports[2]
@@ -50,7 +47,7 @@ class MainApp (QMainWindow):
         else:
             self.lblText.resize(int(self.Env.width()/1.5),50)
 
-        self.lblText.setFont(f)
+        self.lblText.setFont(self.Env.font())
         self.layout().addWidget(self.lblText)
 
         if self.External[0]=='' or self.External[0]==None:
@@ -66,6 +63,7 @@ class MainApp (QMainWindow):
 
         self.btnOK = QPushButton()
         self.btnOK.clicked.connect (self.ok_)
+        self.btnOK.setFont(self.Env.font())
         self.btnOK.setText(res.get('@string/ok'))
         if self.Env.width() > 1000 and self.Env.height() > 720:
             self.btnOK.setGeometry(0, 50, int(self.Env.width())/3, 50)

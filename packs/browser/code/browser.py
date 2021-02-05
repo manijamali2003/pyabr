@@ -196,6 +196,7 @@ class MainApp(QMainWindow):
         dlg.exec_()
 
     def open_file(self):
+        app.switch('browser')
         self.Env.RunApp('select',[res.get('@string/owp'),'open',self.open_file_])
         app.switch('browser')
 

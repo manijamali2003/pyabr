@@ -25,6 +25,7 @@ permissions = Permissions()
 app = App()
 res = Res()
 commands = Commands()
+f = QFont()
 
 height = int(files.readall('/tmp/height'))
 width = int(files.readall('/tmp/width'))
@@ -143,6 +144,7 @@ class variables:
     app_menu_fgcolor_pressed = "#FFFFFF"
     app_body_bgcolor = "white"
     app_body_fgcolor = "black"
+    font = "Iran Sans" # This font is not free when you did not buy it you should change this name in /etc/gui or buy it
 
 ## ## ## ## ##
 
@@ -294,6 +296,9 @@ class Splash (QMainWindow):
         applogo = getdata('logo')
         if not applogo==None:
             self.setWindowIcon(QIcon(res.get(applogo)))
+
+        # set font
+        f.setFamily(variables.font)
 
         ## Ports ##
 
@@ -448,8 +453,14 @@ class LoginWidget (QMainWindow):
         loginw_login_height = getdata('loginw.login.height')
         loginw_enter_height = getdata('loginw.enter.height')
         loginw_unlock_height = getdata('loginw.unlock.height')
+        font = getdata('font')
 
         ## Check data ##
+        if font == None:
+            font = variables.font
+
+        f.setFamily(font)
+
         if loginw_bgcolor == None:
             loginw_bgcolor = variables.loginw_bgcolor
 
@@ -739,12 +750,13 @@ class LoginWidget (QMainWindow):
 
         if self.Env.objectName()=='Login':
             self.leInput.setPlaceholderText(res.get('@string/username_placeholder')) # See https://stackoverflow.com/questions/24274318/placeholder-text-not-showing-pyside-pyqt
+            self.leInput.setFont(f)
         else:
             self.leInput.setEchoMode(QLineEdit.Password)
             self.leInput.setPlaceholderText(res.get('@string/unlock_hint'))
+            self.leInput.setFont(f)
 
             ## Setting up font settings ##
-        f = QFont()
         f.setPointSize(loginw_input_fontsize)
         self.leInput.setFont(f)
 
@@ -783,12 +795,12 @@ class LoginWidget (QMainWindow):
                     }
                     ''')
 
-            f = QFont()
             f.setPointSize(loginw_login_fontsize)
             self.btnLogin.setFont(f)
             if loginw_login_hide == 'Yes':
                 self.btnLogin.hide()
             self.btnLogin.setText(res.get('@string/next_text'))
+            self.btnLogin.setFont(f)
             self.btnLogin.setMaximumSize(loginw_login_width, loginw_login_height)
             self.btnLogin.setGeometry(int(self.width() / 2) - int(self.btnLogin.width() / 2),
                                       self.height() - int(self.height() / 4) - int(self.btnLogin.height() / 4) + int(self.btnLogin.height()/2),
@@ -821,12 +833,12 @@ class LoginWidget (QMainWindow):
                     }
                     ''')
 
-            f = QFont()
             f.setPointSize(loginw_enter_fontsize)
             self.btnEnter.setFont(f)
             if loginw_enter_hide == 'Yes':
                 self.btnEnter.hide()
             self.btnEnter.setText(res.get('@string/enter_text'))
+            self.btnEnter.setFont(f)
             self.btnEnter.setMaximumSize(loginw_enter_width, loginw_enter_height)
             self.btnEnter.setGeometry(int(self.width() / 2) - int(self.btnEnter.width() / 2),
                                       self.height() - int(self.height() / 4) - int(self.btnEnter.height() / 4) + int(self.btnEnter.height()/2),
@@ -859,12 +871,12 @@ class LoginWidget (QMainWindow):
                                 }
                                 ''')
 
-            f = QFont()
             f.setPointSize(loginw_unlock_fontsize)
             self.btnUnlock.setFont(f)
             if loginw_enter_hide == 'Yes':
                 self.btnUnlock.hide()
             self.btnUnlock.setText(res.get('@string/unlock_text'))
+            self.btnUnlock.setFont(f)
             self.btnUnlock.setMaximumSize(loginw_unlock_width, loginw_unlock_height)
             self.btnUnlock.setGeometry(int(self.width() / 2) - int(self.btnUnlock.width() / 2),
                                       self.height() - int(self.height() / 4) - int(self.btnUnlock.height() / 4) + int(
@@ -885,6 +897,7 @@ class LoginWidget (QMainWindow):
                 message = res.get('@string/user_not_found')
                 if not message==None: message = message
                 self.leInput.setPlaceholderText(message)
+                self.leInput.setFont(f)
                 QTimer.singleShot(2500, self.clean)
             else:
                 ## Check user ##
@@ -897,6 +910,7 @@ class LoginWidget (QMainWindow):
                     message = res.get('@string/user_not_found')
                     if not message == None: message = message
                     self.leInput.setPlaceholderText(message)
+                    self.leInput.setFont(f)
                     QTimer.singleShot(2500, self.clean)
 
                 else:
@@ -917,6 +931,7 @@ class LoginWidget (QMainWindow):
                 self.leInput.setEnabled(False)
                 message = res.get('@string/wrong_password')
                 self.leInput.setPlaceholderText(message)
+                self.leInput.setFont(f)
                 QTimer.singleShot(2500, self.clean)
             else:
                 self.Env.setCentralWidget(Desktop([self.Backend,self],username,password))
@@ -937,6 +952,7 @@ class LoginWidget (QMainWindow):
                 self.leInput.setEnabled(False)
                 message = res.get('@string/wrong_password')
                 self.leInput.setPlaceholderText(message)
+                self.leInput.setFont(f)
                 QTimer.singleShot(2500, self.clean)
             else:
                 self.Backend.submenu.show()
@@ -949,8 +965,10 @@ class LoginWidget (QMainWindow):
         self.leInput.setEnabled(True)
         if self.Env.objectName()=='Login':
             self.leInput.setPlaceholderText(res.get('@string/username_placeholder')) # See https://stackoverflow.com/questions/24274318/placeholder-text-not-showing-pyside-pyqt
+            self.leInput.setFont(f)
         else:
             self.leInput.setPlaceholderText(res.get('@string/password_placeholder'))
+            self.leInput.setFont(f)
 
 ## Login ##
 class Login (QMainWindow):
@@ -1184,12 +1202,22 @@ class AppListView(QListView):
             subname = res.etc(name,f'name[{locale}]')
             icon = res.etc(name,'logo')
             it.setText(subname)
+            it.setFont(f)
             it.setIcon(QIcon(res.get(icon)))
 
     def __init__(self,ports):
         super().__init__()
         self.Env = ports[0]
         self.Widget = ports[1]
+
+        # Get font #
+        font = getdata('font')
+        if not self.Env.username == 'guest':
+            value = control.read_record('font', '/etc/users/' + self.Env.username)
+            if not value == None: font = value
+        if font == None: font = variables.font
+
+        f.setFamily(font)
 
         self.entry = QStandardItemModel()
         self.setModel(self.entry)
@@ -1411,6 +1439,7 @@ class AppWidget (QMainWindow):
 
     def SetWindowTitle (self,text):
         self.titletext.setText(text)
+        self.titletext.setFont(f)
         self.titletext.setAlignment(Qt.AlignVCenter)
 
     def WindowTitle (self):
@@ -1507,6 +1536,15 @@ class AppWidget (QMainWindow):
         self.appname = ports[2]
         self.external = ports[3]
 
+        font = getdata('font')
+        if not self.Env.username == 'guest':
+            value = control.read_record('font', '/etc/users/' + self.Env.username)
+            if not value == None: font = value
+        if font == None: font = variables.font
+
+        f.setFamily(font)
+        self.setFont(f)
+
         # user
         self.username = self.Env.username
 
@@ -1517,6 +1555,7 @@ class AppWidget (QMainWindow):
             value = control.read_record('appw.title.size', '/etc/users/' + self.username)
             if not value == None: app_title_size = value
         if app_title_size == None: app_title_size = variables.app_title_size
+
 
         app_bgcolor = getdata('appw.bgcolor')
         if not self.Env.username == 'guest':
@@ -1658,7 +1697,6 @@ class AppWidget (QMainWindow):
         self.titletext.setGeometry(int(self.app_title_size),0,self.titlebar.width(),int(app_title_size))
         self.titletext.setAlignment(Qt.AlignVCenter)
 
-        f = QFont()
         f.setPointSize(12)
         self.titletext.setFont(f)
 
@@ -1749,9 +1787,11 @@ class Desktop (QMainWindow):
     locale = control.read_record("locale", "/etc/gui")
 
     def RunApp (self,appname,external):
+        app.switch(appname)
         if files.isfile(f'/usr/share/applications/{appname}.desk'):
             self.layout().addWidget(AppWidget([self.Backend, self, appname,external]))
         else:
+            app.switch('desktop')
             self.layout().addWidget(AppWidget([self.Backend, self, 'text', [res.get('@string/notf'), res.get('@string/notfm')]]))
             app.switch('desktop')
 
@@ -1778,6 +1818,7 @@ class Desktop (QMainWindow):
         app.switch('desktop')
 
     def escape_act (self):
+        app.switch('desktop')
         self.RunApp('bool',[res.get('@string/esc'),res.get('@string/escm'),self.escape_act_])
         app.switch('desktop')
 
@@ -1789,6 +1830,7 @@ class Desktop (QMainWindow):
             sys.exit(0)
 
     def reboot_act (self):
+        app.switch('desktop')
         self.RunApp('bool', [res.get('@string/rb'), res.get('@string/rbm'), self.reboot_act_])
         app.switch('desktop')
 
@@ -1815,6 +1857,7 @@ class Desktop (QMainWindow):
         self.setCentralWidget(self.BtnWakeUp)
 
     def signout_act (self):
+        app.switch('desktop')
         self.RunApp('bool', [res.get('@string/sg'), res.get('@string/sgm'), self.signout_act_])
         app.switch('desktop')
 
@@ -1826,6 +1869,7 @@ class Desktop (QMainWindow):
             sys.exit(0)
 
     def switchuser_act (self):
+        app.switch('desktop')
         self.RunApp('bool', [res.get('@string/sau'), res.get('@string/saum'), self.switchuser_act_])
         app.switch('desktop')
 
@@ -1910,6 +1954,7 @@ class Desktop (QMainWindow):
 
         # showing it to the label
         self.lblClock.setText(res.num(label_time))
+        self.lblClock.setFont(f)
 
     def lock_act (self):
         self.lock = QMainWindow()
@@ -2055,7 +2100,6 @@ class Desktop (QMainWindow):
 
         # font size clock #
 
-        f = QFont()
         f.setPointSize(int(clock_size))
 
         self.lblClock.setFont(f)
@@ -2137,6 +2181,15 @@ class Desktop (QMainWindow):
         ## username ##
         self.username = username.lower()
         self.password = password
+
+        font = getdata('font')
+        if not self.username == 'guest':
+            value = control.read_record('font', '/etc/users/' + self.username)
+            if not value == None: font = value
+        if font == None: font = variables.font
+
+        f.setFamily(font)
+        self.setFont(f)
 
         ## Setting ups ##
         files.write("/proc/info/su", self.username)
@@ -2243,7 +2296,6 @@ class Desktop (QMainWindow):
         if submenu_hide=='Yes':
             self.submenu.hide()
 
-        f = QFont()
         f.setPointSize(int(submenu_fontsize))
 
         self.submenu.setFont(f)
@@ -2256,6 +2308,7 @@ class Desktop (QMainWindow):
 
         self.appmenu = QMenu (res.get('@string/appmenu'))
         self.submenu.addMenu(self.appmenu)
+        self.appmenu.setFont(f)
 
         cate = files.list('/usr/share/categories')
 
@@ -2295,6 +2348,7 @@ class Desktop (QMainWindow):
                     self.actApp = self.catMenu.addAction(j)
                     self.actApp.setObjectName(j)
                     self.actApp.setText(appname)
+                    self.actApp.setFont(f)
 
                     if not applogo == None:
                         self.actApp.setIcon(QIcon(res.get(applogo)))
@@ -2314,6 +2368,7 @@ class Desktop (QMainWindow):
         self.etcmenu = QMenu()
         self.etcmenu.setFont(f)
         self.etcmenu.setTitle (res.get('@string/etcmenu'))
+        self.etcmenu.setFont(f)
         self.submenu.addMenu(self.etcmenu)
 
         # Account menu #
@@ -2340,40 +2395,49 @@ class Desktop (QMainWindow):
                 fullname = last_name
 
         self.usermenu.setTitle(fullname)
+        self.usermenu.setFont(f)
 
         # Power menu #
         self.powermenu = QMenu()
         self.powermenu.setFont(f)
         self.etcmenu.addMenu(self.powermenu)
         self.powermenu.setTitle(res.get('@string/powermenu'))
+        self.powermenu.setFont(f)
 
         # all actions in menus #
 
         self.accoutsettings = QAction(res.get('@string/accountsettings'))
         self.accoutsettings.triggered.connect (self.accoutsetting)
+        self.accoutsettings.setFont(f)
         self.usermenu.addAction(self.accoutsettings)
 
         self.signout = QAction(res.get('@string/signout'))
         self.signout.triggered.connect (self.signout_act)
+        self.signout.setFont(f)
         self.usermenu.addAction(self.signout)
 
         self.switchuser = QAction(res.get('@string/switchuser'))
         self.switchuser.triggered.connect (self.switchuser_act)
+        self.switchuser.setFont(f)
         self.usermenu.addAction(self.switchuser)
 
         self.locks = QAction(res.get('@string/lock'))
+        self.locks.setFont(f)
         self.locks.triggered.connect (self.lock_act)
         self.usermenu.addAction(self.locks)
 
         self.escape = QAction(res.get('@string/escape'))
         self.escape.triggered.connect (self.escape_act)
+        self.escape.setFont(f)
         self.powermenu.addAction(self.escape)
 
         self.restart = QAction(res.get('@string/restart'))
         self.restart.triggered.connect (self.reboot_act)
+        self.restart.setFont(f)
         self.powermenu.addAction(self.restart)
 
         self.sleep = QAction(res.get('@string/sleep'))
+        self.sleep.setFont(f)
         self.sleep.triggered.connect (self.sleep_act)
         self.powermenu.addAction(self.sleep)
 

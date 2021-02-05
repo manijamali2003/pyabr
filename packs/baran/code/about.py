@@ -39,7 +39,9 @@ class MainApp(QWidget):
         self.setLayout(self.vmbox)
         self.extral.setLayout(self.hbox)
         self.text1 = QTextBrowser()
-        self.text1.setAlignment(Qt.AlignRight)
+
+        if control.read_record('locale','/etc/gui')=='fa' or control.read_record('locale','/etc/gui')=='ar':
+            self.text1.setAlignment(Qt.AlignRight)
         self.text1.append(f'{res.get("@string/st")}:\n')
         self.text1.append(f'{res.get("@string/cs")}:\n')
         self.text1.append(f'{res.get("@string/de")}:\n')
@@ -49,7 +51,7 @@ class MainApp(QWidget):
         self.text1.append(f'{res.get("@string/su")}:\n')
         self.text1.append(f'{res.get("@string/intr")}:\n')
         self.text1.setFont(f)
-        self.hbox.addWidget(self.text1)
+
 
         self.text2 = QTextBrowser()
         self.text2.append(files.readall('/proc/info/host')+"\n")
@@ -62,6 +64,12 @@ class MainApp(QWidget):
         self.text2.append(files.readall('/proc/info/inter')+"\n")
         self.text2.setAlignment(Qt.AlignLeft)
         self.text2.setFont(f)
-        self.hbox.addWidget(self.text2)
+
+        if not control.read_record('locale','/etc/gui')=='fa' or not control.read_record('locale','/etc/gui')=='ar':
+            self.hbox.addWidget(self.text1)
+            self.hbox.addWidget(self.text2)
+        else:
+            self.hbox.addWidget(self.text2)
+            self.hbox.addWidget(self.text1)
 
         self.Widget.DisableFloat()

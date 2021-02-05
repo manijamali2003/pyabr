@@ -297,11 +297,11 @@ class MainApp(QtWidgets.QMainWindow):
         ## new file
 
 
-        self.new_file = self.new_code.addAction('New File')
+        self.new_file = self.new_code.addAction(res.get('@string/newfile'))
         self.new_file.triggered.connect(self.New_File)
         self.new_file.setIcon(QIcon(res.get('@icon/gtk-file')))
 
-        self.new_fldr = self.new_code.addAction('New Folder')
+        self.new_fldr = self.new_code.addAction(res.get('@string/newfolder'))
         self.new_fldr.triggered.connect(self.New_Folder)
         self.new_fldr.setIcon(QIcon(res.get('@icon/folder')))
 
@@ -442,9 +442,11 @@ class MainApp(QtWidgets.QMainWindow):
             try:
                 commands.cc([file])
             except:
+                app.switch('persia')
                 self.Env.RunApp('text', [res.get('@string/ce'), res.get('@string/cem')])
                 app.switch('persia')
 
+            app.switch('persia')
             self.Env.RunApp('commento',[file.replace('.cpp','').replace('.cxx','').replace('.c++','').replace('.c',''),res.get('@string/pycon')])
             app.switch('persia')
             files.remove(file.replace('.c','').replace('.cpp','').replace('.cxx','').replace('.c++',''))
@@ -457,6 +459,7 @@ class MainApp(QtWidgets.QMainWindow):
                 control.write_record('name[fa]','برنامه تستی',f'/usr/share/applications/debug_{rand}.desk')
                 control.write_record('logo','@icon/runner',f'/usr/share/applications/debug_{rand}.desk')
                 control.write_record('exec',f"debug_{rand}",f'/usr/share/applications/debug_{rand}.desk')
+                app.switch('persia')
                 py_compile.compile(files.input(file),files.input(f'/usr/app/debug_{rand}.pyc'))
                 self.Env.RunApp(f'debug_{rand}',[None])
                 app.switch('persia')
@@ -464,13 +467,16 @@ class MainApp(QtWidgets.QMainWindow):
                 files.remove(f'/usr/app/debug_{rand}.pyc')
             else:
                 commands.cp ([file,'/usr/app/'+files.filename(file)])
+                app.switch('persia')
                 self.Env.RunApp('commento', [files.filename(file.replace('.py','')),res.get('@string/pycon')])
                 app.switch('persia')
                 commands.rm (['/usr/app/'+files.filename(file)])
         elif file.endswith ('.sa'):
+            app.switch('persia')
             self.Env.RunApp('commento', [file.replace('.sa',''), res.get('@string/pycon')])
             app.switch('persia')
         else:
+            app.switch('persia')
             self.Env.RunApp('text', [res.get('@string/spc'), res.get('@string/spcm')])
             app.switch('persia')
 
@@ -499,7 +505,7 @@ class MainApp(QtWidgets.QMainWindow):
 
             System(f'paye pak {path}/packs/{project}')
             System(f'paye upak {path}/packs/{project}.pa')
-
+            app.switch('persia')
             self.Env.RunApp(f'{project}_{rand}', [None])
             app.switch('persia')
 
@@ -508,7 +514,7 @@ class MainApp(QtWidgets.QMainWindow):
         else:
             System(f'paye pak {path}/packs/{project}')
             System(f'paye upak {path}/packs/{project}.pa')
-
+            app.switch('persia')
             self.Env.RunApp('commento', [f"{project}_{rand}", res.get('@string/pycon')])
             app.switch('persia')
 
@@ -520,15 +526,18 @@ class MainApp(QtWidgets.QMainWindow):
         files.write(f'{path}/packs/{project}/control/compile', compile)
 
     def new_empty_act (self):
-        self.Env.RunApp('input', [res.get('@string/filename'), self.project_create])
+        app.switch('persia')
+        self.Env.RunApp('input', [res.get('@string/proname'), self.project_create])
         app.switch('persia')
 
     def new_gui_act (self):
-        self.Env.RunApp('input', [res.get('@string/filename'), self.project_create_gui])
+        app.switch('persia')
+        self.Env.RunApp('input', [res.get('@string/proname'), self.project_create_gui])
         app.switch('persia')
 
     def new_web_act (self):
-        self.Env.RunApp('input', [res.get('@string/filename'), self.project_create_web])
+        app.switch('persia')
+        self.Env.RunApp('input', [res.get('@string/proname'), self.project_create_web])
         app.switch('persia')
 
     def project_create (self,projectname):
@@ -556,7 +565,7 @@ class MainApp(QtWidgets.QMainWindow):
         control.write_record('name', projectname, ".pypersia")
         control.write_record('type', 'empty', ".pypersia")
         control.write_record('lang', 'python', '.pypersia')
-
+        app.switch('persia')
         self.Env.RunApp ('persia',[projectname])
         app.switch('persia')
 
@@ -585,7 +594,7 @@ class MainApp(QtWidgets.QMainWindow):
         control.write_record('name', projectname, ".pypersia")
         control.write_record('type', 'gui', ".pypersia")
         control.write_record('lang','python','.pypersia')
-
+        app.switch('persia')
         self.Env.RunApp ('persia',[projectname])
         app.switch('persia')
 
@@ -614,7 +623,7 @@ class MainApp(QtWidgets.QMainWindow):
         control.write_record('name', projectname, ".pypersia")
         control.write_record('type', 'web', ".pypersia")
         control.write_record('lang','python','.pypersia')
-
+        app.switch('persia')
         self.Env.RunApp ('persia',[projectname])
         app.switch('persia')
 
@@ -660,14 +669,17 @@ class MainApp(QtWidgets.QMainWindow):
         if not self.Widget.WindowTitle()==res.get('@string/untitled'):
             files.write(files.readall('/proc/info/fsel'),self.teEdit.toPlainText())
         else:
+            app.switch('persia')
             self.Env.RunApp('select', [res.get('@string/saveafile'), 'save', self.saveas_])
             app.switch('persia')
 
     def open_act (self):
+        app.switch('persia')
         self.Env.RunApp('select',[res.get('@string/chooseafile'),'open',self.gettext])
         app.switch('persia')
 
     def save_as (self):
+        app.switch('persia')
         self.Env.RunApp('select', [res.get('@string/saveasfile'), 'save-as', self.saveas_])
         app.switch('persia')
 
@@ -708,54 +720,67 @@ class MainApp(QtWidgets.QMainWindow):
         self.teEdit.setPlainText(files.readall(res.get('@temp/untitled.js')))
 
     def New_Folder (self):
+        app.switch('persia')
         self.Env.RunApp('input',[res.get('@string/foldername'),self.x.mkdir])
         app.switch('persia')
 
     def New_File (self):
+        app.switch('persia')
         self.Env.RunApp('input',[res.get('@string/filename'),self.x.mkfile])
         app.switch('persia')
 
     def New_C (self):
+        app.switch('persia')
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkc])
         app.switch('persia')
 
     def New_Cpp (self):
+        app.switch('persia')
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkcpp])
         app.switch('persia')
 
     def New_Csharp (self):
+        app.switch('persia')
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkcs])
         app.switch('persia')
 
     def New_Html (self):
+        app.switch('persia')
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkhtml])
         app.switch('persia')
 
     def New_Java (self):
+        app.switch('persia')
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkjava])
         app.switch('persia')
 
     def New_Js (self):
+        app.switch('persia')
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkjs])
         app.switch('persia')
 
     def New_Php (self):
+        app.switch('persia')
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkphp])
         app.switch('persia')
 
     def New_Py (self):
+        app.switch('persia')
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkpy])
         app.switch('persia')
 
     def New_PyGui (self):
+        app.switch('persia')
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mkpygui])
         app.switch('persia')
 
     def New_PyWeb (self):
+        app.switch('persia')
         self.Env.RunApp('input',[res.get('@string/filename'),self.x.mkpyweb])
         app.switch('persia')
 
     def New_Sa (self):
+        app.switch('persia')
         self.Env.RunApp('input', [res.get('@string/filename'), self.x.mksa])
         app.switch('persia')
 

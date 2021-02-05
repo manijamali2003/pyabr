@@ -11,7 +11,7 @@
 
 import sys, subprocess,os,shutil
 
-from libabr import Files, Control, Permissions, Colors, Process, Modules, Package, Commands, Res, System
+from libabr import Files, Control, Permissions, Colors, Process, Modules, Package, Commands, Res, System, App
 
 modules = Modules()
 files = Files()
@@ -22,6 +22,7 @@ permissions = Permissions()
 pack = Package()
 commands = Commands()
 res = Res()
+app = App()
 
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -31,6 +32,8 @@ from PyQt5 import uic
 class MainApp (QMainWindow):
     def __init__(self,ports):
         super(MainApp, self).__init__()
+
+        app.switch('edituser')
 
         self.Backend = ports[0]
         self.Env = ports[1]
@@ -44,15 +47,33 @@ class MainApp (QMainWindow):
 
         uic.loadUi(res.get('@layout/usermanager_edit'),self)
 
+        self.Widget.SetWindowTitle(res.get('@string/app_name'))
+
         self.leFirstName = self.findChild(QLineEdit,'leFirstName')
+        self.leFirstName.setFont(self.Env.font())
+        self.leFirstName.setPlaceholderText(res.get('@string/firstname'))
+        self.leFirstName.setFont(self.Env.font())
         self.leLastName = self.findChild(QLineEdit, 'leLastName')
+        self.leLastName.setFont(self.Env.font())
+        self.leLastName.setPlaceholderText(res.get('@string/lastname'))
         self.leCompany = self.findChild(QLineEdit, 'leCompany')
+        self.leCompany.setFont(self.Env.font())
+        self.leCompany.setPlaceholderText(res.get('@string/company'))
         self.leEmail = self.findChild(QLineEdit, 'leEmail')
+        self.leEmail.setFont(self.Env.font())
+        self.leEmail.setPlaceholderText(res.get('@string/email'))
         self.lePhone = self.findChild(QLineEdit, 'lePhone')
+        self.lePhone.setFont(self.Env.font())
+        self.lePhone.setPlaceholderText(res.get('@string/phone'))
         self.cbGender = self.findChild(QComboBox, 'cbGender')
+        self.cbGender.setFont(self.Env.font())
         self.leBirthday = self.findChild(QDateEdit, 'leBirthday')
+        self.leBirthday.setFont(self.Env.font())
         self.cbBloodtype = self.findChild(QComboBox, 'cbBloodtype')
+        self.cbBloodtype.setFont(self.Env.font())
         self.btnSave = self.findChild(QPushButton,'btnSave')
+        self.btnSave.setFont(self.Env.font())
+        self.btnSave.setText(res.get('@string/savec'))
 
         self.typcial = self.External[0]
         self.username = self.External[1]
@@ -99,7 +120,8 @@ class MainApp (QMainWindow):
             self.Widget.Close()
 
     def edit_(self):
-        self.Env.RunApp('bool',[f'Save changes for {self.External[1]} account',f'Do you want to save changes for {self.External[1]} account?',self.edit_x])
+        self.Env.RunApp('bool',[res.get('@string/savec'),res.get('@string/savecm'),self.edit_x])
+        app.switch('edituser')
 
     def edit_x (self,yes):
         if yes:

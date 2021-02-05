@@ -110,6 +110,7 @@ class MainApp(QtWidgets.QMainWindow):
             try:
                 cmd.cc([self.Widget.WindowTitle()])
             except:
+                app.switch('barge')
                 self.Env.RunApp('text', [res.get('@string/ce'), res.get('@string/cem')])
                 app.switch('barge')
 
@@ -139,6 +140,7 @@ class MainApp(QtWidgets.QMainWindow):
             app.switch('barge')
         else:
             if not self.Widget.WindowTitle()==res.get('@string/untitled'):
+                app.switch('barge')
                 self.Env.RunApp('text', [res.get('@string/cs'), res.get('@string/csm')])
                 app.switch('barge')
 
@@ -165,14 +167,17 @@ class MainApp(QtWidgets.QMainWindow):
         if not self.Widget.WindowTitle()==res.get('@string/untitled'):
             files.write(files.output(self.Widget.WindowTitle()),self.teEdit.toPlainText())
         else:
+            app.switch('barge')
             self.Env.RunApp('select', [res.get('@string/saveafile'), 'save', self.saveas_])
             app.switch('barge')
 
     def open_act (self):
+        app.switch('barge')
         self.Env.RunApp('select',[res.get('@string/chooseafile'),'open',self.gettext])
         app.switch('barge')
 
     def save_as (self):
+        app.switch('barge')
         self.Env.RunApp('select', [res.get('@string/saveasfile'), 'save-as', self.saveas_])
         app.switch('barge')
 

@@ -868,6 +868,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             clipboard.setPixmap(self.canvas.pixmap())
 
     def open_file (self):
+        app.switch('paint')
         self.Env.RunApp('select', [res.get('@string/of'), 'open', self.open_file_])
         app.switch('paint')
 
@@ -905,6 +906,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.canvas.setPixmap(pixmap)
 
     def save_file (self):
+        app.switch('paint')
         self.Env.RunApp('select', [res.get('@string/sf'), 'save', self.save_file_])
         app.switch('paint')
 

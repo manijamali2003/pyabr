@@ -36,6 +36,7 @@ class MainApp (QMainWindow):
         self.Widget.SetWindowIcon(QIcon(res.get('@icon/help-about')))
         ## Finds ##
         self.leInput = QLineEdit()
+        self.leInput.setFont(self.Env.font())
 
         if self.Env.width() > 1000 and self.Env.height() > 720:
             self.Widget.Resize(self,int(self.Env.width()/3),100)
@@ -44,9 +45,6 @@ class MainApp (QMainWindow):
             self.Widget.Resize(self, int(self.Env.width() / 1.5), 100)
             self.leInput.resize(int(self.Env.width() / 1.5), 50)
 
-        f = QFont()
-        f.setPointSize(12)
-        self.leInput.setFont(f)
         self.layout().addWidget(self.leInput)
         self.leInput.returnPressed.connect (self.inp)
         password_hint = control.read_record ('input.password_hint','/etc/configbox')
@@ -60,10 +58,12 @@ class MainApp (QMainWindow):
 
         self.btnCancel = QPushButton()
         self.btnCancel.setText(res.get('@string/cancel'))
+        self.btnCancel.setFont(self.Env.font())
         self.btnCancel.clicked.connect(self.Widget.Close)
         self.layout().addWidget(self.btnCancel)
 
         self.btnOK = QPushButton()
+        self.btnOK.setFont(self.Env.font())
         self.btnOK.clicked.connect (self.inp)
         self.btnOK.setText(res.get('@string/ok'))
         if self.Env.width() > 1000 and self.Env.height() > 720:

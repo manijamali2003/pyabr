@@ -94,6 +94,8 @@ calculator.clearall: Clear All
 roller.file: File
 roller.newfile: New File
 roller.newfolder: New Folder
+perisa.newfile: New File
+persia.newfolder: New Folder
 roller.exit: Exit
 roller.foldername: Enter your folder name
 roller.filename: Enter your file name
@@ -103,6 +105,8 @@ mines.app_name: Mines
 barge.c: C
 barge.c++: C++
 barge.python: Python
+perisa.foldername: Enter your folder name
+persia.filename: Enter your file name
 barge.pythongui: Python GUI
 barge.saye: Saye
 barge.java: Java
@@ -329,3 +333,28 @@ about.bd: Build date
 about.os: Operating System
 about.su: Switched user
 about.intr: Interface
+edituser.savec: Save changes
+edituser.savecm: Do you want to save changes?
+edituser.firstname: First name
+edituser.lastname: Last name
+edituser.phone: Phone number
+edituser.email: Email address
+edituser.company: Company name
+edituser.bloodtype: Blood type
+edituser.app_name: Edit Account
+select.fn: Enter a filename
+usermanager.fullname: Full name
+usermanager.phone: Phone number
+usermanager.email: Email address
+usermanager.company: Company name
+usermanager.bloodtype: Blood type
+usermanager.gender: Gender
+usermanager.birthday: Birthday
+usermanager.username: Username
+usermanager.nots: Not set
+usermanager.app_name: Accout Manager
+usermanager.rm: Remove Account
+usermanager.rmm: Do you want to remove this account?
+usermanager.ed: Edit
+usermanager._rm: Remove
+persia.proname: Enter your project name

@@ -32,4 +32,7 @@ class MainApp(PythonConsole):
         self.Widget.SetWindowIcon (QIcon(res.get(res.etc(self.AppName,'logo'))))
         self.setStyleSheet(f'background-color:{res.etc(self.AppName,"bgcolor")};')
 
+        f = QFont()
+        f.setFamily('DejaVu Sans Mono')
+        self.setFont(f)
         self.eval_in_thread()

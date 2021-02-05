@@ -11,7 +11,7 @@
 
 import sys, subprocess,os,shutil
 
-from libabr import Files, Control, Permissions, Colors, Process, Modules, Package, Commands, Res, System
+from libabr import Files, Control, Permissions, Colors, Process, Modules, Package, Commands, Res, System, App
 
 modules = Modules()
 files = Files()
@@ -22,12 +22,27 @@ permissions = Permissions()
 pack = Package()
 commands = Commands()
 res = Res()
+app = App()
 
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 
-f = QFont()
+class MainApp (QMainWindow):
+    def __init__(self,ports):
+        super(MainApp, self).__init__()
+
+        self.Backend = ports[0]
+        self.Env = ports[1]
+        self.Widget = ports[2]
+        self.AppName = ports[3]
+        self.External = ports[4]
+
+        self.Widget.SetWindowIcon (QIcon(res.get('@icon/help-about')))
+        self.Widget.SetWindowTitle (res.get('@string/app_name'))
+        self.Widget.Resize(self,720,640)
+        self.x = PackageListView([self.Env,self.Widget,self,self.AppName,self.External])
+        self.setCentralWidget(self.x)
 
 class PackageListView (QListView):
     def format(self, it, text):
@@ -76,6 +91,7 @@ class PackageListView (QListView):
         for text in self.listdir:
             it = QStandardItem(text)
             it.setWhatsThis(text)
+            it.setFont(self.Env.font())
             self.format(it, text)
             self.entry.appendRow(it)
 
@@ -101,12 +117,15 @@ class ShowUserInformation (QMainWindow):
         self.AppName = ports[3]
         self.External = ports[4]
 
+        app.switch('usermanager')
+
         self.XShowpackages = self.External[1]
         self.XShowpackages.hide()
 
         self.path = f'/etc/users/{self.External[0]}'
 
         self.btnBack = QPushButton()
+        self.btnBack.setFont(self.Env.font())
         self.btnBack.clicked.connect(self.xhide)
         self.btnBack.setText('Back')
         self.btnBack.setGeometry(0, 0, self.Env.width(), 50)
@@ -156,6 +175,10 @@ class ShowUserInformation (QMainWindow):
 
         self.lblName = QLabel()
         self.lblName.setText(namex)
+        if control.read_record('locale','/etc/gui')=='fa':
+            self.lblName.setAlignment(Qt.AlignRight)
+
+        self.lblName.setFont(self.Env.font())
         self.lblName.setGeometry(40 + 128, 128 - 25, self.width(), 50)
         f = QFont()
         f.setPointSize(20)
@@ -163,6 +186,7 @@ class ShowUserInformation (QMainWindow):
         self.layout().addWidget(self.lblName)
 
         self.btnRemove = QPushButton()
+        self.btnRemove.setFont(self.Env.font())
         self.btnRemove.setStyleSheet('''
                 QPushButton {
                 background-color: red;color:white;border-radius: 25% 25%;
@@ -171,11 +195,12 @@ class ShowUserInformation (QMainWindow):
                 background-color: orange;color:white;border-radius: 25% 25%;
                 }''')
         self.btnRemove.clicked.connect(self.xuni)
-        self.btnRemove.setText('Remove user')
+        self.btnRemove.setText(res.get('@string/_rm'))
         self.btnRemove.setGeometry(self.width() - 260, 128 - 25, 150, 50)
         self.layout().addWidget(self.btnRemove)
 
         self.btnEdit = QPushButton()
+        self.btnEdit.setFont(self.Env.font())
         self.btnEdit.setStyleSheet('''
                         QPushButton {
                         background-color: lime;color:green;border-radius: 25% 25%;
@@ -184,7 +209,7 @@ class ShowUserInformation (QMainWindow):
                         background-color: green;color:lime;border-radius: 25% 25%;
                         }''')
         self.btnEdit.clicked.connect(self.xedit)
-        self.btnEdit.setText('Edit')
+        self.btnEdit.setText(res.get('@string/ed'))
         self.btnEdit.setGeometry(self.width() - 260+160, 128 - 25, 150, 50)
         self.layout().addWidget(self.btnEdit)
 
@@ -194,54 +219,58 @@ class ShowUserInformation (QMainWindow):
         self.w.setLayout(self.hbox)
         f.setPointSize(12)
         self.text1 = QTextBrowser()
+        self.text1.setFont(self.Env.font())
         self.text1.setAlignment(Qt.AlignRight)
-        self.text1.append('\nUsername:\n')
-        self.text1.append('Full name:\n')
-        self.text1.append('Company name:\n')
-        self.text1.append('Email address:\n')
-        self.text1.append('Phone number:\n')
-        self.text1.append('Gender:\n')
-        self.text1.append('Birthday:\n')
-        self.text1.append('Blood type:\n')
+        self.text1.append(f'\n{res.get("@string/username")}:\n')
+        self.text1.append(f'{res.get("@string/fullname")}:\n')
+        self.text1.append(f'{res.get("@string/company")}:\n')
+        self.text1.append(f'{res.get("@string/email")}:\n')
+        self.text1.append(f'{res.get("@string/phone")}:\n')
+        self.text1.append(f'{res.get("@string/gender")}:\n')
+        self.text1.append(f'{res.get("@string/birthday")}:\n')
+        self.text1.append(f'{res.get("@string/bloodtype")}:\n')
         self.text1.setFont(f)
         self.hbox.addWidget(self.text1)
 
+        nots = res.get('@string/nots')
+
         self.text2 = QTextBrowser()
+        self.text2.setFont(self.Env.font())
         self.text2.append(f'\n{self.External[0]}\n')
         if not self.fullname=='Not set':
             self.text2.append(self.fullname + "\n")
         else:
-            self.text2.append('<font color="gray">Not set</font><br/><br/>')
+            self.text2.append(f'<font color="gray">{nots}</font><br/><br/>')
 
         if not self.company == None:
             self.text2.append(self.company + "\n")
         else:
-            self.text2.append('<font color="gray">Not set</font><br/><br/>')
+            self.text2.append(f'<font color="gray">{nots}</font><br/><br/>')
 
         if not self.email == None:
             self.text2.append(self.email + "\n")
         else:
-            self.text2.append('<font color="gray">Not set</font><br/><br/>')
+            self.text2.append(f'<font color="gray">{nots}</font><br/><br/>')
 
         if not self.phone == None:
             self.text2.append(self.phone + "\n")
         else:
-            self.text2.append('<font color="gray">Not set</font><br/><br/>')
+            self.text2.append(f'<font color="gray">{nots}</font><br/><br/>')
 
         if not self.gender == None:
             self.text2.append(self.gender + "\n")
         else:
-            self.text2.append('<font color="gray">Not set</font><br/><br/>')
+            self.text2.append(f'<font color="gray">{nots}</font><br/><br/>')
 
         if not self.birthday == None:
             self.text2.append(self.birthday + "\n")
         else:
-            self.text2.append('<font color="gray">Not set</font><br/><br/>')
+            self.text2.append(f'<font color="gray">{nots}</font><br/><br/>')
 
         if not self.blood_type == None:
             self.text2.append(self.blood_type + "\n")
         else:
-            self.text2.append('<font color="gray">Not set</font><br/><br/>')
+            self.text2.append(f'<font color="gray">{nots}</font><br/><br/>')
 
         self.text2.setAlignment(Qt.AlignLeft)
         self.text2.setFont(f)
@@ -251,11 +280,13 @@ class ShowUserInformation (QMainWindow):
     def xhide (self):
         self.hide()
         self.XShowpackages.show()
-        self.Env.SetWindowTitle("Account Manager")
+        self.Env.SetWindowTitle(res.get('@string/app_name'))
 
     # un install pack #
     def xuni (self):
-        self.Backend.RunApp('bool', [f'Removing {self.External[0]} user', f'Do you want to remove {self.External[0]} user?', self.xuni_])
+        app.switch('usermanager')
+        self.Backend.RunApp('bool', [res.get('@stirng/rm'), res.get("@string/rmm"), self.xuni_])
+        app.switch('usermanager')
 
     def xuni_(self,yes):
         if yes:
@@ -267,20 +298,6 @@ class ShowUserInformation (QMainWindow):
             self.Backend.RunApp ('usermanager',[None])
 
     def xedit (self):
+        app.switch('usermanager')
         self.Backend.RunApp('edituser',['edit',self.External[0]])
-
-class MainApp (QMainWindow):
-    def __init__(self,ports):
-        super(MainApp, self).__init__()
-
-        self.Backend = ports[0]
-        self.Env = ports[1]
-        self.Widget = ports[2]
-        self.AppName = ports[3]
-        self.External = ports[4]
-
-        self.Widget.SetWindowIcon (QIcon(res.get('@icon/help-about')))
-        self.Widget.SetWindowTitle ("Account Managers")
-        self.Widget.Resize(self,720,640)
-        self.x = PackageListView([self.Env,self.Widget,self,self.AppName,self.External])
-        self.setCentralWidget(self.x)
+        app.switch('usermanager')

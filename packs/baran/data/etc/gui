@@ -5,7 +5,8 @@ width: 1000
 height: 720
 autosize: Yes
 logo: @icon/pyabr-logo
-locale: en
+locale: fa
+font: Iran Sans
 backend.color: black
 backend.timeout: 1000
 taskbar.location: bottom

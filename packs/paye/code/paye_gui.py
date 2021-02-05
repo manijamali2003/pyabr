@@ -215,10 +215,12 @@ class ShowPackageInformation (QMainWindow):
 
     # un install pack #
     def xuni (self):
+        app.switch('paye')
         self.Backend.RunApp('bool', [res.get("@string/rm").replace("{0}",self.External[0]), res.get("@string/rmm").replace("{0}",self.External[0]), self.xuni_])
         app.switch('paye')
 
     def xup (self):
+        app.switch('paye')
         self.Backend.RunApp('bool', [res.get("@string/up").replace("{0}",self.External[0]), res.get("@string/upm").replace("{0}",self.External[0]), self.xup_])
         app.switch('paye')
 
@@ -236,6 +238,7 @@ class ShowPackageInformation (QMainWindow):
             self.btnUpdate.setEnabled(False)
             System(f"paye up {self.External[0]}")
             self.btnUpdate.setEnabled(True)
+            app.switch('paye')
             self.Backend.RunApp('text', [res.get("@string/upx"), res.get('@string/upxm').replace("{0}",self.External[0])])
             app.switch('paye')
 
@@ -275,15 +278,18 @@ class MainApp (QMainWindow):
         self.setCentralWidget(self.x)
 
     def addm_ (self):
+        app.switch('paye')
         self.Env.RunApp('input', [res.get('@string/mname'), self.addm_x])
         app.switch('paye')
 
     def addm_x(self,name):
         if files.isfile (f'/app/mirrors/{name}'):
+            app.switch('paye')
             self.Env.RunApp('text', [res.get('@string/mex'), res.get('@string/mexm')])
             app.switch('paye')
         else:
             files.write('/proc/info/msel',f'/app/mirrors/{name}')
+            app.switch('paye')
             self.Env.RunApp('input', [res.get('@string/ml'), self.addm_x_])
             app.switch('paye')
 
@@ -291,10 +297,12 @@ class MainApp (QMainWindow):
         if link.startswith('http://') or link.startswith('https://') and link.endswith ('.pa'):
             files.write(files.readall('/proc/info/msel'),link)
         else:
+            app.switch('paye')
             self.Env.RunApp('text', [res.get('@string/ndl'), res.get('@string/ndlm')])
             app.switch('paye')
 
     def delm_(self):
+        app.switch('paye')
         self.Env.RunApp('input', [res.get('@string/mname'), self.del_x])
         app.switch('paye')
 
@@ -302,15 +310,18 @@ class MainApp (QMainWindow):
         if files.isfile (f'/app/mirrors/{name}'):
             files.remove(f'/app/mirrors/{name}')
         else:
+            app.switch('paye')
             self.Env.RunApp('text', [res.get('@string/mdf'),res.get('@string/mdfm')])
             app.switch('paye')
 
     def inst_(self):
+        app.switch('paye')
         self.Env.RunApp('input', [res.get('@string/pname'), self.inst_x])
         app.switch('paye')
 
     def inst_x (self,name):
         if not files.isfile(f'/app/mirrors/{name}'):
+            app.switch('paye')
             self.Env.RunApp('text', [res.get('@string/mdf'), res.get('@string/mdfmx').replace("{0}",name)])
             app.switch('paye')
         else:
@@ -323,16 +334,19 @@ class MainApp (QMainWindow):
                 self.Env.RunApp('text', [res.get('@string/si'),res.get('@string/sim').replace("{0}",name)])
                 app.switch('paye')
             except:
+                app.switch('paye')
                 self.Env.RunApp('text', [res.get('@string/ci'),res.get('@string/cim').replace("{0}",name)])
                 app.switch('paye')
 
 
     def rem_(self):
+        app.switch('paye')
         self.Env.RunApp('input', [res.get('@string/pname'), self.rem_x])
         app.switch('paye')
 
     def rem_x (self,name):
         if not files.isfile (f'/app/packages/{name}.manifest'):
+            app.switch('paye')
             self.Env.RunApp('text', [res.get('@string/pwi'),res.get('@string/pwim').replace("{0}",name)])
             app.switch('paye')
         else:
@@ -345,11 +359,13 @@ class MainApp (QMainWindow):
             app.switch('paye')
 
     def down_(self):
+        app.switch('paye')
         self.Env.RunApp('input', [res.get('@string/dname'), self.down_x])
         app.switch('paye')
 
     def down_x (self,name):
         if not files.isfile(f'/app/mirrors/{name}'):
+            app.switch('paye')
             self.Env.RunApp('text', [res.get('@string/mdf'), res.get('@string/mdfmx').replace("{0}",name)])
             app.switch('paye')
         else:
@@ -362,5 +378,6 @@ class MainApp (QMainWindow):
                 self.Env.RunApp('text', [res.get('@string/dd'),res.get('@string/ddm').replace("{0}",name)])
                 app.switch('paye')
             except:
+                app.switch('paye')
                 self.Env.RunApp('text', [res.get('@string/cdx'),res.get('@string/cdxm').replace("{0}",name)])
                 app.switch('paye')

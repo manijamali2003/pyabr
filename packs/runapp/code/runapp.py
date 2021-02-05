@@ -13,10 +13,11 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys, importlib
-from libabr import Files, Res, App
+from libabr import Files, Res, App, Control
 files = Files()
 res = Res()
 app = App()
+control = Control()
 
 class MainApp(QLineEdit):
     def correct (self):
@@ -34,6 +35,7 @@ class MainApp(QLineEdit):
             self.setEnabled(False)
             QTimer.singleShot(1000, self.correct)
         else:
+            app.switch('runapp')
             self.Env.RunApp('text', [res.get('@string/not_found'), res.get('@string/not_found_msg').replace('{0}',command[0])])
             app.switch('runapp')
             QTimer.singleShot(1000, self.correct)
@@ -53,7 +55,4 @@ class MainApp(QLineEdit):
         self.setStyleSheet(f'background-color: {res.etc(self.AppName,"bgcolor")};color: {res.etc(self.AppName,"fgcolor")};')
         self.Widget.Resize (self,int(res.etc(self.AppName,"width")),int(res.etc(self.AppName,"height")))
         self.returnPressed.connect(self.RunApp)  # https://pythonbasics.org/pyqt/ learn it
-
-        f = QFont()
-        f.setPointSize(int(res.etc(self.AppName,"fontsize")))
-        self.setFont(f)
+        self.setFont(self.Env.font())

@@ -43,11 +43,13 @@ class FileListView(QListView):
         it.setWhatsThis(self.dir + "/" + dirname)
         it.setIcon(QIcon(res.get('@icon/folder')))
         self.entry.appendRow(it)
+        it.setFont(self.Env.font())
 
         commands.mkdir([dirname])
 
-    def __init__(self):
+    def __init__(self,Env):
         super().__init__()
+        self.Env = Env
         self.entry = QStandardItemModel()
         self.parentdir = QStandardItem()
         self.parentdir.setIcon(QIcon(res.get('@icon/folder')))
@@ -69,6 +71,7 @@ class FileListView(QListView):
             if files.isdir(self.dir+"/"+text):
                 it = QStandardItem(text)
                 it.setWhatsThis(self.dir + "/" + text)
+                it.setFont(self.Env.font())
                 self.format(it, text)
                 self.entry.appendRow(it)
 
@@ -76,6 +79,7 @@ class FileListView(QListView):
             if files.isfile(self.dir+"/"+text):
                 it = QStandardItem(text)
                 it.setWhatsThis(self.dir + "/" + text)
+                it.setFont(self.Env.font())
                 self.format(it, text)
                 self.entry.appendRow(it)
 
@@ -108,6 +112,7 @@ class FileListView(QListView):
                     if files.isdir(self.dir+"/"+text):
                         it = QStandardItem(text)
                         it.setWhatsThis(self.dir + "/" + text)
+                        it.setFont(self.Env.font())
                         self.format(it, text)
                         self.entry.appendRow(it)
 
@@ -115,6 +120,7 @@ class FileListView(QListView):
                     if files.isfile(self.dir+"/"+text):
                         it = QStandardItem(text)
                         it.setWhatsThis(self.dir + "/" + text)
+                        it.setFont(self.Env.font())
                         self.format(it, text)
                         self.entry.appendRow(it)
 
@@ -138,6 +144,7 @@ class FileListView(QListView):
                     if files.isdir(self.dir+"/"+text):
                         it = QStandardItem(text)
                         it.setWhatsThis(self.dir + "/" + text)
+                        it.setFont(self.Env.font())
                         self.format(it, text)
                         self.entry.appendRow(it)
 
@@ -145,6 +152,7 @@ class FileListView(QListView):
                     if files.isfile(self.dir+"/"+text):
                         it = QStandardItem(text)
                         it.setWhatsThis(self.dir + "/" + text)
+                        it.setFont(self.Env.font())
                         self.format(it, text)
                         self.entry.appendRow(it)
 
@@ -165,8 +173,9 @@ class DirListView(QListView):
 
         commands.mkdir([dirname])
 
-    def __init__(self):
+    def __init__(self,Env):
         super().__init__()
+        self.Env = Env
         self.entry = QStandardItemModel()
         self.parentdir = QStandardItem()
         self.parentdir.setIcon(QIcon(res.get('@icon/folder')))
@@ -186,6 +195,7 @@ class DirListView(QListView):
             if files.isdir(self.dir + "/" + text):
                 it = QStandardItem(text)
                 it.setWhatsThis(self.dir + "/" + text)
+                it.setFont(self.Env.font())
                 self.format(it, text)
                 self.entry.appendRow(it)
 
@@ -218,6 +228,7 @@ class DirListView(QListView):
                     if files.isdir(self.dir + "/" + text):
                         it = QStandardItem(text)
                         it.setWhatsThis(self.dir + "/" + text)
+                        it.setFont(self.Env.font())
                         self.format(it, text)
                         self.entry.appendRow(it)
 
@@ -241,6 +252,7 @@ class DirListView(QListView):
                     if files.isdir(self.dir + "/" + text):
                         it = QStandardItem(text)
                         it.setWhatsThis(self.dir + "/" + text)
+                        it.setFont(self.Env.font())
                         self.format(it, text)
                         self.entry.appendRow(it)
 
@@ -260,6 +272,7 @@ class MainApp (QMainWindow):
         self.Widget.SetWindowIcon (QIcon(res.get('@icon/help-about')))
         self.btnCancel = QPushButton()
         self.btnCancel.setText(res.get('@string/cancel'))
+        self.btnCancel.setFont(self.Env.font())
         if self.Env.width() > 1000 and self.Env.height() > 720:
             self.btnCancel.setGeometry(0, int(self.Env.height() / 2) - 50, int(self.Env.width() / 4), 50)
         else:
@@ -268,6 +281,7 @@ class MainApp (QMainWindow):
         self.layout().addWidget(self.btnCancel)
 
         self.btnSelect = QPushButton()
+        self.btnSelect.setFont(self.Env.font())
         self.btnSelect.clicked.connect(self.inp)
         if self.Env.width() > 1000 and self.Env.height() > 720:
             self.btnSelect.setGeometry(int(self.Env.width() / 4), int(self.Env.height() / 2) - 50,
@@ -278,6 +292,7 @@ class MainApp (QMainWindow):
         self.layout().addWidget(self.btnSelect)
 
         self.leSave = QLineEdit()
+        self.leSave.setFont(self.Env.font())
         if self.Env.width() > 1000 and self.Env.height() > 720:
             self.leSave.setGeometry(0, int(self.Env.height() / 2)-90, int(self.Env.width() / 2), 40)
         else:
@@ -296,40 +311,40 @@ class MainApp (QMainWindow):
             if self.mode == 'select':
                 self.Widget.SetWindowTitle(res.get('@string/dir'))
                 self.btnSelect.setText(res.get('@string/choose'))
-                self.xwid = DirListView()
+                self.xwid = DirListView(self.Env)
             elif self.mode == 'open':
                 self.Widget.SetWindowTitle(res.get('@string/file'))
                 self.btnSelect.setText(res.get('@string/open'))
-                self.xwid = FileListView()
+                self.xwid = FileListView(self.Env)
             elif self.mode == 'save':
                 self.Widget.SetWindowTitle(res.get('@string/dir'))
                 self.btnSelect.setText(res.get('@string/save'))
-                self.xwid = FileListView()
+                self.xwid = FileListView(self.Env)
             elif self.mode == 'save-as':
                 self.Widget.SetWindowTitle(res.get('@string/dir'))
-                self.btnSelect.setText(res.get('@string/save-as'))
-                self.xwid = FileListView()
+                self.btnSelect.setText(res.get('@string/save'))
+                self.xwid = FileListView(self.Env)
             else:
-                self.xwid = FileListView()
+                self.xwid = FileListView(self.Env)
         else:
             if self.mode == 'select':
                 self.Widget.SetWindowTitle(self.External[0])
                 self.btnSelect.setText(res.get('@string/choose'))
-                self.xwid = DirListView()
+                self.xwid = DirListView(self.Env)
             elif self.mode == 'open':
                 self.Widget.SetWindowTitle(self.External[0])
                 self.btnSelect.setText(res.get('@string/open'))
-                self.xwid = FileListView()
+                self.xwid = FileListView(self.Env)
             elif self.mode == 'save':
                 self.Widget.SetWindowTitle(self.External[0])
                 self.btnSelect.setText(res.get('@string/save'))
-                self.xwid = FileListView()
+                self.xwid = FileListView(self.Env)
             elif self.mode == 'save-as':
                 self.Widget.SetWindowTitle(self.External[0])
-                self.btnSelect.setText(res.get('@string/save-as'))
-                self.xwid = FileListView()
+                self.btnSelect.setText(res.get('@string/save'))
+                self.xwid = FileListView(self.Env)
             else:
-                self.xwid = FileListView()
+                self.xwid = FileListView(self.Env)
 
         self.ywid = QMainWindow()
         if self.External[1].startswith('save'):
@@ -358,7 +373,7 @@ class MainApp (QMainWindow):
             inputx = files.readall('/proc/info/dsel')
             self.External[2](inputx)
         elif self.mode=='save' or self.mode=='save-as':
-            self.leSave.setPlaceholderText('Enter a filename')
+            self.leSave.setPlaceholderText(res.get('fn'))
             inputx = files.readall('/proc/info/dsel')+'/'+self.leSave.text()
             self.External[2](inputx)
         else:
