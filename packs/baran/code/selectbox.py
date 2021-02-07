@@ -373,7 +373,7 @@ class MainApp (QMainWindow):
             inputx = files.readall('/proc/info/dsel')
             self.External[2](inputx)
         elif self.mode=='save' or self.mode=='save-as':
-            self.leSave.setPlaceholderText(res.get('fn'))
+            self.leSave.setPlaceholderText(res.get('@string/fn'))
             inputx = files.readall('/proc/info/dsel')+'/'+self.leSave.text()
             self.External[2](inputx)
         else:

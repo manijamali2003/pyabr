@@ -1343,7 +1343,7 @@ class TaskBar (QToolBar):
         self.setIconSize(QSize(int(size),int(size))) # https://stackoverflow.com/questions/21133612/how-to-change-iconsize-of-qtoolbutton
 
         self.btnMenu = QToolButton()
-        self.btnMenu.setIcon(QIcon(res.get('@icon/menu')))
+        self.btnMenu.setIcon(QIcon(res.get(control.read_record('menu','/etc/gui'))))
         self.btnMenu.setMinimumSize(int(size), int(size))
         self.btnMenu.setObjectName('btnMenu')
         self.btnMenu.clicked.connect (self.menuApps)
