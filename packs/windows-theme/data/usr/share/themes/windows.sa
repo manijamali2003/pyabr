@@ -187,17 +187,17 @@ set enter.fgcolor: #FFFFFF
 set unlock.bgcolor: #123456
 set unlock.background: @background/windows
 set unlock.fgcolor: #FFFFFF
-set oginw.bgcolor: white
+set loginw.bgcolor: white
 set loginw.fgcolor: black
 set loginw.round: No
 set loginw.round-size: 20 20
 set loginw.location: center
 set loginw.shadow: Yes
-set loginw.userlogo: @icon/account
+set loginw.userlogo: @icon/win-user
 set loginw.userlogo.shadow: Yes
 set loginw.userlogo.color: white
-set loginw.userlogo.round: No
-set loginw.userlogo.round-size: 125 125
+set loginw.userlogo.round: Yes
+set loginw.userlogo.round-size: 120 120
 set loginw.input.shadow: Yes
 set loginw.input.fgcolor: gray
 set loginw.input.bgcolor: white
@@ -226,7 +226,7 @@ set loginw.enter.round: No
 set loginw.enter.round-size: 20
 set loginw.unlock.round: No
 set loginw.unlock.round-size: 20
-set submenu.hide: No
+set submenu.hide: Yes
 set submenu.fgcolor: white
 set submenu.bgcolor: #1d1d1d
 set submenu.direction: ltr
@@ -236,21 +236,21 @@ set loginw.login.fgcolor: #FFFFFF
 set loginw.login.bgcolor-hover: #123456
 set loginw.login.fgcolor: #FFFFFF
 set loginw.login.fontsize: 12
-set loginw.login.hide: No
+set loginw.login.hide: Yes
 set loginw.login.width: 300
 set loginw.enter.bgcolor: pink
 set loginw.enter.fgcolor: #FFFFFF
 set loginw.enter.bgcolor-hover: purple
 set loginw.enter.fgcolor: #FFFFFF
 set loginw.enter.fontsize: 12
-set loginw.enter.hide: No
+set loginw.enter.hide: Yes
 set loginw.enter.width: 300
 set loginw.unlock.bgcolor: green
 set loginw.unlock.fgcolor: #FFFFFF
 set loginw.unlock.bgcolor-hover: lime
 set loginw.unlock.fgcolor: #FFFFFF
 set loginw.unlock.fontsize: 12
-set loginw.unlock.hide: No
+set loginw.unlock.hide: Yes
 set loginw.unlock.width: 300
 set loginw.enter.shadow: No
 set loginw.unlock.shadow: No
@@ -265,8 +265,8 @@ set appw.shadow: Yes
 set appw.title.size: 50
 set appw.title.fgcolor: black
 set appw.title.bgcolor: white
-set appw.title.float: @icon/float
+set appw.title.float: @icon/win-max
 set appw.title.float-hover: #86beff
-set appw.title.close: @icon/ubuntu-close
-set appw.title.close-hover: #323030
+set appw.title.close: @icon/win-close
+set appw.title.close-hover: red
 unsel
