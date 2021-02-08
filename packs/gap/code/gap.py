@@ -26,7 +26,7 @@ class MainApp(QMainWindow):
         self.External = ports[4]
 
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
-        self.Widget.SetWindowIcon (QIcon(res.get('@icon/gap')))
+        self.Widget.SetWindowIcon(QIcon(res.get(res.etc(self.AppName,"logo"))))
         self.Widget.Resize(self,560,390)
         self.setStyleSheet(f'background-image: url({res.get("@image/about_bg")});')
 

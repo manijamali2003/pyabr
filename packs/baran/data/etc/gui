@@ -6,7 +6,8 @@ height: 720
 autosize: Yes
 logo: @icon/pyabr-logo
 locale: fa
-font: Ubuntu
+font: Iran Sans
+theme-name: Barf & Glass
 backend.color: black
 backend.timeout: 1000
 taskbar.location: bottom

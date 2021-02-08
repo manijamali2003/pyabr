@@ -252,7 +252,7 @@ class MainApp (QMainWindow):
         self.AppName = ports[3]
         self.External = ports[4]
 
-        self.Widget.SetWindowIcon (QIcon(res.get('@icon/paye')))
+        self.Widget.SetWindowIcon(QIcon(res.get(res.etc(self.AppName,"logo"))))
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
         self.Widget.Resize(self,720,640)
 

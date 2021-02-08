@@ -20,12 +20,10 @@ class MainApp(QWidget):
         self.AppName = ports[3]
         self.External = ports[4]
 
-        f = QFont()
-        f.setPointSize(12)
 
         self.Widget.Resize(self, 600, 500)
         self.Widget.SetWindowTitle(res.get('@string/app_name'))
-        self.Widget.SetWindowIcon(QIcon(res.get('@icon/help-about')))
+        self.Widget.SetWindowIcon(QIcon(res.get(res.etc('about',"logo"))))
         self.vmbox = QVBoxLayout()
         self.btnInfo = QToolButton()
         self.btnInfo.setMinimumSize(128,128)
@@ -50,7 +48,7 @@ class MainApp(QWidget):
         self.text1.append(f'{res.get("@string/os")}:\n')
         self.text1.append(f'{res.get("@string/su")}:\n')
         self.text1.append(f'{res.get("@string/intr")}:\n')
-        self.text1.setFont(f)
+        self.text1.setFont(self.Env.font())
 
 
         self.text2 = QTextBrowser()
@@ -63,7 +61,7 @@ class MainApp(QWidget):
         self.text2.append(files.readall('/proc/info/su')+"\n")
         self.text2.append(files.readall('/proc/info/inter')+"\n")
         self.text2.setAlignment(Qt.AlignLeft)
-        self.text2.setFont(f)
+        self.text2.setFont(self.Env.font())
 
         if not control.read_record('locale','/etc/gui')=='fa' or not control.read_record('locale','/etc/gui')=='ar':
             self.hbox.addWidget(self.text1)

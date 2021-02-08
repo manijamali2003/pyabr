@@ -49,7 +49,7 @@ class MainApp(QMainWindow):
         self.External = ports[4]
 
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
-        self.Widget.SetWindowIcon (QIcon(res.get('@icon/web-browser')))
+        self.Widget.SetWindowIcon(QIcon(res.get(res.etc(self.AppName,"logo"))))
         self.Widget.Resize(self,self.Env.width(),self.Env.height())
 
         self.tabs = QTabWidget()

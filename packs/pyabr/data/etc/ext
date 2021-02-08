@@ -31,7 +31,6 @@ cat.icon: @icon/application-text
 manifest.icon: @icon/application-text
 compile.icon: @icon/application-text
 json.icon: @icon/application-json
-json.icon: @icon/application-json
 doc.icon: @icon/application-wps-office.doc
 docx.icon: @icon/application-wps-office.doc
 dot.icon: @icon/application-wps-office.dot

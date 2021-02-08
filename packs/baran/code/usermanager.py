@@ -38,7 +38,7 @@ class MainApp (QMainWindow):
         self.AppName = ports[3]
         self.External = ports[4]
 
-        self.Widget.SetWindowIcon (QIcon(res.get('@icon/help-about')))
+        self.Widget.SetWindowIcon(QIcon(res.get(res.etc('usermanager',"logo"))))
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
         self.Widget.Resize(self,720,640)
         self.x = PackageListView([self.Env,self.Widget,self,self.AppName,self.External])

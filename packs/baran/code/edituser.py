@@ -41,7 +41,7 @@ class MainApp (QMainWindow):
         self.AppName = ports[3]
         self.External = ports[4]
 
-        self.Widget.SetWindowIcon(QIcon(res.get('@icon/help-about')))
+        self.Widget.SetWindowIcon(QIcon(res.get(res.etc('edituser',"logo"))))
         self.Widget.SetWindowTitle("Edit user")
         self.Widget.Resize(self, 336, 383)
 

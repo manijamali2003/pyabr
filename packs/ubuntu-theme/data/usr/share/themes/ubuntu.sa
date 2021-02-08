@@ -1,4 +1,5 @@
 sel /etc/gui
+set theme-name: Ubuntu theme
 set logo: @icon/ubuntu
 set backend.color: #730c5a
 set backend.timeout: 1000
@@ -254,15 +255,6 @@ unsel
 
 sel /usr/share/applications/roller.desk
 set folder-icon: @icon/ubuntu-folder
-set c: @icon/ubuntu-c
-set c++: @icon/ubuntu-c++
-set c#: @icon/ubuntu-cs
-set java: @icon/ubuntu-java
-set py: @icon/ubuntu-py
-set sa: @icon/ubuntu-shell
-set html: @icon/ubuntu-html
-set php: @icon/ubuntu-php
-set js: @icon/ubuntu-js
 set logo: @icon/ubuntu-roller
 unsel
 
@@ -319,17 +311,17 @@ set logo: @icon/ubuntu-help
 unsel
 
 sel /usr/share/applications/bool.desk
-set logo: @icon/ubuntu-bool
+set logo: @icon/ubuntu-help
 unsel
 
 sel /usr/share/applications/input.desk
-set logo: @icon/input-help
+set logo: @icon/ubuntu-help
 unsel
 
 sel /usr/share/applications/select.desk
-set logo: @icon/ubuntu-select
+set logo: @icon/ubuntu-help
 unsel
 
 sel /usr/share/applications/text.desk
-set logo: @icon/ubuntu-text
+set logo: @icon/ubuntu-help
 unsel

@@ -25,7 +25,7 @@ commands = Commands()
 class FileListView(QListView):
     def format(self, it, text):
         if files.isdir(self.dir + '/' + text):
-            it.setIcon(QIcon(res.get('@icon/folder')))
+            it.setIcon(QIcon(res.get(res.etc('roller','folder-icon'))))
         else:
             format = it.whatsThis().split('.')
             format = max(format)
@@ -34,14 +34,14 @@ class FileListView(QListView):
                 if not logo == None:
                     it.setIcon(QIcon(res.get(logo)))
                 else:
-                    it.setIcon(QIcon(res.get('@icon/gtk-file')))
+                    it.setIcon(QIcon(res.get(res.etc('roller','file-icon'))))
             else:
-                it.setIcon(QIcon(res.get('@icon/gtk-file')))
+                it.setIcon(QIcon(res.get(res.etc('roller','file-icon'))))
 
     def mkdir(self, dirname):
         it = QStandardItem(dirname)
         it.setWhatsThis(self.dir + "/" + dirname)
-        it.setIcon(QIcon(res.get('@icon/folder')))
+        it.setIcon(QIcon(res.get(res.etc('roller','folder-icon'))))
         self.entry.appendRow(it)
         it.setFont(self.Env.font())
 
@@ -52,7 +52,7 @@ class FileListView(QListView):
         self.Env = Env
         self.entry = QStandardItemModel()
         self.parentdir = QStandardItem()
-        self.parentdir.setIcon(QIcon(res.get('@icon/folder')))
+        self.parentdir.setIcon(QIcon(res.get(res.etc('roller','folder-icon'))))
         self.entry.appendRow(self.parentdir)
         self.setModel(self.entry)
         self.setIconSize(QSize(64, 64))
@@ -104,7 +104,7 @@ class FileListView(QListView):
                 self.setIconSize(QSize(64, 64))
                 self.clicked[QModelIndex].connect(self.on_clicked)
                 self.parentdir = QStandardItem()
-                self.parentdir.setIcon(QIcon(res.get('@icon/folder')))
+                self.parentdir.setIcon(QIcon(res.get(res.etc('roller','folder-icon'))))
                 self.parentdir.setWhatsThis('<parent>')
                 self.entry.appendRow(self.parentdir)
 
@@ -136,7 +136,7 @@ class FileListView(QListView):
                 self.setIconSize(QSize(64, 64))
                 self.clicked[QModelIndex].connect(self.on_clicked)
                 self.parentdir = QStandardItem()
-                self.parentdir.setIcon(QIcon(res.get('@icon/folder')))
+                self.parentdir.setIcon(QIcon(res.get(res.etc('roller','folder-icon'))))
                 self.parentdir.setWhatsThis('<parent>')
                 self.entry.appendRow(self.parentdir)
 
@@ -163,12 +163,12 @@ class FileListView(QListView):
 class DirListView(QListView):
     def format(self, it, text):
         if files.isdir(self.dir + '/' + text):
-            it.setIcon(QIcon(res.get('@icon/folder')))
+            it.setIcon(QIcon(res.get(res.etc('roller','folder-icon'))))
 
     def mkdir(self, dirname):
         it = QStandardItem(dirname)
         it.setWhatsThis(self.dir + "/" + dirname)
-        it.setIcon(QIcon(res.get('@icon/folder')))
+        it.setIcon(QIcon(res.get(res.etc('roller','folder-icon'))))
         self.entry.appendRow(it)
 
         commands.mkdir([dirname])
@@ -178,7 +178,7 @@ class DirListView(QListView):
         self.Env = Env
         self.entry = QStandardItemModel()
         self.parentdir = QStandardItem()
-        self.parentdir.setIcon(QIcon(res.get('@icon/folder')))
+        self.parentdir.setIcon(QIcon(res.get(res.etc('roller','folder-icon'))))
         self.entry.appendRow(self.parentdir)
         self.setModel(self.entry)
         self.setIconSize(QSize(64, 64))
@@ -220,7 +220,7 @@ class DirListView(QListView):
                 self.setIconSize(QSize(64, 64))
                 self.clicked[QModelIndex].connect(self.on_clicked)
                 self.parentdir = QStandardItem()
-                self.parentdir.setIcon(QIcon(res.get('@icon/folder')))
+                self.parentdir.setIcon(QIcon(res.get(res.etc('roller','folder-icon'))))
                 self.parentdir.setWhatsThis('<parent>')
                 self.entry.appendRow(self.parentdir)
 
@@ -244,7 +244,7 @@ class DirListView(QListView):
                 self.setIconSize(QSize(64, 64))
                 self.clicked[QModelIndex].connect(self.on_clicked)
                 self.parentdir = QStandardItem()
-                self.parentdir.setIcon(QIcon(res.get('@icon/folder')))
+                self.parentdir.setIcon(QIcon(res.get(res.etc('roller','folder-icon'))))
                 self.parentdir.setWhatsThis('<parent>')
                 self.entry.appendRow(self.parentdir)
 
@@ -269,7 +269,7 @@ class MainApp (QMainWindow):
 
         self.setStyleSheet('background-color: white;')
         ## Finds ##
-        self.Widget.SetWindowIcon (QIcon(res.get('@icon/help-about')))
+        self.Widget.SetWindowIcon(QIcon(res.get(res.etc('select',"logo"))))
         self.btnCancel = QPushButton()
         self.btnCancel.setText(res.get('@string/cancel'))
         self.btnCancel.setFont(self.Env.font())

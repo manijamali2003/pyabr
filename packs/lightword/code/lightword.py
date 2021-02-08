@@ -101,7 +101,7 @@ class MainApp(QMainWindow):
         self.status = QStatusBar()
         self.setStatusBar(self.status)
 
-        self.Widget.SetWindowIcon(QIcon(res.get('@icon/ms-word')))
+        self.Widget.SetWindowIcon(QIcon(res.get(res.etc(self.AppName,"logo"))))
 
         # Uncomment to disable native menubar on Mac
         # self.menuBar().setNativeMenuBar(False)
