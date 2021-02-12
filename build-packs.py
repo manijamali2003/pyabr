@@ -18,6 +18,8 @@ import shutil, os
 
 ## pre build ##
 
+mode = input('choose your mode (stable,latest): ')
+
 if not os.path.isdir ("app"):
 	os.mkdir ("app")
 	os.mkdir ("app/cache")
@@ -38,8 +40,8 @@ if not os.path.isdir ("build-packs"): os.mkdir ("build-packs")
 for i in os.listdir('packs'):pack.manifest(i)
 for i in os.listdir('packs'):pack.build(i)
 
-shutil.rmtree('latest')
-shutil.copytree('build-packs','latest')
+shutil.rmtree(mode)
+shutil.copytree('build-packs',mode)
 
 import clean
 clean.clean()
