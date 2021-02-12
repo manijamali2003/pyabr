@@ -2,7 +2,7 @@ name: lightword
 copyright: (c) Megasolid Idiom
 license: Free Software License
 unpack: /
-build: 1399-10-22
-version: 1
+build: 1399-11-24
+version: 1.0.0
 description: Simple rich text editor
 compile: Yes

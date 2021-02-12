@@ -2,9 +2,10 @@
 #  In the name of God, the Compassionate, the Merciful
 #  Pyabr (c) 2020 Mani Jamali. GNU General Public License v3.0
 #
+#  Official Website: 		http://pyabr.rf.gd
 #  Programmer & Creator:    Mani Jamali <manijamali2003@gmail.com>
-#  Telegram or Gap channel: @pyabr
-#  Telegram or Gap group:   @pyabr_community
+#  Gap channel: 			@pyabr
+#  Gap group:   			@pyabr_community
 #  Git source:              github.com/manijamali2003/pyabr
 #
 #######################################################################################
@@ -26,7 +27,7 @@ ip = ""
 arch = ""
 os_user = ""
 kernel_name = "vmabr"
-kernel_version = "0.2.2"
+kernel_version = "1.0.0"
 user = ""
 code = ""
 argv = sys.argv[1:] # kernel parameters

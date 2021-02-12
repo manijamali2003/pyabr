@@ -2,9 +2,10 @@
 #  In the name of God, the Compassionate, the Merciful
 #  Pyabr (c) 2020 Mani Jamali. GNU General Public License v3.0
 #
+#  Official Website: 		http://pyabr.rf.gd
 #  Programmer & Creator:    Mani Jamali <manijamali2003@gmail.com>
-#  Telegram or Gap channel: @pyabr
-#  Telegram or Gap group:   @pyabr_community
+#  Gap channel: 			@pyabr
+#  Gap group:   			@pyabr_community
 #  Git source:              github.com/manijamali2003/pyabr
 #
 #######################################################################################
@@ -145,7 +146,7 @@ class ShowUserInformation (QMainWindow):
         else:
             namex = 'Not set'
 
-        self.Env.SetWindowTitle(namex)
+        self.Env.SetWindowTitle(self.External[0])
 
         self.fullname = namex
         self.email = control.read_record('email',self.path)
@@ -165,7 +166,7 @@ class ShowUserInformation (QMainWindow):
                 self.btnImage.setIcon(QIcon(res.get(self.logo)))
             else:
                 self.btnImage.setIcon(QIcon(res.get('@icon/account')))
-            self.Env.SetWindowTitle(namex + " account")
+            self.Env.SetWindowTitle(self.External[0] + " account")
         else:
             self.btnImage.setIcon(QIcon(res.get('@icon/account')))
 
@@ -221,18 +222,18 @@ class ShowUserInformation (QMainWindow):
         self.text1 = QTextBrowser()
         self.text1.setFont(self.Env.font())
         self.text1.setAlignment(Qt.AlignRight)
-        self.text1.append(f'\n{res.get("@string/username")}:\n')
-        self.text1.append(f'{res.get("@string/fullname")}:\n')
-        self.text1.append(f'{res.get("@string/company")}:\n')
-        self.text1.append(f'{res.get("@string/email")}:\n')
-        self.text1.append(f'{res.get("@string/phone")}:\n')
-        self.text1.append(f'{res.get("@string/gender")}:\n')
-        self.text1.append(f'{res.get("@string/birthday")}:\n')
-        self.text1.append(f'{res.get("@string/bloodtype")}:\n')
+        self.text1.append(f'\nUsername:\n')
+        self.text1.append(f'Full name:\n')
+        self.text1.append(f'Company name:\n')
+        self.text1.append(f'Email address:\n')
+        self.text1.append(f'Phone number:\n')
+        self.text1.append(f'Gender:\n')
+        self.text1.append(f'Birthday:\n')
+        self.text1.append(f'Bloodtype:\n')
         self.text1.setFont(f)
         self.hbox.addWidget(self.text1)
 
-        nots = res.get('@string/nots')
+        nots = 'Not set'
 
         self.text2 = QTextBrowser()
         self.text2.setFont(self.Env.font())

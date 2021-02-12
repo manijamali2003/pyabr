@@ -3,5 +3,6 @@ usr/share/docs/paye
 usr/app/paye_gui.pyc
 usr/share/applications/paye.desk
 usr/share/helps/paye.txt
-usr/share/simple-gui-project.zip
-usr/share/simple-project.zip
+usr/share/templates/simple-gui-project.zip
+usr/share/templates/simple-web-project.zip
+usr/share/templates/simple-project.zip

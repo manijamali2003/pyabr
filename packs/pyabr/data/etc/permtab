@@ -1,7 +1,7 @@
 #!etcetra
 
 /: dr--r-----/root
-/desk/guest: drw----rw-/guest
+/desk/guest: drwxrwxrwx/guest
 /root: drwx------/root
 /tmp: drw-rw----/root
 /usr/app: dr-xr-x--x/root

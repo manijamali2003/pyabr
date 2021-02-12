@@ -2,9 +2,10 @@
 #  In the name of God, the Compassionate, the Merciful
 #  Pyabr (c) 2020 Mani Jamali. GNU General Public License v3.0
 #
+#  Official Website: 		http://pyabr.rf.gd
 #  Programmer & Creator:    Mani Jamali <manijamali2003@gmail.com>
-#  Telegram or Gap channel: @pyabr
-#  Telegram or Gap group:   @pyabr_community
+#  Gap channel: 			@pyabr
+#  Gap group:   			@pyabr_community
 #  Git source:              github.com/manijamali2003/pyabr
 #
 #######################################################################################
@@ -134,7 +135,6 @@ class ShowPackageInformation (QMainWindow):
                 self.logo = control.read_record('logo',f'/usr/share/applications/{self.name}.desk')
                 self.locale = control.read_record('locale','/etc/gui')
                 self.namex =  control.read_record(f'name[{self.locale}]',f'/usr/share/applications/{self.name}.desk')
-                self.Env.SetWindowTitle(self.namex + " application")
                 self.btnImage.setIcon(QIcon(res.get(self.logo)))
             else:
                 self.btnImage.setIcon(QIcon(res.get('@icon/runner')))
@@ -187,12 +187,12 @@ class ShowPackageInformation (QMainWindow):
         f.setPointSize(12)
         self.text1 = QTextBrowser()
         self.text1.setAlignment(Qt.AlignRight)
-        self.text1.append(f'\n{res.get("@string/name")}:\n')
-        self.text1.append(f'{res.get("@string/version")}:\n')
-        self.text1.append(f'{res.get("@string/date")}:\n')
-        self.text1.append(f'{res.get("@string/copy")}:\n')
-        self.text1.append(f'{res.get("@string/license")}:\n')
-        self.text1.append(f'{res.get("@string/unpack")}:\n')
+        self.text1.append(f'\nPackage name:\n')
+        self.text1.append(f'Package version:\n')
+        self.text1.append(f'Build date:\n')
+        self.text1.append(f'Copyright:\n')
+        self.text1.append(f'License:\n')
+        self.text1.append(f'Installed in:\n')
         self.text1.setFont(f)
         self.hbox.addWidget(self.text1)
 

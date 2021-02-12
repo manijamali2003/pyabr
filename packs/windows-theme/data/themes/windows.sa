@@ -175,7 +175,7 @@ set taskbar.location: bottom
 set taskbar.pins: roller,barge,runapp,about
 set splash.timeout: 3000
 set splash.logo: @icon/winlogo
-set splash.logo-size: 300
+set splash.logo-size: 200
 set menu: @icon/win
 set splash.color: black
 set login.bgcolor: #730c5a

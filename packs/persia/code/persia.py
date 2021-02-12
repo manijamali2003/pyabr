@@ -1,3 +1,15 @@
+#######################################################################################
+#  In the name of God, the Compassionate, the Merciful
+#  Pyabr (c) 2020 Mani Jamali. GNU General Public License v3.0
+#
+#  Official Website: 		http://pyabr.rf.gd
+#  Programmer & Creator:    Mani Jamali <manijamali2003@gmail.com>
+#  Gap channel: 			@pyabr
+#  Gap group:   			@pyabr_community
+#  Git source:              github.com/manijamali2003/pyabr
+#
+#######################################################################################
+
 from PyQt5.QtGui import  *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
@@ -277,13 +289,13 @@ class MainApp(QtWidgets.QMainWindow):
         # text box
         self.teEdit = QtWidgets.QTextEdit()
         #self.teEdit.setText(files.readall('/proc/info/fsel'))
-        self.teEdit.setGeometry(int(self.Env.width()/5),20,self.Env.width()-int(self.Env.width()/5),self.Env.height())
+        self.teEdit.setGeometry(int(self.Env.width()/5),25,self.Env.width()-int(self.Env.width()/5),self.Env.height())
         self.layout().addWidget(self.teEdit)
 
         self.xfile = QMainWindow()
         self.x = FileListView(self)
         self.xfile.setCentralWidget(self.x)
-        self.xfile.setGeometry(0,20,int(self.Env.width()/5),self.Env.height())
+        self.xfile.setGeometry(0,25,int(self.Env.width()/5),self.Env.height())
         self.layout().addWidget(self.xfile)
 
         # menubar
@@ -295,7 +307,6 @@ class MainApp(QtWidgets.QMainWindow):
         self.new_code.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'text'))))
 
         ## new file
-
 
         self.new_file = self.new_code.addAction(res.get('@string/newfile'))
         self.new_file.triggered.connect(self.New_File)

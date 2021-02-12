@@ -2,9 +2,10 @@
 #  In the name of God, the Compassionate, the Merciful
 #  Pyabr (c) 2020 Mani Jamali. GNU General Public License v3.0
 #
+#  Official Website: 		http://pyabr.rf.gd
 #  Programmer & Creator:    Mani Jamali <manijamali2003@gmail.com>
-#  Telegram or Gap channel: @pyabr
-#  Telegram or Gap group:   @pyabr_community
+#  Gap channel: 			@pyabr
+#  Gap group:   			@pyabr_community
 #  Git source:              github.com/manijamali2003/pyabr
 #
 #######################################################################################
@@ -1440,7 +1441,6 @@ class AppWidget (QMainWindow):
     def SetWindowTitle (self,text):
         self.titletext.setText(text)
         self.titletext.setFont(f)
-        self.titletext.setAlignment(Qt.AlignVCenter)
 
     def WindowTitle (self):
         return self.titletext.text()
@@ -1515,8 +1515,6 @@ class AppWidget (QMainWindow):
                 self.mainWidget.resize(self.Env.width(), self.Env.height() - variables.app_title_size)
                 self.titlebar.setGeometry(0, 0, self.Env.width(), self.app_title_size)
                 self.titletext.setGeometry(self.app_title_size, 0, self.Env.width(), self.app_title_size)
-
-            self.titletext.setAlignment(Qt.AlignVCenter)
 
             self.mainWidget.update()
 
@@ -1695,7 +1693,6 @@ class AppWidget (QMainWindow):
         self.titletext.setStyleSheet(f'background-color:  {app_title_bgcolor};color: {app_title_fgcolor};')
         self.titletext.setMaximumWidth(self.titlebar.width())
         self.titletext.setGeometry(int(self.app_title_size),0,self.titlebar.width(),int(app_title_size))
-        self.titletext.setAlignment(Qt.AlignVCenter)
 
         f.setPointSize(12)
         self.titletext.setFont(f)

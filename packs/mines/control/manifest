@@ -2,7 +2,7 @@ name: mines
 copyright: (c) 2020 Martin Fitzpatrick
 license: MIT
 unpack: /
-build: 1399-10-22
-version: 0.0.3
+build: 1399-11-24
+version: 1.0.0
 description: Mines Game
 compile: Yes

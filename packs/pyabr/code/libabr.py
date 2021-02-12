@@ -2,9 +2,10 @@
 #  In the name of God, the Compassionate, the Merciful
 #  Pyabr (c) 2020 Mani Jamali. GNU General Public License v3.0
 #
+#  Official Website: 		http://pyabr.rf.gd
 #  Programmer & Creator:    Mani Jamali <manijamali2003@gmail.com>
-#  Telegram or Gap channel: @pyabr
-#  Telegram or Gap group:   @pyabr_community
+#  Gap channel: 			@pyabr
+#  Gap group:   			@pyabr_community
 #  Git source:              github.com/manijamali2003/pyabr
 #
 #######################################################################################
@@ -1356,10 +1357,10 @@ class Commands:
                     list.sort()
                     for i in list:
                         if files.isdir(path + "/" + i):
-                            perm = permissions.get_permissions(path + "/" + i)
+                            perm = permissions.get_permissions(files.output(path + i))
                             print(perm + "\t" + colors.get_path() + i + "/" + colors.get_colors())
                         else:
-                            perm = permissions.get_permissions(path + "/" + i)
+                            perm = permissions.get_permissions(files.output(path + i))
                             print(perm + "\t" + i)
                 else:
                     colors.show("ls", "perm", "")

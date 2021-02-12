@@ -94,7 +94,7 @@ calculator.clearall: Clear All
 roller.file: File
 roller.newfile: New File
 roller.newfolder: New Folder
-perisa.newfile: New File
+persia.newfile: New File
 persia.newfolder: New Folder
 roller.exit: Exit
 roller.foldername: Enter your folder name

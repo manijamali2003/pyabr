@@ -2,9 +2,10 @@
 #  In the name of God, the Compassionate, the Merciful
 #  Pyabr (c) 2020 Mani Jamali. GNU General Public License v3.0
 #
+#  Official Website: 		http://pyabr.rf.gd
 #  Programmer & Creator:    Mani Jamali <manijamali2003@gmail.com>
-#  Telegram or Gap channel: @pyabr
-#  Telegram or Gap group:   @pyabr_community
+#  Gap channel: 			@pyabr
+#  Gap group:   			@pyabr_community
 #  Git source:              github.com/manijamali2003/pyabr
 #
 #######################################################################################
@@ -146,32 +147,32 @@ class MainApp(QtWidgets.QWizard):
             ## Setting GUI Table ##
             file = open("stor/etc/gui", "w")
             file.write(f'''
-#!etcetra
-
 desktop: baran
 fullscreen: Yes
-sides: No
-width: 1280
+sides: Yes
+width: 1000
 height: 720
 autosize: Yes
 logo: @icon/pyabr-logo
-locale: {locale}
+locale: fa
+font: Iran Sans
+theme-name: Glass theme
 backend.color: black
 backend.timeout: 1000
 taskbar.location: bottom
-taskbar.pins: roller,barge,calculator,calendar,commento,pysys,runapp
+taskbar.pins: browser,roller,barge,calculator,calendar,commento,pysys,runapp,about
 splash.timeout: 3000
 splash.logo: @icon/pyabr-logo
 splash.logo-size: 300
 splash.color: #ABCDEF
 login.bgcolor: #123456
-login.background: @background/default
+login.background: @background/glass
 login.fgcolor: #FFFFFF
 enter.bgcolor: #fff
-enter.background: @background/default
+enter.background: @background/glass
 enter.fgcolor: #FFFFFF
 unlock.bgcolor: #123456
-unlock.background: @background/default
+unlock.background: @background/glass
 unlock.fgcolor: #FFFFFF
 loginw.bgcolor: white
 loginw.fgcolor: black
@@ -197,14 +198,15 @@ taskbar.float: Yes
 taskbar.size: 70
 desktop.bgcolor: white
 desktop.fgcolor: black
-desktop.background: @background/default
+desktop.background: @background/glass
 lock.fgcolor: black
 lock.bgcolor: black
-lock.background: @background/default
-lock.clock.shadow: Yes
+lock.background: @background/glass
+lock.clock.shadow: No
 lock.clock.size: 100
 lock.clock.color: white
 lock.clock.location: center
+lock.clock.format: hh:mm:ss
 loginw.login.round: Yes
 loginw.login.round-size: 20
 loginw.enter.round: Yes
@@ -228,6 +230,7 @@ loginw.enter.fgcolor: #FFFFFF
 loginw.enter.bgcolor-hover: purple
 loginw.enter.fgcolor: #FFFFFF
 loginw.enter.fontsize: 12
+menu: @icon/menu
 loginw.enter.hide: No
 loginw.enter.width: 300
 loginw.unlock.bgcolor: green
