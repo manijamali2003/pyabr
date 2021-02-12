@@ -10,7 +10,7 @@
 #
 #######################################################################################
 
-import shutil, os, sys,glob, platform,py_compile
+import shutil, os, sys,glob, platform,py_compile,hashlib
 from buildlibs import control
 
 def compile (src,dest):

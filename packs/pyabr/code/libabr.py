@@ -2030,23 +2030,50 @@ class Package:
 
             if files.isdir ('/app/cache/archives/data/usr/share/applications'):
                 for i in files.list('/app/cache/archives/data/usr/share/applications/'):
-                    if files.isfile(f'/app/cache/archives/data/usr/share/applications/{i}'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/applications/{i}') and i.endswith('.desk'):
                         commands.enc ([f'/app/cache/archives/data/usr/share/applications/{i}'])
 
             if files.isdir('/app/cache/archives/data/usr/share/helps'):
                 for i in files.list(f'/app/cache/archives/data/usr/share/helps'):
-                    if files.isfile(f'/app/cache/archives/data/usr/share/helps/{i}'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/helps/{i}') and i.endswith ('.txt'):
                         commands.enc ([f'/app/cache/archives/data/usr/share/helps/{i}'])
 
             if files.isdir('/app/cache/archives/data/usr/share/categories'):
                 for i in files.list(f'/app/cache/archives/data/usr/share/categories/'):
-                    if files.isfile(f'/app/cache/archives/data/usr/share/categories/{i}'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/categories/{i}') and (i.endswith('.cat') or i.endswith ('.list')):
                         commands.enc ([f'/app/cache/archives/data/usr/share/categories/{i}'])
 
             if files.isdir('/app/cache/archives/data/usr/share/shells'):
                 for i in files.list(f'/app/cache/archives/data/usr/share/shells/'):
-                    if files.isfile(f'/app/cache/archives/data/usr/share/shells/{i}'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/shells/{i}') and i.endswith('.desk'):
                         commands.enc ([f'/app/cache/archives/data/usr/share/shells/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/layouts'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/layouts/'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/layouts/{i}') and (i.endswith ('.ui') or i.endswith('.glade') or i.endswith('.qml')):
+                        commands.enc ([f'/app/cache/archives/data/usr/share/layouts/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/icons'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/icons/'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/icons/{i}') and i.endswith('.svg'):
+                        commands.enc ([f'/app/cache/archives/data/usr/share/icons/{i}'])
+
+
+            if files.isdir('/app/cache/archives/data/usr/share/backgrounds'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/backgrounds/'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/backgrounds/{i}') and i.endswith('.svg'):
+                        commands.enc ([f'/app/cache/archives/data/usr/share/backgrounds/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/themes'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/themes/'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/themes/{i}') and (i.endswith('.sa') or i.endswith('.py')):
+                        commands.enc ([f'/app/cache/archives/data/usr/share/themes/{i}'])
+
+
+            if files.isdir('/app/cache/archives/data/usr/share/templates'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/templates/'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/templates/{i}') and (i.endswith('.sa') or i.endswith('.py') or i.endswith('.c') or i.endswith('.txt') or i.endswith('.cat')or i.endswith('.list')or i.endswith('.js')or i.endswith('.c++')or i.endswith('.cxx')or i.endswith('.cpp')or i.endswith('.java')or i.endswith('.log')or i.endswith('.svg')or i.endswith('.xml')or i.endswith('.php')or i.endswith('.html')or i.endswith('.xhtml')or i.endswith('.css')or i.endswith('.locale')):
+                        commands.enc ([f'/app/cache/archives/data/usr/share/templates/{i}'])
 
             ## Pack archives ##
             shutil.make_archive(files.input("/app/cache/archives/build/data"), "zip",
@@ -2087,7 +2114,6 @@ class Package:
 
             # Disenc codes #
 
-            ## Encript codes ##
             for i in files.list('/app/cache/archives/code'):
                 commands.uenc([f'/app/cache/archives/code/{i}'])
 
@@ -2096,24 +2122,56 @@ class Package:
 
             if files.isdir('/app/cache/archives/data/usr/share/applications'):
                 for i in files.list('/app/cache/archives/data/usr/share/applications/'):
-                    if files.isfile(f'/app/cache/archives/data/usr/share/applications/{i}'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/applications/{i}') and i.endswith('.desk'):
                         commands.uenc([f'/app/cache/archives/data/usr/share/applications/{i}'])
-
 
             if files.isdir('/app/cache/archives/data/usr/share/helps'):
                 for i in files.list(f'/app/cache/archives/data/usr/share/helps'):
-                    if files.isfile(f'/app/cache/archives/data/usr/share/helps/{i}'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/helps/{i}') and i.endswith('.txt'):
                         commands.uenc([f'/app/cache/archives/data/usr/share/helps/{i}'])
 
             if files.isdir('/app/cache/archives/data/usr/share/categories'):
                 for i in files.list(f'/app/cache/archives/data/usr/share/categories/'):
-                    if files.isfile(f'/app/cache/archives/data/usr/share/categories/{i}'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/categories/{i}') and (
+                            i.endswith('.cat') or i.endswith('.list')):
                         commands.uenc([f'/app/cache/archives/data/usr/share/categories/{i}'])
 
             if files.isdir('/app/cache/archives/data/usr/share/shells'):
                 for i in files.list(f'/app/cache/archives/data/usr/share/shells/'):
-                    if files.isfile(f'/app/cache/archives/data/usr/share/shells/{i}'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/shells/{i}') and i.endswith('.desk'):
                         commands.uenc([f'/app/cache/archives/data/usr/share/shells/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/layouts'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/layouts/'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/layouts/{i}') and (
+                            i.endswith('.ui') or i.endswith('.glade') or i.endswith('.qml')):
+                        commands.uenc([f'/app/cache/archives/data/usr/share/layouts/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/icons'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/icons/'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/icons/{i}') and i.endswith('.svg'):
+                        commands.uenc([f'/app/cache/archives/data/usr/share/icons/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/backgrounds'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/backgrounds/'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/backgrounds/{i}') and i.endswith('.svg'):
+                        commands.uenc([f'/app/cache/archives/data/usr/share/backgrounds/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/themes'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/themes/'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/themes/{i}') and (
+                            i.endswith('.sa') or i.endswith('.py')):
+                        commands.uenc([f'/app/cache/archives/data/usr/share/themes/{i}'])
+
+            if files.isdir('/app/cache/archives/data/usr/share/templates'):
+                for i in files.list(f'/app/cache/archives/data/usr/share/templates/'):
+                    if files.isfile(f'/app/cache/archives/data/usr/share/templates/{i}') and (
+                            i.endswith('.sa') or i.endswith('.py') or i.endswith('.c') or i.endswith(
+                            '.txt') or i.endswith('.cat') or i.endswith('.list') or i.endswith('.js') or i.endswith(
+                            '.c++') or i.endswith('.cxx') or i.endswith('.cpp') or i.endswith('.java') or i.endswith(
+                            '.log') or i.endswith('.svg') or i.endswith('.xml') or i.endswith('.php') or i.endswith(
+                            '.html') or i.endswith('.xhtml') or i.endswith('.css') or i.endswith('.locale')):
+                        commands.uenc([f'/app/cache/archives/data/usr/share/templates/{i}'])
 
             ## Get database of this package ##
             name = control.read_record("name", "/app/cache/archives/control/manifest").lower()
