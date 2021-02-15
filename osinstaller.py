@@ -161,6 +161,7 @@ width: 1280
 height: 720
 autosize: Yes
 logo: @icon/pyabr-logo
+font: Iran Sans
 locale: {locale}
 backend.color: black
 backend.timeout: 1000
