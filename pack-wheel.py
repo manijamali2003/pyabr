@@ -23,6 +23,22 @@ list.remove('.git')
 list.remove('.idea')
 list.remove('wheel')
 list.remove('latest')
+list.remove('stable')
+list.remove('setup.svg')
+list.remove('.gitignore')
+list.remove('AUTHERS')
+list.remove('build.py')
+list.remove('build-packs.py')
+list.remove('debug.py')
+list.remove('debug_apps')
+list.remove('debug_params')
+list.remove('installer.ui')
+list.remove('LICENSE')
+list.remove('osinstaller.py')
+list.remove('pack.py')
+list.remove('pack-wheel.py')
+list.remove('README.md')
+list.remove('requirments.txt')
 
 for i in list:
     if os.path.isdir(i):
@@ -46,5 +62,5 @@ os.system ("cd wheel/setup && \""+sys.executable+"\" setup.py bdist_wheel")
 
 C = input('Do you want to clean the cache? [Y/n]: ')
 if C.lower()=='y':
-    os.system('cd wheel/setup/dist && pip3 uninstall pyabr && pip3 install ./*')
+    os.system('cd wheel/setup/dist && pip3 uninstall pyabr && pip3 install ./* && twine upload *')
     import clean
