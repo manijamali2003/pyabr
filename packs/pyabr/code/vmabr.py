@@ -459,7 +459,11 @@ if argv[0]=="gui":
 
     from PyQt5.QtCore import *
     from PyQt5.QtWidgets import *
-    from PyQt5.QtWebEngineWidgets import *
+
+    try:
+        from PyQt5.QtWebEngineWidgets import *
+    except:
+        pass
 
     ## Main entry ##
     application = QApplication(sys.argv)
@@ -487,7 +491,11 @@ if argv[0]=="gui-splash":
 
     from PyQt5.QtCore import *
     from PyQt5.QtWidgets import *
-    from PyQt5.QtWebEngineWidgets import *
+
+    try:
+        from PyQt5.QtWebEngineWidgets import *
+    except:
+        pass
 
     ## Main entry ##
     application = QApplication(sys.argv)
@@ -514,7 +522,11 @@ if argv[0]=="gui-login":
 
     from PyQt5.QtCore import *
     from PyQt5.QtWidgets import *
-    from PyQt5.QtWebEngineWidgets import *
+
+    try:
+        from PyQt5.QtWebEngineWidgets import *
+    except:
+        pass
 
     ## Main entry ##
     application = QApplication(sys.argv)
@@ -554,7 +566,11 @@ if argv[0]=="gui-enter":
 
     from PyQt5.QtCore import *
     from PyQt5.QtWidgets import *
-    from PyQt5.QtWebEngineWidgets import *
+
+    try:
+        from PyQt5.QtWebEngineWidgets import *
+    except:
+        pass
 
     ## Main entry ##
     application = QApplication(sys.argv)
@@ -602,7 +618,11 @@ if argv[0]=="gui-desktop":
 
     from PyQt5.QtCore import *
     from PyQt5.QtWidgets import *
-    from PyQt5.QtWebEngineWidgets import *
+
+    try:
+        from PyQt5.QtWebEngineWidgets import *
+    except:
+        pass
 
     ## Main entry ##
     application = QApplication(sys.argv)
