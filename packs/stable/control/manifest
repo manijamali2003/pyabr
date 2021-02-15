@@ -1,7 +1,7 @@
 name: latest
 copyright: (c) 2020 Mani Jamali
 license: MIT
-unpack: /app/mirrors
+unpack: /
 build: 1399-11-24
 version: 1.0.0
 description: The latest version of Paye package manager dynamic mirror

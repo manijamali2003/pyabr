@@ -10,7 +10,7 @@
 #
 #######################################################################################
 
-import importlib, shutil, os, sys, hashlib, subprocess,time,datetime,getpass,py_compile
+import importlib, shutil, os, sys, hashlib, subprocess,time,datetime,getpass,py_compile,socket
 
 def read_record (name,filename):
     file = open (filename,"r")
@@ -2450,6 +2450,7 @@ class Package:
             files.removedirs('/tmp/'+name+"-master")
         else:
             colors.show("paye", "perm", "")
+
     ##  remove a mirror ##
     def remove (self,name):
         permissions = Permissions()

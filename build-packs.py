@@ -22,7 +22,7 @@ mode = input('choose your mode (stable,latest): ')
 
 for i in os.listdir('packs'):pack.manifest(i)
 
-os.removedirs('stor/tmp')
+shutil.rmtree('stor/tmp')
 shutil.copytree('packs',f'stor/tmp')
 f = open('stor/pack.sa','w')
 f.write(f'''mkdir /tmp/all
@@ -42,8 +42,10 @@ paye pak /tmp/gap
 mv /tmp/gap.pa /tmp/all/gap.pa
 paye pak /tmp/help
 mv /tmp/help.pa /tmp/all/help.pa
-paye pak /tmp/{mode}
-mv /tmp/{mode}.pa /tmp/all/{mode}.pa
+paye pak /tmp/stable
+mv /tmp/stable.pa /tmp/all/stable.pa
+paye pak /tmp/latest
+mv /tmp/latest.pa /tmp/all/latest.pa
 paye pak /tmp/lightword
 mv /tmp/lightword.pa /tmp/all/lightword.pa
 paye pak /tmp/mines
@@ -71,6 +73,7 @@ mv /tmp/ubuntu-theme.pa /tmp/all/ubuntu-theme.pa
 paye pak /tmp/windows-theme
 mv /tmp/windows-theme.pa /tmp/all/windows-theme.pa
 ''')
+f.close()
 shutil.rmtree(mode)
 
 input('Are sure copy all package? press enter')

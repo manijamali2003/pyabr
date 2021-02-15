@@ -1,7 +1,7 @@
 name: ubuntu-theme
 copyright: (c) 2020 Mani Jamali
 license: GNU GPL v3.0
-unpack: /usr/share
+unpack: /
 build: 1399-11-24
 version: 1.0.0
 description: Ubuntu theme for Pyabr

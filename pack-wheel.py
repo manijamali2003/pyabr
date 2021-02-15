@@ -35,7 +35,6 @@ shutil.copyfile('LICENSE','wheel/setup/LICENSE')
 shutil.copyfile('README.md','wheel/setup/README.md')
 shutil.copyfile('wheel/setup-pack.py','wheel/setup/setup.py')
 shutil.copyfile('wheel/setup-installer.py','wheel/setup/pyabr/setup.py')
-
 file = open ("wheel/setup/pyabr/__main__.py","w");file.write('from pyabr import setup');file.close()
 
 ## Pack src to setup ##
@@ -47,4 +46,5 @@ os.system ("cd wheel/setup && \""+sys.executable+"\" setup.py bdist_wheel")
 
 C = input('Do you want to clean the cache? [Y/n]: ')
 if C.lower()=='y':
+    os.system('cd wheel/setup/dist && pip3 uninstall pyabr && pip3 install ./*')
     import clean
