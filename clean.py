@@ -27,4 +27,5 @@ def clean():
     if os.path.isfile('pyabr.zip'):                                     os.remove    ('pyabr.zip')
     if os.path.isfile('Pyabr-'+version+'-'+build+'.zip'):               os.remove    ('Pyabr-'+version+'-'+build+'.zip')
     if os.path.isdir('server'):                                         shutil.rmtree('server')
+    if os.path.isdir('sb'): shutil.rmtree('sb')
 clean()

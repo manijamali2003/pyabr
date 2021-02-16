@@ -17,6 +17,11 @@ import hashlib, shutil, os, sys
 from buildlibs import pack_archives as pack, control
 
 app = QtWidgets.QApplication([])
+
+f = QtGui.QFont()
+f.setFamily('Iran Sans') # Pyabr bought it see /usr/share/docs/IRANSans/FontLicense.txt in Pyabr
+f.setPointSize(12)
+
 class FakeDesktop (QtWidgets.QMainWindow):
     def __init__(self):
         super(FakeDesktop, self).__init__()
@@ -47,9 +52,7 @@ class MainApp(QtWidgets.QWizard):
                 self.leLastName.text() == None and
                 self.leEmail.text() == None and
                 self.lePhone.text() == None and
-                self.cmUI.currentText() == None and
-                self.cmLang.currentText() == None and
-                self.cmScreen.currentText() == None
+                self.cmLang.currentText() == None
         ):
             hostname = self.leHostname.text()
             rootcode = self.leRootCode.text()
@@ -64,7 +67,6 @@ class MainApp(QtWidgets.QWizard):
             else:
                 guest = 'No'
 
-            interface = self.cmUI.currentText()
             if self.cmLang.currentText()=='English':
                 locale = 'en'
             elif self.cmLang.currentText()=='فارسی':
@@ -140,45 +142,37 @@ class MainApp(QtWidgets.QWizard):
             else:
                 file.write("enable_cli: No\nenable_gui: No\n")
             file.close()
-            
-            ## Setting up interface ##
-            file = open("stor/etc/interface", "w")
-            if interface.startswith("C"):
-                file.write("CLI")
-            elif interface.startswith("G"):
-                file.write("GUI")
-            file.close()
+
 
             ## Setting GUI Table ##
             file = open("stor/etc/gui", "w")
             file.write(f'''
-#!etcetra
-
 desktop: baran
 fullscreen: Yes
-sides: No
+sides: Yes
 width: 1280
 height: 720
 autosize: Yes
 logo: @icon/pyabr-logo
-font: Iran Sans
 locale: {locale}
+font: Iran Sans
+theme-name: Glass theme
 backend.color: black
 backend.timeout: 1000
 taskbar.location: bottom
-taskbar.pins: roller,barge,calculator,calendar,commento,pysys,runapp
+taskbar.pins: browser,roller,barge,calculator,calendar,commento,pysys,runapp,about
 splash.timeout: 3000
 splash.logo: @icon/pyabr-logo
 splash.logo-size: 300
 splash.color: #ABCDEF
 login.bgcolor: #123456
-login.background: @background/default
+login.background: @background/glass
 login.fgcolor: #FFFFFF
 enter.bgcolor: #fff
-enter.background: @background/default
+enter.background: @background/glass
 enter.fgcolor: #FFFFFF
 unlock.bgcolor: #123456
-unlock.background: @background/default
+unlock.background: @background/glass
 unlock.fgcolor: #FFFFFF
 loginw.bgcolor: white
 loginw.fgcolor: black
@@ -204,14 +198,15 @@ taskbar.float: Yes
 taskbar.size: 70
 desktop.bgcolor: white
 desktop.fgcolor: black
-desktop.background: @background/default
+desktop.background: @background/glass
 lock.fgcolor: black
 lock.bgcolor: black
-lock.background: @background/default
-lock.clock.shadow: Yes
+lock.background: @background/glass
+lock.clock.shadow: No
 lock.clock.size: 100
 lock.clock.color: white
 lock.clock.location: center
+lock.clock.format: hh:mm:ss
 loginw.login.round: Yes
 loginw.login.round-size: 20
 loginw.enter.round: Yes
@@ -235,6 +230,7 @@ loginw.enter.fgcolor: #FFFFFF
 loginw.enter.bgcolor-hover: purple
 loginw.enter.fgcolor: #FFFFFF
 loginw.enter.fontsize: 12
+menu: @icon/menu
 loginw.enter.hide: No
 loginw.enter.width: 300
 loginw.unlock.bgcolor: green
@@ -278,89 +274,111 @@ appw.title.close-hover: red
         super(MainApp, self).__init__()
         uic.loadUi('installer.ui', self)
 
+
         ## Finds ##
         self.setStyleSheet('background-color:white;')
+
+        self.lblLang = self.findChild(QtWidgets.QLabel,'lblLang')
+        self.lblLang.setFont(f)
+
         self.leHostname = self.findChild(QtWidgets.QLineEdit, 'leHostname')
-        self.leHostname.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
+        self.leHostname.setFont(f)
+        self.leHostname.setStyleSheet ('background-color: white;border-radius: 20% 20%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
+
         self.leRootCode = self.findChild(QtWidgets.QLineEdit, 'leRootCode')
-        self.leRootCode.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
+        self.leRootCode.setFont(f)
+        self.leRootCode.setStyleSheet ('background-color: white;border-radius: 20% 20%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.leUsername = self.findChild(QtWidgets.QLineEdit, 'leUsername')
-        self.leUsername.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
+        self.leUsername.setFont(f)
+        self.leUsername.setStyleSheet ('background-color: white;border-radius: 20% 20%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.lePassword = self.findChild(QtWidgets.QLineEdit, 'lePassword')
-        self.lePassword.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
+        self.lePassword.setFont(f)
+        self.lePassword.setStyleSheet ('background-color: white;border-radius: 20% 20%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
+
         self.chGuest = self.findChild(QtWidgets.QCheckBox, 'chGuest')
-        self.chGuest.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
-        self.cmUI = self.findChild(QtWidgets.QComboBox, 'cmUI')
-        self.cmUI.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
+        self.chGuest.setFont(f)
+        self.chGuest.setStyleSheet ('background-color: white;border-radius: 20% 20%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.cmLang = self.findChild(QtWidgets.QComboBox, 'cmLang')
-        self.cmLang.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
+        self.cmLang.setFont(f)
+        self.cmLang.setStyleSheet ('background-color: white;border-radius: 20% 20%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.leFirstName = self.findChild(QtWidgets.QLineEdit, 'leFirstName')
-        self.leFirstName.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
+        self.leFirstName.setFont(f)
+        self.leFirstName.setStyleSheet ('background-color: white;border-radius: 20% 20%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.leLastName = self.findChild(QtWidgets.QLineEdit, 'leLastName')
-        self.leLastName.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
+        self.leLastName.setFont(f)
+        self.leLastName.setStyleSheet ('background-color: white;border-radius: 20% 20%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.leEmail = self.findChild(QtWidgets.QLineEdit, 'leEmail')
-        self.leEmail.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
+        self.leEmail.setFont(f)
+        self.leEmail.setStyleSheet ('background-color: white;border-radius: 20% 20%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.lePhone = self.findChild(QtWidgets.QLineEdit, 'lePhone')
-        self.lePhone.setStyleSheet ('background-color: white;border-radius: 15% 15%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
+        self.lePhone.setFont(f)
+        self.lePhone.setStyleSheet ('background-color: white;border-radius: 20% 20%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
 
         self.button(QtWidgets.QWizard.FinishButton).clicked.connect(self.Finish)
+        self.button(QtWidgets.QWizard.FinishButton).setFont(f)
         self.button(QtWidgets.QWizard.FinishButton).setStyleSheet ('''
         QPushButton {
             background-color: #ABCDEF;
             color: white;
-            border-radius: 15% 15%;
+            border-radius: 20% 20%;
         }
         QPushButton::hover {
             background-color: #123456;
             color: white;
-            border-radius: 15% 15%;
+            border-radius: 20% 20%;
         }
         ''')
-        self.button(QtWidgets.QWizard.FinishButton).setMinimumSize(100,30)
+        self.button(QtWidgets.QWizard.FinishButton).setMinimumSize(100,40)
+        self.button(QtWidgets.QWizard.FinishButton).setText('قبلی')
+
         self.button(QtWidgets.QWizard.NextButton).setStyleSheet ('''
         QPushButton {
             background-color: #ABCDEF;
             color: white;
-            border-radius: 15% 15%;
+            border-radius: 20% 20%;
         }
         QPushButton::hover {
             background-color: #123456;
             color: white;
-            border-radius: 15% 15%;
+            border-radius: 20% 20%;
         }
         ''')
-        self.button(QtWidgets.QWizard.NextButton).setMinimumSize(100,30)
-
+        self.button(QtWidgets.QWizard.NextButton).setMinimumSize(100,40)
+        self.button(QtWidgets.QWizard.NextButton).setFont(f)
+        self.button(QtWidgets.QWizard.NextButton).setText('بعدی')
 
         self.button(QtWidgets.QWizard.CancelButton).setStyleSheet ('''
         QPushButton {
             background-color: #ABCDEF;
             color: white;
-            border-radius: 15% 15%;
+            border-radius: 20% 20%;
         }
         QPushButton::hover {
             background-color: #123456;
             color: white;
-            border-radius: 15% 15%;
+            border-radius: 20% 20%;
         }
         ''')
-        self.button(QtWidgets.QWizard.CancelButton).setMinimumSize(100,30)
+        self.button(QtWidgets.QWizard.CancelButton).setMinimumSize(100,40)
         self.button(QtWidgets.QWizard.CancelButton).clicked.connect (self.Discard)
-
+        self.button(QtWidgets.QWizard.CancelButton).setFont(f)
+        self.button(QtWidgets.QWizard.CancelButton).setText('لغو')
 
         self.button(QtWidgets.QWizard.BackButton).setStyleSheet ('''
         QPushButton {
             background-color: #ABCDEF;
             color: white;
-            border-radius: 15% 15%;
+            border-radius: 20% 20%;
         }
         QPushButton::hover {
             background-color: #123456;
             color: white;
-            border-radius: 15% 15%;
+            border-radius: 20% 20%;
         }
         ''')
-        self.button(QtWidgets.QWizard.BackButton).setMinimumSize(100,30)
+        self.button(QtWidgets.QWizard.BackButton).setMinimumSize(100,40)
+        self.button(QtWidgets.QWizard.BackButton).setFont(f)
+        self.button(QtWidgets.QWizard.BackButton).setText('قبلی')
 
         ## Browse button click ##
         ## Show setup ##
