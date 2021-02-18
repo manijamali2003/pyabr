@@ -21,9 +21,6 @@ list.remove('wheel')
 list.remove('build.py')
 list.remove('pack-sb.py')
 list.remove('build-packs.py')
-list.remove('debug.py')
-list.remove('debug_apps')
-list.remove('debug_params')
 list.remove('LICENSE')
 list.remove('pack.py')
 list.remove('pack-wheel.py')
@@ -44,11 +41,11 @@ if not os.path.isdir('sb'):
     os.mkdir('sb/stor')
     os.mkdir('sb/root')
 
-    #f = open('sb/root/.xinitrc','w')
-    #f.write('pyabr')
-    #f.close()
+    f = open('sb/root/.xinitrc','w')
+    f.write('pyabr')
+    f.close()
 
-    os.system('> sb/testing')
+    #os.system('> sb/stor/testing')
 else:
     list.remove('sb')
 

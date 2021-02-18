@@ -16,6 +16,9 @@ import platform
 import hashlib, shutil, os, sys
 from buildlibs import pack_archives as pack, control
 
+os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
+
+
 app = QtWidgets.QApplication([])
 
 f = QtGui.QFont()
@@ -296,6 +299,15 @@ appw.title.close-hover: red
         self.lePassword.setStyleSheet ('background-color: white;border-radius: 20% 20%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
 
         self.chGuest = self.findChild(QtWidgets.QCheckBox, 'chGuest')
+        self.label = self.findChild(QtWidgets.QLabel, 'label')
+        self.label.setFont(f)
+
+        self.toolButton = self.findChild(QtWidgets.QToolButton, 'toolButton')
+        self.toolButton.clicked.connect (self.LiveRun)
+        self.toolButton.setIconSize (QtCore.QSize(200,200))
+        self.toolButton.setFixedSize(300,300)
+        self.toolButton.setIcon (QtGui.QIcon('packs/numix/data/usr/share/icons/cdrom.svg'))
+
         self.chGuest.setFont(f)
         self.chGuest.setStyleSheet ('background-color: white;border-radius: 20% 20%;border-color: #ABCDEF;border-style: solid;padding-left: 10%;padding-right: 10%;border-width: 2%')
         self.cmLang = self.findChild(QtWidgets.QComboBox, 'cmLang')
@@ -380,11 +392,17 @@ appw.title.close-hover: red
         self.button(QtWidgets.QWizard.BackButton).setFont(f)
         self.button(QtWidgets.QWizard.BackButton).setText('قبلی')
 
+        self.toolButton.setIconSize (QtCore.QSize(200,200))
+
         ## Browse button click ##
         ## Show setup ##
         self.show()
 
     def Discard (self):
+        os.system('systemctl poweroff')
+
+    def LiveRun (self):
+        os.system(f"'{sys.executable}' debug.py")
         os.system('systemctl poweroff')
 
 w = FakeDesktop()
