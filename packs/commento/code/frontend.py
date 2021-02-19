@@ -154,7 +154,7 @@ class TerminalWidget(QWidget):
             return
         if self._timer_id is not None:
             self.killTimer(self._timer_id)
-        self._timer_id = self.startTimer(250)
+        self._timer_id = self.startTimer(0) # 250
         self.update_screen()
 
 
@@ -166,7 +166,7 @@ class TerminalWidget(QWidget):
         # -> but less load on main app which results in better responsiveness
         if self._timer_id is not None:
             self.killTimer(self._timer_id)
-        self._timer_id = self.startTimer(750)
+        self._timer_id = self.startTimer(0) # 750
 
 
     def resizeEvent(self, event):
