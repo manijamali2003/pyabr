@@ -1,4 +1,6 @@
 default: https://www.google.com
+default-site: www.google.com
+default-name: Google
 abr.index: index
 abr.default: pyabr.com
 abr.finder: http://pyabr.rf.gd/domain.php?url=

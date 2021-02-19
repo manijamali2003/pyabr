@@ -1,2 +1,5 @@
 browser.py:usr/app/browser.pyc
 wapp.py:usr/app/wapp.pyc
+browser_os.py:usr/app/browser_os.pyc
+browser_window.py:usr/app/browser_window.pyc
+libbrowser.py:usr/app/libbrowser.pyc

@@ -358,3 +358,17 @@ usermanager.rmm: Do you want to remove this account?
 usermanager.ed: Edit
 usermanager._rm: Remove
 persia.proname: Enter your project name
+browser.search: Search with Google or enter address
+browser.go: Go
+browser.addb: Add bookmark
+browser.hist: History
+browser.bookm: Bookmarks
+browser.delh: Delete Histroy
+browser.delb: Delete bookmark
+browser.open: Open
+browser.openn: Open in a new tab
+browser.bookp: Bookmark page
+browser.dn: Done
+browser.name: Name
+browser.folder: Folder
+browser.booked: Page bookmarked

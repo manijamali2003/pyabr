@@ -2,7 +2,7 @@ name[en]: Terminal
 name[fa]: پایانه
 name[ar]: محطة
 logo: @icon/commento
-exec: commento
+exec: terminal
 shortcut: Ctrl+Alt+C
 bgcolor: white
 fgcolor: black

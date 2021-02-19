@@ -358,3 +358,17 @@ usermanager.rmm: آیا می خواهید این حساب کاربری را حذ
 usermanager.ed: ویرایش
 usermanager._rm: حذف
 persia.proname: نامی برای پروژه خود انتخاب کنید
+browser.search: جستجو کنید
+browser.go: جستجو کن
+browser.addb: افزودن به علاقه مندی ها
+browser.hist: تاریخچه
+browser.bookm: علاقه مندی ها
+browser.delh: حذف تاریخچه
+browser.delb: حذف علاقه مندی ها
+browser.open: بازکردن
+browser.openn: بازکردن در صفحه دیگر
+browser.bookp: صفحه علاقه مندی ها
+browser.dn: تمام
+browser.name: نام
+browser.folder: پوشه
+browser.booked: به علاقه مندی ها افزوده شد
