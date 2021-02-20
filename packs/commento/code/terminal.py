@@ -4,13 +4,12 @@ import sys
 import os
 
 #from PyQt4.QtCore import QTimer
-from PyQt5.QtCore import QTimer
-#from PyQt4.QtGui import QApplication, QTabWidget, QPushButton
-from PyQt5.QtWidgets import QApplication, QTabWidget, QPushButton
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
 
 from pyqterm import TerminalWidget
 from pyqterm.procinfo import ProcessInfo
-
 from libabr import Res, Control , Files
 
 res = Res()
@@ -32,6 +31,7 @@ class MainApp(QTabWidget):
         self.setTabPosition(QTabWidget.South)
         self.Widget.SetWindowTitle(res.get('@string/app_name'))
         self.Widget.Resize(self,800,600)
+        self.Widget.SetWindowIcon (QIcon(res.get(res.etc('commento','logo'))))
         self._terms = []
         self.tabCloseRequested[int].connect(self._on_close_request)
         self.currentChanged[int].connect(self._on_current_changed)

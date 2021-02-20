@@ -1,6 +1,6 @@
-default: https://www.google.com
-default-site: www.google.com
-default-name: Google
+default: https://gerdoo.me
+default-site: gerdoo.me
+default-name: گردو
 abr.index: index
 abr.default: pyabr.com
 abr.finder: http://pyabr.rf.gd/domain.php?url=

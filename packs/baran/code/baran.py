@@ -1785,7 +1785,11 @@ class Desktop (QMainWindow):
 
     def RunApp (self,appname,external):
         app.switch(appname)
-        if files.isfile(f'/usr/share/applications/{appname}.desk'):
+        files.write('/proc/info/su', self.username)
+        if appname==getdata('terminal'):
+            files.write('/proc/info/pass',self.password)
+            self.layout().addWidget(AppWidget([self.Backend, self, getdata('terminal'), external]))
+        elif files.isfile(f'/usr/share/applications/{appname}.desk'):
             self.layout().addWidget(AppWidget([self.Backend, self, appname,external]))
         else:
             app.switch('desktop')

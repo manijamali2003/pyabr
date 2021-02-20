@@ -1,5 +1,5 @@
 name[en]: Browser
 name[fa]: مرورگر اینترنتی
-exec: browser_os
+exec: browser
 logo: @icon/web-browser
 application: Yes

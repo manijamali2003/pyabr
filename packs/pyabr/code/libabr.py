@@ -2713,60 +2713,6 @@ class App:
             if files.isfile('/proc/id/' + i):
                 files.remove('/proc/id/' + i)
 
-        files.create('/proc/info/enc')
-
-        for i in files.list('/app/packages'):
-            if files.isfile(f'/app/packages/{i}'):
-                commands.enc([f'/app/packages/{i}'])
-
-        for i in files.list('/app/mirrors'):
-            if files.isfile(f'/app/mirrors/{i}'):
-                commands.enc([f'/app/mirrors/{i}'])
-
-        for i in files.list('/app/packages'):
-            if files.isfile(f'/app/packages/{i}'):
-                commands.enc([f'/app/packages/{i}'])
-
-        for i in files.list('/etc'):
-            if files.isfile (f'/etc/{i}'):
-                commands.enc([f'/etc/{i}'])
-
-        for i in files.list('/etc/users'):
-            if files.isfile(f'/etc/users/{i}'):
-                commands.enc([f'/etc/users/{i}'])
-
-        for i in files.list('/etc/users'):
-            if files.isfile(f'/etc/users/{i}'):
-                commands.enc([f'/etc/users/{i}'])
-
-        for i in files.list('/usr/share/applications'):
-            if files.isfile(f'/usr/share/applications/{i}'):
-                commands.enc([f'/usr/share/applications/{i}'])
-
-        for i in files.list('/usr/share/categories'):
-            if files.isfile(f'/usr/share/categories/{i}'):
-                commands.enc([f'/usr/share/categories/{i}'])
-
-        for i in files.list('/usr/share/shells'):
-            if files.isfile(f'/usr/share/shells/{i}'):
-                commands.enc([f'/usr/share/shells/{i}'])
-
-        for i in files.list('/usr/share/layouts'):
-            if files.isfile(f'/usr/share/layouts/{i}'):
-                commands.enc([f'/usr/share/layouts/{i}'])
-
-        for i in files.list('/usr/share/helps'):
-            if files.isfile(f'/usr/share/helps/{i}'):
-                commands.enc([f'/usr/share/helps/{i}'])
-
-        for i in files.list('/usr/share/themes'):
-            if files.isfile(f'/usr/share/themes/{i}'):
-                commands.enc([f'/usr/share/themes/{i}'])
-
-        for i in files.list('/usr/share/widgets'):
-            if files.isfile(f'/usr/share/widgets/{i}'):
-                commands.enc([f'/usr/share/widgets/{i}'])
-
     ## Switch id process ##
     def switch(self,id):
         files = Files()
