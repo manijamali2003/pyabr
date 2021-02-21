@@ -17,7 +17,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pyabr",
-    version="1.0.1",
+    version="1.1.0",
     author="Mani Jamali",
     author_email="pyabrsystem@gmail.com",
     description="Python Cloud & OS",
@@ -34,6 +34,8 @@ setuptools.setup(
     setup_requires=['wheel'],
     install_requires=[
         'PyQt5',
+        'kivy',
+        'pygame',
         'pyqtconsole',
         'requests',
         'PyQtWebEngine',
