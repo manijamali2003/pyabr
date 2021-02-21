@@ -402,7 +402,7 @@ appw.title.close-hover: red
         os.system('systemctl poweroff')
 
     def LiveRun (self):
-        os.system(f"'{sys.executable}' debug.py")
+        os.system(f"env QTWEBENGINE_DISABLE_SANDBOX=1 '{sys.executable}' debug.py")
         os.system('systemctl poweroff')
 
 w = FakeDesktop()

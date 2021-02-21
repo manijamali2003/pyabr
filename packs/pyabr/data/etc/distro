@@ -1,8 +1,8 @@
 #!etcetra
 
 code: Arvand
-version: 1.0.1
+version: 1.1.0
 name: Pyabr
-build: 1399-11-27
+build: 1399-12-03
 copyright: (c) 2020 Mani Jamali
 license: GNU General Public License v3.0

@@ -15,6 +15,9 @@ from PyQt5.QtGui import  *
 from PyQt5.QtWidgets import  *
 
 class MainApp (QMainWindow):
+    def RunIt (self):
+        self.Env.RunApp('wapp', ['http://pyabr.rf.gd/category/tutorials/'])
+
     def __init__(self,ports):
         super(MainApp, self).__init__()
 
@@ -26,4 +29,4 @@ class MainApp (QMainWindow):
 
         self.Widget.Close()
 
-        self.Env.RunApp ('wapp',['http://pyabr.rf.gd/category/tutorials/'])
+        QTimer.singleShot(1,self.RunIt)

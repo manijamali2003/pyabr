@@ -147,7 +147,7 @@ class ShowPackageInformation (QMainWindow):
         self.layout().addWidget (self.btnImage)
 
         self.lblName = QLabel()
-        self.lblName.setText(self.namex)
+        self.lblName.setText(self.External[0])
         self.lblName.setGeometry(60 + 128, 128 - 25, self.width(), 50)
         f = QFont()
         f.setPointSize(20)

@@ -1248,7 +1248,7 @@ class AppListView(QListView):
         if x == True:
             self.Widget.hide()
             self.Env.RunApp(self.item.whatsThis().replace('.desk','').replace('/usr/share/applications/',''),None)
-            app.switch('desktop')
+            files.write('/proc/info/id','desktop')
 
 ## Taskbar ##
 class TaskBar (QToolBar):
@@ -1380,7 +1380,7 @@ class TaskBar (QToolBar):
     def RunApplication (self):
         sender = self.sender().objectName()
         self.Env.RunApp (sender,None)
-        app.switch('desktop')
+        files.write('/proc/info/id','desktop')
 
 class MenuApplications (QMainWindow):
     def __init__(self,ports):
@@ -1792,9 +1792,9 @@ class Desktop (QMainWindow):
         elif files.isfile(f'/usr/share/applications/{appname}.desk'):
             self.layout().addWidget(AppWidget([self.Backend, self, appname,external]))
         else:
-            app.switch('desktop')
+            files.write('/proc/info/id','desktop')
             self.layout().addWidget(AppWidget([self.Backend, self, 'text', [res.get('@string/notf'), res.get('@string/notfm')]]))
-            app.switch('desktop')
+            files.write('/proc/info/id','desktop')
 
     def StartupApplication (self):
 
@@ -1811,36 +1811,43 @@ class Desktop (QMainWindow):
                         strv+=' '+j
                 print(strv)
                 self.RunApp(x[0],[strv])
-                app.switch('desktop')
+                files.write('/proc/info/id','desktop')
 
     def RunApplication (self):
         sender = self.sender().objectName()
         self.RunApp (sender.replace('.desk',''),None)
-        app.switch('desktop')
+        files.write('/proc/info/id','desktop')
 
     def escape_act (self):
-        app.switch('desktop')
+        files.write('/proc/info/id','desktop')
         self.RunApp('bool',[res.get('@string/esc'),res.get('@string/escm'),self.escape_act_])
-        app.switch('desktop')
+        files.write('/proc/info/id', 'desktop')
+        
 
     def escape_act_(self,yes):
         if yes:
-            app.endall()
-            app.switch('desktop')
-            commands.shutdown([])
-            sys.exit(0)
+            if not files.readall('/proc/info/os')=='Pyabr':
+                app.endall()
+                self.Backend.hide()
+                commands.shutdown([])
+                sys.exit(0)
+            else:
+                subprocess.call(['poweroff'])
 
     def reboot_act (self):
-        app.switch('desktop')
+        files.write('/proc/info/id','desktop')
         self.RunApp('bool', [res.get('@string/rb'), res.get('@string/rbm'), self.reboot_act_])
-        app.switch('desktop')
+        files.write('/proc/info/id','desktop')
 
     def reboot_act_(self,yes):
         if yes:
-            app.endall()
-            self.Backend.hide()
-            commands.reboot([])
-            sys.exit(0)
+            if not files.readall('/proc/info/os') == 'Pyabr':
+                app.endall()
+                self.Backend.hide()
+                commands.reboot([])
+                sys.exit(0)
+            else:
+                subprocess.call(['reboot'])
 
     def wakeup_act (self):
         self.submenu.show()
@@ -1858,9 +1865,9 @@ class Desktop (QMainWindow):
         self.setCentralWidget(self.BtnWakeUp)
 
     def signout_act (self):
-        app.switch('desktop')
+        files.write('/proc/info/id','desktop')
         self.RunApp('bool', [res.get('@string/sg'), res.get('@string/sgm'), self.signout_act_])
-        app.switch('desktop')
+        files.write('/proc/info/id','desktop')
 
     def signout_act_ (self,yes):
         if yes:
@@ -1870,9 +1877,9 @@ class Desktop (QMainWindow):
             sys.exit(0)
 
     def switchuser_act (self):
-        app.switch('desktop')
+        files.write('/proc/info/id','desktop')
         self.RunApp('bool', [res.get('@string/sau'), res.get('@string/saum'), self.switchuser_act_])
-        app.switch('desktop')
+        files.write('/proc/info/id','desktop')
 
     def switchuser_act_(self,yes):
         if yes:
@@ -2164,7 +2171,7 @@ class Desktop (QMainWindow):
 
     def accoutsetting (self):
         self.RunApp('usermanager',None)
-        app.switch('desktop')
+        files.write('/proc/info/id','desktop')
 
     def Loop(self):
         self.update()

@@ -198,7 +198,7 @@ class MainApp(QMainWindow):
             return
 
         title = self.tabs.currentWidget().page().title()
-        self.Widget.setWindowTitle(f"%s - {res.get('app_name')}" % title)
+        self.Widget.setWindowTitle(f"%s - {res.get('@string/app_name')}" % title)
 
     def navigate_mozarella(self):
         self.tabs.currentWidget().setUrl(QUrl("https://gap.im/pyabr"))

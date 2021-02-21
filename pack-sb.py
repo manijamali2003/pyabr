@@ -45,7 +45,6 @@ if not os.path.isdir('sb'):
     f.write('pyabr')
     f.close()
 
-    #os.system('> sb/stor/testing')
 else:
     list.remove('sb')
 

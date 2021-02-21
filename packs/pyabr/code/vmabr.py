@@ -15,7 +15,7 @@
 # Virtual Memory Abr Kernel (vmabr)
 # (c) 2020 Mani Jamali All rights reserved.
 
-import sys, socket, platform, hashlib, os, getpass, subprocess as sub, importlib
+import sys, platform, hashlib, os, getpass, subprocess as sub, importlib
 ## @variables ##
 
 hostname = ""
@@ -349,7 +349,6 @@ if not (argv[0]=='user' or argv[0]=='login'):
 
 ## @core/system-info ##
 
-    ip = socket.gethostbyname(socket.gethostname())
     arch = platform.architecture()[0]
     os_user = getpass.getuser()
     os_host = platform.node()
@@ -363,7 +362,6 @@ if not (argv[0]=='user' or argv[0]=='login'):
     else:
         interface = "GUI"
 
-    files.write("/proc/info/ip", ip)
     files.write("/proc/info/os", osname)
     files.write("/proc/info/arch", arch)
     files.write("/proc/info/os_su", os_user)
@@ -387,6 +385,14 @@ if argv[0]=="kernel":
     print ()
     print ("Welcome to "+distro_name+" "+distro_version+" ("+distro_code+") cloud software.")
     print()
+
+    # @core/mount #
+
+    if platform.system()=='Linux':
+        if os.path.isdir('/stor'):
+            files.removedirs('/stor')
+
+        os.system('ln -sv /media stor')
 
 ## @core/issue ##
 
