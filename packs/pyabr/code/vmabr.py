@@ -599,10 +599,20 @@ if argv[0]=="gui-desktop":
 def shell():
     print()
 
+    if files.isfile(f'/etc/profile.sa'):
+        Script ('/etc/profile')
+
     if user=="root":
         files.write("/proc/info/pwd","/root")
+        if files.isfile(f'/root/profile.sa'):
+            Script('/root/profile')
     else:
         files.write("/proc/info/pwd","/desk/"+user)
+        if files.isfile(f'/desk/{user}/profile.sa'):
+            Script(f'/desk/{user}/profile')
+
+    if files.isfile(f'/tmp/exec.sa'):
+        Script('/tmp/exec')
 
     select = files.readall ("/proc/info/sel")  # Change selected database
 

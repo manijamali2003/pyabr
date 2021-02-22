@@ -450,17 +450,26 @@ class MainApp(QtWidgets.QMainWindow):
 
         ## Run it ##
         if file.endswith (".c") or file.endswith('.cpp') or file.endswith('.cxx') or file.endswith('.c++'):
-            try:
-                commands.cc([file])
-            except:
-                app.switch('persia')
-                self.Env.RunApp('text', [res.get('@string/ce'), res.get('@string/cem')])
-                app.switch('persia')
+            filename = file
+            execname = file.replace('.cpp', '').replace('.cxx', '').replace('.c++', '').replace(
+                '.c', '')
+            files.write('/tmp/exec.sa', f'''
+say Compiling {filename} ...
+cc {filename}
+echo done
+echo Running {execname} ...
+echo
+{execname}
+echo
+echo Finish runing process with exit 0 ...
+rm /tmp/exec.sa
+rm {execname}
+pause
+                        ''')
+            self.Env.RunApp('commento', [None])
+            app.switch('persia')
+            files.remove(execname)
 
-            app.switch('persia')
-            self.Env.RunApp('commento',[file.replace('.cpp','').replace('.cxx','').replace('.c++','').replace('.c',''),res.get('@string/pycon')])
-            app.switch('persia')
-            files.remove(file.replace('.c','').replace('.cpp','').replace('.cxx','').replace('.c++',''))
         elif file.endswith ('.py'):
             # check graphical PyQt5 #
             if files.readall(file).__contains__('from PyQt5') and files.readall(file).__contains__('MainApp'):
@@ -477,14 +486,31 @@ class MainApp(QtWidgets.QMainWindow):
                 files.remove(f'/usr/share/applications/debug_{rand}.desk')
                 files.remove(f'/usr/app/debug_{rand}.pyc')
             else:
-                commands.cp ([file,'/usr/app/'+files.filename(file)])
+                execname = file.replace('.py', '')
+                files.write('/tmp/exec.sa', f'''
+echo Running {execname} ...
+echo
+{execname}
+echo
+echo Finish runing process with exit 0 ...
+rm /tmp/exec.sa
+pause
+                                                        ''')
+                self.Env.RunApp('commento', [None])
                 app.switch('persia')
-                self.Env.RunApp('commento', [files.filename(file.replace('.py','')),res.get('@string/pycon')])
-                app.switch('persia')
-                commands.rm (['/usr/app/'+files.filename(file)])
+
         elif file.endswith ('.sa'):
-            app.switch('persia')
-            self.Env.RunApp('commento', [file.replace('.sa',''), res.get('@string/pycon')])
+            execname = file.replace('.sa', '')
+            files.write('/tmp/exec.sa', f'''
+echo Running {execname} ...
+echo
+{execname}
+echo
+echo Finish runing process with exit 0 ...
+rm /tmp/exec.sa
+pause
+                                        ''')
+            self.Env.RunApp('commento', [None])
             app.switch('persia')
         else:
             app.switch('persia')
@@ -526,7 +552,14 @@ class MainApp(QtWidgets.QMainWindow):
             System(f'paye pak {path}/packs/{project}')
             System(f'paye upak {path}/packs/{project}.pa')
             app.switch('persia')
-            self.Env.RunApp('commento', [f"{project}_{rand}", res.get('@string/pycon')])
+            filename = self.Widget.WindowTitle()
+            execname = filename.replace('.py', '')
+            files.write('/tmp/exec.sa', f'''
+{project}_{rand}
+rm /tmp/exec.sa
+pause
+                                        ''')
+            self.Env.RunApp('commento', [None])
             app.switch('persia')
 
         if files.isfile(f'{path}/packs/{project}.pa'): files.remove(f'{path}/packs/{project}.pa')

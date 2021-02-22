@@ -163,13 +163,12 @@ class ShowPackageInformation (QMainWindow):
         background-color: orange;color:white;border-radius: 25% 25%;
         }''')
         self.btnUninstall.clicked.connect(self.xuni)
-        self.btnUninstall.setText('Uninstall')
+        self.btnUninstall.setText(res.get('@string/unxp'))
         self.btnUninstall.setGeometry(self.width()-260, 128-25, 100, 50)
         self.layout().addWidget(self.btnUninstall)
 
         self.btnUpdate = QPushButton()
         self.btnUpdate.clicked.connect(self.xup)
-        self.btnUpdate.setText('Update')
         self.btnUpdate.setStyleSheet('''
         QPushButton {
         background-color: green;color:white;border-radius: 25% 25%;
@@ -179,6 +178,17 @@ class ShowPackageInformation (QMainWindow):
         }''')
         self.btnUpdate.setGeometry(self.width()-150, 128 - 25, 100, 50)
         self.layout().addWidget(self.btnUpdate)
+
+        # is up to date  disable update button
+        oldv = control.read_record('version', f'/app/packages/{self.External[0]}.manifest')
+        newv = control.read_record('version', f'/app/mirrors/{self.External[0]}.manifest')
+
+        if oldv == newv:
+            self.btnUpdate.setEnabled(False)
+            self.btnUpdate.setText(res.get('@string/open'))
+        else:
+            self.btnUpdate.setEnabled(True)
+            self.btnUpdate.setText(res.get('@string/update'))
 
         self.w = QWidget()
         self.w.setGeometry(30,200,self.width()-60,275)
@@ -236,7 +246,7 @@ class ShowPackageInformation (QMainWindow):
     def xup_(self,yes):
         if yes:
             self.btnUpdate.setEnabled(False)
-            System(f"paye up {self.External[0]}")
+            System(f"paye in {self.External[0]}")
             self.btnUpdate.setEnabled(True)
             app.switch('paye')
             self.Backend.RunApp('text', [res.get("@string/upx"), res.get('@string/upxm').replace("{0}",self.External[0])])
@@ -251,6 +261,8 @@ class MainApp (QMainWindow):
         self.Widget = ports[2]
         self.AppName = ports[3]
         self.External = ports[4]
+
+        app.switch('paye')
 
         self.Widget.SetWindowIcon(QIcon(res.get(res.etc(self.AppName,"logo"))))
         self.Widget.SetWindowTitle (res.get('@string/app_name'))

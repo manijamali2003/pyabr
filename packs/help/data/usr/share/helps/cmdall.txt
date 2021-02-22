@@ -25,6 +25,7 @@ Standard Cloud Commands:
     mv         Move or rename directories or files
     new        Create a new switch process
     passwd     Change users password
+    pause      Pause the console
     reboot     Reboot the clouding system
     rm         Remove files or directories
     say        Output a nonline message

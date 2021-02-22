@@ -119,16 +119,24 @@ class MainApp(QtWidgets.QMainWindow):
 
         ## Run it ##
         if self.Widget.WindowTitle().endswith (".c") or self.Widget.WindowTitle().endswith('.cpp') or self.Widget.WindowTitle().endswith('.cxx') or self.Widget.WindowTitle().endswith('.c++'):
-            try:
-                cmd.cc([self.Widget.WindowTitle()])
-            except:
-                app.switch('barge')
-                self.Env.RunApp('text', [res.get('@string/ce'), res.get('@string/cem')])
-                app.switch('barge')
-
-            self.Env.RunApp('commento',[self.Widget.WindowTitle().replace('.cpp','').replace('.cxx','').replace('.c++','').replace('.c',''),res.get('@string/con')])
+            filename = self.Widget.WindowTitle()
+            execname = self.Widget.WindowTitle().replace('.cpp','').replace('.cxx','').replace('.c++','').replace('.c','')
+            files.write('/tmp/exec.sa',f'''
+say Compiling {filename} ...
+cc {filename}
+echo done
+echo Running {execname} ...
+echo
+{execname}
+echo
+echo Finish runing process with exit 0 ...
+rm /tmp/exec.sa
+rm {execname}
+pause
+            ''')
+            self.Env.RunApp('commento',[None])
             app.switch('barge')
-            files.remove(self.Widget.WindowTitle())
+            files.remove(execname)
 
         elif self.Widget.WindowTitle().endswith ('.py'):
             # check graphical PyQt5 #
@@ -145,10 +153,33 @@ class MainApp(QtWidgets.QMainWindow):
                 files.remove(f'/usr/share/applications/debug_{rand}.desk')
                 files.remove(f'/usr/app/debug_{rand}.pyc')
             else:
-                self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.py',''),res.get('@string/con')])
+                filename = self.Widget.WindowTitle()
+                execname = filename.replace('.py','')
+                files.write('/tmp/exec.sa', f'''
+echo Running {execname} ...
+echo
+{execname}
+echo
+echo Finish runing process with exit 0 ...
+rm /tmp/exec.sa
+pause
+                            ''')
+                self.Env.RunApp('commento', [None])
                 app.switch('barge')
+
         elif self.Widget.WindowTitle().endswith ('.sa'):
-            self.Env.RunApp('commento', [self.Widget.WindowTitle().replace('.sa', ''), res.get('@string/con')])
+            filename = self.Widget.WindowTitle()
+            execname = filename.replace('.sa', '')
+            files.write('/tmp/exec.sa', f'''
+echo Running {execname} ...
+echo
+{execname}
+echo
+echo Finish runing process with exit 0 ...
+rm /tmp/exec.sa
+pause
+                                        ''')
+            self.Env.RunApp('commento', [None])
             app.switch('barge')
         else:
             if not self.Widget.WindowTitle()==res.get('@string/untitled'):

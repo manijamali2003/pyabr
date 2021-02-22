@@ -116,6 +116,10 @@ class Commands:
             else:
                 control.remove_record(name, select)
 
+    # pause
+    def pause (self,args):
+        self.sleep(['1000000'])
+
     # add controller data base
     def add (self,args):
         files = Files()
@@ -2285,6 +2289,13 @@ class Package:
             files.copy('/etc/permtab','/app/cache/backups/permtab.bak')
             files.copy('/etc/time', '/app/cache/backups/time.bak')
 
+            mode = control.read_record('mode','/etc/paye/sources')
+
+            print(f'Downloading {mode} archive package ... ', end='')
+            self.download(mode)
+            self.unpack(f'/app/cache/gets/{mode}.pa')
+            print('done')
+
             for i in files.list ('/app/packages'):
                 if i.endswith ('.manifest') and files.isfile(f'/app/mirrors/{i.replace(".manifest","")}'):
                     i = i.replace('.manifest','')
@@ -2292,7 +2303,8 @@ class Package:
                     # check version
                     old = control.read_record('version',f'/app/packages/{i}.manifest')
                     new = control.read_record('version',f'/app/mirrors/{i}.manifest')
-                    if i=='latest' or not old==new:
+
+                    if not old==new and not i=='latest' and not i=='stable':
                         print(f'Downloading {i} archive package ... ', end='')
                         self.download(i)
                         print('done')

@@ -257,10 +257,16 @@ elif option=='pip':
         argsv.append(i)
     subprocess.call(argsv)
 
-elif option=='ul':
+elif option=='latest':
     print('Downloading the latest repo ... ',end='')
     pack.download('latest')
     pack.unpack('/app/cache/gets/latest.pa')
+    print('done')
+
+elif option=='stable':
+    print('Downloading the stable repo ... ',end='')
+    pack.download('stable')
+    pack.unpack('/app/cache/gets/stable.pa')
     print('done')
 
 elif option=='crt':
