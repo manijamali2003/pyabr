@@ -64,6 +64,14 @@ def unpack (name):
     if os.path.isfile ("app/cache/archives/control/manifest"): shutil.copyfile("app/cache/archives/control/manifest","stor/app/packages/"+name+".manifest")
     if os.path.isfile("app/cache/archives/control/list"): shutil.copyfile("app/cache/archives/control/list","stor/app/packages/" + name + ".list")
     if os.path.isfile("app/cache/archives/control/compile"): shutil.copyfile("app/cache/archives/control/compile","stor/app/packages/" + name + ".compile")
+    if os.path.isfile("app/cache/archives/control/preremove.sa"): shutil.copyfile("app/cache/archives/control/preremove.sa",
+                                                                             "stor/app/packages/" + name + ".preremove")
+    if os.path.isfile("app/cache/archives/control/postremove.sa"): shutil.copyfile("app/cache/archives/control/postremove.sa",
+                                                                             "stor/app/packages/" + name + ".postremove")
+    if os.path.isfile("app/cache/archives/control/preinstall.sa"): shutil.copyfile("app/cache/archives/control/preinstall.sa",
+                                                                             "stor/app/packages/" + name + ".preinstall")
+    if os.path.isfile("app/cache/archives/control/postinstall.sa"): shutil.copyfile("app/cache/archives/control/postinstall.sa",
+                                                                             "stor/app/packages/" + name + ".postinstall.sa")
 
     ## Compile codes ##
     if os.path.isfile ("app/cache/archives/control/compile"):

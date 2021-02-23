@@ -334,6 +334,18 @@ else:
     colors.show("kernel", "stop", "")
     sys.exit(0)
 
+## @core/mount ##
+if platform.system()=='Linux' and argv[0]=='gui':
+    if files.isdir('/stor'):
+        files.removedirs('/stor')
+
+    os.system('ln -s /media stor')
+
+    if files.isdir('/usr/share/fonts'):
+        files.removedirs('/usr/share/fonts')
+
+    os.system('ln -s /usr/share/fonts usr/share/fonts')
+
 ## @core/removeinstaller ##
 
 if not (argv[0]=='user' or argv[0]=='login'):
@@ -385,14 +397,6 @@ if argv[0]=="kernel":
     print ()
     print ("Welcome to "+distro_name+" "+distro_version+" ("+distro_code+") cloud software.")
     print()
-
-    # @core/mount #
-
-    if platform.system()=='Linux':
-        if os.path.isdir('/stor'):
-            files.removedirs('/stor')
-
-        os.system('ln -sv /media stor')
 
 ## @core/issue ##
 
