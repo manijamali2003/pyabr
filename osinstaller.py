@@ -16,9 +16,6 @@ import platform
 import hashlib, shutil, os, sys
 from buildlibs import pack_archives as pack, control
 
-os.environ["QT_IM_MODULE"] = "qtvirtualkeyboard"
-
-
 app = QtWidgets.QApplication([])
 
 f = QtGui.QFont()
@@ -34,10 +31,20 @@ class FakeDesktop (QtWidgets.QMainWindow):
         width, height = screen_resolution.width(), screen_resolution.height()
 
         self.resize(width,height)
-        self.setStyleSheet('background-color: #123456')
+        self.x = QtWidgets.QWidget()
+        self.x.setStyleSheet('background-image: url("packs/baran/data/usr/share/backgrounds/glass.jpg")')
         self.showFullScreen()
 
+        # Copy right shadow box: medium.com/@rekols/qt-button-box-shadow-property-c47c7bf58721 ##
+        shadow = QtWidgets.QGraphicsDropShadowEffect()
+        shadow.setColor(QtGui.QColor(10, 2, 34, 255 ))
+        shadow.setOffset(0)
+        shadow.setBlurRadius(10)
+
         self.w = MainApp()
+        self.w.setGraphicsEffect(shadow)
+
+        self.setCentralWidget(self.x)
         self.layout().addWidget(self.w)
 
 class MainApp(QtWidgets.QWizard):

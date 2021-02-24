@@ -26,7 +26,6 @@ list = os.listdir('.')
 list.remove('.git')
 list.remove('.idea')
 list.remove('pack-release')
-list.remove('latest')
 
 for i in list:
     if os.path.isdir(i):

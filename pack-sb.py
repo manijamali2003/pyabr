@@ -15,8 +15,6 @@ import subprocess, os, sys, shutil
 list = os.listdir('.')
 list.remove('.git')
 list.remove('.idea')
-list.remove('latest')
-list.remove('stable')
 list.remove('wheel')
 list.remove('build.py')
 list.remove('pack-sb.py')
@@ -40,11 +38,15 @@ if not os.path.isdir('sb'):
     os.mkdir('sb/pyabr/pyabr-master')
     os.mkdir('sb/stor')
     os.mkdir('sb/root')
+    os.mkdir('sb/etc')
 
     f = open('sb/root/.xinitrc','w')
     f.write('pyabr')
     f.close()
 
+    f = open('sb/etc/issue.net', 'w')
+    f.write('Pyabr')
+    f.close()
 else:
     list.remove('sb')
 
