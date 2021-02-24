@@ -1789,11 +1789,13 @@ class Desktop (QMainWindow):
     def RunApp (self,appname,external):
         app.switch(appname)
         files.write('/proc/info/su', self.username)
+        files.write('/proc/info/pass', self.password)
+
         if appname==getdata('terminal'):
-            files.write('/proc/info/pass',self.password)
             self.layout().addWidget(AppWidget([self.Backend, self, getdata('terminal'), external]))
         elif files.isfile(f'/usr/share/applications/{appname}.desk'):
             self.layout().addWidget(AppWidget([self.Backend, self, appname,external]))
+            files.remove('/proc/info/pass')
         else:
             files.write('/proc/info/id','desktop')
             self.layout().addWidget(AppWidget([self.Backend, self, 'text', [res.get('@string/notf'), res.get('@string/notfm')]]))
