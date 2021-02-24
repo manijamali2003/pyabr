@@ -163,6 +163,7 @@ height: 720
 autosize: Yes
 logo: @icon/pyabr-logo
 locale: {locale}
+terminal: commento
 font: Iran Sans
 theme-name: Glass theme
 backend.color: black
