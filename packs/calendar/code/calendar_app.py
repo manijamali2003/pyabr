@@ -43,6 +43,8 @@ class MainApp (QMainWindow):
 
         ## Calender widget ##
 
+        self.calendar.setFont(self.Env.font())
+
         ## Start week ##
         if sweek=="Sat":
             self.calendar.setFirstDayOfWeek(Qt.Saturday)

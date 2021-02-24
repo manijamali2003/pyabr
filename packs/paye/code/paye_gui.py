@@ -38,6 +38,7 @@ class PackageListView (QListView):
                 self.locale = control.read_record('locale', '/etc/gui')
                 it.setText(control.read_record(f'name[{self.locale}]', f'/usr/share/applications/{it.text()}.desk'))
                 it.setIcon(QIcon(res.get(self.logo)))
+                it.setFont(self.Env.font())
             else:
                 it.setIcon(QIcon(res.get('@icon/runner')))
         else:
@@ -85,6 +86,8 @@ class PackageListView (QListView):
             self.Widget.layout().addWidget (w)
 
 class ShowPackageInformation (QMainWindow):
+    def run_app_ (self):
+        self.Backend.RunApp(self.selected,[None])
     def __init__(self,ports):
         super(ShowPackageInformation, self).__init__()
 
@@ -118,8 +121,11 @@ class ShowPackageInformation (QMainWindow):
         self.resize(self.Env.width(),self.Env.height())
 
         self.btnBack = QPushButton()
+        self.btnBack.setFont(self.Env.font())
         self.btnBack.clicked.connect(self.xhide)
-        self.btnBack.setText('Back')
+        app.switch('paye')
+        self.btnBack.setText(res.get('@string/back'))
+        app.switch('paye')
         self.btnBack.setGeometry(0, 0, self.Env.width(), 50)
         self.btnBack.setStyleSheet('background-color: #123456;color:white;')
         self.layout().addWidget(self.btnBack)
@@ -147,14 +153,17 @@ class ShowPackageInformation (QMainWindow):
         self.layout().addWidget (self.btnImage)
 
         self.lblName = QLabel()
+        self.lblName.setFont(self.Env.font())
         self.lblName.setText(self.External[0])
         self.lblName.setGeometry(60 + 128, 128 - 25, self.width(), 50)
-        f = QFont()
-        f.setPointSize(20)
-        self.lblName.setFont(f)
         self.layout().addWidget(self.lblName)
 
+        list = control.read_list('/etc/paye/permanetly_applications')
+
         self.btnUninstall = QPushButton()
+        self.btnUninstall.setFont(self.Env.font())
+        if self.External[0] in list:
+            self.btnUninstall.setVisible(False)
         self.btnUninstall.setStyleSheet('''
         QPushButton {
         background-color: red;color:white;border-radius: 25% 25%;
@@ -163,12 +172,15 @@ class ShowPackageInformation (QMainWindow):
         background-color: orange;color:white;border-radius: 25% 25%;
         }''')
         self.btnUninstall.clicked.connect(self.xuni)
+        app.switch('paye')
         self.btnUninstall.setText(res.get('@string/unxp'))
+        app.switch('paye')
         self.btnUninstall.setGeometry(self.width()-260, 128-25, 100, 50)
         self.layout().addWidget(self.btnUninstall)
 
         self.btnUpdate = QPushButton()
-        self.btnUpdate.clicked.connect(self.xup)
+        self.btnUpdate.setFont(self.Env.font())
+
         self.btnUpdate.setStyleSheet('''
         QPushButton {
         background-color: green;color:white;border-radius: 25% 25%;
@@ -184,44 +196,51 @@ class ShowPackageInformation (QMainWindow):
         newv = control.read_record('version', f'/app/mirrors/{self.External[0]}.manifest')
 
         if oldv == newv:
-            self.btnUpdate.setEnabled(False)
+            app.switch('paye')
             self.btnUpdate.setText(res.get('@string/open'))
+            app.switch('paye')
+            self.selected = self.External[0]
+            self.btnUpdate.clicked.connect (self.run_app_)
         else:
             self.btnUpdate.setEnabled(True)
+            self.btnUpdate.clicked.connect(self.xup)
+            app.switch('paye')
             self.btnUpdate.setText(res.get('@string/update'))
+            app.switch('paye')
 
         self.w = QWidget()
         self.w.setGeometry(30,200,self.width()-60,275)
         self.hbox = QHBoxLayout()
         self.w.setLayout(self.hbox)
-        f.setPointSize(12)
         self.text1 = QTextBrowser()
         self.text1.setAlignment(Qt.AlignRight)
-        self.text1.append(f'\nPackage name:\n')
-        self.text1.append(f'Package version:\n')
-        self.text1.append(f'Build date:\n')
-        self.text1.append(f'Copyright:\n')
-        self.text1.append(f'License:\n')
-        self.text1.append(f'Installed in:\n')
-        self.text1.setFont(f)
+        self.text1.setFont(self.Env.font())
+        self.text1.append(f'\nPackage name:')
+        self.text1.append(f'Package version:')
+        self.text1.append(f'Build date:')
+        self.text1.append(f'Copyright:')
+        self.text1.append(f'License:')
+        self.text1.append(f'Installed in:')
         self.hbox.addWidget(self.text1)
 
         self.text2 = QTextBrowser()
-        self.text2.append("\n"+self.name+"\n")
-        self.text2.append(self.version+"\n")
-        self.text2.append(self.build+"\n")
-        self.text2.append(self.copyright+"\n")
-        self.text2.append(self.license+"\n")
-        self.text2.append(self.unpack+"\n")
+        self.text2.setFont(self.Env.font())
+        self.text2.append("\n"+self.name)
+        self.text2.append(self.version)
+        self.text2.append(self.build)
+        self.text2.append(self.copyright)
+        self.text2.append(self.license)
+        self.text2.append(self.unpack)
         self.text2.setAlignment(Qt.AlignLeft)
-        self.text2.setFont(f)
         self.hbox.addWidget(self.text2)
         self.layout().addWidget(self.w)
 
     def xhide (self):
         self.hide()
         self.XShowpackages.show()
+        app.switch('paye')
         self.Env.SetWindowTitle(res.get("@string/app_name"))
+        app.switch('paye')
 
     # un install pack #
     def xuni (self):
@@ -265,26 +284,35 @@ class MainApp (QMainWindow):
         app.switch('paye')
 
         self.Widget.SetWindowIcon(QIcon(res.get(res.etc(self.AppName,"logo"))))
+        app.switch('paye')
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
+        app.switch('paye')
         self.Widget.Resize(self,720,640)
 
         self.menubar = QMenuBar()
         self.setMenuBar(self.menubar)
-
+        app.switch('paye')
         self.mirror = self.menubar.addMenu(res.get('@string/mirror'))
+        self.mirror.setFont(self.Env.font())
         self.package = self.menubar.addMenu(res.get('@string/package'))
-
+        self.package.setFont(self.Env.font())
         self.addm = self.mirror.addAction (res.get('@string/add'))
+        self.addm.setFont(self.Env.font())
         self.addm.triggered.connect (self.addm_)
         self.delm = self.mirror.addAction (res.get('@string/remove'))
         self.delm.triggered.connect (self.delm_)
+        self.delm.setFont(self.Env.font())
 
         self.instp = self.package.addAction(res.get('@string/install'))
+        self.instp.setFont(self.Env.font())
         self.instp.triggered.connect (self.inst_)
         self.remp = self.package.addAction(res.get('@string/uninstall'))
+        self.remp.setFont(self.Env.font())
         self.remp.triggered.connect (self.rem_)
         self.downp = self.package.addAction(res.get('@string/download'))
+        self.downp.setFont(self.Env.font())
         self.downp.triggered.connect (self.down_)
+        app.switch('paye')
 
         self.x = PackageListView([self.Env,self.Widget,self,self.AppName,self.External])
         self.setCentralWidget(self.x)

@@ -113,10 +113,10 @@ class Calc(QWidget):
         self.display.setReadOnly(True)
         self.display.setAlignment(Qt.AlignRight)
         self.display.setMaxLength(15)
-
-        font = self.display.font()
-        font.setPointSize(int(res.etc('calculator','line_fontsize')))
-        self.display.setFont(font)
+        f = QFont()
+        f.setFamily(self.Env.font().family())
+        f.setPointSize(20)
+        self.display.setFont(f)
 
         self.digitButtons = []
 
@@ -125,48 +125,65 @@ class Calc(QWidget):
                                                        self.digitClicked))
 
         self.pointButton = self.createButton(".", self.pointClicked)
+        self.pointButton.setFont(self.Env.font())
         self.changeSignButton = self.createButton(u"\N{PLUS-MINUS SIGN}",
                                                   self.changeSignClicked)
+        self.changeSignButton.setFont(self.Env.font())
 
         self.backspaceButton = self.createButton(res.get('@string/backspace'),
                                                  self.backspaceClicked)
+        self.backspaceButton.setFont(self.Env.font())
         self.backspaceButton.setStyleSheet(self.style_upbtn)
         self.clearButton = self.createButton(res.get('@string/clear'), self.clear)
+        self.clearButton.setFont(self.Env.font())
         self.clearButton.setStyleSheet(self.style_upbtn)
         self.clearAllButton = self.createButton(res.get('@string/clearall'), self.clearAll)
+        self.clearAllButton.setFont(self.Env.font())
         self.clearAllButton.setStyleSheet(self.style_upbtn)
 
         self.clearMemoryButton = self.createButton("MC", self.clearMemory)
+        self.clearMemoryButton.setFont(self.Env.font())
         self.clearMemoryButton.setStyleSheet(self.style_opbtn)
         self.readMemoryButton = self.createButton("MR", self.readMemory)
+        self.readMemoryButton.setFont(self.Env.font())
         self.readMemoryButton.setStyleSheet(self.style_opbtn)
         self.setMemoryButton = self.createButton("MS", self.setMemory)
         self.setMemoryButton.setStyleSheet(self.style_opbtn)
+        self.setMemoryButton.setFont(self.Env.font())
         self.addToMemoryButton = self.createButton("M+", self.addToMemory)
         self.addToMemoryButton.setStyleSheet(self.style_opbtn)
+        self.addToMemoryButton.setFont(self.Env.font())
 
         self.divisionButton = self.createButton(u"\N{DIVISION SIGN}",
                                                 self.multiplicativeOperatorClicked)
         self.divisionButton.setStyleSheet(self.style_opbtn)
+        self.divisionButton.setFont(self.Env.font())
         self.timesButton = self.createButton(u"\N{MULTIPLICATION SIGN}",
                                              self.multiplicativeOperatorClicked)
+        self.timesButton.setFont(self.Env.font())
         self.timesButton.setStyleSheet(self.style_opbtn)
         self.minusButton = self.createButton("-", self.additiveOperatorClicked)
         self.minusButton.setStyleSheet(self.style_opbtn)
+        self.minusButton.setFont(self.Env.font())
         self.plusButton = self.createButton("+", self.additiveOperatorClicked)
         self.plusButton.setStyleSheet(self.style_opbtn)
+        self.plusButton.setFont(self.Env.font())
 
         self.squareRootButton = self.createButton("Sqrt",
                                                   self.unaryOperatorClicked)
+        self.squareRootButton.setFont(self.Env.font())
         self.squareRootButton.setStyleSheet(self.style_opbtn)
         self.powerButton = self.createButton(u"x\N{SUPERSCRIPT TWO}",
                                              self.unaryOperatorClicked)
+        self.powerButton.setFont(self.Env.font())
         self.powerButton.setStyleSheet(self.style_opbtn)
         self.reciprocalButton = self.createButton("1/x",
                                                   self.unaryOperatorClicked)
+        self.reciprocalButton.setFont(self.Env.font())
         self.reciprocalButton.setStyleSheet(self.style_opbtn)
         self.equalButton = self.createButton("=", self.equalClicked)
         self.equalButton.setStyleSheet(self.style_opbtn)
+        self.equalButton.setFont(self.Env.font())
 
         mainLayout = QGridLayout()
         mainLayout.setSizeConstraint(QLayout.SetFixedSize)
@@ -406,4 +423,4 @@ class MainApp (QMainWindow):
         self.calc = Calc(ports)
         self.setStyleSheet(f'background-color:{res.etc(self.AppName,"bgcolor")};')
         self.setCentralWidget(self.calc)
-        self.Widget.Resize(self,380,360)
+        self.Widget.Resize(self,400,390)

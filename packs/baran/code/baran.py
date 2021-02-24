@@ -1494,27 +1494,30 @@ class AppWidget (QMainWindow):
                 self.setGeometry(0, 0, self.Env.width(), self.Env.height()-size-15)
                 self.mainWidget.resize (self.Env.width(),self.Env.height()-variables.app_title_size-size-15)
                 self.titlebar.setGeometry(0,0,self.Env.width(),self.app_title_size)
-                self.titletext.setGeometry(self.app_title_size, 0, self.Env.width(), self.app_title_size)
+                #self.titletext.setGeometry(self.app_title_size, 0, self.Env.width(), self.app_title_size)
+
             elif location=='top':
                 self.setGeometry(0, size+15, self.Env.width(), self.Env.height() - size - 15)
                 self.mainWidget.resize(self.Env.width(), self.Env.height() - variables.app_title_size - size - 15)
                 self.titlebar.setGeometry(0, 0, self.Env.width(), self.app_title_size)
-                self.titletext.setGeometry(self.app_title_size, 0, self.Env.width(), self.app_title_size)
+                #self.titletext.setGeometry(self.app_title_size, 0, self.Env.width(), self.app_title_size)
+
             elif location=="left":
                 self.setGeometry(size+15, 0, self.Env.width() - size - 15, self.Env.height())
                 self.mainWidget.resize(self.Env.width()-size-15, self.Env.height() - variables.app_title_size)
                 self.titlebar.setGeometry(0, 0, self.Env.width()-size-15, self.app_title_size)
-                self.titletext.setGeometry(self.app_title_size, 0, self.Env.width()-size-15, self.app_title_size)
+                #self.titletext.setGeometry(self.app_title_size, 0, self.Env.width()-size-15, self.app_title_size)
+
             elif location=="right":
                 self.setGeometry(0, 0, self.Env.width() - size - 15, self.Env.height())
                 self.mainWidget.resize(self.Env.width()-size-15, self.Env.height() - variables.app_title_size)
                 self.titlebar.setGeometry(0, 0, self.Env.width()-size-15, self.app_title_size)
-                self.titletext.setGeometry(self.app_title_size, 0, self.Env.width()-size-15, self.app_title_size)
+                #self.titletext.setGeometry(self.app_title_size, 0, self.Env.width()-size-15, self.app_title_size)
             else:
                 self.setGeometry(0, 0, self.Env.width(), self.Env.height())
                 self.mainWidget.resize(self.Env.width(), self.Env.height() - variables.app_title_size)
                 self.titlebar.setGeometry(0, 0, self.Env.width(), self.app_title_size)
-                self.titletext.setGeometry(self.app_title_size, 0, self.Env.width(), self.app_title_size)
+                #self.titletext.setGeometry(self.app_title_size, 0, self.Env.width(), self.app_title_size)
 
             self.mainWidget.update()
 

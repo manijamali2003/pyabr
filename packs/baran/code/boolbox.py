@@ -36,9 +36,6 @@ class MainApp (QMainWindow):
         self.Widget.SetWindowIcon(QIcon(res.get(res.etc('bool',"logo"))))
         ## Finds ##
 
-
-
-
         self.lblText = QLabel()
         self.lblText.setStyleSheet('padding-left: 10%;padding-right: 10%;')
         if self.Env.width() > 1000 and self.Env.height() > 720:

@@ -300,93 +300,117 @@ class MainApp(QtWidgets.QMainWindow):
 
         # menubar
         self.menubar = self.menuBar()
+        self.menubar.setFont(self.Env.font())
         self.file = self.menubar.addMenu(res.get('@string/file'))
+        self.file.setFont(self.Env.font())
 
         # file menu #
         self.new_code = self.file.addMenu(res.get('@string/new'))
+        self.new_code.setFont(self.Env.font())
         self.new_code.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'text'))))
 
         ## new file
 
         self.new_file = self.new_code.addAction(res.get('@string/newfile'))
+        self.new_file.setFont(self.Env.font())
         self.new_file.triggered.connect(self.New_File)
         self.new_file.setIcon(QIcon(res.get('@icon/gtk-file')))
 
         self.new_fldr = self.new_code.addAction(res.get('@string/newfolder'))
         self.new_fldr.triggered.connect(self.New_Folder)
         self.new_fldr.setIcon(QIcon(res.get('@icon/folder')))
+        self.new_fldr.setFont(self.Env.font())
 
         self.new_c = self.new_code.addAction(res.get('@string/c'))
         self.new_c.triggered.connect(self.New_C)
+        self.new_c.setFont(self.Env.font())
         self.new_c.setIcon(QIcon(res.get(res.etc("persia", "c"))))
 
         self.new_cpp = self.new_code.addAction(res.get('@string/c++'))
         self.new_cpp.triggered.connect(self.New_Cpp)
+        self.new_cpp.setFont(self.Env.font())
         self.new_cpp.setIcon(QIcon(res.get(res.etc("persia", "c++"))))
 
         self.new_cs = self.new_code.addAction(res.get('@string/csharp'))
         self.new_cs.triggered.connect(self.New_Csharp)
+        self.new_cs.setFont(self.Env.font())
         self.new_cs.setIcon(QIcon(res.get(res.etc("persia", "c#"))))
 
         self.new_html = self.new_code.addAction(res.get('@string/html'))
         self.new_html.triggered.connect(self.New_Html)
+        self.new_html.setFont(self.Env.font())
         self.new_html.setIcon(QIcon(res.get(res.etc("persia", "html"))))
 
         self.new_java = self.new_code.addAction(res.get('@string/java'))
         self.new_java.triggered.connect(self.New_Java)
+        self.new_java.setFont(self.Env.font())
         self.new_java.setIcon(QIcon(res.get(res.etc("persia", "java"))))
 
         self.new_js = self.new_code.addAction(res.get('@string/javascript'))
         self.new_js.triggered.connect(self.New_Js)
+        self.new_js.setFont(self.Env.font())
         self.new_js.setIcon(QIcon(res.get(res.etc("persia", "js"))))
 
         self.new_Php = self.new_code.addAction(res.get('@string/php'))
         self.new_Php.triggered.connect(self.New_Php)
+        self.new_Php.setFont(self.Env.font())
         self.new_Php.setIcon(QIcon(res.get(res.etc("persia", "php"))))
 
         self.new_py = self.new_code.addAction(res.get('@string/python'))
         self.new_py.triggered.connect(self.New_Py)
+        self.new_py.setFont(self.Env.font())
         self.new_py.setIcon(QIcon(res.get(res.etc("persia", "py"))))
 
         self.new_sa = self.new_code.addAction(res.get('@string/saye'))
         self.new_sa.triggered.connect(self.New_Sa)
+        self.new_sa.setFont(self.Env.font())
         self.new_sa.setIcon(QIcon(res.get(res.etc("persia", "sa"))))
 
         self.new_pygui = self.new_code.addAction(res.get('@string/pythongui'))
         self.new_pygui.triggered.connect(self.New_PyGui)
+        self.new_pygui.setFont(self.Env.font())
         self.new_pygui.setIcon(QIcon(res.get(res.etc("persia", "py"))))
         ##
 
         self.new_project = self.file.addMenu(res.get('@string/new_page'))
+        self.new_project.setFont(self.Env.font())
         self.new_project.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName, 'py'))))
 
         self.new_page = self.new_project.addAction(res.get('@string/empty'))
         self.new_page.triggered.connect(self.new_empty_act)
+        self.new_page.setFont(self.Env.font())
         self.new_page.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName, 'py'))))
 
         self.new_gui = self.new_project.addAction(res.get('@string/gui'))
         self.new_gui.triggered.connect(self.new_gui_act)
+        self.new_gui.setFont(self.Env.font())
         self.new_gui.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName, 'py'))))
 
         self.new_web = self.new_project.addAction(res.get('@string/nwebp'))
         self.new_web.triggered.connect(self.new_web_act)
+        self.new_web.setFont(self.Env.font())
         self.new_web.setIcon(QtGui.QIcon(res.get('@icon/web-browser')))
 
         self.open = self.file.addAction(res.get('@string/open'))
         self.open.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'open'))))
+        self.open.setFont(self.Env.font())
         self.open.triggered.connect (self.open_act)
         self.save = self.file.addAction(res.get('@string/save'))
         self.save.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'save'))))
         self.save.triggered.connect (self.save_)
+        self.save.setFont(self.Env.font())
         self.saveas = self.file.addAction(res.get('@string/save_as'))
         self.saveas.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'save-as'))))
+        self.saveas.setFont(self.Env.font())
         self.saveas.triggered.connect (self.save_as)
         self.exit = self.file.addAction(res.get('@string/exit'))
         self.exit.setIcon(QtGui.QIcon(res.get(res.etc(self.AppName,'exit'))))
         self.exit.triggered.connect (self.Widget.Close)
+        self.exit.setFont(self.Env.font())
 
         # code menu
         self.code = self.menubar.addMenu(res.get('@string/code'))
+        self.code.setFont(self.Env.font())
         self.run = self.code.addAction(res.get('@string/run'))
         self.run.triggered.connect (self.run_)
 
@@ -394,16 +418,21 @@ class MainApp(QtWidgets.QMainWindow):
         self.run.triggered.connect (self.run_project_)
 
         self.build = self.code.addMenu(res.get('@string/build'))
+        self.build.setFont(self.Env.font())
 
         self.generate_source = self.build.addAction(res.get('@string/pack'))
         self.generate_pa = self.build.addAction(res.get('@string/pa'))
+        self.generate_pa.setFont(self.Env.font())
         self.generate_pa.triggered.connect (self.generate_pa_)
         self.install = self.build.addAction(res.get('@string/buildi'))
         self.install.triggered.connect (self.install_)
+        self.install.setFont(self.Env.font())
 
         self.publish = self.code.addAction(res.get('@string/publish'))
+        self.publish.setFont(self.Env.font())
 
         self.insert_c = self.code.addMenu(res.get('@string/insert'))
+        self.insert_c.setFont(self.Env.font())
 
         # Codes #
 

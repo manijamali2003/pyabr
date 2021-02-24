@@ -25,7 +25,7 @@ control = Control()
 files = Files()
 
 # Your URL for your webview project
-URL = "https://google.com"
+URL = "https://gerdoo.me"
 
 class MainApp(QMainWindow):
 

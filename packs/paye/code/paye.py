@@ -98,14 +98,19 @@ elif option=="rm":
 
     package = sys.argv[2:]
 
+    list = control.read_list('/etc/paye/permanetly_applications')
+
     if not package[1:] == []:
         strv = ''
         for i in package:
             strv += ',' + i
 
     for i in package:
-        print (f"Uninstalling {i} package ... ")
-        pack.uninstall(i.lower())
+        if not i in list:
+            print (f"Uninstalling {i} package ... ")
+            pack.uninstall(i.lower())
+        else:
+            colors.show ('paye','fail',f"{i}: is a permanetly application that cannot be removed.")
 
     pack.clean()
 

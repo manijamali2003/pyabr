@@ -81,21 +81,25 @@ class MainApp(QMainWindow):
         self.addToolBar(navtb)
 
         back_btn = QAction(QIcon(res.get('@icon/arrow-180')), res.get('@string/ba'), self)
+        back_btn.setFont(self.Env.font())
         back_btn.setStatusTip(res.get('@string/ba'))
         back_btn.triggered.connect(lambda: self.tabs.currentWidget().back())
         navtb.addAction(back_btn)
 
         next_btn = QAction(QIcon(res.get('@icon/arrow-000')), res.get('@string/fw'), self)
+        next_btn.setFont(self.Env.font())
         next_btn.setStatusTip(res.get('@string/fw'))
         next_btn.triggered.connect(lambda: self.tabs.currentWidget().forward())
         navtb.addAction(next_btn)
 
         reload_btn = QAction(QIcon(res.get('@icon/arrow-circle-315')), res.get('@string/rl'), self)
+        reload_btn.setFont(self.Env.font())
         reload_btn.setStatusTip(res.get('@string/rl'))
         reload_btn.triggered.connect(lambda: self.tabs.currentWidget().reload())
         navtb.addAction(reload_btn)
 
         home_btn = QAction(QIcon(res.get('@icon/home')), res.get('@string/hm'), self)
+        home_btn.setFont(self.Env.font())
         home_btn.setStatusTip(res.get('@string/hm'))
         home_btn.triggered.connect(self.navigate_home)
         navtb.addAction(home_btn)
@@ -111,6 +115,7 @@ class MainApp(QMainWindow):
         navtb.addWidget(self.urlbar)
 
         stop_btn = QAction(QIcon(res.get('@icon/cross-circle')), res.get('@string/st'), self)
+        stop_btn.setFont(self.Env.font())
         stop_btn.setStatusTip(res.get('@string/st'))
         stop_btn.triggered.connect(lambda: self.tabs.currentWidget().stop())
         navtb.addAction(stop_btn)
@@ -119,9 +124,11 @@ class MainApp(QMainWindow):
         # self.menuBar().setNativeMenuBar(False)
 
         file_menu = self.menuBar().addMenu(res.get('@string/file'))
+        file_menu.setFont(self.Env.font())
 
         img = res.get('@icon/ui-tab--plus')
         new_tab_action = QAction(QIcon(img), res.get('@string/ntab'), self)
+        new_tab_action.setFont(self.Env.font())
         new_tab_action.setStatusTip(res.get('@string/ntab'))
         new_tab_action.triggered.connect(lambda _: self.add_new_tab())
         file_menu.addAction(new_tab_action)
@@ -129,13 +136,16 @@ class MainApp(QMainWindow):
         img = res.get('@icon/disk--arrow')
         open_file_action = QAction(QIcon(img), res.get('@string/of'), self)
         open_file_action.setStatusTip(res.get('@string/of'))
+        open_file_action.setFont(self.Env.font())
         open_file_action.triggered.connect(self.open_file)
         file_menu.addAction(open_file_action)
 
         help_menu = self.menuBar().addMenu(res.get('@string/hl'))
+        help_menu.setFont(self.Env.font())
 
         img = res.get('@icon/question')
         about_action = QAction(QIcon(img), res.get('@string/ab'), self)
+        about_action.setFont(self.Env.font())
         about_action.setStatusTip(res.get('@string/ab'))  # Hungry!
         about_action.triggered.connect(self.about)
         help_menu.addAction(about_action)
@@ -143,6 +153,7 @@ class MainApp(QMainWindow):
         img = res.get('@icon/lifebuoy')
         navigate_mozarella_action = QAction(QIcon(img),res.get('@string/pg'), self)
         navigate_mozarella_action.setStatusTip(res.get('@string/pc'))
+        navigate_mozarella_action.setFont(self.Env.font())
         navigate_mozarella_action.triggered.connect(self.navigate_mozarella)
         help_menu.addAction(navigate_mozarella_action)
 

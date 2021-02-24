@@ -40,7 +40,9 @@ class MainApp (QMainWindow):
         self.External = ports[4]
 
         self.Widget.SetWindowIcon(QIcon(res.get(res.etc('usermanager',"logo"))))
+        app.switch('usermanager')
         self.Widget.SetWindowTitle (res.get('@string/app_name'))
+        app.switch('usermanager')
         self.Widget.Resize(self,720,640)
         self.x = PackageListView([self.Env,self.Widget,self,self.AppName,self.External])
         self.setCentralWidget(self.x)
@@ -62,7 +64,9 @@ class PackageListView (QListView):
             namex = it.text()
 
         it.setText(namex)
+
         self.setIconSize(QSize(128,128))
+
         if logo==None:
             it.setIcon(QIcon(res.get('@icon/account')))
         else:
@@ -176,17 +180,18 @@ class ShowUserInformation (QMainWindow):
 
         self.lblName = QLabel()
         self.lblName.setText(namex)
-        if control.read_record('locale','/etc/gui')=='fa':
-            self.lblName.setAlignment(Qt.AlignRight)
-
         self.lblName.setFont(self.Env.font())
         self.lblName.setGeometry(40 + 128, 128 - 25, self.width(), 50)
+
         f = QFont()
         f.setPointSize(20)
         self.lblName.setFont(f)
         self.layout().addWidget(self.lblName)
 
         self.btnRemove = QPushButton()
+        if self.External[0]=='root':
+            self.btnRemove.setVisible(False)
+
         self.btnRemove.setFont(self.Env.font())
         self.btnRemove.setStyleSheet('''
                 QPushButton {
@@ -196,7 +201,9 @@ class ShowUserInformation (QMainWindow):
                 background-color: orange;color:white;border-radius: 25% 25%;
                 }''')
         self.btnRemove.clicked.connect(self.xuni)
+        app.switch('usermanager')
         self.btnRemove.setText(res.get('@string/_rm'))
+        app.switch('usermanager')
         self.btnRemove.setGeometry(self.width() - 260, 128 - 25, 150, 50)
         self.layout().addWidget(self.btnRemove)
 
@@ -210,7 +217,9 @@ class ShowUserInformation (QMainWindow):
                         background-color: green;color:lime;border-radius: 25% 25%;
                         }''')
         self.btnEdit.clicked.connect(self.xedit)
+        app.switch('usermanager')
         self.btnEdit.setText(res.get('@string/ed'))
+        app.switch('usermanager')
         self.btnEdit.setGeometry(self.width() - 260+160, 128 - 25, 150, 50)
         self.layout().addWidget(self.btnEdit)
 
@@ -281,7 +290,9 @@ class ShowUserInformation (QMainWindow):
     def xhide (self):
         self.hide()
         self.XShowpackages.show()
+        app.switch('usermanager')
         self.Env.SetWindowTitle(res.get('@string/app_name'))
+        app.switch('usermanager')
 
     # un install pack #
     def xuni (self):

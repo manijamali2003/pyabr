@@ -84,7 +84,7 @@ MODES = [
     'ellipse', 'roundrect'
 ]
 
-CANVAS_DIMENSIONS = 1900, 600
+CANVAS_DIMENSIONS = 1900, 1000
 
 STAMPS = [
     ':/stamps/pie-apple.png',
@@ -730,7 +730,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def __init__(self,ports, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
-        self.setupUi(self)
+        self.setupUi(self,ports)
 
         # ports
         self.Backend = ports[0]
@@ -812,7 +812,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.fontselect = QFontComboBox()
         self.fontToolbar.addWidget(self.fontselect)
         self.fontselect.currentFontChanged.connect(lambda f: self.canvas.set_config('font', f))
-        self.fontselect.setCurrentFont(QFont('Times'))
+        self.fontselect.setCurrentFont(self.Env.font())
 
         self.fontsize = QComboBox()
         self.fontsize.addItems([str(s) for s in FONT_SIZES])

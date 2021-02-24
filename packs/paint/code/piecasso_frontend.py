@@ -25,7 +25,14 @@ from libabr import Res
 res = Res()
 
 class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
+    def setupUi(self, MainWindow,ports):
+
+        self.Backend = ports[0]
+        self.Env = ports[1]
+        self.Widget = ports[2]
+        self.AppName = ports[3]
+        self.External = ports[4]
+
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(706, 556)
         self.centralWidget = QtWidgets.QWidget(MainWindow)
@@ -630,6 +637,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addLayout(self.horizontalLayout_2)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
+        self.menuBar.setFont(self.Env.font())
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 706, 26))
         self.menuBar.setObjectName("menuBar")
         self.menuFIle = QtWidgets.QMenu(self.menuBar)
@@ -638,8 +646,6 @@ class Ui_MainWindow(object):
         self.menuEdit.setObjectName("menuEdit")
         self.menuImage = QtWidgets.QMenu(self.menuBar)
         self.menuImage.setObjectName("menuImage")
-        self.menuHelp = QtWidgets.QMenu(self.menuBar)
-        self.menuHelp.setObjectName("menuHelp")
         MainWindow.setMenuBar(self.menuBar)
         self.statusBar = QtWidgets.QStatusBar(MainWindow)
         self.statusBar.setObjectName("statusBar")
@@ -718,7 +724,6 @@ class Ui_MainWindow(object):
         self.menuBar.addAction(self.menuFIle.menuAction())
         self.menuBar.addAction(self.menuEdit.menuAction())
         self.menuBar.addAction(self.menuImage.menuAction())
-        self.menuBar.addAction(self.menuHelp.menuAction())
         self.fileToolbar.addAction(self.actionNewImage)
         self.fileToolbar.addAction(self.actionOpenImage)
         self.fileToolbar.addAction(self.actionSaveImage)
@@ -730,25 +735,42 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", res.get('@string/app_name')))
         self.menuFIle.setTitle(_translate("MainWindow", res.get('@string/file')))
+        self.menuFIle.setFont(self.Env.font())
         self.menuEdit.setTitle(_translate("MainWindow", res.get('@string/edit')))
+        self.menuEdit.setFont(self.Env.font())
         self.menuImage.setTitle(_translate("MainWindow", res.get('@string/image')))
-        self.menuHelp.setTitle(_translate("MainWindow", res.get('@string/help')))
+        self.menuImage.setFont(self.Env.font())
         self.fileToolbar.setWindowTitle(_translate("MainWindow", res.get('@string/toolbar')))
+        self.fileToolbar.setFont(self.Env.font())
         self.drawingToolbar.setWindowTitle(_translate("MainWindow", res.get('@string/toolbar')))
+        self.drawingToolbar.setFont(self.Env.font())
         self.fontToolbar.setWindowTitle(_translate("MainWindow", res.get('@string/toolbar')))
+        self.fontToolbar.setFont(self.Env.font())
         self.actionCopy.setText(_translate("MainWindow", res.get('@string/copy')))
+        self.actionCopy.setFont(self.Env.font())
         self.actionCopy.setShortcut(_translate("MainWindow", "Ctrl+C"))
         self.actionClearImage.setText(_translate("MainWindow", res.get('@string/ci')))
+        self.actionClearImage.setFont(self.Env.font())
         self.actionOpenImage.setText(_translate("MainWindow", res.get('@string/oi')))
+        self.actionOpenImage.setFont(self.Env.font())
         self.actionSaveImage.setText(_translate("MainWindow",res.get('@string/sia')))
+        self.actionSaveImage.setFont(self.Env.font())
         self.actionInvertColors.setText(_translate("MainWindow", res.get('@string/ivc')))
+        self.actionInvertColors.setFont(self.Env.font())
         self.actionFlipHorizontal.setText(_translate("MainWindow", res.get('@string/fh')))
+        self.actionFlipHorizontal.setFont(self.Env.font())
         self.actionFlipVertical.setText(_translate("MainWindow", res.get('@string/fv')))
+        self.actionFlipVertical.setFont(self.Env.font())
         self.actionNewImage.setText(_translate("MainWindow", res.get('@string/nim')))
+        self.actionNewImage.setFont(self.Env.font())
         self.actionBold.setText(_translate("MainWindow", res.get('@string/bl')))
+        self.actionBold.setFont(self.Env.font())
         self.actionBold.setShortcut(_translate("MainWindow", "Ctrl+B"))
         self.actionItalic.setText(_translate("MainWindow", res.get('@string/il')))
+        self.actionItalic.setFont(self.Env.font())
         self.actionItalic.setShortcut(_translate("MainWindow", "Ctrl+I"))
         self.actionUnderline.setText(_translate("MainWindow", res.get('@string/ul')))
+        self.actionUnderline.setFont(self.Env.font())
         self.actionFillShapes.setText(_translate("MainWindow", res.get('@string/fs')))
+        self.actionFillShapes.setFont(self.Env.font())
 import resources_rc

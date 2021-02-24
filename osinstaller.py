@@ -74,8 +74,6 @@ class MainApp(QtWidgets.QWizard):
                 locale = 'en'
             elif self.cmLang.currentText()=='فارسی':
                 locale = 'fa'
-            elif self.cmLang.currentText()=='عربی':
-                locale = 'ar'
             else:
                 locale = 'en'
 
