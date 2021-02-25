@@ -26,7 +26,7 @@ class MainApp (QMainWindow):
         self.Widget = ports[2]
         self.AppName = ports[3]
         self.External = ports[4]
-
+        self.hide()
+        self.close()
         self.Widget.Close()
-
-        QTimer.singleShot(1,self.RunIt)
+        QTimer.singleShot(10,self.RunIt)

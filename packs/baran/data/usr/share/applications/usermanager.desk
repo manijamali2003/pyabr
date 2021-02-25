@@ -4,3 +4,4 @@ exec: usermanager
 hidden: Yes
 logo: @icon/help-about
 application: No
+category: system

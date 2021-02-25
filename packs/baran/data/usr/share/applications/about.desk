@@ -4,3 +4,5 @@ name[ar]: حول النظام
 logo: @icon/help-about
 exec: page_about
 application: Yes
+category: system
+pin: Yes

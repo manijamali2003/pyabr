@@ -4,3 +4,4 @@ name[ar]: مدير مجموعة
 logo: @icon/paye
 exec: paye_gui
 application: Yes
+category: system

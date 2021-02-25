@@ -5,3 +5,4 @@ exec: debug_app
 shortcut: Ctrl+Q
 application: No
 hidden: Yes
+category: system

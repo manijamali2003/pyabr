@@ -49,7 +49,6 @@ class variables:
     submenu_bgcolor = 'white'
     submenu_direction = 'ltr'
     submenu_fontsize = 12
-    taskbar_pins = 'barge,calculator,calendar,commento,pyshell,pysys,roller,runapp'
     taskbar_location = 'bottom'
     taskbar_size = 50
     taskbar_locked = 'Yes'
@@ -1306,13 +1305,6 @@ class TaskBar (QToolBar):
             if not value == None: float = value
         if float == None: float = variables.taskbar_float
 
-        # pins #
-        pins = getdata('taskbar.pins')
-        if not self.Env.username == 'guest':
-            value = control.read_record('taskbar.pins', '/etc/users/' + self.username)
-            if not value == None: pins = value
-        if pins == None: pins = variables.taskbar_pins
-
         # styles #
 
         self.setStyleSheet('background-color: '+bgcolor+";color: "+fgcolor+";")
@@ -1349,12 +1341,18 @@ class TaskBar (QToolBar):
         self.btnMenu.setObjectName('btnMenu')
         self.btnMenu.clicked.connect (self.menuApps)
         self.addWidget(self.btnMenu)
-        # pins #
-        pins = pins.split (',')
 
-        for i in pins:
-            find = '/usr/share/applications/'+i+'.desk'
-            if files.isfile (find):
+        # pins #
+
+        appsx = files.list('/usr/share/applications')
+        appsx.sort()
+
+        for i in appsx:
+            find = '/usr/share/applications/'+i
+
+            i = i.replace('.desk','')
+
+            if control.read_record('pin',find)=='Yes':
                 # app logo
                 applogo = control.read_record('logo', find)
                 # design
@@ -1367,6 +1365,7 @@ class TaskBar (QToolBar):
                 self.addWidget(self.btnApp)
 
     menu_click = False
+
     def menuApps (self):
         if self.menu_click==False:
             self.w = MenuApplications([self.Backend,self.Env])
@@ -1536,6 +1535,8 @@ class AppWidget (QMainWindow):
         self.Env = ports[1]
         self.appname = ports[2]
         self.external = ports[3]
+
+        self.setFocusPolicy(Qt.StrongFocus)
 
         font = getdata('font')
         if not self.Env.username == 'guest':
@@ -2323,6 +2324,9 @@ class Desktop (QMainWindow):
         self.appmenu.setFont(f)
 
         cate = files.list('/usr/share/categories')
+        cate.remove('others.cat')
+        cate.sort()
+        cate.append('others.cat')
 
         # default language
         if self.locale==None: self.locale = variables.locale
@@ -2335,46 +2339,56 @@ class Desktop (QMainWindow):
                 catname = control.read_record('name[' + self.locale + "]", find)
                 if catname == None:
                     catname = i.replace('.cate', '')
+
                 self.catMenu = self.appmenu.addMenu(i)
                 self.catMenu.setFont(f)  # set font actions
                 self.catMenu.setObjectName(i)
                 self.catMenu.setTitle(catname)
 
-                apps = control.read_list(find.replace(".cat",'.list'))
+                apps = files.list('/usr/share/applications')
 
                 for j in apps:
-                    find = '/usr/share/applications/' + j+'.desk'
-                    # data
-                    # app name
-                    appname = control.read_record('name[' + self.locale + "]", find)
-                    shortcut = control.read_record('shortcut', find)
-                    hidden = control.read_record('hidden', find)
+                    find = '/usr/share/applications/' + j
 
-                    if appname == None:
-                        appname = j.replace('.desk', '')
+                    iscate = control.read_record('category',find)
 
-                    # app logo
-                    applogo = control.read_record('logo', find)
+                    if iscate==None:
+                        iscate='others'
 
-                    # design
-                    self.actApp = self.catMenu.addAction(j)
-                    self.actApp.setObjectName(j)
-                    self.actApp.setText(appname)
-                    self.actApp.setFont(f)
+                    if i.replace('.cat','')==iscate:
+                        j = j.replace('.desk', '')
 
-                    if not applogo == None:
-                        self.actApp.setIcon(QIcon(res.get(applogo)))
+                        self.actApp = self.catMenu.addAction(j)
+                        self.actApp.setObjectName(j)
 
-                    if not shortcut == None:
-                        self.actApp.setShortcut(shortcut)
+                        # data
+                        # app name
+                        appname = control.read_record('name[' + self.locale + "]", find)
+                        shortcut = control.read_record('shortcut', find)
+                        hidden = control.read_record('hidden', find)
 
-                    self.actApp.setFont(f)  # set font actions
+                        if appname == None:
+                            appname = j.replace('.desk', '')
 
-                    self.actApp.triggered.connect(self.RunApplication)
+                        # app logo
+                        applogo = control.read_record('logo', find)
 
-                    if hidden == 'Yes': self.actApp.setVisible(False)
+                        # design
+                        self.actApp.setText(appname)
+                        self.actApp.setFont(f)
 
+                        if not applogo == None:
+                            self.actApp.setIcon(QIcon(res.get(applogo)))
 
+                        if not shortcut == None:
+                            self.actApp.setShortcut(shortcut)
+
+                        self.actApp.setFont(f)  # set font actions
+
+                        self.actApp.triggered.connect(self.RunApplication)
+
+                        if hidden == 'Yes':
+                            self.actApp.setVisible(False)
 
         ## Etcetra menu ##
         self.etcmenu = QMenu()

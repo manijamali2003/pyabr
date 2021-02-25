@@ -22,3 +22,5 @@ line_fgcolor: gray
 line_fontsize: 20
 fontsize: 12
 application: Yes
+category: tools
+pin: Yes

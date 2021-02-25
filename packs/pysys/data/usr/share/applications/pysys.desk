@@ -18,3 +18,5 @@ restart-icon: @icon/pysys_restart
 suspend-icon: @icon/pysys_suspend
 switchuser-icon: @icon/pysys_switchuser
 application: Yes
+category: system
+pin: Yes

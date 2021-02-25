@@ -7,3 +7,5 @@ shortcut: Ctrl+Alt+D
 width: 600
 height: 480
 application: Yes
+category: tools
+pin: Yes

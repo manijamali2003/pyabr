@@ -6,13 +6,13 @@ height: 720
 autosize: Yes
 logo: @icon/pyabr-logo
 locale: fa
+layout: fa
 terminal: commento
 font: Iran Sans
 theme-name: Glass theme
 backend.color: black
 backend.timeout: 1000
 taskbar.location: bottom
-taskbar.pins: browser,roller,barge,calculator,calendar,commento,pysys,runapp,about
 splash.timeout: 3000
 splash.logo: @icon/pyabr-logo
 splash.logo-size: 300
@@ -100,7 +100,7 @@ loginw.enter.height: 40
 loginw.unlock.height: 40
 appw.body.fgcolor: black
 appw.body.bgcolor: white
-appw.logo: @icon/app
+appw.logo: @icon/runner
 appw.shadow: Yes
 appw.title.size: 50
 appw.title.fgcolor: white

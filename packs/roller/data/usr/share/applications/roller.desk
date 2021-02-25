@@ -22,3 +22,5 @@ html: @icon/html
 php: @icon/application-x-php
 js: @icon/application-javascript
 application: Yes
+category: tools
+pin: Yes
