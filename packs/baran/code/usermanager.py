@@ -64,7 +64,7 @@ class PackageListView (QListView):
             else:
                 namex = it.text()
         except:
-            namex = self.External[0]
+            namex = ''
 
         it.setText(namex)
 
