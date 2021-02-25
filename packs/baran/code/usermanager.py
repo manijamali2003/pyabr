@@ -54,14 +54,17 @@ class PackageListView (QListView):
         last_name = control.read_record('last_name',f'/etc/users/{it.text()}')
         logo = control.read_record('loginw.userlogo',f'/etc/users/{it.text()}')
 
-        if not (first_name==None and last_name==None):
-            namex = first_name+" "+last_name
-        elif not first_name==None:
-            namex = last_name
-        elif not last_name==None:
-            namex = first_name
-        else:
-            namex = it.text()
+        try:
+            if not (first_name == None and last_name == None):
+                namex = first_name + " " + last_name
+            elif not first_name == None:
+                namex = last_name
+            elif not last_name == None:
+                namex = first_name
+            else:
+                namex = it.text()
+        except:
+            namex = self.External[0]
 
         it.setText(namex)
 
