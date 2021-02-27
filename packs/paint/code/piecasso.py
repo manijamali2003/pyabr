@@ -84,7 +84,7 @@ MODES = [
     'ellipse', 'roundrect'
 ]
 
-CANVAS_DIMENSIONS = 1900, 1000
+CANVAS_DIMENSIONS = 1920, 1080
 
 STAMPS = [
     ':/stamps/pie-apple.png',

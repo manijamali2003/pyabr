@@ -1,5 +1,5 @@
 sel /etc/gui
-set theme-name: Snow theme
+set theme-name: snow
 set logo: @icon/pyabr-logo
 set backend.color: white
 set backend.timeout: 1000

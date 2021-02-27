@@ -167,7 +167,7 @@ set logo: @icon/win-help
 unsel
 
 sel /etc/gui
-set theme-name: Windows 10 theme
+set theme-name: windows
 set logo: @icon/win
 set backend.color: black
 set backend.timeout: 1000

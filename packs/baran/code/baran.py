@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 import sys, hashlib, os, importlib, subprocess
-from libabr import Files, Control, Permissions, Colors, Process, Modules, App, System, Res, Commands
+from libabr import Files, Control, Permissions, Colors, Process, Modules, App, System, Res, Commands, Script
 
 modules = Modules()
 files = Files()
@@ -1249,6 +1249,223 @@ class AppListView(QListView):
             self.Env.RunApp(self.item.whatsThis().replace('.desk','').replace('/usr/share/applications/',''),None)
             files.write('/proc/info/id','desktop')
 
+class GameListView(QListView):
+    def format(self, it):
+        if files.isfile (it.whatsThis()):
+            name = it.text().replace('.desk','')
+            locale = control.read_record('locale','/etc/gui')
+            subname = res.etc(name,f'name[{locale}]')
+            icon = res.etc(name,'logo')
+            it.setText(subname)
+            it.setFont(f)
+            it.setIcon(QIcon(res.get(icon)))
+
+    def __init__(self,ports):
+        super().__init__()
+        self.Env = ports[0]
+        self.Widget = ports[1]
+
+        # Get font #
+        font = getdata('font')
+        if not self.Env.username == 'guest':
+            value = control.read_record('font', '/etc/users/' + self.Env.username)
+            if not value == None: font = value
+        if font == None: font = variables.font
+
+        f.setFamily(font)
+
+        self.entry = QStandardItemModel()
+        self.setModel(self.entry)
+        self.setIconSize(QSize(64, 64))
+        self.clicked[QModelIndex].connect(self.on_clicked)
+        # When you receive the signal, you call QtGui.QStandardItemModel.itemFromIndex()
+        # on the given model index to get a pointer to the item
+
+        self.listdir = files.list('/usr/share/applications')
+        self.listdir.sort()
+
+        for text in self.listdir:
+
+            if res.etc(text.replace('.desk',''),'game')=='Yes':
+                it = QStandardItem(text.replace('.desk',''))
+                it.setWhatsThis(f'/usr/share/applications/{text}')
+                self.format(it)
+                self.entry.appendRow(it)
+
+        self.itemOld = QStandardItem("text")
+
+    def on_clicked(self, index):
+        self.item = self.entry.itemFromIndex(index)
+
+        x = hasattr(self.item, 'whatsThis')  # W3CSHCOOL.COM LEARN IT
+
+        if x == True:
+            self.Widget.hide()
+            self.Env.RunApp(self.item.whatsThis().replace('.desk','').replace('/usr/share/applications/',''),None)
+            files.write('/proc/info/id','desktop')
+
+
+class ThemeListView(QListView):
+    def format(self, it):
+        if files.isfile (it.whatsThis()):
+            name = it.text().replace('.desk','')
+            locale = control.read_record('locale','/etc/gui')
+            subname = control.read_record(f'name[{locale}]',f'/usr/share/themes/{name}.desk')
+            icon = control.read_record(f'logo',f'/usr/share/themes/{name}.desk')
+            it.setText(subname)
+            it.setFont(f)
+            it.setIcon(QIcon(res.get(icon)))
+
+    def __init__(self,ports):
+        super().__init__()
+        self.Env = ports[0]
+        self.Widget = ports[1]
+
+        # Get font #
+        font = getdata('font')
+        if not self.Env.username == 'guest':
+            value = control.read_record('font', '/etc/users/' + self.Env.username)
+            if not value == None: font = value
+        if font == None: font = variables.font
+
+        f.setFamily(font)
+
+        self.entry = QStandardItemModel()
+        self.setModel(self.entry)
+        self.setIconSize(QSize(64, 64))
+        self.clicked[QModelIndex].connect(self.on_clicked)
+        # When you receive the signal, you call QtGui.QStandardItemModel.itemFromIndex()
+        # on the given model index to get a pointer to the item
+
+        self.listdir = files.list('/usr/share/themes')
+        self.listdir.sort()
+
+        for text in self.listdir:
+            if text.endswith ('.desk'):
+                it = QStandardItem(text.replace('.desk',''))
+                it.setWhatsThis(f'/usr/share/themes/{text}')
+                self.format(it)
+                self.entry.appendRow(it)
+
+        self.itemOld = QStandardItem("text")
+
+    def on_clicked(self, index):
+        self.item = self.entry.itemFromIndex(index)
+
+        x = hasattr(self.item, 'whatsThis')  # W3CSHCOOL.COM LEARN IT
+
+        if x == True:
+            if self.Env.username=='guest':
+                files.write('/proc/info/id', 'desktop')
+                self.Env.RunApp('text', ['عدم دسترسی', 'حساب مهمان دسترسی به تغییر پوسته ندارد'])
+                files.write('/proc/info/id', 'desktop')
+            elif not control.read_record ('theme-name','/etc/gui')==control.read_record('theme-name',self.item.whatsThis()):
+                self.Widget.hide()
+                self.Env.RunApp('bool', [self.item.text(), 'برای اعمال این تم باید پای ابر را راه اندازی مجدد کنید', self.reboot_act_])
+                files.write('/proc/info/id','desktop')
+            else:
+                files.write('/proc/info/id', 'desktop')
+                self.Env.RunApp('text', [self.item.text(), 'این تم از پیش تنظیم شده است'])
+                files.write('/proc/info/id', 'desktop')
+
+    def reboot_act_(self,yes):
+        if yes:
+            Script(control.read_record('exec', self.item.whatsThis()))
+            app.endall()
+            self.Env.hide()
+            commands.reboot([])
+            sys.exit(0)
+
+class SessionListView(QListView):
+    def __init__(self,ports):
+        super().__init__()
+        self.Env = ports[0]
+        self.Widget = ports[1]
+
+        # Get font #
+        font = getdata('font')
+        if not self.Env.username == 'guest':
+            value = control.read_record('font', '/etc/users/' + self.Env.username)
+            if not value == None: font = value
+        if font == None: font = variables.font
+
+        f.setFamily(font)
+
+        self.entry = QStandardItemModel()
+        self.setModel(self.entry)
+        self.setIconSize(QSize(64, 64))
+        self.clicked[QModelIndex].connect(self.on_clicked)
+        # When you receive the signal, you call QtGui.QStandardItemModel.itemFromIndex()
+        # on the given model index to get a pointer to the item
+
+        it = QStandardItem('escape')
+        it.setText('فرار کردن')
+        it.setWhatsThis('escape')
+        it.setFont(f)
+        it.setIcon(QIcon(res.get(res.etc('pysys',"escape-icon"))))
+        self.entry.appendRow(it)
+
+        it = QStandardItem('restart')
+        it.setText('راه اندازی مجدد')
+        it.setWhatsThis('restart')
+        it.setFont(f)
+        it.setIcon(QIcon(res.get(res.etc('pysys', "restart-icon"))))
+        self.entry.appendRow(it)
+
+        it = QStandardItem('lock')
+        it.setText('قفل کردن')
+        it.setWhatsThis('lock')
+        it.setFont(f)
+        it.setIcon(QIcon(res.get(res.etc('pysys', "lock-icon"))))
+        self.entry.appendRow(it)
+
+        it = QStandardItem('logout')
+        it.setText('خروج از نشست')
+        it.setWhatsThis('logout')
+        it.setFont(f)
+        it.setIcon(QIcon(res.get(res.etc('pysys', "logout-icon"))))
+        self.entry.appendRow(it)
+
+        it = QStandardItem('switchuser')
+        it.setText('رفتن به نشستی دیگر')
+        it.setWhatsThis('switchuser')
+        it.setFont(f)
+        it.setIcon(QIcon(res.get(res.etc('pysys', "switchuser-icon"))))
+        self.entry.appendRow(it)
+
+        it = QStandardItem('suspend')
+        it.setText('حالت خواب')
+        it.setFont(f)
+        it.setWhatsThis('suspend')
+        it.setIcon(QIcon(res.get(res.etc('pysys', "suspend-icon"))))
+        self.entry.appendRow(it)
+
+        self.itemOld = QStandardItem("text")
+
+    def on_clicked(self, index):
+        self.item = self.entry.itemFromIndex(index)
+
+        x = hasattr(self.item, 'whatsThis')  # W3CSHCOOL.COM LEARN IT
+
+        if x == True:
+            self.Widget.hide()
+            self.Env.RunApp(self.item.whatsThis().replace('.desk','').replace('/usr/share/applications/',''),None)
+
+            if self.item.whatsThis()=='escape':
+                self.Env.escape_act()
+            elif self.item.whatsThis()=='restart':
+                self.Env.reboot_act()
+            elif self.item.whatsThis()=='suspend':
+                self.Env.sleep_act()
+            elif self.item.whatsThis()=='logout':
+                self.Env.signout_act()
+            elif self.item.whatsThis()=='switchuser':
+                self.Env.switchuser_act()
+            elif self.item.whatsThis()=='lock':
+                self.Env.lock_act()
+
+            files.write('/proc/info/id','desktop')
+
 ## Taskbar ##
 class TaskBar (QToolBar):
     def __init__(self,ports):
@@ -1422,8 +1639,18 @@ class MenuApplications (QMainWindow):
 
         else:
             self.setGeometry(0, 0, self.Env.width(), self.Env.height()-size-15)
+
+        self.tabs = QTabWidget()
+        self.tabs.setFont(f)
         self.x = AppListView([self.Env, self])
-        self.setCentralWidget(self.x)
+        self.x1 = GameListView([self.Env,self])
+        self.x2 = ThemeListView([self.Env,self])
+        self.x3 = SessionListView([self.Env,self])
+        self.tabs.addTab(self.x,'برنامه ها')
+        self.tabs.addTab(self.x1, 'بازی ها')
+        self.tabs.addTab(self.x2,'پوسته ها')
+        self.tabs.addTab(self.x3,'نشست ها')
+        self.setCentralWidget(self.tabs)
 
 class AppWidget (QMainWindow):
     def Resize(self,mainw,w,h):
@@ -2435,6 +2662,7 @@ class Desktop (QMainWindow):
         self.accoutsettings = QAction(res.get('@string/accountsettings'))
         self.accoutsettings.triggered.connect (self.accoutsetting)
         self.accoutsettings.setFont(f)
+        self.accoutsettings.setVisible(False)
         self.usermenu.addAction(self.accoutsettings)
 
         self.signout = QAction(res.get('@string/signout'))

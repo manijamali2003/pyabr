@@ -1,5 +1,5 @@
 sel /etc/gui
-set theme-name: Glass theme
+set theme-name: glass
 set logo: @icon/pyabr-logo
 set backend.color: black
 set backend.timeout: 1000

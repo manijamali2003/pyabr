@@ -2,5 +2,5 @@ name[en]: Squares
 name[fa]: مربع ها
 exec: squaresr
 logo: @icon/catball
-application: Yes
 category: games
+game: Yes

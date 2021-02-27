@@ -1,5 +1,5 @@
 sel /etc/gui
-set theme-name: Ubuntu theme
+set theme-name: ubuntu
 set logo: @icon/ubuntu
 set backend.color: #730c5a
 set backend.timeout: 1000
